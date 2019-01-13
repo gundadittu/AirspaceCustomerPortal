@@ -4,10 +4,10 @@ import { updateObject } from '../utility';
 const initialState = {something: true};
 
 const reducer = ( state = initialState, action ) => {
-    switch ( action.type ) {
-        case actionTypes.INCREMENT:
-            return updateObject(state, {});
-    }
+    // switch ( action.type ) {
+    //     case actionTypes.INCREMENT:
+    //         return updateObject(state, {});
+    // }
     return state;
 };
 

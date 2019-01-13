@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import { createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import { AccountCircle, Email, Lock} from '@material-ui/icons';
 import AirspaceLogo from "../../assets/images/airspace_logo.png";
+import { connect } from 'react-redux';
+import * as authActionCreators from '../../store/actions/auth'; 
 
 const theme = createMuiTheme({
   palette: {
@@ -16,7 +18,7 @@ const theme = createMuiTheme({
   },
 });
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -55,7 +57,7 @@ export default class Login extends React.Component {
               <Grid container spacing={24} alignItems="flex-end">
                 <Grid item>
                 <MuiThemeProvider theme={theme}>
-                  <Button variant="contained" color="secondary">
+                  <Button onClick={() => this.props.setUpUser("")} variant="contained" color="secondary">
                     Secondary
                   </Button>
                 </MuiThemeProvider>
@@ -68,3 +70,10 @@ export default class Login extends React.Component {
     )
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    setUpUser: (uid) => dispatch(authActionCreators.setUpUserAction(uid))
+  }
+};
+
+export default connect(null,mapDispatchToProps)(Login);

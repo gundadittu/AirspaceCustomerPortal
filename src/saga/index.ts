@@ -1,4 +1,4 @@
-import { all } from 'redux-saga/effects';
+// import { all } from 'redux-saga/effects';
 import * as authSagas from './auth';
 // import watchSetUpFirebaseSaga from './setUpFirebase';
 // import watchSetUpUserSaga from "./setUpUser"; 

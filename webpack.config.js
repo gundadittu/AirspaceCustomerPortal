@@ -1,32 +1,12 @@
-var webpack = require('webpack');
+// Learn more on how to config.
+// - https://github.com/ant-tool/atool-build#配置扩展
 
-module.exports = {
-  entry: './reactApp/app.jsx',
-  output: {
-    path: __dirname + '/build',
-    filename: 'app.bundle.js'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['es2015', 'react']
-          }
-        }
-      },  {
-        test: /\.css$/,
-        loader: "style-loader!css-loader"
-      }, {
-        test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
-        loader: 'url-loader?limit=100000' }
-    ],
-  },
-  stats: {
-    colors: true
-  },
-  devtool: 'source-map'
+module.exports = function(webpackConfig) {
+  webpackConfig.babel.plugins.push('transform-runtime');
+  webpackConfig.babel.plugins.push(['import', {
+    libraryName: 'antd',
+    style: 'css',
+  }]);
+
+  return webpackConfig;
 };

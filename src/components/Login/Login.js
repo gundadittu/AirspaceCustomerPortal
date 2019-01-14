@@ -57,7 +57,7 @@ class Login extends React.Component {
               <Grid container spacing={24} alignItems="flex-end">
                 <Grid item>
                 <MuiThemeProvider theme={theme}>
-                  <Button onClick={() => this.props.setUpUser("")} variant="contained" color="secondary">
+                  <Button onClick={() => this.props.signInUser('adityagunda@uchicago.edu','Airspaceoffice2018')} variant="contained" color="secondary">
                     Secondary
                   </Button>
                 </MuiThemeProvider>
@@ -70,10 +70,21 @@ class Login extends React.Component {
     )
   }
 }
-const mapDispatchToProps = dispatch => {
+
+// on button click need to sign in user 
+// app.js should listen to change and do rest if successfully signed in 
+
+const mapStateToProps = state => {
   return {
-    setUpUser: (uid) => dispatch(authActionCreators.setUpUserAction(uid))
+    error: state.general.error, 
+    isLoading: state.general.isLoading
   }
 };
 
-export default connect(null,mapDispatchToProps)(Login);
+const mapDispatchToProps = dispatch => {
+  return {
+    signInUser: (email, password) => dispatch(authActionCreators.signInUserAction(email, password))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

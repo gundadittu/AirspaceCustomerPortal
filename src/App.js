@@ -1,28 +1,43 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+// import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import Login from './components/Login/Login';
 import Firebase from './components/Firebase';
 
-import * as authActionCreators from './store/actions/actionTypes';
+import * as generalActionCreators from './store/actions/general';
+import * as authActionCreators from './store/actions/auth';
 
 class App extends Component {
 
-  componentDidMount() {
-    // set up firebase somewhere else 
-    this.firebase = new Firebase(); 
-    this.listener = this.firebase.auth.onAuthStateChanged(function(user) {
-      if (user) { 
-          this.props.setUpUser(user.uid);
-      } else { 
-        // Need to dispatch sign out action here 
-        // This action would set global state in redux to null for user
-        return; 
-      }
-    });
+  compo
+
+  componentWillMount() { 
+    this.firebase = new Firebase()
+    this.props.setUpFirebase(this.firebase);
   }
 
+  componentDidMount() { 
+    const firebase = this.firebase || null; 
+    if (firebase) { 
+      console.log("firebase SET UP in App.js render()");
+      const weakProps = this.props; 
+      this.listener = firebase.auth.onAuthStateChanged(function(user) {
+        if (user) { 
+          console.log('auth listener found user');
+          weakProps.setUpUser(user.uid);
+        } else { 
+          console.log('auth listener did NOT find user');
+          // Need to dispatch sign out action here 
+          // This action would set global state in redux to null for user
+          return; 
+        }
+      });
+    } else { 
+      console.log("firebase NOT set up in App.js render()");
+      // this.props.setUpFirebase();
+    }
+  }
+  
   componentWillUnmount() { 
     this.listener();
   }
@@ -49,14 +64,16 @@ const mapStateToProps = state => {
   return {
     user: state.auth.user, 
     isLoading: state.general.isLoading, 
-    error: state.general.error  
+    error: state.general.error, 
+    firebase: state.general.firebase  
   }
 };
 
 const mapDispatchToProps = dispatch => { 
   return { 
-    setUpUser: (uid) => dispatch(authActionCreators.SET_UP_USER)
+    setUpFirebase: (firebaseInstance) => dispatch(generalActionCreators.setUpFirebaseInstanceAction(firebaseInstance)),
+    setUpUser: (uid) => dispatch(authActionCreators.setUpUserAction(uid))
   }
 };
 
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootSaga from '../saga/rootSaga';
+import registerWithMiddleware from '../saga/index.ts';
 
 import generalReducer from './reducers/general';
 import usersReducer from './reducers/users';
@@ -8,8 +8,8 @@ import authReducer from './reducers/auth';
 
 const rootReducer = combineReducers({
     general: generalReducer,
-    users: usersReducer, 
-    auth: authReducer
+    auth: authReducer,
+    users: usersReducer
  });
  
  const sagaMiddleware = createSagaMiddleware();
@@ -17,6 +17,6 @@ const rootReducer = combineReducers({
 
  const store = createStore(rootReducer, compose(middlewares));
  
- sagaMiddleware.run(rootSaga);
- 
+ registerWithMiddleware(sagaMiddleware);
+
  export default store; 

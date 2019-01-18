@@ -1,6 +1,8 @@
-import app from 'firebase/app';
+import app from 'firebase';
 import 'firebase/auth';
 import 'firebase/functions';
+// const app = require("firebase");
+// require("firebase/functions");
 
 const prodConfig = {
     apiKey: "AIzaSyBPUBLiY-FCuqpJLVibdr-RoiUt4wzbaLE",
@@ -28,9 +30,11 @@ class Firebase {
 
   constructor() {
 
-    app.initializeApp(config);
+    if (!app.apps.length) {
+      app.initializeApp(config);
+    } 
     this.auth = app.auth();
-    this.functions = app.functions();
+    this.functions = app.functions();     
   }
 }
 

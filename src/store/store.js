@@ -15,7 +15,8 @@ const rootReducer = combineReducers({
  const sagaMiddleware = createSagaMiddleware();
  let middlewares = applyMiddleware(sagaMiddleware);
 
- const store = createStore(rootReducer, compose(middlewares));
+ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+ const store = createStore(rootReducer, composeEnhancer(middlewares));
  
  registerWithMiddleware(sagaMiddleware);
 

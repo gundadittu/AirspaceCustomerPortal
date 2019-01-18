@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import * as authActionCreators from '../../store/actions/auth';
 import LoginForm from './LoginForm'; 
 import { Row, Col } from 'antd';
 

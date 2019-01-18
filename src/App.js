@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Login from './components/Login/Login';
+import NavBar from './components/NavBar/navbar';
+import SideNavbar from './components/SideNavBar/sidenavbar';
 import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
@@ -9,11 +11,11 @@ import * as authActionCreators from './store/actions/auth';
 
 class App extends Component {
 
-  compo
-
   componentWillMount() { 
-    this.firebase = new Firebase()
-    this.props.setUpFirebase(this.firebase);
+    if (this.props.firebase === null) { 
+      this.firebase = new Firebase()
+      this.props.setUpFirebase(this.firebase);
+    }
   }
 
   componentDidMount() { 
@@ -49,7 +51,15 @@ class App extends Component {
     // need to set state for logged in in redux
 
     if (this.props.user) { // logged in
-      return ( <div> Logged IN </div> );
+      return ( 
+        <div>
+           <NavBar>
+              <div> Logged IN </div>
+          </NavBar>
+          <SideNavbar>
+          </SideNavbar>
+        </div>
+      );
     } else { // logged out
     
       // Need to also remove ability to route to any other pages !!!

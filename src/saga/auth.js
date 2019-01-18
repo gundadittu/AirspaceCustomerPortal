@@ -1,6 +1,7 @@
 import { takeLatest, call, put, select } from "redux-saga/effects";
 import * as actionTypes from "../store/actions/actionTypes";
 import * as selectors from './selectors';
+require("firebase/functions");
 
 // Watchers 
 
@@ -39,23 +40,26 @@ function* userSignInWorkerSaga(action) {
 
   /* -------------------------------------------------------------------------- */
 
-function setUpUser(payload) {
+function setUpUser(payload, firebase) {
     // modify payload? remove payload?
     // access current user instance, else throw error 
     // get type, etc. info about user
     // then return user objet 
-    
-    console.log("SET UP USER CALL MADE");
-    return {};
+    const uid = payload.uid || null;
+    const apiCall = firebase.functions.httpsCallable('getUserType')
+    return apiCall({uid: uid})
+    .then( result => { 
+        console.log(result);
+        return result;
+    })
   }
   
 function* workerSetUpUserSaga(action) {
     try {
-        const response = yield call(setUpUser, action.payload);
-
-        // need to properly parse call here 
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(setUpUser, action.payload, firebase);
         const data = response.data;
-        console.log(data);
+        console.log("workerSetUpUserSaga - got response");
         yield put({ type: actionTypes.SET_UP_USER_SUCCESS, payload: {data: data}});
     } catch (error) {
         console.error(error);

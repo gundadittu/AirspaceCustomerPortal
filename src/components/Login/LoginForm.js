@@ -33,7 +33,7 @@ class LoginForm extends React.Component {
     } = Layout;
 
     return (
-          <Card style={{ width: 500 }}>
+          <Card className="login-card">
             <Row>
               <Col span={12}>
                 <Card

@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
 import '../../App.css'
 
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+// const SubMenu = Menu.SubMenu;
+// const MenuItemGroup = Menu.ItemGroup;
 
 class NavBar extends React.Component {
     state = {

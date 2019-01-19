@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import LoginNavBar from './LoginNavBar';
 import LoginForm from './LoginForm';
 import { Row, Col } from 'antd';
+import './Login.css'
 
 // To-do:
 // make sure successful sign in leaves page
@@ -11,9 +13,12 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Row type="flex" justify="space-around" align="middle">
-         <Col xs={2} sm={4} md={{span: 6, offset: 5}} lg={{span: 16, offset: 8}} xl={{span: 8, offset: 14}}>
-            <LoginForm />
+      <Row type="flex" justify="space-around" align="middle">        
+         <Col>
+         <div>
+            <LoginNavBar/>
+            <LoginForm/>
+         </div>
         </Col>
       </Row>
     );

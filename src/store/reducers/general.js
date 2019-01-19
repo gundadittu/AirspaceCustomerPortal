@@ -4,7 +4,8 @@ import { updateObject } from '../utility';
 const initialState = {
     isLoading: false,
     error: null,
-    firebase: null
+    firebase: null,
+    currentPage: 'usersPage'
 };
 
 const reducer = ( state = initialState, action ) => {

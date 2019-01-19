@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './sideNavBar.css';
 import { Menu, Icon, Row } from 'antd';
+//@import "~antd/dist/antd.less";   // Import Ant Design styles by less entry
+//@import "your-theme-file.less";   // variables to override above
+
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;

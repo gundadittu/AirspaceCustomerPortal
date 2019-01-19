@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
 import SideNavbar from './components/SideNavBar/sidenavbar';
+import UsersPage from './components/UsersPage/usersPage';
+import UsersSideBar from './components/UsersPage/usersSideBar';
 import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
 import * as authActionCreators from './store/actions/auth';
-import {Row, Col} from 'antd';
+import {Row, Col, Icon} from 'antd';
 
 class App extends Component {
 
@@ -46,6 +48,25 @@ class App extends Component {
     this.listener();
   }
 
+  renderPageContent(page) {
+    if(page == "usersPage"){
+      return (
+        <div>
+          <Col span={16}>
+            <UsersPage />
+          </Col>
+          <Col span={8}>
+            <UsersSideBar />
+          </Col>
+        </div>
+      );
+    } else {
+      return (
+        <Icon type="smile" />
+      )
+    }
+  }
+
   render() {
 
     // need to set state for employee or admin mode? which office?
@@ -54,14 +75,17 @@ class App extends Component {
 
     if (this.props.user) { // logged in
       return (
-        <Row>
-          <Col span={6}>
-            <SideNavbar />
-          </Col>
-          <Col span={18}>
-             <NavBar/>
-          </Col>
-        </Row>
+        <div>
+          <Row>
+            <Col span={6}>
+              <SideNavbar />
+            </Col>
+            <Col span={18}>
+              <NavBar/>
+              {this.renderPageContent(this.props.currentPage)}
+            </Col>
+          </Row>
+        </div>
       );
     } else { // logged out
 
@@ -78,7 +102,8 @@ const mapStateToProps = state => {
     user: state.auth.user,
     isLoading: state.general.isLoading,
     error: state.general.error,
-    firebase: state.general.firebase
+    firebase: state.general.firebase,
+    currentPage: state.general.currentPage
   }
 };
 

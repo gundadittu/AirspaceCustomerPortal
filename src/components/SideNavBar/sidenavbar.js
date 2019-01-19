@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import '../../App.css';
 import './sideNavBar.css';
 import { Menu, Icon, Row } from 'antd';
 

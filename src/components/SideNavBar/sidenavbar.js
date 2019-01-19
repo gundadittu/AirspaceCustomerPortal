@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import '../../App.css';
 import './sideNavBar.css';
 import { Menu, Icon, Row } from 'antd';
+//@import "~antd/dist/antd.less";   // Import Ant Design styles by less entry
+//@import "your-theme-file.less";   // variables to override above
+
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -20,7 +23,7 @@ class SideNavBar extends React.Component {
 
     const offices = ['Polsky North', 'Polsky South', 'Booth 205'];
     var officeKey = 1;
-    if (this.props.userType == "regular") { 
+    if (this.props.userType == "regular") {
       if (this.props.regularUserPortalMode == "admin") {
         return (
           <Menu
@@ -46,7 +49,7 @@ class SideNavBar extends React.Component {
                   </MenuItemGroup>
                 </SubMenu>
             </MenuItemGroup>
-  
+
           </Menu>
         );
       } else if (this.props.regularUserPortalMode == "regular") {
@@ -62,8 +65,8 @@ class SideNavBar extends React.Component {
           </Menu>
         )
       }
-    } else { 
-      // if not a regular user 
+    } else {
+      // if not a regular user
       return null;
     }
   }
@@ -72,8 +75,8 @@ class SideNavBar extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.auth.user,
-    userType: state.auth.type, 
-    adminOfficeList: state.auth.adminOfficeList, 
+    userType: state.auth.type,
+    adminOfficeList: state.auth.adminOfficeList,
     regularUserPortalMode: state.auth.regularUserPortalMode
   }
 };

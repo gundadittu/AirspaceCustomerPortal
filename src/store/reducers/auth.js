@@ -4,7 +4,8 @@ import { updateObject } from '../utility';
 const initialState = {
     user: null,
     type: null,
-    adminOfficeList: null
+    adminOfficeList: null, 
+    regularUserPortalMode: 'admin'
 };
 
 const reducer = ( state = initialState, action ) => {

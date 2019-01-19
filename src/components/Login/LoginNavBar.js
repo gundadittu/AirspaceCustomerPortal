@@ -18,6 +18,7 @@ class LoginNavBar extends React.Component {
     }
 
     render() {
+<<<<<<< HEAD
 
       const styles = {
         root: {
@@ -43,6 +44,22 @@ class LoginNavBar extends React.Component {
           </div>
 
         );
+=======
+        return null;
+        // return (
+        //     <Menu
+        //         onClick={this.handleClick}
+        //         selectedKeys={[this.state.current]}
+        //         mode="horizontal"
+        //     >
+
+        //         <Menu.Item key="mail">
+        //             <img style={{ height: 50, width: 250 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
+        //         </Menu.Item>
+
+        //     </Menu>
+        // );
+>>>>>>> f20fb80ad1ffa9f5d06369917cfc1c09e49347ea
     }
 }
 

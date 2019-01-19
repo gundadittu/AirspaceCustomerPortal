@@ -44,8 +44,6 @@ function* userSignInWorkerSaga(action) {
 
   /* -------------------------------------------------------------------------- */
 
-  /* -------------------------------------------------------------------------- */
-
   function signOutUser(firebase) {
       return firebase.auth.signOut()
       .catch(error => {
@@ -69,12 +67,8 @@ function* userSignInWorkerSaga(action) {
     /* -------------------------------------------------------------------------- */
 
 function setUpUser(payload, firebase) {
-    // modify payload? remove payload?
-    // access current user instance, else throw error
-    // get type, etc. info about user
-    // then return user objet
     const uid = payload.uid || null;
-    const apiCall = firebase.functions.httpsCallable('getUserType')
+    const apiCall = firebase.functions.httpsCallable('getUserInfo')
     return apiCall({uid: uid})
     .then( result => {
         console.log(result);

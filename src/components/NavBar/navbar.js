@@ -13,13 +13,10 @@ class NavBar extends React.Component {
     }
 
     handleSignOut = (e) => {
-      //e.preventDefault();
       this.props.signOutUser();
     }
 
     handleProfileClick = (e) => {
-      //console.log(e);
-      console.log("Handle Profile Click");
       switch(e.key){
         case 'Edit Profile':
           console.log("Implement Edit Profile")
@@ -32,30 +29,22 @@ class NavBar extends React.Component {
 
     handleClick = (e) => {
         console.log('click ', e);
-        if(e.key == "signout"){
+        if (e.key == "signout"){
           this.handleSignOut(e);
         }
-        switch(e.key){
-          case 'profile':
-            this.handleProfileClick();
-            break;
-          case 'notifications':
-            console.log("Implement Notification");
-          case 'logout':
-            console.log("Made it here");
-            this.handleSignOut();
-            break;
+        if (e.key == "notifications"){
+          console.log("Implement Notifications");
         }
       }
 
     render() {
       const profileMenu = (
-        <Menu>
+        <Menu onClick={this.handleClick}>
           <Menu.Item key="Edit Profile">
             <a>Edit Profile</a>
           </Menu.Item>
           <Menu.Divider />
-          <Menu.Item key="Sign Out">
+          <Menu.Item key="signout">
             <a>Sign Out</a>
           </Menu.Item>
         </Menu>
@@ -64,7 +53,6 @@ class NavBar extends React.Component {
         return (
             <Menu
             onClick={this.handleClick}
-            // selectedKeys={[this.state.current]}
             mode="horizontal"
             style={{textAlign: 'right', border: 0}}
           >
@@ -78,10 +66,6 @@ class NavBar extends React.Component {
                   <Icon type="smile" />
                 </a>
               </Dropdown>
-            </Menu.Item>
-
-            <Menu.Item key="signout">
-              <Icon type="logout" />
             </Menu.Item>
           </Menu>
         );

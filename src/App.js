@@ -11,47 +11,48 @@ import * as authActionCreators from './store/actions/auth';
 
 class App extends Component {
 
-  componentWillMount() { 
-    if (this.props.firebase === null) { 
+  componentWillMount() {
+    if (this.props.firebase === null) {
       this.firebase = new Firebase()
       this.props.setUpFirebase(this.firebase);
     }
   }
 
-  componentDidMount() { 
-    const firebase = this.firebase || null; 
-    if (firebase) { 
+  componentDidMount() {
+    const firebase = this.firebase || null;
+    if (firebase) {
       console.log("firebase SET UP in App.js render()");
-      const weakProps = this.props; 
+      const weakProps = this.props;
       this.listener = firebase.auth.onAuthStateChanged(function(user) {
-        if (user) { 
+        if (user) {
           console.log('auth listener found user');
           weakProps.setUpUser(user.uid);
-        } else { 
+        } else {
           console.log('auth listener did NOT find user');
-          // Need to dispatch sign out action here 
+          // Need to dispatch sign out action here
           // This action would set global state in redux to null for user
-          return; 
+          weakProps.setUpUser(null);
+          return;
         }
       });
-    } else { 
+    } else {
       console.log("firebase NOT set up in App.js render()");
       // this.props.setUpFirebase();
     }
   }
-  
-  componentWillUnmount() { 
+
+  componentWillUnmount() {
     this.listener();
   }
-  
+
   render() {
 
     // need to set state for employee or admin mode? which office?
-    // - need to setuser type ? figure out back end?  
+    // - need to setuser type ? figure out back end?
     // need to set state for logged in in redux
 
     if (this.props.user) { // logged in
-      return ( 
+      return (
         <div>
            <NavBar>
               <div> Logged IN </div>
@@ -61,7 +62,7 @@ class App extends Component {
         </div>
       );
     } else { // logged out
-    
+
       // Need to also remove ability to route to any other pages !!!
       return (
         <Login />
@@ -72,15 +73,15 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.auth.user, 
-    isLoading: state.general.isLoading, 
-    error: state.general.error, 
-    firebase: state.general.firebase  
+    user: state.auth.user,
+    isLoading: state.general.isLoading,
+    error: state.general.error,
+    firebase: state.general.firebase
   }
 };
 
-const mapDispatchToProps = dispatch => { 
-  return { 
+const mapDispatchToProps = dispatch => {
+  return {
     setUpFirebase: (firebaseInstance) => dispatch(generalActionCreators.setUpFirebaseInstanceAction(firebaseInstance)),
     setUpUser: (uid) => dispatch(authActionCreators.setUpUserAction(uid))
   }

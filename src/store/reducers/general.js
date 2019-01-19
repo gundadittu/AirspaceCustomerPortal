@@ -3,26 +3,28 @@ import { updateObject } from '../utility';
 
 const initialState = {
     isLoading: false,
-    error: null, 
+    error: null,
     firebase: null
 };
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
-        case actionTypes.SET_UP_FIREBASE: 
+        case actionTypes.SET_UP_FIREBASE:
             console.log('reducers/general.js - SET_UP_FIREBASE');
-            let firebase = action.payload.firebase; 
+            let firebase = action.payload.firebase;
             return updateObject(state, {firebase: firebase});
-        case actionTypes.SIGN_IN_USER: 
+        case actionTypes.SIGN_IN_USER:
             return updateObject(state, {isLoading: true});
-        case actionTypes.SIGN_IN_USER_SUCCESS: 
+        case actionTypes.SIGN_IN_USER_SUCCESS:
              return updateObject(state, {isLoading: false, error: null});
-        case actionTypes.SIGN_IN_USER_ERROR: 
+        case actionTypes.SIGN_IN_USER_ERROR:
              const signInError = action.payload.error || null;
             return updateObject(state, {isLoading: false, error: signInError});
         case actionTypes.SET_UP_USER:
             return updateObject(state, {isLoading: true});
         case actionTypes.SET_UP_USER_SUCCESS:
+            return updateObject(state, {isLoading: false, error: null});
+        case actionTypes.SIGN_OUT_USER_SUCCESS:
             return updateObject(state, {isLoading: false, error: null});
         case actionTypes.SET_UP_USER_ERROR:
             const userError = action.payload.error || null;
@@ -34,7 +36,7 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.LOAD_OFFICE_USERS_ERROR:
             const loadError = action.payload.error || null;
             return updateObject(state, {isLoading: false, error: loadError});
-        default: 
+        default:
             return state;
     }
     // return state;

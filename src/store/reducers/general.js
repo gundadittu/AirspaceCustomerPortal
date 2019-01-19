@@ -27,6 +27,13 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.SET_UP_USER_ERROR:
             const userError = action.payload.error || null;
             return updateObject(state, {isLoading: false, error: userError});
+        case actionTypes.LOAD_OFFICE_USERS:
+            return updateObject(state, {isLoading: true});
+        case actionTypes.LOAD_OFFICE_USERS_SUCCESS:
+            return updateObject(state, {isLoading: false, error: null});
+        case actionTypes.LOAD_OFFICE_USERS_ERROR:
+            const loadError = action.payload.error || null;
+            return updateObject(state, {isLoading: false, error: loadError});
         default: 
             return state;
     }

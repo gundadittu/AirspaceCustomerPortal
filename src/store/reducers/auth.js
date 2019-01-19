@@ -14,9 +14,10 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.SET_UP_USER_ERROR: 
             break;
         case actionTypes.SET_UP_USER_SUCCESS:
-            const user = action.payload.data || null;
-            const type = user.type || null;
-            return updateObject(state, {user: user, type: type});
+            const data = action.payload.data || null;
+            const type = data.type || null;
+            const adminOfficeList = data.officeAdmin || null;
+            return updateObject(state, {user: data, type: type, adminOfficeList: adminOfficeList});
         case actionTypes.SET_UP_USER_ERROR:
             return updateObject(state, {user: null});
         default: 

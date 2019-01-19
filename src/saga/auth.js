@@ -7,7 +7,7 @@ require("firebase/functions");
 
 export function* userSignInWatchSaga() {
     yield takeLatest(actionTypes.SIGN_IN_USER, userSignInWorkerSaga);
-  }
+}
 
 export function* watchSetUpUserSaga() {
     yield takeLatest(actionTypes.SET_UP_USER, workerSetUpUserSaga);

@@ -3,13 +3,13 @@ import createSagaMiddleware from 'redux-saga';
 import registerWithMiddleware from '../saga/index.ts';
 
 import generalReducer from './reducers/general';
-import usersReducer from './reducers/users';
+import officeAdminReducer from './reducers/officeAdmin';
 import authReducer from './reducers/auth';
 
 const rootReducer = combineReducers({
     general: generalReducer,
     auth: authReducer,
-    users: usersReducer
+    officeAdmin: officeAdminReducer
  });
  
  const sagaMiddleware = createSagaMiddleware();
@@ -19,5 +19,5 @@ const rootReducer = combineReducers({
  const store = createStore(rootReducer, composeEnhancer(middlewares));
  
  registerWithMiddleware(sagaMiddleware);
-
+ 
  export default store; 

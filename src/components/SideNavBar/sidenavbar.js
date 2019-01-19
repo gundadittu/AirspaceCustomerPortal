@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import '../../App.css'; 
+import '../../App.css';
 import { Menu, Icon } from 'antd';
 
 const SubMenu = Menu.SubMenu;
@@ -12,6 +12,12 @@ class SideNavBar extends React.Component {
   }
 
   render() {
+    var sideBarMenuItems = null;
+    // if regular, {landloard, receptionist, admin}
+    // check mode, based on mode, show the options
+    // admin show hardcoded, else show blank
+
+
     return (
       <Menu
         onClick={this.handleClick}
@@ -28,6 +34,7 @@ class SideNavBar extends React.Component {
             <Menu.Item key="5">{<span><Icon type="user" /><span>Service Requests</span></span>}</Menu.Item>
             <Menu.Item key="6">{<span><Icon type="user" /><span>Registered Guests</span></span>}</Menu.Item>
         </MenuItemGroup>
+        <Menu.Item key="7">{<span><Icon type="up-square" /><span>My Offices</span></span>}</Menu.Item>
       </Menu>
     );
   }

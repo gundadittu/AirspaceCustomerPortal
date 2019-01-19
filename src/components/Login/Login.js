@@ -4,10 +4,12 @@ import LoginNavBar from './LoginNavBar';
 import LoginForm from './LoginForm';
 import { Row, Col } from 'antd';
 import './Login.css'
+
 // To-do:
 // make sure successful sign in leaves page
 // show loading indicator
 // show error message
+
 class Login extends React.Component {
 
   render() {

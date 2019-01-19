@@ -8,6 +8,7 @@ import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
 import * as authActionCreators from './store/actions/auth';
+import {Row, Col} from 'antd';
 
 class App extends Component {
 
@@ -53,13 +54,14 @@ class App extends Component {
 
     if (this.props.user) { // logged in
       return (
-        <div>
-           <NavBar>
-              <div> Logged IN </div>
-          </NavBar>
-          <SideNavbar>
-          </SideNavbar>
-        </div>
+        <Row>
+          <Col span={6}>
+            <SideNavbar />
+          </Col>
+          <Col span={18}>
+             <NavBar/>
+          </Col>
+        </Row>
       );
     } else { // logged out
 

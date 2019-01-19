@@ -12,6 +12,17 @@ const MenuItemGroup = Menu.ItemGroup;
 class SideNavBar extends React.Component {
   handleClick = (e) => {
     console.log('click ', e);
+
+    var page = e.key
+    this.changePage(page);
+  }
+
+  changePage(selectedPage) {
+    return {
+      page: selectedPage,
+      mode: null,
+      currentOfficeAdmin: null
+    }
   }
 
   render() {
@@ -34,12 +45,12 @@ class SideNavBar extends React.Component {
           >
             <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
             <MenuItemGroup key="g2" title="" className="airspace-side-nav-bar-group">
-                <Menu.Item key="1">{<span><Icon type="home" /><span>Home</span></span>}</Menu.Item>
-                <Menu.Item key="2">{<span><Icon type="user" /><span>Users</span></span>}</Menu.Item>
-                <Menu.Item key="3">{<span><Icon type="user" /><span>Conference Rooms</span></span>}</Menu.Item>
-                <Menu.Item key="4">{<span><Icon type="user" /><span>Hot Desks</span></span>}</Menu.Item>
-                <Menu.Item key="5">{<span><Icon type="user" /><span>Service Requests</span></span>}</Menu.Item>
-                <Menu.Item key="6">{<span><Icon type="user" /><span>Registered Guests</span></span>}</Menu.Item>
+                <Menu.Item key="home">{<span><Icon type="home" /><span>Home</span></span>}</Menu.Item>
+                <Menu.Item key="users">{<span><Icon type="user" /><span>Users</span></span>}</Menu.Item>
+                <Menu.Item key="conferenceRooms">{<span><Icon type="user" /><span>Conference Rooms</span></span>}</Menu.Item>
+                <Menu.Item key="hotDesks">{<span><Icon type="user" /><span>Hot Desks</span></span>}</Menu.Item>
+                <Menu.Item key="serviceRequests">{<span><Icon type="user" /><span>Service Requests</span></span>}</Menu.Item>
+                <Menu.Item key="registeredGuests">{<span><Icon type="user" /><span>Registered Guests</span></span>}</Menu.Item>
                 <SubMenu key="sub1" title={<span><Icon type="up-square" /><span>My Offices</span></span>}>
                   <MenuItemGroup key="g1" title="Offices">
                     {offices.map((office) => (
@@ -80,4 +91,10 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(mapStateToProps, null)(SideNavBar);
+const mapDispatchToProps = dispatch => {
+  return {
+    pageChange: (selectedPage) => dispatch(this.changePage(selectedPage))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideNavBar);

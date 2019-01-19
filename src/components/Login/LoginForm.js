@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox, Card, Row, Col, Layout} from 'antd';
-import SigninLogo from "../../assets/images/marginalia-sign-in.png";
+import SigninLogo from "../../assets/images/fogg-logged-out-1.png";
 import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
 import '../../App.css'
@@ -28,9 +28,9 @@ class LoginForm extends React.Component {
 
     const { getFieldDecorator } = this.props.form;
 
-    const {
-      Header, Footer, Sider, Content,
-    } = Layout;
+    // const {
+    //   Header, Footer, Sider, Content,
+    // } = Layout;
 
     return (
           <Card className="login-card">

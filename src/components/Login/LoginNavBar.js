@@ -9,23 +9,24 @@ class LoginNavBar extends React.Component {
     }
 
     handleClick = (e) => {
-        return 
+        return
     }
 
     render() {
-        return (
-            <Menu
-            onClick={this.handleClick}
-            selectedKeys={[this.state.current]}
-            mode="horizontal"
-          >
+        return null;
+        // return (
+        //     <Menu
+        //         onClick={this.handleClick}
+        //         selectedKeys={[this.state.current]}
+        //         mode="horizontal"
+        //     >
 
-            <Menu.Item key="mail">
-                <img className="logo-nav-image" src={ require('../../assets/images/airspace_logo.png') } />
-            </Menu.Item>
+        //         <Menu.Item key="mail">
+        //             <img style={{ height: 50, width: 250 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
+        //         </Menu.Item>
 
-          </Menu>
-        );
+        //     </Menu>
+        // );
     }
 }
 

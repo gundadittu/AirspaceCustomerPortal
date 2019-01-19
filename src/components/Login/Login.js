@@ -13,14 +13,18 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Row type="flex" justify="space-around" align="middle">        
-         <Col>
-         <div>
-            <LoginNavBar/>
-            <LoginForm/>
-         </div>
-        </Col>
-      </Row>
+      <div>
+        <LoginNavBar/>
+        <Row type="flex" justify="space-around" align="middle">
+           <Col>
+           <div>
+
+              <LoginForm/>
+           </div>
+          </Col>
+        </Row>
+      </div>
+
     );
   }
 }

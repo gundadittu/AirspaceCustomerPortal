@@ -19,6 +19,7 @@ class SideNavBar extends React.Component {
 
     const offices = ['Polsky North', 'Polsky South', 'Booth 205'];
     var officeKey = 1;
+    
     if (this.props.type == "regular"){
       return (
         <Menu

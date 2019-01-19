@@ -4,6 +4,7 @@
     "index": "./index.js"
   },
   "dependencies": {
+    "@material-ui/core": "^3.9.0",
     "antd": "^3.0.0",
     "firebase": "^5.5.5",
     "husky": "^1.3.1",

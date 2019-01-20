@@ -39,7 +39,7 @@ class SideNavBar extends React.Component {
         return (
           <Menu
             onClick={this.handleClick}
-            style={{ width: 256, height: 100, border: 0 }}
+            style={{ border: 0 }}
             defaultSelectedKeys={['1']}
             mode="inline"
             className="airspace-side-nav-bar"

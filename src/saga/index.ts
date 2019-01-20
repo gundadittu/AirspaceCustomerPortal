@@ -1,10 +1,13 @@
 // import { all } from 'redux-saga/effects';
 import * as authSagas from './auth';
+import * as officeAdminSagas from './officeAdmin';
+
 // import watchSetUpFirebaseSaga from './setUpFirebase';
 // import watchSetUpUserSaga from "./setUpUser"; 
 
 const sagas: {[index: string]: any} = {
-    ...authSagas
+    ...authSagas, 
+    ...officeAdminSagas
 };
 
 export default function registerWithMiddleware(middleware: { run: Function }) {

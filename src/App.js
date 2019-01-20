@@ -5,7 +5,6 @@ import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
 import SideNavbar from './components/SideNavBar/sidenavbar';
 import UsersPage from './components/UsersPage/usersPage';
-import UsersSideBar from './components/UsersPage/usersSideBar';
 import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
@@ -51,14 +50,7 @@ class App extends Component {
   renderPageContent(page) {
     if(page == "usersPage"){
       return (
-        <div>
-          <Col span={16}>
-            <UsersPage />
-          </Col>
-          <Col span={8}>
-            <UsersSideBar />
-          </Col>
-        </div>
+        <UsersPage />
       );
     } else {
       return (
@@ -77,12 +69,19 @@ class App extends Component {
       return (
         <div>
           <Row>
-            <Col span={6}>
+            <Col span={3}>
               <SideNavbar />
             </Col>
-            <Col span={18}>
+            <Col span={21}>
               <NavBar/>
-              {this.renderPageContent(this.props.currentPage)}
+              <UsersPage />
+                 {/* <Col span={24}>
+                    <NavBar/>
+                 </Col>
+                 <Col span={24}>
+                    {this.renderPageContent(this.props.currentPage)}
+                    <UsersPage />
+                 </Col> */}
             </Col>
           </Row>
         </div>

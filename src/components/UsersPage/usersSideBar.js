@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Menu, Icon, Row, Button} from 'antd';
+import { Button} from 'antd';
 import Grid from '@material-ui/core/Grid';
-
-
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+import '../../App.css';
 
 class UserSideBar extends React.Component {
   handleClick = (e) => {
@@ -15,9 +12,8 @@ class UserSideBar extends React.Component {
   render() {
     return(
       <div>
-        <Grid container justify="center" alignItems="center" style={{flexDirection:'column'}}>
-          <Button type="primary" >Add User</Button>
-          <Button type="primary" >Add Admin</Button>
+        <Grid container justify="center" alignItems="center" style={{flexDirection:'column', paddingTop: 50}}>
+          <Button className="wide-button" type="primary" >Add User</Button>
         </Grid>
       </div>
     )
@@ -25,9 +21,4 @@ class UserSideBar extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-  return {
-  }
-};
-
-export default connect(mapStateToProps, null)(UserSideBar);
+export default connect(null, null)(UserSideBar);

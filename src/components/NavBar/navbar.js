@@ -1,60 +1,60 @@
 import React from 'react';
-import { Menu, Dropdown, Icon } from 'antd';
+import { Menu, Dropdown, Icon, Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
 import '../../App.css'
 
-// const SubMenu = Menu.SubMenu;
-// const MenuItemGroup = Menu.ItemGroup;
 
 class NavBar extends React.Component {
-    state = {
-        current: null,
+  state = {
+    current: null,
+  }
+
+  handleSignOut = (e) => {
+    this.props.signOutUser();
+  }
+
+  handleProfileClick = (e) => {
+    switch (e.key) {
+      case 'Edit Profile':
+        console.log("Implement Edit Profile")
+        break;
+      case 'SignOut':
+        console.log("Made it here");
+        break
     }
+  }
 
-    handleSignOut = (e) => {
-      this.props.signOutUser();
+  handleClick = (e) => {
+    console.log('click ', e);
+    if (e.key == "signout") {
+      this.handleSignOut(e);
     }
-
-    handleProfileClick = (e) => {
-      switch(e.key){
-        case 'Edit Profile':
-          console.log("Implement Edit Profile")
-          break;
-        case 'SignOut':
-          console.log("Made it here");
-          break
-      }
+    if (e.key == "notifications") {
+      console.log("Implement Notifications");
     }
+  }
 
-    handleClick = (e) => {
-        console.log('click ', e);
-        if (e.key == "signout"){
-          this.handleSignOut(e);
-        }
-        if (e.key == "notifications"){
-          console.log("Implement Notifications");
-        }
-      }
+  render() {
+    const profileMenu = (
+      <Menu onClick={this.handleClick}>
+        <Menu.Item key="Edit Profile">
+          <a>Edit Profile</a>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="signout">
+          <a>Sign Out</a>
+        </Menu.Item>
+      </Menu>
+    );
 
-    render() {
-      const profileMenu = (
-        <Menu onClick={this.handleClick}>
-          <Menu.Item key="Edit Profile">
-            <a>Edit Profile</a>
-          </Menu.Item>
-          <Menu.Divider />
-          <Menu.Item key="signout">
-            <a>Sign Out</a>
-          </Menu.Item>
-        </Menu>
-      );
-
-        return (
-            <Menu
+    return (
+      <Row>
+        <Col span={24}>
+          <Menu
             onClick={this.handleClick}
             mode="horizontal"
-            style={{textAlign: 'right', border: 0}}
+            style={{ textAlign: 'right', border: 0 }}
           >
             <Menu.Item key="notifications">
               <Icon type="bell" />
@@ -68,8 +68,10 @@ class NavBar extends React.Component {
               </Dropdown>
             </Menu.Item>
           </Menu>
-        );
-    }
+        </Col>
+      </Row>
+    );
+  }
 }
 
 const mapDispatchToProps = dispatch => {

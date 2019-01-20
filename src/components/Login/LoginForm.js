@@ -39,7 +39,6 @@ class LoginForm extends React.Component {
                 <Card
                   cover={<img alt="example" src={SigninLogo}/>}
                   bordered={false}
-                  inner={true}
                 >
                 </Card>
               </Col>

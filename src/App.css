@@ -12,3 +12,15 @@
 .airspaceColor {
   color: #f07c94 !important;
 }
+
+.wide-table { 
+  width: 100%;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.wide-button { 
+  width: 80%;
+  /* padding-left: 20px; */
+  /* padding-right: 20px; */
+}

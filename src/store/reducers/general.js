@@ -5,7 +5,7 @@ const initialState = {
     isLoading: false,
     error: null,
     firebase: null,
-    currentPage: 'usersPage'
+    currentPage: null
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -37,6 +37,9 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.LOAD_OFFICE_USERS_ERROR:
             const loadError = action.payload.error || null;
             return updateObject(state, {isLoading: false, error: loadError});
+        case actionTypes.PAGE_CHANGE:
+            const newPage = action.payload.page || null;
+            return updateObject(state, {currentPage: newPage})
         default:
             return state;
     }

@@ -4,12 +4,13 @@ import { updateObject } from '../utility';
 const initialState = {
     user: null,
     type: null,
-    adminOfficeList: null, 
-    regularUserPortalMode: 'admin'
+    adminOfficeList: null
 };
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
+        case actionTypes.SIGN_OUT_USER_SUCCESS: 
+            return initialState; 
         case actionTypes.SIGN_IN_USER:
             break;
         case actionTypes.SET_UP_USER_ERROR:

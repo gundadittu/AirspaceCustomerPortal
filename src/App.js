@@ -10,6 +10,7 @@ import Firebase from './components/Firebase';
 import * as generalActionCreators from './store/actions/general';
 import * as authActionCreators from './store/actions/auth';
 import {Row, Col, Icon} from 'antd';
+import * as pageTitles from './pages/pageTitles';
 
 class App extends Component {
 
@@ -47,15 +48,18 @@ class App extends Component {
     this.listener();
   }
 
-  renderPageContent(page) {
-    if(page == "usersPage"){
-      return (
-        <UsersPage />
-      );
-    } else {
-      return (
-        <Icon type="smile" />
-      )
+  renderPageContent(pageName) {
+
+    switch (pageName) { 
+      case pageTitles.homePageRegularUser: 
+        return null
+      case pageTitles.userPageOfficeAdmin: 
+        return (
+          <UsersPage />
+        );
+      default: 
+          // return 404 page? 
+          return null
     }
   }
 
@@ -69,19 +73,12 @@ class App extends Component {
       return (
         <div>
           <Row>
-            <Col span={3}>
+            <Col span={4}>
               <SideNavbar />
             </Col>
-            <Col span={21}>
+            <Col span={20}>
               <NavBar/>
-              <UsersPage />
-                 {/* <Col span={24}>
-                    <NavBar/>
-                 </Col>
-                 <Col span={24}>
-                    {this.renderPageContent(this.props.currentPage)}
-                    <UsersPage />
-                 </Col> */}
+              {this.renderPageContent(this.props.currentPage)}
             </Col>
           </Row>
         </div>

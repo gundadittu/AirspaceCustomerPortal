@@ -8,3 +8,10 @@ export const setUpFirebaseInstanceAction = (firebaseInstance) => {
         }
     };
 }
+
+export const changePage = (payload) => { 
+    return {
+        type: actionTypes.CHANGE_PAGE, 
+        payload: { ...payload }
+    };
+}

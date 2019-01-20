@@ -24,3 +24,9 @@
   /* padding-left: 20px; */
   /* padding-right: 20px; */
 }
+
+.right-button { 
+  float: right;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

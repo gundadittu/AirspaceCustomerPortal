@@ -5,7 +5,9 @@ const initialState = {
     isLoading: false,
     error: null,
     firebase: null,
-    currentPage: null
+    currentPage: null, 
+    regularUserPortalMode: 'regular',
+    currentOfficeAdminUID: null
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -25,7 +27,10 @@ const reducer = ( state = initialState, action ) => {
             return updateObject(state, {isLoading: true});
         case actionTypes.SET_UP_USER_SUCCESS:
             return updateObject(state, {isLoading: false, error: null});
-        case actionTypes.SIGN_OUT_USER_SUCCESS:
+        case actionTypes.SIGN_OUT_USER:
+            return updateObject(state, {isLoading: true, error: null});
+         case actionTypes.SIGN_OUT_USER_SUCCESS:
+        case actionTypes.SIGN_OUT_USER_ERROR:
             return updateObject(state, {isLoading: false, error: null});
         case actionTypes.SET_UP_USER_ERROR:
             const userError = action.payload.error || null;
@@ -37,9 +42,9 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.LOAD_OFFICE_USERS_ERROR:
             const loadError = action.payload.error || null;
             return updateObject(state, {isLoading: false, error: loadError});
-        case actionTypes.PAGE_CHANGE:
-            const newPage = action.payload.page || null;
-            return updateObject(state, {currentPage: newPage})
+        case actionTypes.CHANGE_PAGE:
+            const payload = action.payload || null;
+            return updateObject(state, {...payload})
         default:
             return state;
     }

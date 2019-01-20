@@ -1,19 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table, Tag} from 'antd';
-import '../../App.css';
+import { Table, Tag, Icon} from 'antd';
 // import Highlighter from 'react-highlight-words';
-import MaterialUIButton from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MoreIcon from '@material-ui/icons/MoreHoriz';
+
 import * as actionCreator from '../../store/actions/officeAdmin';
 // import { stat } from 'fs';
 
 const columns = [{
   title: 'Name',
-  dataIndex: 'firstName',
+  dataIndex: 'name',
   // fix sorter to be alphabetical
   sorter: (a, b) => {
-    const aName = a.firstName; 
-    const bName = b.firstName;
+    const aName = a.name; 
+    const bName = b.name;
     if (aName < bName) { 
       return -1;
     } else if (aName > bName) { 
@@ -23,12 +24,17 @@ const columns = [{
     }
   },
   sortDirections: ['descend', 'ascend'],
-}, {
+}, 
+{
+  title: 'Email',
+  dataIndex: 'email'
+},
+{
   title: 'Offices',
   dataIndex: 'offices',
   render: (offices => (
         <span>
-          {offices.map(office => <Tag color="blue" key={office}>{office}</Tag>)}
+          {offices.map(office => <Tag color="blue" key={office.uid}>{office.name}</Tag>)}
         </span>
       ))
 },
@@ -43,23 +49,24 @@ const columns = [{
     text: 'Regular',
     value: 'regular',
   }],
-  filterMultiple: false,
-  onFilter: (value, record) => record.type.indexOf(value) === 0,
-  sorter: (a, b) => a.type.length - b.type.length,
-  sortDirections: ['descend', 'ascend'],
-}, {
-  title: 'Email',
-  dataIndex: 'email',
-  // Fix sorter to be alphabetical 
-  sorter: (a, b) => a.email.length - b.email.length,
-  sortDirections: ['descend', 'ascend'],
-}, {
+  render: (type => {
+    
+    return ( 
+      <span>
+        <Tag color="blue" key={type}>{type}</Tag>   
+      </span>
+    );
+  }),
+  filterMultiple: true,
+  onFilter: (value, record) => record.type.indexOf(value) === 0
+},  
+{
   title: '',
-  key: 'action',
-  render: (text) => (
-    <span>
-      <MaterialUIButton color="primary">Delete</MaterialUIButton>
-    </span>
+  key: 'more',
+  render: () => (
+    <IconButton>
+      <MoreIcon/>
+    </IconButton>
   ),
 }];
 
@@ -74,10 +81,8 @@ class UsersTable extends React.Component {
 
   render() {
     return (
-      <div className="wide-table">
-        <h1>Users</h1>
-        <Table rowKey={record => record.uid} columns={columns} dataSource={this.props.userList} pagination={false} loading={this.props.isLoadingUserData}/>
-      </div>
+      // customize empty state locale={{ emptyText: 'No Users'}}
+      <Table rowKey={record => record.uid.toString()} columns={columns} dataSource={this.props.userList} pagination={false} loading={this.props.isLoadingUserData}/>
     );
   }
 }
@@ -85,7 +90,7 @@ class UsersTable extends React.Component {
 const mapStateToProps = state => {
   return {
     userList: state.officeAdmin.userList, 
-    currentOfficeUID: state.officeAdmin.currentOfficeAdminUID, 
+    currentOfficeUID: state.general.currentOfficeAdminUID, 
     isLoadingUserData: state.officeAdmin.isLoadingUserData
   }
 };

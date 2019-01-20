@@ -1,6 +1,7 @@
 import { takeLatest, call, put, select } from "redux-saga/effects";
 import * as actionTypes from "../store/actions/actionTypes";
 import * as selectors from './selectors';
+import AirUser from '../models/AirUser';
 require("firebase/functions");
 
 // Watchers 
@@ -19,7 +20,16 @@ function loadOfficeUsers(payload, firebase) {
     return apiCall({officeUID: officeUID})
     .then( result => { 
         console.log("loadOfficeUsers success: "+result);
-        return result.data;
+        const data = result.data; 
+        var userList = [];
+        for (let key in data) {
+            const value = data[key];
+            const user = new AirUser(value) || null;
+            if (user !== null) { 
+                userList.push(user);
+            }
+        }
+        return userList;
     })
 }
 

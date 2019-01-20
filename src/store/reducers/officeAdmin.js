@@ -2,7 +2,6 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
-    currentOfficeAdminUID: 'qGTShTzLuOI3uDXXNM6J',
     userList: [], 
     isLoadingUserData: false
 };

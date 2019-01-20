@@ -19,24 +19,11 @@ class LoginNavBar extends React.Component {
 
     render() {
 
-      const styles = {
-        root: {
-          flexGrow: 1,
-        },
-      };
-
-
         return (
           <div>
             <AppBar position="static" style={{ background: 'transparent'}}>
               <Grid container justify="center" alignItems="center" >
-                {/* <Avatar alt="Airspace Logo"
-                src={ require('../../assets/images/nav-logo.png') }
-                className={'classes.avatar'}
-                style={{margin: 15,
-                  width: 90,
-                  height: 90,}}/> */}
-                  <img style={{ marginTop: 15, marginBottom: 15, height:40, width: 200}} src={require('../../assets/images/nav-logo.png')}></img>
+                  <img className="logo-nav-image" src={require('../../assets/images/nav-logo.png')}></img>
               </Grid>
             </AppBar>
 

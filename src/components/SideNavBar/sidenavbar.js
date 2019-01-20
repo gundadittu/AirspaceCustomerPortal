@@ -30,7 +30,9 @@ class SideNavBar extends React.Component {
   }
 
   render() {
-
+    const sideBarLogo = (
+      <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
+    );
     const  switchPortalSubMenu = (
       <SubMenu key="sub1" title={<span><Icon type="up-square" /><span>Switch Portal</span></span>}>
         <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
@@ -48,11 +50,11 @@ class SideNavBar extends React.Component {
           <Menu
             onClick={this.handleClick}
             style={{ border: 0 }}
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={[this.props.currentPage]}
             mode="inline"
             className="airspace-side-nav-bar"
           >
-            <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
+          {sideBarLogo}
             <MenuItemGroup key="g2" title="" className="airspace-side-nav-bar-group">
               <Menu.Item key="home">{<span><Icon type="home" /><span>Home</span></span>}</Menu.Item>
               <Menu.Item key={pageTitles.userPageOfficeAdmin} >{<span><Icon type="user" /><span>Users</span></span>}</Menu.Item>
@@ -73,8 +75,9 @@ class SideNavBar extends React.Component {
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             mode="inline"
-          >
-              {switchPortalSubMenu}
+          >       
+             {sideBarLogo}
+            {switchPortalSubMenu}
           </Menu>
         )
       }
@@ -90,7 +93,8 @@ const mapStateToProps = state => {
     user: state.auth.user,
     userType: state.auth.type,
     adminOfficeList: state.auth.adminOfficeList,
-    regularUserPortalMode: state.general.regularUserPortalMode
+    regularUserPortalMode: state.general.regularUserPortalMode, 
+    currentPage: state.general.currentPage
   }
 };
 

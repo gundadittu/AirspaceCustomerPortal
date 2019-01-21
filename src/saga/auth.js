@@ -28,7 +28,7 @@ function signInUser(payload, firebase) {
     // firebase.auth.Auth.Persistence.SESSION
     let persistMode = 'session';
     if (rememberMe === true) { 
-            // firebase.auth.Auth.Persistence.LOCAL
+        // firebase.auth.Auth.Persistence.LOCAL
         persistMode = 'local';
     }
 
@@ -81,6 +81,9 @@ function* userSignInWorkerSaga(action) {
 
 function setUpUser(payload, firebase) {
     const uid = payload.uid || null;
+    if (uid == null) { 
+        return null;
+    }
     const apiCall = firebase.functions.httpsCallable('getUserInfo')
     return apiCall({uid: uid})
     .then( result => {

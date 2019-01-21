@@ -2,6 +2,8 @@ import { takeLatest, call, put, select } from "redux-saga/effects";
 import * as actionTypes from "../store/actions/actionTypes";
 import * as selectors from './selectors';
 import AirUser from '../models/AirUser';
+import { notification } from 'antd';
+import React from 'react';
 require("firebase/functions");
 
 // Watchers 
@@ -35,9 +37,16 @@ function* loadOfficeUsersWorkerSaga(action) {
     try {
         let firebase = yield select(selectors.firebase);
         const response = yield call(loadOfficeUsers, action.payload, firebase);
+
         yield put({ type: actionTypes.LOAD_OFFICE_USERS_SUCCESS, payload: { userList: response }});
     } catch (error) {
         console.error(error);
+        
+        notification['error']({
+            message: 'Unable to load Users for this office.',
+            description: error.message
+        });
+
         yield put({ type: actionTypes.LOAD_OFFICE_USERS_ERROR, payload: {error: error} });
     }
   }

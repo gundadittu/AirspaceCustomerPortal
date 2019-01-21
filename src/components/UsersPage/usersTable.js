@@ -33,7 +33,8 @@ const columns = [{
   dataIndex: 'offices',
   render: (offices => (
         <span>
-          {offices.map(office => <Tag color="blue" key={office.uid}>{office.name}</Tag>)}
+                {/* closable onClose={log} */}
+          {offices.map(office => <Tag  color="blue" key={office.uid}>{office.name}</Tag>)}
         </span>
       ))
 },
@@ -42,6 +43,7 @@ const columns = [{
   dataIndex: 'officeAdmins',
   render: (offices => (
     <span>
+      {/* closable onClose={log} */}
       {offices.map(office => <Tag color="blue" key={office.uid}>{office.name}</Tag>)}
     </span>
   ))

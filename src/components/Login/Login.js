@@ -18,7 +18,7 @@ class Login extends React.Component {
         <LoginNavBar/>
         <Row type="flex" justify="space-around" align="middle">
            <Col>
-              <LoginForm/>
+             <LoginForm/> 
           </Col>
         </Row>
       </div>
@@ -29,8 +29,7 @@ class Login extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    error: state.general.error,
-    isLoading: state.general.isLoading
+    error: state.general.error
   }
 };
 

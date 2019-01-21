@@ -17,17 +17,28 @@ class SideNavBar extends React.Component {
     const sideBarLogo = (
       <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
     );
+
+    const officeAdminPortalDiv = () => { 
+
+      if (this.props.adminOfficeList == null) { 
+        return null;
+      }
+
+      return (
+        this.props.adminOfficeList.map((office) => (
+          <Menu.Item key={office.uid}>
+            <Link to={'/officeAdmin/' + office.uid + '/users'}>
+              {office.name}
+            </Link>
+          </Menu.Item>
+        ))
+      );
+    }
     const switchPortalSubMenu = (
       <SubMenu key="sub1" title={<span><Icon type="up-square" /><span>Switch Portal</span></span>}>
         <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
         <MenuItemGroup key="g1" title="Office Admin Portals">
-          {this.props.adminOfficeList.map((office) => (
-            <Menu.Item key={office.uid}>
-              <Link to={'/officeAdmin/' + office.uid + '/users'}>
-                {office.name}
-              </Link>
-            </Menu.Item>
-          ))}
+          {officeAdminPortalDiv()}
         </MenuItemGroup>
       </SubMenu>
     );

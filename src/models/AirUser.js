@@ -6,13 +6,15 @@ export default class AirUser {
         if (uid === null) { 
             return null
         }
-        
         const firstName = dict.firstName || null;
         const lastName = dict.lastName || null;
         const email = dict.email || null;
         const type = dict.type || null;
         const offices = dict.offices || null;
         const adminOffices = dict.officeAdmin || null;
+
+        this.profileImageURL = dict.profileImageURL || null;
+        console.log(this.profileImageURL);
         this.uid = uid;
         this.name = firstName+" "+lastName;
         this.email = email;

@@ -15,3 +15,9 @@ export const changePage = (payload) => {
         payload: { ...payload }
     };
 }
+
+export const loadNotifications = () => { 
+    return { 
+        type: actionTypes.LOAD_NOTIFICATIONS
+    }
+}

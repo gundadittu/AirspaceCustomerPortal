@@ -4,6 +4,8 @@ import * as selectors from './selectors';
 import AirOffice from "../models/AirOffice";
 import "firebase/functions";
 import "firebase/auth";
+import { notification } from 'antd';
+import React from 'react';
 
 // Watchers
 
@@ -32,12 +34,13 @@ function signInUser(payload, firebase) {
         persistMode = 'local';
     }
 
-    firebase.auth.setPersistence(persistMode)
+    return firebase.auth.setPersistence(persistMode)
     .then(function() {
       return firebase.auth.signInWithEmailAndPassword(email, password);
     })
     .catch(function(error) {
-      console.error(error);
+        console.log('sign in error reached');
+    //   console.error(error);
       throw error;
     });
   }
@@ -46,11 +49,14 @@ function* userSignInWorkerSaga(action) {
     try {
         let firebase = yield select(selectors.firebase);
         const response = yield call(signInUser, action.payload, firebase);
-        // Need to properly parse call here
-        console.log("SIGN IN CALL SUCCESSFUL");
         yield put({ type: actionTypes.SIGN_IN_USER_SUCCESS });
     } catch (error) {
-        console.error(error);
+        
+        notification['error']({
+            message: 'Unable to sign in user.',
+            description: error.message
+        });
+
         yield put({ type: actionTypes.SIGN_IN_USER_ERROR, payload: {error: error} });
     }
   }
@@ -73,6 +79,12 @@ function* userSignInWorkerSaga(action) {
           yield put({ type: actionTypes.SIGN_OUT_USER_SUCCESS });
       } catch (error) {
           console.error(error);
+
+          notification['error']({
+            message: 'Unable to sign out user.',
+            description: error.message
+        });
+
           yield put({ type: actionTypes.SIGN_OUT_USER_ERROR, payload: {error: error} });
       }
     }
@@ -120,6 +132,12 @@ function* workerSetUpUserSaga(action) {
         yield put({ type: actionTypes.SET_UP_USER_SUCCESS, payload: {data: response}});
     } catch (error) {
         console.error(error);
+
+        notification['error']({
+            message: 'Unable to set up portal for user',
+            description: error.message
+        });
+
         yield put({ type: actionTypes.SET_UP_USER_ERROR, payload: {error: error} });
     }
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Button, notification } from 'antd';
 import UsersTable from './usersTable';
 import '../../App.css';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,9 +14,29 @@ import Login from '../Login/Login';
 
 class UsersPage extends React.Component {
 
-    componentWillMount() { 
+    componentDidMount() {  
+        // Routing stuff 
         if (this.props.match.isExact) { 
             const selectedOfficeUID = this.props.match.params.officeUID; 
+            const userAdminOfficeList = this.props.userAdminOfficeList;
+           if (userAdminOfficeList == null) { 
+                notification['error']({
+                    message: 'Permission denied.',
+                    description: 'Current user is not a admin for this office.'
+                });
+               return 
+           }
+           const newArray = userAdminOfficeList.map( x => { 
+                return (x.uid == selectedOfficeUID)
+           })
+           if (newArray.includes(true) == false) { 
+                notification['error']({
+                    message: 'Permission denied.',
+                    description: 'Current user is not a admin for this office.'
+                });
+                return 
+           }
+
             const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, {officeUID: selectedOfficeUID});
             if (pagePayload) { 
               this.props.changePage(pagePayload);
@@ -51,7 +71,7 @@ class UsersPage extends React.Component {
                     <IconButton className="inlineDisplay" onClick={() => this.props.loadUserList(this.props.currentOfficeUID)}>
                         <RefreshIcon />
                     </IconButton>
-                    <Button className="inlineDisplay" type="primary" >Add User</Button>
+                    <Button className="inlineDisplay" type="primary rightAlign" >Add User</Button>
                     <UsersTable />
                 </Col>
             </Row>
@@ -62,7 +82,9 @@ class UsersPage extends React.Component {
 const mapStateToProps = state => {
     return {
         currentOfficeUID: state.general.currentOfficeAdminUID,
-        user: state.auth.user
+        user: state.auth.user,
+        userAdminOfficeList: state.auth.adminOfficeList, 
+        isLoadingUserData: state.officeAdmin.isLoadingUserData
     }
 };
 

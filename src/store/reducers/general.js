@@ -7,7 +7,9 @@ const initialState = {
     firebase: null,
     currentPage: null, 
     regularUserPortalMode: 'regular',
-    currentOfficeAdminUID: null
+    currentOfficeAdminUID: null, 
+    isLoadingSignIn: false, 
+    notifications: []
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -16,16 +18,19 @@ const reducer = ( state = initialState, action ) => {
             let firebase = action.payload.firebase;
             return updateObject(state, {firebase: firebase});
         case actionTypes.SIGN_IN_USER:
-            return updateObject(state, {isLoading: true});
+            return updateObject(state, {isLoadingSignIn: true});
         case actionTypes.SIGN_IN_USER_SUCCESS:
-             return updateObject(state, {isLoading: false, error: null});
+             return updateObject(state, {isLoadingSignIn: false, error: null});
         case actionTypes.SIGN_IN_USER_ERROR:
              const signInError = action.payload.error || null;
-            return updateObject(state, {isLoading: false, error: signInError});
+            return updateObject(state, {isLoadingSignIn: false, error: signInError});
         case actionTypes.SET_UP_USER:
             return updateObject(state, {isLoading: true});
         case actionTypes.SET_UP_USER_SUCCESS:
             return updateObject(state, {isLoading: false, error: null});
+        case actionTypes.SET_UP_USER_ERROR:
+            const setUpError = action.payload.error || null;
+            return updateObject(state, {isLoading: false, error: setUpError});
         case actionTypes.SIGN_OUT_USER:
             return updateObject(state, {isLoading: true, error: null});
          case actionTypes.SIGN_OUT_USER_SUCCESS:
@@ -44,6 +49,10 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.CHANGE_PAGE:
             const payload = action.payload || null;
             return updateObject(state, {...payload})
+        case actionTypes.LOAD_NOTIFICATIONS_SUCCESS: 
+        case actionTypes.LOAD_NOTIFICATIONS_ERROR: 
+            const notPayload = action.payload || null;
+            return updateObject(state, {...notPayload})
         default:
             return state;
     }

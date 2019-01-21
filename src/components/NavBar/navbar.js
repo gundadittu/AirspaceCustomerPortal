@@ -1,8 +1,11 @@
 import React from 'react';
-import { Menu, Dropdown, Icon, Row, Col } from 'antd';
+import { Avatar, Menu, Dropdown, Icon, Row, Col, List } from 'antd';
 import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
+import * as genActionCreators from '../../store/actions/general';
 import '../../App.css'
+import './navbar.css'
+import { AirNotificationType } from '../../models/AirNotificationType';
 
 
 class NavBar extends React.Component {
@@ -29,24 +32,85 @@ class NavBar extends React.Component {
     console.log('click ', e);
     if (e.key == "signout") {
       this.handleSignOut(e);
-    }
-    if (e.key == "notifications") {
-      console.log("Implement Notifications");
+    } else if (e.key == "notifications") {
+      this.props.loadNotifications()
     }
   }
 
+  getAirNotificationIconFor = (type) => { 
+    switch (type) { 
+        case AirNotificationType.announcement: 
+            return '../../assets/images/announcements.png'
+        case AirNotificationType.arrivedGuestUpdate: 
+            return '../../assets/images/guests.png'
+        case AirNotificationType.newEvent: 
+            return '../../assets/images/events.png'
+        case AirNotificationType.serviceRequestUpdate: 
+            return '../../assets/images/serviceReqs.png'
+        default:
+            return null;
+    }
+  }
+
+  componentDidMount() { 
+    this.props.loadNotifications()
+  }
+
   render() {
+
+    const notData = [
+      {
+        title: 'Ant Design Title 1',
+      },
+      {
+        title: 'Ant Design Title 2',
+      },
+      {
+        title: 'Ant Design Title 3',
+      },
+      {
+        title: 'Ant Design Title 4',
+      },
+    ];
+
     const profileMenu = (
-      <Menu onClick={this.handleClick}>
-        <Menu.Item key="Edit Profile">
-          <a>Edit Profile</a>
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="signout">
-          <a>Sign Out</a>
-        </Menu.Item>
-      </Menu>
+      <List
+      className='navBarMenu'
+      itemLayout="horizontal"
+      dataSource={notData}
+      renderItem={item => (
+        <List.Item>
+          <List.Item.Meta
+            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+            title={<a href="">{item.title}</a>}
+            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+          />
+        </List.Item>
+      )}
+      />
     );
+
+    const notificationMenu = (
+      <List
+      className='navBarMenu'
+      itemLayout="horizontal"
+      dataSource={this.props.notifications}
+      renderItem={item => { 
+        const imagePath = this.getAirNotificationIconFor(item.type);
+        console.log(imagePath);
+        return (  
+          <List.Item>
+            <List.Item.Meta
+              avatar={<img src={require(imagePath)} />}
+              title={item.title+' • 3h ago'}
+              description={item.body}
+            />
+          </List.Item>
+        )
+      }
+      }
+    />
+    )
 
     return (
       <Row>
@@ -54,16 +118,20 @@ class NavBar extends React.Component {
           <Menu
             onClick={this.handleClick}
             mode="horizontal"
-            style={{ textAlign: 'right', border: 0 }}
+            style={{ textAlign: 'right', border: 0}}
           >
             <Menu.Item key="notifications">
-              <Icon type="bell" />
+              <Dropdown overlay={notificationMenu} trigger={['click']}>
+                <a className="ant-dropdown-link" href="#">
+                  <Icon type="bell" style={{ fontSize: 18}}/>
+                </a>
+              </Dropdown>
             </Menu.Item>
 
             <Menu.Item key="profile">
               <Dropdown overlay={profileMenu} trigger={['click']}>
                 <a className="ant-dropdown-link" href="#">
-                  <Icon type="smile" />
+                  <Avatar src={this.props.user.profileImageURL} />
                 </a>
               </Dropdown>
             </Menu.Item>
@@ -74,10 +142,19 @@ class NavBar extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+
+const mapStateToProps = state => {
   return {
-    signOutUser: () => dispatch(authActionCreators.signOutUserAction())
+    user: state.auth.user,
+    notifications: state.general.notifications
   }
 };
 
-export default connect(null, mapDispatchToProps)(NavBar);
+const mapDispatchToProps = dispatch => {
+  return {
+    signOutUser: () => dispatch(authActionCreators.signOutUserAction()), 
+    loadNotifications: () => dispatch(genActionCreators.loadNotifications())
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

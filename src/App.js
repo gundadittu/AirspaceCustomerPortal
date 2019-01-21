@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
@@ -74,7 +74,10 @@ class App extends Component {
             </Col>
             <Col span={20}>
               <NavBar/>
-              {this.renderPageContent(this.props.currentPage)}
+              {/* {this.renderPageContent(this.props.currentPage)} */}
+              <Switch>
+                <Route path="/officeAdmin" component={officeAdminRoutingComp}/>
+              </Switch>
             </Col>
           </Row>
         </div>
@@ -107,3 +110,11 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+const officeAdminRoutingComp = () => (
+    <Switch>
+      <Route exact path='/officeAdmin'></Route>
+      <Route exact path='/officeAdmin/:officeUID' component={UsersPage}></Route>
+      <Route path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
+    </Switch>
+)

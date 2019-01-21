@@ -6,10 +6,44 @@ import '../../App.css';
 import IconButton from '@material-ui/core/IconButton';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import * as actionCreator from '../../store/actions/officeAdmin';
+import * as generalActionCreator from '../../store/actions/general';
+import { withRouter } from 'react-router-dom';
+import * as pageTitles from '../../pages/pageTitles';
+import getPagePayload from '../../pages/pageRoutingFunctions';
+import Login from '../Login/Login';
 
 class UsersPage extends React.Component {
 
+    componentWillMount() { 
+        if (this.props.match.isExact) { 
+            const selectedOfficeUID = this.props.match.params.officeUID; 
+            const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, {officeUID: selectedOfficeUID});
+            if (pagePayload) { 
+              this.props.changePage(pagePayload);
+            }
+            const secondPagePayload = getPagePayload(pageTitles.userPageOfficeAdmin);
+            if (secondPagePayload) { 
+                this.props.changePage(pagePayload);
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) { 
+        const prevOfficeUID = prevProps.currentOfficeUID;
+        const currentOfficeUID = this.props.currentOfficeUID;
+        if (prevOfficeUID !== currentOfficeUID) { 
+            this.props.loadUserList(currentOfficeUID);
+        }
+    }
+
     render() {
+    
+        if (this.props.user == null) { 
+            return (
+                <Login/>
+            );
+        }
+
         return (
             <Row>
                 <Col className="wide-table" span={24}>
@@ -28,14 +62,16 @@ class UsersPage extends React.Component {
 const mapStateToProps = state => {
     return {
         currentOfficeUID: state.general.currentOfficeAdminUID,
+        user: state.auth.user
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID))
+        loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID)), 
+        changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UsersPage));
 

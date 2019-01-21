@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Button } from 'antd';
 import UsersTable from './usersTable';
-// import UsersSideBar from './usersSideBar';
 import '../../App.css';
+// import UsersSideBar from './usersSideBar';
 
 class UsersPage extends React.Component {
     render() {
@@ -16,9 +16,6 @@ class UsersPage extends React.Component {
                     </div>
                     <UsersTable />  
                 </Col>
-                {/* <Col span={4}>
-                    <UsersSideBar />
-                </Col> */}
             </Row>
         );
     }

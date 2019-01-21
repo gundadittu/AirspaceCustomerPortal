@@ -11,7 +11,6 @@ import * as actionCreator from '../../store/actions/officeAdmin';
 const columns = [{
   title: 'Name',
   dataIndex: 'name',
-  // fix sorter to be alphabetical
   sorter: (a, b) => {
     const aName = a.name; 
     const bName = b.name;
@@ -39,24 +38,13 @@ const columns = [{
       ))
 },
 {
-  // render appropriate admin or regular tag
-  title: 'Type',  
-  dataIndex: 'type',
-  filters: [{
-    text: 'Admin',
-    value: 'admin',
-  }, {
-    text: 'Regular',
-    value: 'regular',
-  }],
-  render: (type => {
-    
-    return ( 
-      <span>
-        <Tag color="blue" key={type}>{type}</Tag>   
-      </span>
-    );
-  }),
+  title: 'Office Admin For',  
+  dataIndex: 'officeAdmins',
+  render: (offices => (
+    <span>
+      {offices.map(office => <Tag color="blue" key={office.uid}>{office.name}</Tag>)}
+    </span>
+  )),
   filterMultiple: true,
   onFilter: (value, record) => record.type.indexOf(value) === 0
 },  

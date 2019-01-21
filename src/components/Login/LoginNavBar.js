@@ -26,9 +26,7 @@ class LoginNavBar extends React.Component {
                   <img className="logo-nav-image" src={require('../../assets/images/nav-logo.png')}></img>
               </Grid>
             </AppBar>
-
           </div>
-
         );
     }
 }

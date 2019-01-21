@@ -1,6 +1,7 @@
 import { takeLatest, call, put, select } from "redux-saga/effects";
 import * as actionTypes from "../store/actions/actionTypes";
 import * as selectors from './selectors';
+import AirOffice from "../models/AirOffice";
 require("firebase/functions");
 
 // Watchers
@@ -71,8 +72,29 @@ function setUpUser(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('getUserInfo')
     return apiCall({uid: uid})
     .then( result => {
-        console.log(result);
-        return result;
+        const data = result.data;
+
+        let adminOffices = [];
+        for (let key in data.officeAdmin) { 
+            const officeDict = data.officeAdmin[key];
+            const office = new AirOffice(officeDict);
+            if (office) { 
+                adminOffices.push(office);
+            }
+        }
+        data.officeAdmin = adminOffices;
+
+        let userOffices = [];
+        for (let key in data.offices) { 
+            const officeDict = data.offices[key];
+            const office = new AirOffice(officeDict);
+            if (office) { 
+                userOffices.push(office);
+            }
+        }
+        data.offices = userOffices;
+
+        return data;
     })
   }
 
@@ -80,9 +102,7 @@ function* workerSetUpUserSaga(action) {
     try {
         let firebase = yield select(selectors.firebase);
         const response = yield call(setUpUser, action.payload, firebase);
-        const data = response.data;
-        console.log("workerSetUpUserSaga - got response");
-        yield put({ type: actionTypes.SET_UP_USER_SUCCESS, payload: {data: data}});
+        yield put({ type: actionTypes.SET_UP_USER_SUCCESS, payload: {data: response}});
     } catch (error) {
         console.error(error);
         yield put({ type: actionTypes.SET_UP_USER_ERROR, payload: {error: error} });

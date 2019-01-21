@@ -19,7 +19,8 @@ class LoginForm extends React.Component {
       if (!err) {
         const email = values.emailAddress || null;
         const password = values.password || null;
-        this.props.signInUser(email, password);
+        const rememberMe = values.remember || false;
+        this.props.signInUser(email, password, rememberMe);
       }
     });
   }
@@ -27,10 +28,6 @@ class LoginForm extends React.Component {
   render() {
 
     const { getFieldDecorator } = this.props.form;
-
-    // const {
-    //   Header, Footer, Sider, Content,
-    // } = Layout;
 
     return (
           <Card className="login-card">
@@ -82,7 +79,7 @@ class LoginForm extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signInUser: (email, password) => dispatch(authActionCreators.signInUserAction(email, password))
+    signInUser: (email, password, rememberMe) => dispatch(authActionCreators.signInUserAction(email, password, rememberMe))
   }
 };
 

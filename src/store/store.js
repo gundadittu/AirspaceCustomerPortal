@@ -14,18 +14,18 @@ const rootReducer = combineReducers({
     officeAdmin: officeAdminReducer
  });
 
- const persistConfig = {
-    key: 'root',
-    storage,
-  }
+//  const persistConfig = {
+//     key: 'root',
+//     storage,
+//   }
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+// const persistedReducer = persistReducer(persistConfig, rootReducer)
 
  const sagaMiddleware = createSagaMiddleware();
  let middlewares = applyMiddleware(sagaMiddleware);
 
  const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
- export const store = createStore(persistedReducer, composeEnhancer(middlewares));
- export const persistor = persistStore(store);
+ export const store = createStore(rootReducer, composeEnhancer(middlewares));
+//  export const persistor = persistStore(store);
 
  registerWithMiddleware(sagaMiddleware);

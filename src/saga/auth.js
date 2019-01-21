@@ -2,7 +2,8 @@ import { takeLatest, call, put, select } from "redux-saga/effects";
 import * as actionTypes from "../store/actions/actionTypes";
 import * as selectors from './selectors';
 import AirOffice from "../models/AirOffice";
-require("firebase/functions");
+import "firebase/functions";
+import "firebase/auth";
 
 // Watchers
 
@@ -23,11 +24,22 @@ export function* watchSetUpUserSaga() {
 function signInUser(payload, firebase) {
     const email = payload.email || null;
     const password = payload.password || null;
+    const rememberMe = payload.rememberMe || false;
+    // firebase.auth.Auth.Persistence.SESSION
+    let persistMode = 'session';
+    if (rememberMe === true) { 
+            // firebase.auth.Auth.Persistence.LOCAL
+        persistMode = 'local';
+    }
 
-    return firebase.auth.signInWithEmailAndPassword(email, password)
-    .catch(error => {
-        throw error;
+    firebase.auth.setPersistence(persistMode)
+    .then(function() {
+      return firebase.auth.signInWithEmailAndPassword(email, password);
     })
+    .catch(function(error) {
+      console.error(error);
+      throw error;
+    });
   }
 
 function* userSignInWorkerSaga(action) {

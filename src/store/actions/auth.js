@@ -17,12 +17,13 @@ export const signOutUserAction = () => {
     };
 }
 
-export const signInUserAction = (email, password) => {
+export const signInUserAction = (email, password, rememberMe) => {
     return {
         type: actionTypes.SIGN_IN_USER,
         payload: {
             email: email,
-            password: password
+            password: password, 
+            rememberMe: rememberMe
         }
     };
 }

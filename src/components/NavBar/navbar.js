@@ -6,7 +6,7 @@ import * as genActionCreators from '../../store/actions/general';
 import '../../App.css'
 import './navbar.css'
 import { AirNotificationType } from '../../models/AirNotificationType';
-
+import Grid from '@material-ui/core/Grid';
 
 class NavBar extends React.Component {
   state = {
@@ -30,29 +30,29 @@ class NavBar extends React.Component {
 
   handleClick = (e) => {
     console.log('click ', e);
-    if (e.key == "signout") {
+    if (e.key == "signOut") {
       this.handleSignOut(e);
     } else if (e.key == "notifications") {
       this.props.loadNotifications()
     }
   }
 
-  getAirNotificationIconFor = (type) => { 
-    switch (type) { 
-        case AirNotificationType.announcement: 
-            return '../../assets/images/announcements.png'
-        case AirNotificationType.arrivedGuestUpdate: 
-            return '../../assets/images/guests.png'
-        case AirNotificationType.newEvent: 
-            return '../../assets/images/events.png'
-        case AirNotificationType.serviceRequestUpdate: 
-            return '../../assets/images/serviceReqs.png'
-        default:
-            return null;
+  getAirNotificationIconFor = (type) => {
+    switch (type) {
+      case AirNotificationType.announcement:
+        return (<img className='notificationIcon' src={require('../../assets/images/announcements.png')} />)
+      case AirNotificationType.arrivedGuestUpdate:
+        return (<img className='notificationIcon' src={require('../../assets/images/guests.png')} />)
+      case AirNotificationType.newEvent:
+        return (<img className='notificationIcon' src={require('../../assets/images/events.png')} />)
+      case AirNotificationType.serviceRequestUpdate:
+        return (<img className='notificationIcon' src={require('../../assets/images/serviceReqs.png')} />)
+      default:
+        return null;
     }
   }
 
-  componentDidMount() { 
+  componentDidMount() {
     this.props.loadNotifications()
   }
 
@@ -74,42 +74,40 @@ class NavBar extends React.Component {
     ];
 
     const profileMenu = (
-      <List
-      className='navBarMenu'
-      itemLayout="horizontal"
-      dataSource={notData}
-      renderItem={item => (
-        <List.Item>
-          <List.Item.Meta
-            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-            title={<a href="">{item.title}</a>}
-            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-          />
-        </List.Item>
-      )}
-      />
+      <Menu
+        className="navBarProfileMenu"
+        onClick={this.handleClick}
+        mode="horizontal"
+        style={{ textAlign: 'right', border: 0 }}
+      >
+        <Menu.Item key="signOut">
+          <Grid container justify="center" alignItems="center">
+            Sign Out
+          </Grid>
+        </Menu.Item>
+      </Menu>
     );
 
     const notificationMenu = (
       <List
-      className='navBarMenu'
-      itemLayout="horizontal"
-      dataSource={this.props.notifications}
-      renderItem={item => { 
-        const imagePath = this.getAirNotificationIconFor(item.type);
-        console.log(imagePath);
-        return (  
-          <List.Item>
-            <List.Item.Meta
-              avatar={<img src={require(imagePath)} />}
-              title={item.title+' • 3h ago'}
-              description={item.body}
-            />
-          </List.Item>
-        )
-      }
-      }
-    />
+        className='navBarNotificationMenu'
+        itemLayout="horizontal"
+        dataSource={this.props.notifications}
+        renderItem={item => {
+          const moment = require('moment');
+          const timeSinceNow = moment(item.date).fromNow();
+          return (
+            <List.Item>
+              <List.Item.Meta
+                avatar={this.getAirNotificationIconFor(item.type)}
+                title={item.title + ' • ' + timeSinceNow}
+                description={item.body}
+              />
+            </List.Item>
+          )
+        }
+        }
+      />
     )
 
     return (
@@ -118,12 +116,12 @@ class NavBar extends React.Component {
           <Menu
             onClick={this.handleClick}
             mode="horizontal"
-            style={{ textAlign: 'right', border: 0}}
+            style={{ textAlign: 'right', border: 0 }}
           >
             <Menu.Item key="notifications">
               <Dropdown overlay={notificationMenu} trigger={['click']}>
                 <a className="ant-dropdown-link" href="#">
-                  <Icon type="bell" style={{ fontSize: 18}}/>
+                  <Icon type="bell" style={{ fontSize: 18 }} />
                 </a>
               </Dropdown>
             </Menu.Item>
@@ -152,7 +150,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signOutUser: () => dispatch(authActionCreators.signOutUserAction()), 
+    signOutUser: () => dispatch(authActionCreators.signOutUserAction()),
     loadNotifications: () => dispatch(genActionCreators.loadNotifications())
   }
 };

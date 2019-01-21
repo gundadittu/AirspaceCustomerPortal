@@ -1,4 +1,5 @@
 import { getAirNotificationTypeFor } from './AirNotificationType';
+import firebase from 'firebase';
 
 export default class AirNotification { 
     constructor(dict) {         
@@ -14,17 +15,11 @@ export default class AirNotification {
             return null
         }
         this.type = type;
-        
-        // need to load time stamp value 
+
+        const timeStampDict = dict.timestamp;
+        const seconds = timeStampDict._seconds; 
+        const nanoseconds = timeStampDict._nanoseconds;
+        const timestamp =  new firebase.firestore.Timestamp(seconds, nanoseconds);
+        this.date = timestamp.toDate();
     }
 }
-
-
-
-// var uid: String?
-//     var type: AirNotificationType?
-//     var readStatus: Bool?
-//     var data: [String: Any]?
-//     var timestamp: Date?
-//     var title: String?
-//     var body: String?

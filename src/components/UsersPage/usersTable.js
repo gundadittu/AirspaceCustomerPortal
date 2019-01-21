@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table, Tag, Icon} from 'antd';
+import { Table, Tag } from 'antd';
 // import Highlighter from 'react-highlight-words';
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
@@ -44,9 +44,7 @@ const columns = [{
     <span>
       {offices.map(office => <Tag color="blue" key={office.uid}>{office.name}</Tag>)}
     </span>
-  )),
-  filterMultiple: true,
-  onFilter: (value, record) => record.type.indexOf(value) === 0
+  ))
 },  
 {
   title: '',

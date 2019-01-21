@@ -24,7 +24,6 @@ class App extends Component {
   componentDidMount() {
     const firebase = this.firebase || null;
     if (firebase) {
-      console.log("firebase SET UP in App.js render()");
       const weakProps = this.props;
       this.listener = firebase.auth.onAuthStateChanged(function(user) {
         if (user) {
@@ -32,10 +31,7 @@ class App extends Component {
           weakProps.setUpUser(user.uid);
         } else {
           console.log('auth listener did NOT find user');
-          // Need to dispatch sign out action here
-          // This action would set global state in redux to null for user
           weakProps.setUpUser(null);
-          return;
         }
       });
     } else {

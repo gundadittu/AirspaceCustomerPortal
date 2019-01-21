@@ -13,7 +13,6 @@ const initialState = {
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.SET_UP_FIREBASE:
-            console.log('reducers/general.js - SET_UP_FIREBASE');
             let firebase = action.payload.firebase;
             return updateObject(state, {firebase: firebase});
         case actionTypes.SIGN_IN_USER:

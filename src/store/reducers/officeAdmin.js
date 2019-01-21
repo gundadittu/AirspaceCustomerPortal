@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
+import * as pageTitles from '../../pages/pageTitles';
 
 const initialState = {
     userList: [], 
@@ -8,6 +9,14 @@ const initialState = {
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
+        case actionTypes.CHANGE_PAGE:
+            const payload = action.payload || null;
+            const pageName = payload.currentpage || null;
+            if (pageName == pageTitles.homePageOfficeAdmin) { 
+                return initialState;
+            } else { 
+                return state;
+            }
         case actionTypes.LOAD_OFFICE_USERS:
             return updateObject(state, {isLoadingUserData: true});
         case actionTypes.LOAD_OFFICE_USERS_SUCCESS:

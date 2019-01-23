@@ -9,11 +9,11 @@ import * as actionCreator from '../../store/actions/officeAdmin';
 // import { stat } from 'fs';
 
 const columns = [{
-  title: 'Name',
-  dataIndex: 'name',
+  title: 'First Name',
+  dataIndex: 'firstName',
   sorter: (a, b) => {
-    const aName = a.name; 
-    const bName = b.name;
+    const aName = a.firstName; 
+    const bName = b.firstName;
     if (aName < bName) { 
       return -1;
     } else if (aName > bName) { 
@@ -24,6 +24,22 @@ const columns = [{
   },
   sortDirections: ['descend', 'ascend'],
 }, 
+{
+  title: 'Last Name',
+  dataIndex: 'lastName',
+  sorter: (a, b) => {
+    const aName = a.lastName; 
+    const bName = b.lastName;
+    if (aName < bName) { 
+      return -1;
+    } else if (aName > bName) { 
+      return 1;
+    } else { 
+      return 0
+    }
+  },
+  sortDirections: ['descend', 'ascend'],
+},
 {
   title: 'Email',
   dataIndex: 'email'

@@ -97,7 +97,7 @@ const mapStateToProps = state => {
     user: state.auth.user,
     isLoading: state.general.isLoading,
     error: state.general.error,
-    firebase: state.general.firebase,
+    firebase: state.firebase.firebase,
     currentPage: state.general.currentPage
   }
 };

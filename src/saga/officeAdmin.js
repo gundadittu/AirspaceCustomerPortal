@@ -34,10 +34,33 @@ function loadOfficeUsers(payload, firebase) {
 }
 
 function* loadOfficeUsersWorkerSaga(action) {
-    try {
-        let firebase = yield select(selectors.firebase);
-        const response = yield call(loadOfficeUsers, action.payload, firebase);
 
+
+    try {
+        const selectedOfficeUID = action.payload.officeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList);
+        let firebase = yield select(selectors.firebase);
+
+        if (userAdminOfficeList == null) { 
+             notification['error']({
+                 message: 'Permission denied.',
+                 description: 'Current user is not a admin for this office.'
+             });
+             throw new Error('Current user is not a admin for this office..'); 
+        }
+
+        const newArray = userAdminOfficeList.map( x => { 
+             return (x.uid == selectedOfficeUID)
+        })
+        if (newArray.includes(true) == false) { 
+             notification['error']({
+                 message: 'Permission denied.',
+                 description: 'Current user is not a admin for this office.'
+             });
+             throw new Error('Current user is not a admin for this office.');
+        }
+
+        const response = yield call(loadOfficeUsers, action.payload, firebase);
         yield put({ type: actionTypes.LOAD_OFFICE_USERS_SUCCESS, payload: { userList: response }});
     } catch (error) {
         console.error(error);

@@ -4,7 +4,6 @@ import { updateObject } from '../utility';
 const initialState = {
     isLoading: false,
     error: null,
-    firebase: null,
     currentPage: null, 
     regularUserPortalMode: 'regular',
     currentOfficeAdminUID: null, 
@@ -14,9 +13,6 @@ const initialState = {
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
-        case actionTypes.SET_UP_FIREBASE:
-            let firebase = action.payload.firebase;
-            return updateObject(state, {firebase: firebase});
         case actionTypes.SIGN_IN_USER:
             return updateObject(state, {isLoadingSignIn: true});
         case actionTypes.SIGN_IN_USER_SUCCESS:

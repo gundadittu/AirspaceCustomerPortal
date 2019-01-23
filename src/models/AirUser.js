@@ -17,6 +17,8 @@ export default class AirUser {
         console.log(this.profileImageURL);
         this.uid = uid;
         this.name = firstName+" "+lastName;
+        this.firstName = firstName; 
+        this.lastName = lastName;
         this.email = email;
         this.type = type;
 

@@ -2,23 +2,25 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import registerWithMiddleware from '../saga/index.ts';
 
+import firebaseReducer from './reducers/firebase';
 import generalReducer from './reducers/general';
 import officeAdminReducer from './reducers/officeAdmin';
 import authReducer from './reducers/auth';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-const rootReducer = combineReducers({
+ const persistConfig = {
+    key: 'root',
+    storage, 
+    blacklist: ['firebase']
+  }
+
+  const rootReducer = combineReducers({
+    firebase: firebaseReducer,
     general: generalReducer,
     auth: authReducer,
     officeAdmin: officeAdminReducer
  });
-
- const persistConfig = {
-    key: 'root',
-    storage,
-    whitelist: ['auth']
-  }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 

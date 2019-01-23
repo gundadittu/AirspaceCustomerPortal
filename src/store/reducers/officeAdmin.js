@@ -4,11 +4,19 @@ import * as pageTitles from '../../pages/pageTitles';
 
 const initialState = {
     userList: [], 
-    isLoadingUserData: false
+    isLoadingUserData: false, 
+    createUserFormLoading: false 
 };
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
+        case actionTypes.CREATE_USER_FOR_OFFICEADMIN: 
+            return updateObject(state, {createUserFormLoading: true});
+        case actionTypes.CREATE_USER_FOR_OFFICEADMIN_FINISHED: 
+            const createPayload = action.payload;
+            createPayload.componentRef.setState({createUserFormVisible: false});
+            createPayload.formRef.resetFields();
+            return updateObject(state, {createUserFormLoading: false});
         case actionTypes.CHANGE_PAGE:
             const payload = action.payload || null;
             const pageName = payload.currentpage || null;

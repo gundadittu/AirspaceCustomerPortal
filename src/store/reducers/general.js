@@ -7,6 +7,7 @@ const initialState = {
     currentPage: null, 
     regularUserPortalMode: 'regular',
     currentOfficeAdminUID: null, 
+    currentOfficeAdmin: null,
     isLoadingSignIn: false, 
     notifications: []
 };

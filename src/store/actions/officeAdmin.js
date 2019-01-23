@@ -8,3 +8,12 @@ export const loadOfficeUsers = (officeUID) => {
         }
     };
 }
+
+export const createUserForOfficeAdmin = (payload) => { 
+    return {
+        type: actionTypes.CREATE_USER_FOR_OFFICEADMIN, 
+        payload: { 
+           ...payload
+        }
+    };
+}

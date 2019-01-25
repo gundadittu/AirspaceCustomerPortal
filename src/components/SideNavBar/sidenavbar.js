@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Affix } from 'antd';
 import { Link } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import * as actionCreators from '../../store/actions/general';
@@ -18,9 +18,9 @@ class SideNavBar extends React.Component {
       <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
     );
 
-    const officeAdminPortalDiv = () => { 
+    const officeAdminPortalDiv = () => {
 
-      if (this.props.adminOfficeList == null) { 
+      if (this.props.adminOfficeList == null) {
         return null;
       }
 
@@ -46,28 +46,30 @@ class SideNavBar extends React.Component {
     if (this.props.userType == "regular") {
       if (this.props.regularUserPortalMode == "officeAdmin") {
         return (
-          <Menu
-            style={{ border: 0 }}
-            defaultSelectedKeys={[this.props.currentPage]}
-            mode="inline"
-            className="airspace-side-nav-bar"
-          >
-            {sideBarLogo}
-            <MenuItemGroup key="g2" title="" className="airspace-side-nav-bar-group">
-              <Menu.Item key="home">{<span><Icon type="home" /><span>Home</span></span>}</Menu.Item>
-              <Menu.Item key={pageTitles.userPageOfficeAdmin} >
-                <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/users'}>
-                  {<span><Icon type="user" /><span>Users</span></span>}
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="conferenceRooms">{<span><Icon type="user" /><span>Conference Rooms</span></span>}</Menu.Item>
-              <Menu.Item key="hotDesks">{<span><Icon type="user" /><span>Hot Desks</span></span>}</Menu.Item>
-              <Menu.Item key="serviceRequests">{<span><Icon type="user" /><span>Service Requests</span></span>}</Menu.Item>
-              <Menu.Item key="registeredGuests">{<span><Icon type="user" /><span>Registered Guests</span></span>}</Menu.Item>
-              {switchPortalSubMenu}
-            </MenuItemGroup>
+          <Affix className="airspace-side-nav-bar-group" >
+            <Menu
+              style={{ border: 0 }}
+              defaultSelectedKeys={[this.props.currentPage]}
+              mode="inline"
+              className="airspace-side-nav-bar"
+            >
+              {sideBarLogo}
+              <MenuItemGroup key="g2" title="">
+                <Menu.Item key="home">{<span><Icon type="home" /><span>Home</span></span>}</Menu.Item>
+                <Menu.Item key={pageTitles.userPageOfficeAdmin} >
+                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/users'}>
+                    {<span><Icon type="user" /><span>Users</span></span>}
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="conferenceRooms">{<span><Icon type="user" /><span>Conference Rooms</span></span>}</Menu.Item>
+                <Menu.Item key="hotDesks">{<span><Icon type="user" /><span>Hot Desks</span></span>}</Menu.Item>
+                <Menu.Item key="serviceRequests">{<span><Icon type="user" /><span>Service Requests</span></span>}</Menu.Item>
+                <Menu.Item key="registeredGuests">{<span><Icon type="user" /><span>Registered Guests</span></span>}</Menu.Item>
+                {switchPortalSubMenu}
+              </MenuItemGroup>
 
-          </Menu>
+            </Menu>
+          </Affix>
         );
       } else if (this.props.regularUserPortalMode == "regular") {
         return (

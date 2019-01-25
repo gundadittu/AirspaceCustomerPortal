@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Menu, Dropdown, Icon, Row, Col, List } from 'antd';
+import { Avatar, Menu, Dropdown, Icon, Row, Col, List, Affix } from 'antd';
 import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
 import * as genActionCreators from '../../store/actions/general';
@@ -111,31 +111,33 @@ class NavBar extends React.Component {
     )
 
     return (
-      <Row>
-        <Col span={24}>
-          <Menu
-            onClick={this.handleClick}
-            mode="horizontal"
-            style={{ textAlign: 'right', border: 0 }}
-          >
-            <Menu.Item key="notifications">
-              <Dropdown overlay={notificationMenu} trigger={['click']}>
-                <a className="ant-dropdown-link" href="#">
-                  <Icon type="bell" style={{ fontSize: 18 }} />
-                </a>
-              </Dropdown>
-            </Menu.Item>
+      <Affix>
+        <Row>
+          <Col span={24}>
+            <Menu
+              onClick={this.handleClick}
+              mode="horizontal"
+              style={{ textAlign: 'right', border: 0 }}
+            >
+              <Menu.Item key="notifications">
+                <Dropdown overlay={notificationMenu} trigger={['click']}>
+                  <a className="ant-dropdown-link" href="#">
+                    <Icon type="bell" style={{ fontSize: 18 }} />
+                  </a>
+                </Dropdown>
+              </Menu.Item>
 
-            <Menu.Item key="profile">
-              <Dropdown overlay={profileMenu} trigger={['click']}>
-                <a className="ant-dropdown-link" href="#">
-                  <Avatar src={this.props.user.profileImageURL} />
-                </a>
-              </Dropdown>
-            </Menu.Item>
-          </Menu>
-        </Col>
-      </Row>
+              <Menu.Item key="profile">
+                <Dropdown overlay={profileMenu} trigger={['click']}>
+                  <a className="ant-dropdown-link" href="#">
+                    <Avatar src={this.props.user.profileImageURL} />
+                  </a>
+                </Dropdown>
+              </Menu.Item>
+            </Menu>
+          </Col>
+        </Row>
+      </Affix>
     );
   }
 }

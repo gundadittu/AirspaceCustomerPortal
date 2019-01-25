@@ -14,7 +14,6 @@ export default class AirUser {
         const adminOffices = dict.officeAdmin || null;
 
         this.profileImageURL = dict.profileImageURL || null;
-        console.log(this.profileImageURL);
         this.uid = uid;
         this.name = firstName+" "+lastName;
         this.firstName = firstName; 

@@ -56,8 +56,6 @@ class UsersPage extends React.Component {
 
     componentDidMount() {
         // Routing stuff 
-        // const createUserForm = this.createUserFormRef.props.form;
-        // this.props.createUserForOfficeAdminFinished({componentRef: this, formRef: createUserForm})
         if (this.props.match.isExact) {
             const selectedOfficeUID = this.props.match.params.officeUID;
             const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID });
@@ -89,7 +87,7 @@ class UsersPage extends React.Component {
         }
 
         return (
-            <div>
+            <div style={{backgroundColor: '#FFFFFF'}}>
                 <CreateUserForm
                     wrappedComponentRef={(form) => this.saveCreateUserFormRef(form)}
                     visible={this.state.createUserFormVisible}

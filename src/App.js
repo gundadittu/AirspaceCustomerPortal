@@ -74,7 +74,6 @@ class App extends Component {
             </Col>
             <Col span={20}>
               <NavBar/>
-              {/* {this.renderPageContent(this.props.currentPage)} */}
               <Switch>
                 <Route path="/officeAdmin" component={officeAdminRoutingComp}/>
               </Switch>

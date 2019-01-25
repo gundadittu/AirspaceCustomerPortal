@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
@@ -29,9 +29,11 @@ class App extends Component {
         if (user) {
           console.log('auth listener found user');
           weakProps.setUpUser(user.uid);
+          weakProps.history.push('/');
         } else {
           console.log('auth listener did NOT find user');
           weakProps.setUpUser(null);
+          weakProps.history.push('/login');
         }
       });
     } else {
@@ -60,11 +62,7 @@ class App extends Component {
   }
 
   render() {
-
-    // need to set state for employee or admin mode? which office?
-    // - need to setuser type ? figure out back end?
-    // need to set state for logged in in redux
-
+  
     if (this.props.user) { // logged in
       return (
         <div>
@@ -81,11 +79,15 @@ class App extends Component {
           </Row>
         </div>
       );
-    } else { // logged out
-
-      // Need to also remove ability to route to any other pages !!!
+    } else {
+       // logged out
       return (
-        <Login />
+        <div>
+           <Switch>
+            <Route path="/" component={Login}/>
+            <Route path="/login" component={Login}/>
+          </ Switch>
+        </div>
       );
     }
   }
@@ -108,11 +110,10 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
 
 const officeAdminRoutingComp = () => (
     <Switch>
-      <Route exact path='/officeAdmin'></Route>
       <Route exact path='/officeAdmin/:officeUID' component={UsersPage}></Route>
       <Route path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
     </Switch>

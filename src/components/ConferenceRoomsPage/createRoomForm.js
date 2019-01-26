@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-    Button, Modal, Form, Input, Radio, Checkbox, Row, Col, Icon
+    Button, Modal, Form, Input, Radio, Checkbox, Row, Col, Icon, Upload, message
 } from 'antd';
+import './createRoomForm.css';
 
 let id = 0;
 
@@ -35,6 +36,18 @@ class CreateRoomForm extends React.Component {
        });
     }
 
+    uploadChange(info) {
+      console.log("IN HERE")
+      if (info.file.status !== 'uploading') {
+         console.log(info.file, info.fileList);
+       }
+       if (info.file.status === 'done') {
+         message.success(`${info.file.name} file uploaded successfully`);
+       } else if (info.file.status === 'error') {
+         message.error(`${info.file.name} file upload failed.`);
+       }
+     }
+
     render() {
 
         const {
@@ -44,6 +57,14 @@ class CreateRoomForm extends React.Component {
 
         getFieldDecorator('keys', { initialValue: [] });
         const keys = getFieldValue('keys');
+
+        const uploadProps = {
+            name: 'file',
+            action: '//jsonplaceholder.typicode.com/posts/',
+            headers: {
+              authorization: 'authorization-text',
+          }
+        }
 
         const formItemLayout = {
           labelCol: {
@@ -58,12 +79,11 @@ class CreateRoomForm extends React.Component {
         const formItemLayoutWithOutLabel = {
           wrapperCol: {
             xs: { span: 24, offset: 0 },
-            sm: { span: 20, offset: 4 },
+            sm: { span: 20, offset: 0 },
           },
         };
 
         const formTitle = "Add a Conference Room to My Office"; //implement current office+this.props.formTitle;
-
 
         const formItems = keys.map((k, index) => (
           <Form.Item
@@ -130,13 +150,15 @@ class CreateRoomForm extends React.Component {
                         </Button>
                       </Form.Item>
                     </Form.Item>
-                    <Form.Item label="Image URL">
-                        {getFieldDecorator('imageURL', {
-                            validateTrigger: 'onBlur',
-                            rules: [{ required: false}],
-                        })(
-                            <Input />
-                        )}
+                    <Form.Item
+                      {...formItemLayout}
+                      label="Upload Image"
+                    >
+                    <Upload {...uploadProps} onChange={(info) => this.uploadChange(info)}>
+                      <Button>
+                        <Icon type="upload" /> Click to Upload
+                      </Button>
+                    </Upload>,
                     </Form.Item>
 
                     <Form.Item className="collection-create-form_last-form-item">

@@ -24,7 +24,8 @@ class ConferenceRoomsPage extends React.Component {
 
     state = {
       current: 'Active',
-      createRoomFormVisible: false
+      createRoomFormVisible: false,
+      clearForm: false
     }
 
     handleClick = (e) => {
@@ -39,7 +40,10 @@ class ConferenceRoomsPage extends React.Component {
     }
 
     handleCancelCreateRoom = () => {
-        this.setState({ createRoomFormVisible: false });
+        this.setState({
+          createRoomFormVisible: false,
+          clearForm: true
+        });
     }
 
     componentDidMount() {
@@ -86,10 +90,10 @@ class ConferenceRoomsPage extends React.Component {
                                 <RefreshIcon />
                             </IconButton>
                             <Menu.Item key="Active">
-                              <b>Active</b>
+                              Active
                             </Menu.Item>
                             <Menu.Item key="Inactive" >
-                              <b>Inactive</b>
+                              Inactive
                             </Menu.Item>
                             <Button className="inlineDisplay" type="primary rightAlign" onClick={this.showCreateRoomFormModal}>Add Room</Button>
                           </Menu>

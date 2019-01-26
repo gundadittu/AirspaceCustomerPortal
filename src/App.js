@@ -5,7 +5,7 @@ import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
 import SideNavbar from './components/SideNavBar/sidenavbar';
 import UsersPage from './components/UsersPage/usersPage';
-import ConferenceRoomsPage from './components/ConferenceRoomsPage/conferenceRooms';
+import ConferenceRoomsPage from './components/ConferenceRoomsPage/conferenceRoomPage';
 import HotDesksPage from './components/HotDesksPage/hotDesksPage.js';
 import Firebase from './components/Firebase';
 

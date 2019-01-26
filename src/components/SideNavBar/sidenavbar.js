@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Menu, Icon, Affix } from 'antd';
+import { Menu, Icon, Affix, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import * as actionCreators from '../../store/actions/general';
@@ -12,6 +12,23 @@ const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 class SideNavBar extends React.Component {
+
+  getSwitchPortalSubMenuTitle = () => { 
+    if (this.props.userType == 'regular') { 
+      if (this.props.regularUserPortalMode == 'regular') { 
+        return 'Regular Mode'
+      } else { 
+        const currentOfficeAdmin = this.props.currentOfficeAdmin; 
+        if (currentOfficeAdmin !== null) { 
+          return ('Managing '+currentOfficeAdmin.name)
+        } else { 
+          return 'Office Admin Mode'
+        }
+      }
+    } else { 
+      return 'Switch Portal Mode'
+    }
+  }
 
   render() {
     const sideBarLogo = (
@@ -35,12 +52,13 @@ class SideNavBar extends React.Component {
       );
     }
     const switchPortalSubMenu = (
-      <SubMenu key="sub1" title={<span><Icon type="up-square" /><span>Switch Portal</span></span>}>
-        <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
-        <MenuItemGroup key="g1" title="Office Admin Portals">
-          {officeAdminPortalDiv()}
-        </MenuItemGroup>
-      </SubMenu>
+      // <span><Icon type="up-square" /><span>
+        <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
+          <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
+          <MenuItemGroup key="g1" title="Office Admin Portals">
+            {officeAdminPortalDiv()}
+          </MenuItemGroup>
+        </SubMenu>
     );
 
     if (this.props.userType == "regular") {
@@ -107,7 +125,8 @@ const mapStateToProps = state => {
     adminOfficeList: state.auth.adminOfficeList,
     regularUserPortalMode: state.general.regularUserPortalMode,
     currentPage: state.general.currentPage,
-    currentOfficeAdminUID: state.general.currentOfficeAdminUID
+    currentOfficeAdminUID: state.general.currentOfficeAdminUID, 
+    currentOfficeAdmin: state.general.currentOfficeAdmin
   }
 };
 

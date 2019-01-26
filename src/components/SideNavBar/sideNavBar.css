@@ -6,3 +6,9 @@
 .airspace-side-nav-bar-group {
     background-color: rgb(247, 249, 250);
 }
+
+.sideBarPortalSwitcher { 
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+}

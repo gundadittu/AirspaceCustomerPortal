@@ -7,18 +7,43 @@ import MoreIcon from '@material-ui/icons/MoreHoriz';
 import EditRoomForm from './editRoomForm.js'
 import * as actionCreator from '../../store/actions/officeAdmin';
 
-const tempDataSource = [{
-  name: 'Kimbark',
-  amenities: ['Projector', 'White Board', 'Speaker'],
-  capacity: 50
-}, {
-  name: 'Kenwood',
-  amenities: ['Projector', 'TV Monitor'],
-  capacity: 75
-}, {
-  name: 'Woodlawn',
-  amenities: ['Nothing'],
-  capacity: 20
+const columns = [{
+  title: 'Name',
+  dataIndex: 'name',
+  sorter: (a, b) => {
+    const aName = a.name;
+    const bName = b.name;
+    if (aName < bName) {
+      return -1;
+    } else if (aName > bName) {
+      return 1;
+    } else {
+      return 0
+    }
+  },
+  sortDirections: ['descend', 'ascend'],
+},
+{
+  title: 'Amenities',
+  dataIndex: 'amenities',
+  render: (amenities => (
+        <span>
+          {amenities.map(amenity => <Tag  color="blue" key={amenity}>{amenity}</Tag>)}
+        </span>
+      ))
+},
+{
+  title: 'Capacity',
+  dataIndex: 'capacity'
+},
+{
+  title: '',
+  key: 'more',
+  render: () => (
+    <IconButton>
+      <MoreIcon/>
+    </IconButton>
+  ),
 }];
 
 class ConferenceRoomsTable extends React.Component {
@@ -27,11 +52,7 @@ class ConferenceRoomsTable extends React.Component {
     editRoomFormVisible: false,
     selectedRoom: null,
   };
-
-  componentDidMount() {
-    this.props.loadConferenceRooms(this.props.currentOfficeUID);
-  }
-
+  
   columns = [{
     title: 'Name',
     dataIndex: 'name',
@@ -182,7 +203,6 @@ cancel(e) {
   }
 
   render() {
-    console.log(this.props.roomsList)
     return (
       <div>
         <EditRoomForm
@@ -190,7 +210,8 @@ cancel(e) {
           onCancel={() => this.hideEditRoomForm()}
         />
         <Table
-               columns={this.columns} dataSource={this.props.roomsList}
+               columns={this.columns} 
+               dataSource={this.props.dataSource}
                pagination={false}
                loading={this.props.isLoadingUserData}
          />
@@ -201,16 +222,15 @@ cancel(e) {
 
 const mapStateToProps = state => {
   return {
-    roomsList: state.officeAdmin.roomsList,
     currentOfficeUID: state.general.currentOfficeAdminUID,
     isLoadingRoomsData: state.officeAdmin.isLoadingRoomsData
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadConferenceRooms: (officeUID) => dispatch(actionCreator.loadConferenceRooms(officeUID))
-  }
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     loadConferenceRooms: (officeUID) => dispatch(actionCreator.loadConferenceRooms(officeUID))
+//   }
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConferenceRoomsTable);
+export default connect(mapStateToProps, null)(ConferenceRoomsTable);

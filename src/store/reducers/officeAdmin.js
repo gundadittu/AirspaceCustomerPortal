@@ -7,8 +7,8 @@ const initialState = {
     roomsList: [],
     isLoadingUserData: false,
     isLoadingRoomsData: false,
-    createUserFormLoading: false
-    editUserFormLoading: false 
+    createUserFormLoading: false,
+    editUserFormLoading: false
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -38,7 +38,7 @@ const reducer = ( state = initialState, action ) => {
             return updateObject(state, {isLoadingUserData: false});
 
         case actionTypes.LOAD_CONFERENCE_ROOMS:
-            return updateObject(state, {isLoadingUserData: true});
+            return updateObject(state, {isLoadingRoomsData: true});
         case actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS:
             // properly update state here
             const roomsList = action.payload.roomsList || null;

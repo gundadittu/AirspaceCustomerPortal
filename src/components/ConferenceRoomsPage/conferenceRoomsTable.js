@@ -78,6 +78,7 @@ class ConferenceRoomsTable extends React.Component {
       <Table
              columns={columns} dataSource={this.props.roomsList}
              pagination={false}
+             loading={this.props.isLoadingUserData}
        />
     );
   }

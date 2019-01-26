@@ -25,7 +25,13 @@ export default class AirConferenceRoom {
             }
         }
         this.offices = airOffices;
+
+        // var airAmenities = [];
+        // for (let key in amenities) { 
+        //     const object = 
+        // }
         this.amenities = amenities;//amenities.split();
+
         this.capacity = capacity;
         this.address = address;
         this.active = active;

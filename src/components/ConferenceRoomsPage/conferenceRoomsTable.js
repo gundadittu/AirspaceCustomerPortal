@@ -52,11 +52,7 @@ class ConferenceRoomsTable extends React.Component {
     editRoomFormVisible: false,
     selectedRoom: null,
   };
-
-  componentDidMount() {
-    this.props.loadConferenceRooms(this.props.currentOfficeUID);
-  }
-
+  
   columns = [{
     title: 'Name',
     dataIndex: 'name',

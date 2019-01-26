@@ -23,6 +23,7 @@ class CreateRoomForm extends React.Component {
   }
 
     addAmenity = () => {
+      console.log("HERE")
        const { form } = this.props;
        // can use data-binding to get
        const keys = form.getFieldValue('keys');
@@ -67,11 +68,10 @@ class CreateRoomForm extends React.Component {
         const formItems = keys.map((k, index) => (
           <Form.Item
             {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-            label={index === 0 ? 'Amenities' : ''}
             required={false}
             key={k}
           >
-            {getFieldDecorator(`names[${k}]`, {
+            {getFieldDecorator(`amenities[${k}]`, {
               validateTrigger: ['onChange', 'onBlur'],
               rules: [{
                 required: false,
@@ -124,8 +124,9 @@ class CreateRoomForm extends React.Component {
                         </Checkbox.Group>
                       )}
                       <Form.Item {...formItemLayoutWithOutLabel}>
+                        {formItems}
                         <Button type="dashed" onClick={this.addAmenity} style={{ width: '60%' }}>
-                          <Icon type="plus" /> Add field
+                          <Icon type="plus" /> Add Amenity
                         </Button>
                       </Form.Item>
                     </Form.Item>

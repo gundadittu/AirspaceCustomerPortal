@@ -13,6 +13,23 @@ const MenuItemGroup = Menu.ItemGroup;
 
 class SideNavBar extends React.Component {
 
+  getSwitchPortalSubMenuTitle = () => { 
+    if (this.props.userType == 'regular') { 
+      if (this.props.regularUserPortalMode == 'regular') { 
+        return 'Regular Mode'
+      } else { 
+        const currentOfficeAdmin = this.props.currentOfficeAdmin; 
+        if (currentOfficeAdmin !== null) { 
+          return ('Managing '+currentOfficeAdmin.name)
+        } else { 
+          return 'Office Admin Mode'
+        }
+      }
+    } else { 
+      return 'Switch Portal Mode'
+    }
+  }
+
   render() {
     const sideBarLogo = (
       <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
@@ -35,12 +52,13 @@ class SideNavBar extends React.Component {
       );
     }
     const switchPortalSubMenu = (
-      <SubMenu key="sub1" title={<span><Icon type="up-square" /><span>Switch Portal</span></span>}>
-        <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
-        <MenuItemGroup key="g1" title="Office Admin Portals">
-          {officeAdminPortalDiv()}
-        </MenuItemGroup>
-      </SubMenu>
+      // <span><Icon type="up-square" /><span>
+        <SubMenu className='sideBarPortalSwitcher' key="sub1" title={this.getSwitchPortalSubMenuTitle()}>
+          <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
+          <MenuItemGroup key="g1" title="Office Admin Portals">
+            {officeAdminPortalDiv()}
+          </MenuItemGroup>
+        </SubMenu>
     );
 
     if (this.props.userType == "regular") {
@@ -103,7 +121,8 @@ const mapStateToProps = state => {
     adminOfficeList: state.auth.adminOfficeList,
     regularUserPortalMode: state.general.regularUserPortalMode,
     currentPage: state.general.currentPage,
-    currentOfficeAdminUID: state.general.currentOfficeAdminUID
+    currentOfficeAdminUID: state.general.currentOfficeAdminUID, 
+    currentOfficeAdmin: state.general.currentOfficeAdmin
   }
 };
 

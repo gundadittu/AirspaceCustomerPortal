@@ -118,8 +118,7 @@ const mapStateToProps = state => {
         user: state.auth.user,
         userAdminOfficeList: state.auth.adminOfficeList,
         isLoadingUserData: state.officeAdmin.isLoadingUserData, 
-        createUserFormLoading: state.officeAdmin.createUserFormLoading,
-        createUserFormVisible: state.officeAdmin.createUserFormVisible
+        createUserFormLoading: state.officeAdmin.createUserFormLoading
     }
 };
 

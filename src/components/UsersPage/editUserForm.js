@@ -5,8 +5,8 @@ import {
 } from 'antd';
 
 
-class CreateUserForm extends React.Component {
-    
+class EditUserForm extends React.Component {
+
     emailValidator = (rule, value, callback) => { 
         const first = this.props.form.getFieldValue('emailAddress'); 
         const second = this.props.form.getFieldValue('emailAddress2');
@@ -18,19 +18,32 @@ class CreateUserForm extends React.Component {
     }
 
     render() {
-
         const {
-            visible, onCancel, onCreate, form, confirmLoading
+            visible, onCancel, onCreate, form, confirmLoading, selectedUser, selectedOffice
         } = this.props;
         const { getFieldDecorator } = form;
+        const formTitle = "Edit User";
+        const userObj = selectedUser || {};
+        const officeObj = selectedOffice || "";
+        const userAdminOffices = userObj.officeAdmins; 
+        let initialUserTypeValue = 'regular'
 
-        const formTitle = "Add a new User to "+this.props.formTitle;
+        for (let key in userAdminOffices) { 
+            const value = userAdminOffices[key];
+            const officeUID = value.uid;
+
+            if (officeUID == officeObj) { 
+                initialUserTypeValue = 'officeAdmin'
+                break
+            }
+        }
 
         return (
+
             <Modal
                 visible={visible}
                 title= {formTitle}
-                okText="Add"
+                okText="Save"
                 onCancel={onCancel}
                 onOk={onCreate}
                 confirmLoading={confirmLoading}
@@ -38,13 +51,20 @@ class CreateUserForm extends React.Component {
                 <Form layout="vertical">
                     <Form.Item label="First Name">
                         {getFieldDecorator('firstName', {
-                            rules: [{ required: true, whitespace: true, message: 'Please input the user\'s first name.' }],
-                        })(
+                            initialValue: userObj.firstName || "",
+                            rules: [{ 
+                                required: true,
+                                 whitespace: true, 
+                                 message: 'Please input the user\'s first name.' 
+                                }],
+                        }
+                        )(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item label="Last Name">
                         {getFieldDecorator('lastName', {
+                            initialValue: userObj.lastName || "",
                             validateTrigger: 'onBlur',
                             rules: [{ required: true, whitespace: true, message: 'Please input the user\'s last name.' }],
                         })(
@@ -53,14 +73,16 @@ class CreateUserForm extends React.Component {
                     </Form.Item>
                     <Form.Item label="Email Address">
                         {getFieldDecorator('emailAddress', {
+                            initialValue: userObj.email || "",
                             validateTrigger: 'onBlur',
-                            rules: [{ required: true, message: 'Please input the user\'s email address.', whitespace: true, pattern: /^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/}],
+                            rules: [{ required: true, whitespace: true, message: 'Please input the user\'s email address.' }],
                         })(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item label="Reenter Email Address">
                         {getFieldDecorator('emailAddress2', {
+                            initialValue: userObj.email || "",
                             validateTrigger: 'onBlur',
                             rules: [{ 
                                 required: true,
@@ -74,13 +96,12 @@ class CreateUserForm extends React.Component {
                             <Input />
                         )}
                     </Form.Item>
-
-                    <Form.Item className="collection-create-form_last-form-item">
+                    <Form.Item label="User Type" className="collection-create-form_last-form-item">
                         {getFieldDecorator('userType', {
-                            initialValue: 'regular',
+                            initialValue: initialUserTypeValue,
                         })(
                             <Radio.Group>
-                                <Radio value="regular">Regular</Radio>
+                                <Radio value="regular">User</Radio>
                                 <Radio value="officeAdmin">Office Admin</Radio>
                             </Radio.Group>
                         )}
@@ -89,7 +110,7 @@ class CreateUserForm extends React.Component {
             </Modal>
         );
     }
+
 }
 
-
-export default Form.create({ name: 'createUserForm' })(CreateUserForm);
+export default Form.create({ name: 'editUserForm' })(EditUserForm); 

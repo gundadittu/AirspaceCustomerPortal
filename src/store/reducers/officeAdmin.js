@@ -5,7 +5,8 @@ import * as pageTitles from '../../pages/pageTitles';
 const initialState = {
     userList: [], 
     isLoadingUserData: false, 
-    createUserFormLoading: false 
+    createUserFormLoading: false, 
+    editUserFormLoading: false 
 };
 
 const reducer = ( state = initialState, action ) => {

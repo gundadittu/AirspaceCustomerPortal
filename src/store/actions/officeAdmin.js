@@ -26,3 +26,29 @@ export const createUserForOfficeAdmin = (payload) => {
         }
     };
 }
+
+export const removeUserForOfficeAdmin = (payload) => { 
+    return {
+        type: actionTypes.REMOVE_OFFICE_USER, 
+        payload: { 
+            ...payload,
+           userUID: payload.userUID, 
+           officeUID: payload.officeUID
+        }
+    };
+}
+
+export const editUserForOfficeAdmin = (payload) => { 
+    return {
+        type: actionTypes.EDIT_OFFICE_USER, 
+        payload: { 
+            selectedUserUID: payload.userUID, 
+            selectedOfficeUID: payload.officeUID, 
+            firstName: payload.firstName, 
+            lastName: payload.lastName, 
+            emailAddress: payload.email,
+            makeUserOfficeAdmin: payload.makeUserOfficeAdmin,
+            hideForm: payload.hideForm
+        }
+    };
+}

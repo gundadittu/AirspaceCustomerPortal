@@ -21,7 +21,19 @@ export function* createUserForOfficeAdmin() {
     yield takeLatest(actionTypes.CREATE_USER_FOR_OFFICEADMIN, createUserWorkerSaga);
 }
 
+<<<<<<< HEAD
 // Workers
+=======
+export function* removeUserForOfficeAdmin() {
+    yield takeLatest(actionTypes.REMOVE_OFFICE_USER, removeUserWorkerSaga);
+}
+
+export function* editUserForOfficeAdmin() {
+    yield takeLatest(actionTypes.EDIT_OFFICE_USER, editUserWorkerSaga);
+}
+
+// Workers 
+>>>>>>> user edit + remove form fixes
 
 
 function validatePermission(selectedOfficeUID, userAdminOfficeList) {
@@ -71,7 +83,13 @@ function* createUserWorkerSaga(action) {
         validatePermission(selectedOfficeUID, userAdminOfficeList);
         let firebase = yield select(selectors.firebase);
         const response = yield call(createUserApiCall, payload, firebase);
-        const newPayload = { componentRef: payload.componentRef, formRef: payload.formRef }
+        
+        notification['success']({
+            message: 'Successfully added new user.',
+            description: ''
+        });
+
+        const newPayload = { hideFormRef: payload.hideFormRef }
         yield put({ type: actionTypes.CREATE_USER_FOR_OFFICEADMIN_FINISHED, payload: { ...newPayload }})
     } catch (error) {
         console.error(error);
@@ -81,7 +99,7 @@ function* createUserWorkerSaga(action) {
             description: error.message
         });
         const payload = action.payload;
-        const newPayload = { componentRef: payload.componentRef, formRef: payload.formRef }
+        const newPayload = { hideFormRef: payload.hideFormRef }
         yield put({ type: actionTypes.CREATE_USER_FOR_OFFICEADMIN_FINISHED, payload: { ...newPayload } });
     }
 }
@@ -128,6 +146,7 @@ function* loadOfficeUsersWorkerSaga(action) {
     }
   }
 
+<<<<<<< HEAD
   function loadConferenceRooms(payload, firebase) {
       const officeUID = payload.officeUID || null;
       const apiCall = firebase.functions.httpsCallable('getAllConferenceRoomsForUser')
@@ -174,3 +193,86 @@ function* loadOfficeUsersWorkerSaga(action) {
           yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_ERROR, payload: {error: error} });
       }
     }
+=======
+  function removeOfficeUser(payload, firebase) { 
+    const officeUID = payload.officeUID; 
+    const userUID = payload.userUID; 
+
+    const apiCall = firebase.functions.httpsCallable('removeUserFromOffice')
+    
+    return apiCall({selectedOfficeUID: officeUID, selectedUserUID: userUID})
+    .then( () => { 
+        console.log('removeUserApiCall-success');
+        return null
+    })
+  }
+
+  function* removeUserWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        const selectedOfficeUID = payload.officeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(removeOfficeUser, action.payload, firebase);
+        
+        notification['success']({
+            message: 'Successfully removed user from this office.'
+        });
+
+        const newPayload = { componentRef: payload.componentRef }
+        yield put({ type: actionTypes.REMOVE_OFFICE_USER_FINISHED, payload: { ...newPayload }});
+    } catch (error) {
+        console.error(error);
+        
+        notification['error']({
+            message: 'Unable to remove user from this office.',
+            description: error.message
+        });
+        
+        const payload = action.payload;
+        const newPayload = { componentRef: payload.componentRef, formRef: payload.formRef }
+        yield put({ type: actionTypes.REMOVE_OFFICE_USER_FINISHED, payload: {...newPayload, error: error} });
+    }
+  } 
+
+  function editOfficeUser(payload, firebase) { 
+    const apiCall = firebase.functions.httpsCallable('editUserForOffice')
+    return apiCall({...payload})
+    .then( () => { 
+        console.log('editUserApiCall-success');
+        return null
+    })
+  }
+
+  function* editUserWorkerSaga(action) { 
+    try {
+        const payload = action.payload;
+        const selectedOfficeUID = payload.selectedOfficeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(editOfficeUser, payload, firebase);
+        
+        notification['success']({
+            message: 'Successfully edited user info.'
+        });
+        
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.EDIT_OFFICE_USER_FINISHED, payload: { ...newPayload }});
+    } catch (error) {
+        console.error(error);
+        
+        notification['error']({
+            message: 'Unable to update user info.',
+            description: error.message
+        });
+        
+        const payload = action.payload;
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.EDIT_OFFICE_USER_FINISHED, payload: { ...newPayload }});       
+    }
+  }
+>>>>>>> user edit + remove form fixes

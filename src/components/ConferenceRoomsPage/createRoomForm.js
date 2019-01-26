@@ -1,17 +1,48 @@
 import React from 'react';
 import {
-    Button, Modal, Form, Input, Radio, Checkbox, Row, Col
+    Button, Modal, Form, Input, Radio, Checkbox, Row, Col, Icon
 } from 'antd';
 
+let id = 0;
 
 class CreateRoomForm extends React.Component {
+
+  removeAmenity = (k) => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    // We need at least one passenger
+    if (keys.length === 1) {
+      return;
+    }
+
+    // can use data-binding to set
+    form.setFieldsValue({
+      keys: keys.filter(key => key !== k),
+    });
+  }
+
+    addAmenity = () => {
+       const { form } = this.props;
+       // can use data-binding to get
+       const keys = form.getFieldValue('keys');
+       const nextKeys = keys.concat(++id);
+       // can use data-binding to set
+       // important! notify form to detect changes
+       form.setFieldsValue({
+         keys: nextKeys,
+       });
+    }
 
     render() {
 
         const {
-            visible, onCancel, onCreate, form, confirmLoading
+            visible, onCancel, onCreate, form, confirmLoading,
         } = this.props;
-        const { getFieldDecorator } = form;
+        const { getFieldDecorator, getFieldValue} = form;
+
+        getFieldDecorator('keys', { initialValue: [] });
+        const keys = getFieldValue('keys');
 
         const formItemLayout = {
           labelCol: {
@@ -32,6 +63,34 @@ class CreateRoomForm extends React.Component {
 
         const formTitle = "Add a Conference Room to My Office"; //implement current office+this.props.formTitle;
 
+
+        const formItems = keys.map((k, index) => (
+          <Form.Item
+            {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+            label={index === 0 ? 'Amenities' : ''}
+            required={false}
+            key={k}
+          >
+            {getFieldDecorator(`names[${k}]`, {
+              validateTrigger: ['onChange', 'onBlur'],
+              rules: [{
+                required: false,
+                whitespace: true,
+                message: "Please input an amenity or delete this field.",
+              }],
+            })(
+              <Input placeholder="Amenity" style={{ width: '60%', marginRight: 8 }} />
+            )}
+            {keys.length > 1 ? (
+              <Icon
+                className="dynamic-delete-button"
+                type="minus-circle-o"
+                disabled={keys.length === 1}
+                onClick={() => this.removeAmenity(k)}
+              />
+            ) : null}
+          </Form.Item>
+        ));
         return (
             <Modal
                 visible={visible}
@@ -64,6 +123,11 @@ class CreateRoomForm extends React.Component {
                           </Row>
                         </Checkbox.Group>
                       )}
+                      <Form.Item {...formItemLayoutWithOutLabel}>
+                        <Button type="dashed" onClick={this.addAmenity} style={{ width: '60%' }}>
+                          <Icon type="plus" /> Add field
+                        </Button>
+                      </Form.Item>
                     </Form.Item>
                     <Form.Item label="Image URL">
                         {getFieldDecorator('imageURL', {

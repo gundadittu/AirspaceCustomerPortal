@@ -135,11 +135,11 @@ class CreateRoomForm extends React.Component {
                       {getFieldDecorator("checkbox-group", {})(
                         <Checkbox.Group style={{ width: "100%" }}>
                           <Row>
-                            <Col span={8}><Checkbox value="Whiteboard">Whiteboard</Checkbox></Col>
-                            <Col span={8}><Checkbox value="conferenceCallPhone">Conference Call Phone</Checkbox></Col>
-                            <Col span={8}><Checkbox value="largeMonitor">Large Monitor</Checkbox></Col>
-                            <Col span={8}><Checkbox value="screenSharing">Screen Sharing</Checkbox></Col>
-                            <Col span={8}><Checkbox value="Video Conferencing">Video Conferencing</Checkbox></Col>
+                            <Col span={24}><Checkbox value="Whiteboard">Whiteboard</Checkbox></Col>
+                            <Col span={24}><Checkbox value="conferenceCallPhone">Conference Call Phone</Checkbox></Col>
+                            <Col span={24}><Checkbox value="largeMonitor">Large Monitor</Checkbox></Col>
+                            <Col span={24}><Checkbox value="screenSharing">Screen Sharing</Checkbox></Col>
+                            <Col span={24}><Checkbox value="Video Conferencing">Video Conferencing</Checkbox></Col>
                           </Row>
                         </Checkbox.Group>
                       )}

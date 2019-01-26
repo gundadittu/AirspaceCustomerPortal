@@ -8,26 +8,26 @@ const initialState = {
     isLoadingUserData: false,
     isLoadingRoomsData: false,
     createUserFormLoading: false,
-    editUserFormLoading: false, 
-    removeUserFormLoading: false  
+    editUserFormLoading: false,
+    removeUserFormLoading: false
 };
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
-        case actionTypes.EDIT_OFFICE_USER: 
+        case actionTypes.EDIT_OFFICE_USER:
             return updateObject(state, {editUserFormLoading: true});
-        case actionTypes.EDIT_OFFICE_USER_FINISHED: 
+        case actionTypes.EDIT_OFFICE_USER_FINISHED:
             const editPayload = action.payload;
             editPayload.hideForm();
             return updateObject(state, {editUserFormLoading: false});
-        case actionTypes.REMOVE_OFFICE_USER: 
+        case actionTypes.REMOVE_OFFICE_USER:
             return updateObject(state, {removeUserFormLoading: true});
-        case actionTypes.REMOVE_OFFICE_USER_FINISHED: 
+        case actionTypes.REMOVE_OFFICE_USER_FINISHED:
             const removePayload = action.payload;
-            const componentRef = removePayload.componentRef; 
+            const componentRef = removePayload.componentRef;
             componentRef.setState({removeUserFormVisible: false})
             return updateObject(state, {removeUserFormLoading: false});
-        case actionTypes.CREATE_USER_FOR_OFFICEADMIN: 
+        case actionTypes.CREATE_USER_FOR_OFFICEADMIN:
             return updateObject(state, {createUserFormLoading: true});
         case actionTypes.CREATE_USER_FOR_OFFICEADMIN_FINISHED:
             const createPayload = action.payload;

@@ -4,14 +4,9 @@ const getPagePayload = (pageName, payload) => {
     switch (pageName) {
         case pageTitles.homePageOfficeAdmin:
             const officeUID = payload.officeUID || null;
-<<<<<<< HEAD
-            return officeAdminHomePagePayload(officeUID)
-        case pageTitles.userPageOfficeAdmin:
-=======
             const officeObj = payload.officeObj || null;
             return officeAdminHomePagePayload(officeUID, officeObj)
-        case pageTitles.userPageOfficeAdmin: 
->>>>>>> user edit + remove form fixes
+        case pageTitles.userPageOfficeAdmin:
             return officeAdminUsersPagePayload()
         case pageTitles.conferenceRoomsPageOfficeAdmin:
             return officeAdminConferenceRoomsPagePayload()
@@ -23,33 +18,19 @@ const getPagePayload = (pageName, payload) => {
 }
 export default getPagePayload;
 
-<<<<<<< HEAD
-const regularUserHomePagePayload = (officeUID) => {
+const regularUserHomePagePayload = () => {
     return {
         currentPage: pageTitles.homePageRegularUser,
         currentOfficeAdminUID: null,
-=======
-const regularUserHomePagePayload = () => { 
-    return { 
-        currentPage: pageTitles.homePageRegularUser, 
-        currentOfficeAdminUID: null, 
->>>>>>> user edit + remove form fixes
         regularUserPortalMode: 'regular'
     }
 }
 
-<<<<<<< HEAD
-const officeAdminHomePagePayload = (officeUID) => {
+const officeAdminHomePagePayload = (officeUID, officeObj) => {
     return {
         currentPage: pageTitles.homePageOfficeAdmin,
         currentOfficeAdminUID: officeUID,
-=======
-const officeAdminHomePagePayload = (officeUID, officeObj) => { 
-    return { 
-        currentPage: pageTitles.homePageOfficeAdmin, 
-        currentOfficeAdminUID: officeUID, 
         currentOfficeAdmin: officeObj,
->>>>>>> user edit + remove form fixes
         regularUserPortalMode: 'officeAdmin'
     }
 }

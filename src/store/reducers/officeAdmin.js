@@ -8,6 +8,7 @@ const initialState = {
     isLoadingUserData: false,
     isLoadingRoomsData: false,
     createUserFormLoading: false
+    editUserFormLoading: false 
 };
 
 const reducer = ( state = initialState, action ) => {

@@ -5,6 +5,7 @@ import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
 import SideNavbar from './components/SideNavBar/sidenavbar';
 import UsersPage from './components/UsersPage/usersPage';
+import ConferenceRoomsPage from './components/ConferenceRoomsPage/conferenceRooms';
 import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
@@ -48,21 +49,21 @@ class App extends Component {
 
   renderPageContent(pageName) {
 
-    switch (pageName) { 
-      case pageTitles.homePageRegularUser: 
+    switch (pageName) {
+      case pageTitles.homePageRegularUser:
         return null
-      case pageTitles.userPageOfficeAdmin: 
+      case pageTitles.userPageOfficeAdmin:
         return (
           <UsersPage />
         );
-      default: 
-          // return 404 page? 
+      default:
+          // return 404 page?
           return null
     }
   }
 
   render() {
-  
+
     if (this.props.user) { // logged in
       return (
         <div>
@@ -116,5 +117,6 @@ const officeAdminRoutingComp = () => (
     <Switch>
       <Route exact path='/officeAdmin/:officeUID' component={UsersPage}></Route>
       <Route path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
+      <Route path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
     </Switch>
 )

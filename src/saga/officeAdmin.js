@@ -2,37 +2,42 @@ import { takeLatest, call, put, select } from "redux-saga/effects";
 import * as actionTypes from "../store/actions/actionTypes";
 import * as selectors from './selectors';
 import AirUser from '../models/AirUser';
+import AirConferenceRoom from '../models/AirConferenceRoom'
 import { notification } from 'antd';
 import React from 'react';
 require("firebase/functions");
 
-// Watchers 
+// Watchers
 
 export function* loadOfficeUsersWatchSaga() {
     yield takeLatest(actionTypes.LOAD_OFFICE_USERS, loadOfficeUsersWorkerSaga);
+}
+
+export function* loadConferenceRoomsWatchSaga() {
+    yield takeLatest(actionTypes.LOAD_CONFERENCE_ROOMS, loadConferenceRoomsWorkerSaga);
 }
 
 export function* createUserForOfficeAdmin() {
     yield takeLatest(actionTypes.CREATE_USER_FOR_OFFICEADMIN, createUserWorkerSaga);
 }
 
-// Workers 
+// Workers
 
 
-function validatePermission(selectedOfficeUID, userAdminOfficeList) { 
+function validatePermission(selectedOfficeUID, userAdminOfficeList) {
 
-    if (userAdminOfficeList == null) { 
+    if (userAdminOfficeList == null) {
         notification['error']({
             message: 'Permission denied.',
             description: 'Current user is not a admin for this office.'
         });
-        throw new Error('Current user is not a admin for this office..'); 
+        throw new Error('Current user is not a admin for this office..');
    }
 
-   const newArray = userAdminOfficeList.map( x => { 
+   const newArray = userAdminOfficeList.map( x => {
         return (x.uid == selectedOfficeUID)
    })
-   if (newArray.includes(true) == false) { 
+   if (newArray.includes(true) == false) {
         notification['error']({
             message: 'Permission denied.',
             description: 'Current user is not a admin for this office.'
@@ -41,10 +46,10 @@ function validatePermission(selectedOfficeUID, userAdminOfficeList) {
    }
 }
 
-function createUserApiCall(payload, firebase) { 
-    const firstName = payload.firstName; 
+function createUserApiCall(payload, firebase) {
+    const firstName = payload.firstName;
     const lastName = payload.lastName;
-    const email = payload.emailAddress; 
+    const email = payload.emailAddress;
     const makeUserOfficeAdmin = payload.makeUserOfficeAdmin;
     const selectedOfficeUID = payload.officeUID;
     const type = 'regular';
@@ -52,13 +57,13 @@ function createUserApiCall(payload, firebase) {
 
     const apiCall = firebase.functions.httpsCallable('addUserToOffice');
     return apiCall(dict)
-    .then( result => { 
+    .then( result => {
        console.log('createUserApiCall-success');
        return null
     })
 }
 
-function* createUserWorkerSaga(action) { 
+function* createUserWorkerSaga(action) {
     try {
         const payload = action.payload;
         const selectedOfficeUID = payload.officeUID;
@@ -70,7 +75,7 @@ function* createUserWorkerSaga(action) {
         yield put({ type: actionTypes.CREATE_USER_FOR_OFFICEADMIN_FINISHED, payload: { ...newPayload }})
     } catch (error) {
         console.error(error);
-        
+
         notification['error']({
             message: 'Unable to add user.',
             description: error.message
@@ -81,18 +86,18 @@ function* createUserWorkerSaga(action) {
     }
 }
 
-function loadOfficeUsers(payload, firebase) { 
+function loadOfficeUsers(payload, firebase) {
     const officeUID = payload.officeUID || null;
     const apiCall = firebase.functions.httpsCallable('getAllUsersForOffice')
-    
+
     return apiCall({officeUID: officeUID})
-    .then( result => { 
-        const data = result.data; 
+    .then( result => {
+        const data = result.data;
         var userList = [];
         for (let key in data) {
             const value = data[key];
             const user = new AirUser(value) || null;
-            if (user !== null) { 
+            if (user !== null) {
                 userList.push(user);
             }
         }
@@ -113,7 +118,7 @@ function* loadOfficeUsersWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_OFFICE_USERS_SUCCESS, payload: { userList: response }});
     } catch (error) {
         console.error(error);
-        
+
         notification['error']({
             message: 'Unable to load Users for this office.',
             description: error.message
@@ -122,3 +127,50 @@ function* loadOfficeUsersWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_OFFICE_USERS_ERROR, payload: {error: error} });
     }
   }
+
+  function loadConferenceRooms(payload, firebase) {
+      const officeUID = payload.officeUID || null;
+      const apiCall = firebase.functions.httpsCallable('getAllConferenceRoomsForUser')
+
+      return apiCall({officeUID: officeUID})
+      .then( result => {
+          const data = result.data;
+
+          var userList = [];
+          var conferenceRooms = [];
+          for (let key in data) {
+            const value = data[key];
+            const room = new AirConferenceRoom(value) || null;
+            if (room !== null) {
+              conferenceRooms.push(room)
+            }
+          }
+          console.log("THIS IS THE CONFERENCE ROOMS");
+          console.log(conferenceRooms);
+          return conferenceRooms;
+      })
+  }
+
+  function* loadConferenceRoomsWorkerSaga(action) {
+      try {
+          const selectedOfficeUID = action.payload.officeUID;
+          const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+          validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+          let firebase = yield select(selectors.firebase);
+
+          const response = yield call(loadConferenceRooms, action.payload, firebase);
+          console.log("THIS IS THE RESPONSE");
+          console.log(response);
+          yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS, payload: { roomsList: response }});
+      } catch (error) {
+          console.error(error);
+
+          notification['error']({
+              message: 'Unable to load Conference Rooms for this office.',
+              description: error.message
+          });
+
+          yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_ERROR, payload: {error: error} });
+      }
+    }

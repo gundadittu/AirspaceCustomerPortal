@@ -6,13 +6,13 @@ import {
 
 
 class CreateUserForm extends React.Component {
-    
-    emailValidator = (rule, value, callback) => { 
-        const first = this.props.form.getFieldValue('emailAddress'); 
+
+    emailValidator = (rule, value, callback) => {
+        const first = this.props.form.getFieldValue('emailAddress');
         const second = this.props.form.getFieldValue('emailAddress2');
-        if (first != second) { 
+        if (first != second) {
             callback(new Error('The email addresses do not match.'));
-            return 
+            return
         }
         callback();
     }
@@ -24,7 +24,7 @@ class CreateUserForm extends React.Component {
         } = this.props;
         const { getFieldDecorator } = form;
 
-        const formTitle = "Add a new User to "+officeObj.name;
+        const formTitle = "Add a new User to "//+ officeObj.name;
 
         return (
             <Modal
@@ -62,12 +62,12 @@ class CreateUserForm extends React.Component {
                     <Form.Item label="Reenter Email Address">
                         {getFieldDecorator('emailAddress2', {
                             validateTrigger: 'onBlur',
-                            rules: [{ 
+                            rules: [{
                                 required: true,
-                                whitespace: true, 
+                                whitespace: true,
                                 message: 'Please input the user\'s email address.'
-                             }, 
-                            { 
+                             },
+                            {
                                 validator: this.emailValidator.bind(this)
                             }],
                         })(

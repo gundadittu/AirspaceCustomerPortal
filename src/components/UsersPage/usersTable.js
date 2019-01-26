@@ -85,7 +85,7 @@ class UsersTable extends React.Component {
   state = {
     removeUserFormVisible: false,
     editUserFormVisible: false,
-    selectedUser: null, 
+    selectedUser: null,
   }
 
   handleEditMenuClick = (e, userUID) => {
@@ -94,7 +94,7 @@ class UsersTable extends React.Component {
 
     // Get selected user object
     let selectedUser = null;
-    for (let key in userList) { 
+    for (let key in userList) {
       const value = userList[key];
       const currentUID = value.uid;
 
@@ -102,51 +102,51 @@ class UsersTable extends React.Component {
         this.setState({
           selectedUser: value
         });
-        selectedUser = value; 
+        selectedUser = value;
         break;
       }
     }
 
-    if (selectedUser == null) { 
-      return 
+    if (selectedUser == null) {
+      return
     }
 
     if (key == 'edit') {
 
       const officeObj = this.props.currentOfficeUID;
-      const userAdminOffices = selectedUser.officeAdmins; 
+      const userAdminOffices = selectedUser.officeAdmins;
       let initialUserTypeValue = 'regular'
 
-      for (let key in userAdminOffices) { 
+      for (let key in userAdminOffices) {
           const value = userAdminOffices[key];
           const officeUID = value.uid;
 
-          if (officeUID == officeObj) { 
+          if (officeUID == officeObj) {
               initialUserTypeValue = 'officeAdmin'
               break
           }
       }
 
       this.editUserFormRef.props.form.setFields({
-        firstName: { 
-          value: selectedUser.firstName, 
-          error: null 
-        }, 
-        lastName: { 
-          value: selectedUser.lastName, 
-          error: null 
-        }, 
-        emailAddress: { 
-          value:  selectedUser.email, 
-          error: null 
-        }, 
-        emailAddress2: { 
-          value: selectedUser.email, 
-          error: null 
-        }, 
-        userType: { 
-          value: initialUserTypeValue, 
-          error: null 
+        firstName: {
+          value: selectedUser.firstName,
+          error: null
+        },
+        lastName: {
+          value: selectedUser.lastName,
+          error: null
+        },
+        emailAddress: {
+          value:  selectedUser.email,
+          error: null
+        },
+        emailAddress2: {
+          value: selectedUser.email,
+          error: null
+        },
+        userType: {
+          value: initialUserTypeValue,
+          error: null
         }
       });
 
@@ -184,9 +184,9 @@ class UsersTable extends React.Component {
           return;
       }
 
-      const firstName = values.firstName; 
+      const firstName = values.firstName;
       const lastName = values.lastName;
-      const email = values.emailAddress; 
+      const email = values.emailAddress;
       const makeUserOfficeAdmin = (values.userType == 'regular') ? false : true;
       const officeUID = this.props.currentOfficeUID;
       const payload = { hideForm: this.hideEditUserForm, makeUserOfficeAdmin: makeUserOfficeAdmin, userUID: userUID, firstName: firstName, lastName: lastName, email: email, makeUserOfficeAdmin: makeUserOfficeAdmin, officeUID: officeUID, componentRef: this, formRef: editUserForm, }
@@ -194,7 +194,7 @@ class UsersTable extends React.Component {
   });
   }
 
-  hideEditUserForm = () => { 
+  hideEditUserForm = () => {
     this.setState({ editUserFormVisible: false, selectedUser: null });
   }
 
@@ -207,7 +207,7 @@ class UsersTable extends React.Component {
   }
 
   handleRemoveUser = (selectedUser, selectedOffice) => {
-    const userUID = selectedUser.uid; 
+    const userUID = selectedUser.uid;
     const officeUID = selectedOffice;
     this.setState({ selectedUser: null });
     this.props.removeUserFromOffice(userUID, officeUID, this)
@@ -250,16 +250,16 @@ const mapStateToProps = state => {
   return {
     userList: state.officeAdmin.userList,
     currentOfficeUID: state.general.currentOfficeAdminUID,
-    isLoadingUserData: state.officeAdmin.isLoadingUserData, 
-    editUserFormLoading: state.officeAdmin.editUserFormLoading, 
+    isLoadingUserData: state.officeAdmin.isLoadingUserData,
+    editUserFormLoading: state.officeAdmin.editUserFormLoading,
     removeUserFormLoading: state.officeAdmin.removeUserFormLoading
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID)), 
-    removeUserFromOffice: (userUID, officeUID, componentRef) => dispatch(actionCreator.removeUserForOfficeAdmin({userUID: userUID, officeUID: officeUID, componentRef: componentRef })), 
+    loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID)),
+    removeUserFromOffice: (userUID, officeUID, componentRef) => dispatch(actionCreator.removeUserForOfficeAdmin({userUID: userUID, officeUID: officeUID, componentRef: componentRef })),
     editUserForOfficeAdmin: (payload) => dispatch(actionCreator.editUserForOfficeAdmin(payload)),
     finishedEditUserForOfficeAdmin: (payload) => dispatch({type: 'EDIT_OFFICE_USER_FINISHED', payload: { ...payload }})
   }

@@ -5,8 +5,10 @@ import * as pageTitles from '../../pages/pageTitles';
 const initialState = {
     userList: [],
     roomsList: [],
+    desksList: [],
     isLoadingUserData: false,
     isLoadingRoomsData: false,
+    isLoadingHotDesksData: false,
     createUserFormLoading: false,
     editUserFormLoading: false,
     removeUserFormLoading: false
@@ -49,7 +51,6 @@ const reducer = ( state = initialState, action ) => {
             return updateObject(state, {userList: userList, isLoadingUserData: false});
         case actionTypes.LOAD_OFFICE_USERS_ERROR:
             return updateObject(state, {isLoadingUserData: false});
-
         case actionTypes.LOAD_CONFERENCE_ROOMS:
             return updateObject(state, {isLoadingRoomsData: true});
         case actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS:
@@ -58,6 +59,14 @@ const reducer = ( state = initialState, action ) => {
             return updateObject(state, {roomsList: roomsList, isLoadingRoomsData: false});
         case actionTypes.LOAD_CONFERENCE_ROOMS_ERROR:
             return updateObject(state, {isLoadingRoomsData: false});
+        case actionTypes.LOAD_HOT_DESKS:
+            return updateObject(state, {isLoadingHotDesksData: true});
+        case actionTypes.LOAD_HOT_DESKS_SUCCESS:
+            // properly update state here
+            const desksList = action.payload.desksList || null;
+            return updateObject(state, {desksList: desksList, isLoadingHotDesksData: false});
+        case actionTypes.LOAD_HOT_DESKS_ERROR:
+            return updateObject(state, {isLoadingHotDesksData: false});
     }
     return state;
 };

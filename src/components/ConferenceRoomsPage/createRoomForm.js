@@ -24,7 +24,6 @@ class CreateRoomForm extends React.Component {
   }
 
     addAmenity = () => {
-      console.log("HERE")
        const { form } = this.props;
        // can use data-binding to get
        const keys = form.getFieldValue('keys');
@@ -37,7 +36,6 @@ class CreateRoomForm extends React.Component {
     }
 
     uploadChange(info) {
-      console.log("IN HERE")
       if (info.file.status !== 'uploading') {
          console.log(info.file, info.fileList);
        }

@@ -3,6 +3,7 @@ import * as actionTypes from "../store/actions/actionTypes";
 import * as selectors from './selectors';
 import AirUser from '../models/AirUser';
 import AirConferenceRoom from '../models/AirConferenceRoom'
+import AirHotDesk from '../models/AirHotDesk'
 import { notification } from 'antd';
 import React from 'react';
 require("firebase/functions");
@@ -15,6 +16,10 @@ export function* loadOfficeUsersWatchSaga() {
 
 export function* loadConferenceRoomsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_CONFERENCE_ROOMS, loadConferenceRoomsWorkerSaga);
+}
+
+export function* loadHotDesksWatchSaga() {
+    yield takeLatest(actionTypes.LOAD_HOT_DESKS, loadHotDesksWorkerSaga);
 }
 
 export function* createUserForOfficeAdmin() {
@@ -147,7 +152,6 @@ function* loadOfficeUsersWorkerSaga(action) {
       .then( result => {
           const data = result.data;
 
-          var userList = [];
           var conferenceRooms = [];
           for (let key in data) {
             const value = data[key];
@@ -156,8 +160,6 @@ function* loadOfficeUsersWorkerSaga(action) {
               conferenceRooms.push(room)
             }
           }
-          console.log("THIS IS THE CONFERENCE ROOMS");
-          console.log(conferenceRooms);
           return conferenceRooms;
       })
   }
@@ -171,8 +173,6 @@ function* loadOfficeUsersWorkerSaga(action) {
           let firebase = yield select(selectors.firebase);
 
           const response = yield call(loadConferenceRooms, action.payload, firebase);
-          console.log("THIS IS THE RESPONSE");
-          console.log(response);
           yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS, payload: { roomsList: response }});
       } catch (error) {
           console.error(error);
@@ -185,6 +185,48 @@ function* loadOfficeUsersWorkerSaga(action) {
           yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_ERROR, payload: {error: error} });
       }
     }
+
+    function loadHotDesks(payload, firebase) {
+        const officeUID = payload.officeUID || null;
+        const apiCall = firebase.functions.httpsCallable('getAllHotDesksForUser')
+
+        return apiCall({officeUID: officeUID})
+        .then( result => {
+            const data = result.data;
+
+            var hotDesks = [];
+            for (let key in data) {
+              const value = data[key];
+              const desk = new AirHotDesk(value) || null;
+              if (desk !== null) {
+                hotDesks.push(desk)
+              }
+            }
+            return hotDesks;
+        })
+    }
+
+    function* loadHotDesksWorkerSaga(action) {
+        try {
+            const selectedOfficeUID = action.payload.officeUID;
+            const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+            validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+            let firebase = yield select(selectors.firebase);
+
+            const response = yield call(loadHotDesks, action.payload, firebase);
+            yield put({ type: actionTypes.LOAD_HOT_DESKS_SUCCESS, payload: { desksList: response }});
+        } catch (error) {
+            console.error(error);
+
+            notification['error']({
+                message: 'Unable to load Hot Desks for this office.',
+                description: error.message
+            });
+
+            yield put({ type: actionTypes.LOAD_HOT_DESKS_ERROR, payload: {error: error} });
+        }
+      }
 
   function removeOfficeUser(payload, firebase) {
     const officeUID = payload.officeUID;

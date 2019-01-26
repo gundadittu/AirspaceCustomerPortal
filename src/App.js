@@ -6,6 +6,7 @@ import NavBar from './components/NavBar/navbar';
 import SideNavbar from './components/SideNavBar/sidenavbar';
 import UsersPage from './components/UsersPage/usersPage';
 import ConferenceRoomsPage from './components/ConferenceRoomsPage/conferenceRooms';
+import HotDesksPage from './components/HotDesksPage/hotDesksPage.js';
 import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
@@ -118,5 +119,6 @@ const officeAdminRoutingComp = () => (
       <Route exact path='/officeAdmin/:officeUID' component={UsersPage}></Route>
       <Route path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
       <Route path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
+      <Route path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>
     </Switch>
 )

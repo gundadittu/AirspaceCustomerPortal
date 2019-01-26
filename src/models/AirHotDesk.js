@@ -1,6 +1,6 @@
 import AirOffice from './AirOffice';
 
-export default class AirConferenceRoom {
+export default class AirHotDesk {
     constructor(dict) {
         const uid = dict.uid || null;
         if (uid === null) {
@@ -8,9 +8,6 @@ export default class AirConferenceRoom {
         }
         const name = dict.name || null;
         const offices = dict.offices || null;
-        const amenities = dict.amenities || null;
-        const capacity = dict.capacity || null;
-        const address = dict.address || null;
         const active = dict.active || null;
         const reserveable = dict.reserveable || null;
         const imageURL = dict.imageURL || null;
@@ -25,9 +22,6 @@ export default class AirConferenceRoom {
             }
         }
         this.offices = airOffices;
-        this.amenities = amenities;
-        this.capacity = capacity;
-        this.address = address;
         this.active = active;
         this.reserveable = reserveable;
         this.imageURL = imageURL

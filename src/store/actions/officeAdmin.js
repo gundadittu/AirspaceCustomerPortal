@@ -11,7 +11,16 @@ export const loadOfficeUsers = (officeUID) => {
 
 export const loadConferenceRooms = (officeUID) => {
     return {
-        type: actionTypes.LOAD_CONFERENCE_ROOMS, 
+        type: actionTypes.LOAD_CONFERENCE_ROOMS,
+        payload: {
+            officeUID: officeUID
+        }
+    };
+}
+
+export const loadHotDesks = (officeUID) => {
+    return {
+        type: actionTypes.LOAD_HOT_DESKS,
         payload: {
             officeUID: officeUID
         }
@@ -27,25 +36,25 @@ export const createUserForOfficeAdmin = (payload) => {
     };
 }
 
-export const removeUserForOfficeAdmin = (payload) => { 
+export const removeUserForOfficeAdmin = (payload) => {
     return {
-        type: actionTypes.REMOVE_OFFICE_USER, 
-        payload: { 
+        type: actionTypes.REMOVE_OFFICE_USER,
+        payload: {
             ...payload,
-           userUID: payload.userUID, 
+           userUID: payload.userUID,
            officeUID: payload.officeUID
         }
     };
 }
 
-export const editUserForOfficeAdmin = (payload) => { 
+export const editUserForOfficeAdmin = (payload) => {
     return {
-        type: actionTypes.EDIT_OFFICE_USER, 
-        payload: { 
-            selectedUserUID: payload.userUID, 
-            selectedOfficeUID: payload.officeUID, 
-            firstName: payload.firstName, 
-            lastName: payload.lastName, 
+        type: actionTypes.EDIT_OFFICE_USER,
+        payload: {
+            selectedUserUID: payload.userUID,
+            selectedOfficeUID: payload.officeUID,
+            firstName: payload.firstName,
+            lastName: payload.lastName,
             emailAddress: payload.email,
             makeUserOfficeAdmin: payload.makeUserOfficeAdmin,
             hideForm: payload.hideForm

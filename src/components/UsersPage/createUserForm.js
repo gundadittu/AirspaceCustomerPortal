@@ -24,11 +24,7 @@ class CreateUserForm extends React.Component {
         } = this.props;
         const { getFieldDecorator } = form;
 
-<<<<<<< HEAD
-        const formTitle = "Add a new User to "//+ officeObj.name;
-=======
-        const formTitle = "Add a new User to "+(officeObj.name || 'this office.');
->>>>>>> side bar portal switcher changes
+        const formTitle = "Add a new User to this office.";
 
         return (
             <Modal

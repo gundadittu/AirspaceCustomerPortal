@@ -137,10 +137,12 @@ class UsersPage extends React.Component {
                 <Row>
                     <Col className="wide-table" span={24}>
                         <h1>Users</h1>
-                        <IconButton className="inlineDisplay" onClick={() => this.props.loadUserList(this.props.currentOfficeUID)}>
-                            <RefreshIcon />
-                        </IconButton>
-                        <Button className="inlineDisplay rightAlign" type="primary" onClick={this.showCreateUserFormModal}>Add User</Button>
+                        <div>
+                            <IconButton className="inlineDisplay" onClick={() => this.props.loadUserList(this.props.currentOfficeUID)}>
+                                <RefreshIcon />
+                            </IconButton>
+                            <Button className="inlineDisplay rightAlign" type="primary" onClick={this.showCreateUserFormModal}>Add User</Button>
+                        </div>
                         <UsersTable />
                     </Col>
                 </Row>

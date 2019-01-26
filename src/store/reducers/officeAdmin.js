@@ -4,7 +4,8 @@ import * as pageTitles from '../../pages/pageTitles';
 
 const initialState = {
     userList: [],
-    roomsList: [],
+    activeRoomsList: [],
+    inactiveRoomsList: [],
     isLoadingUserData: false,
     isLoadingRoomsData: false,
     createUserFormLoading: false,
@@ -49,13 +50,12 @@ const reducer = ( state = initialState, action ) => {
             return updateObject(state, {userList: userList, isLoadingUserData: false});
         case actionTypes.LOAD_OFFICE_USERS_ERROR:
             return updateObject(state, {isLoadingUserData: false});
-
         case actionTypes.LOAD_CONFERENCE_ROOMS:
             return updateObject(state, {isLoadingRoomsData: true});
         case actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS:
-            // properly update state here
-            const roomsList = action.payload.roomsList || null;
-            return updateObject(state, {roomsList: roomsList, isLoadingRoomsData: false});
+            const activeRoomsList = action.payload.activeRoomsList || null;
+            const inactiveRoomsList = action.payload.inactiveRoomsList || null;
+            return updateObject(state, {activeRoomsList: activeRoomsList, inactiveRoomsList: inactiveRoomsList, isLoadingRoomsData: false});
         case actionTypes.LOAD_CONFERENCE_ROOMS_ERROR:
             return updateObject(state, {isLoadingRoomsData: false});
     }

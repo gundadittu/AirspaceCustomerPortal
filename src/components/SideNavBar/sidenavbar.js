@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Menu, Icon, Affix } from 'antd';
+import { Menu, Icon, Affix, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import * as actionCreators from '../../store/actions/general';
@@ -53,7 +53,7 @@ class SideNavBar extends React.Component {
     }
     const switchPortalSubMenu = (
       // <span><Icon type="up-square" /><span>
-        <SubMenu className='sideBarPortalSwitcher' key="sub1" title={this.getSwitchPortalSubMenuTitle()}>
+        <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
           <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
           <MenuItemGroup key="g1" title="Office Admin Portals">
             {officeAdminPortalDiv()}

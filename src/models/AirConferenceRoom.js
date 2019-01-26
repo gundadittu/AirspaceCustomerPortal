@@ -26,8 +26,6 @@ export default class AirConferenceRoom {
         }
         this.offices = airOffices;
         this.amenities = amenities;//amenities.split();
-        console.log("THIS IS AMENITIES");
-        console.log(this.amenities);
         this.capacity = capacity;
         this.address = address;
         this.active = active;

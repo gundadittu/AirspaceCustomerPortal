@@ -37,18 +37,18 @@ function validatePermission(selectedOfficeUID, userAdminOfficeList) {
             description: 'Current user is not a admin for this office.'
         });
         throw new Error('Current user is not a admin for this office..');
-   }
+    }
 
-   const newArray = userAdminOfficeList.map( x => {
+    const newArray = userAdminOfficeList.map(x => {
         return (x.uid == selectedOfficeUID)
-   })
-   if (newArray.includes(true) == false) {
+    })
+    if (newArray.includes(true) == false) {
         notification['error']({
             message: 'Permission denied.',
             description: 'Current user is not a admin for this office.'
         });
         throw new Error('Current user is not a admin for this office.');
-   }
+    }
 }
 
 function createUserApiCall(payload, firebase) {
@@ -58,14 +58,14 @@ function createUserApiCall(payload, firebase) {
     const makeUserOfficeAdmin = payload.makeUserOfficeAdmin;
     const selectedOfficeUID = payload.officeUID;
     const type = 'regular';
-    const dict = {firstName: firstName, lastName: lastName, email: email, makeUserOfficeAdmin: makeUserOfficeAdmin, selectedOfficeUID: selectedOfficeUID, type: type };
+    const dict = { firstName: firstName, lastName: lastName, email: email, makeUserOfficeAdmin: makeUserOfficeAdmin, selectedOfficeUID: selectedOfficeUID, type: type };
 
     const apiCall = firebase.functions.httpsCallable('addUserToOffice');
     return apiCall(dict)
-    .then( result => {
-       console.log('createUserApiCall-success');
-       return null
-    })
+        .then(result => {
+            console.log('createUserApiCall-success');
+            return null
+        })
 }
 
 function* createUserWorkerSaga(action) {
@@ -83,7 +83,7 @@ function* createUserWorkerSaga(action) {
         });
 
         const newPayload = { hideFormRef: payload.hideFormRef }
-        yield put({ type: actionTypes.CREATE_USER_FOR_OFFICEADMIN_FINISHED, payload: { ...newPayload }})
+        yield put({ type: actionTypes.CREATE_USER_FOR_OFFICEADMIN_FINISHED, payload: { ...newPayload } })
     } catch (error) {
         console.error(error);
 
@@ -101,19 +101,19 @@ function loadOfficeUsers(payload, firebase) {
     const officeUID = payload.officeUID || null;
     const apiCall = firebase.functions.httpsCallable('getAllUsersForOffice')
 
-    return apiCall({officeUID: officeUID})
-    .then( result => {
-        const data = result.data;
-        var userList = [];
-        for (let key in data) {
-            const value = data[key];
-            const user = new AirUser(value) || null;
-            if (user !== null) {
-                userList.push(user);
+    return apiCall({ officeUID: officeUID })
+        .then(result => {
+            const data = result.data;
+            var userList = [];
+            for (let key in data) {
+                const value = data[key];
+                const user = new AirUser(value) || null;
+                if (user !== null) {
+                    userList.push(user);
+                }
             }
-        }
-        return userList;
-    })
+            return userList;
+        })
 }
 
 function* loadOfficeUsersWorkerSaga(action) {
@@ -126,7 +126,7 @@ function* loadOfficeUsersWorkerSaga(action) {
         let firebase = yield select(selectors.firebase);
 
         const response = yield call(loadOfficeUsers, action.payload, firebase);
-        yield put({ type: actionTypes.LOAD_OFFICE_USERS_SUCCESS, payload: { userList: response }});
+        yield put({ type: actionTypes.LOAD_OFFICE_USERS_SUCCESS, payload: { userList: response } });
     } catch (error) {
         console.error(error);
 
@@ -135,71 +135,74 @@ function* loadOfficeUsersWorkerSaga(action) {
             description: error.message
         });
 
-        yield put({ type: actionTypes.LOAD_OFFICE_USERS_ERROR, payload: {error: error} });
+        yield put({ type: actionTypes.LOAD_OFFICE_USERS_ERROR, payload: { error: error } });
     }
-  }
+}
 
-  function loadConferenceRooms(payload, firebase) {
-      const officeUID = payload.officeUID || null;
-      const apiCall = firebase.functions.httpsCallable('getAllConferenceRoomsForUser')
+function loadConferenceRooms(payload, firebase) {
+    const officeUID = payload.officeUID || null;
+    const apiCall = firebase.functions.httpsCallable('getAllConferenceRoomsForOffice')
 
-      return apiCall({officeUID: officeUID})
-      .then( result => {
-          const data = result.data;
+    return apiCall({ selectedOfficeUID: officeUID })
+        .then(result => {
+            const data = result.data;
 
-          var userList = [];
-          var conferenceRooms = [];
-          for (let key in data) {
-            const value = data[key];
-            const room = new AirConferenceRoom(value) || null;
-            if (room !== null) {
-              conferenceRooms.push(room)
+            var activeConferenceRooms = [];
+            var inactiveConferenceRooms = [];
+            for (let superKey in data) {
+                const superValue = data[superKey];
+                for (let key in superValue) {
+                    const value = superValue[key];
+                    const room = new AirConferenceRoom(value) || null;
+                    if (room !== null) {
+                        if (superKey == 'active') { 
+                            activeConferenceRooms.push(room);
+                        } else { 
+                            inactiveConferenceRooms.push(room);
+                        }
+                    }
+                }
             }
-          }
-          console.log("THIS IS THE CONFERENCE ROOMS");
-          console.log(conferenceRooms);
-          return conferenceRooms;
-      })
-  }
+            return {'active': activeConferenceRooms, 'inactive': inactiveConferenceRooms};
+        })
+}
 
-  function* loadConferenceRoomsWorkerSaga(action) {
-      try {
-          const selectedOfficeUID = action.payload.officeUID;
-          const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
-          validatePermission(selectedOfficeUID, userAdminOfficeList);
+function* loadConferenceRoomsWorkerSaga(action) {
+    try {
+        const selectedOfficeUID = action.payload.officeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
 
-          let firebase = yield select(selectors.firebase);
+        let firebase = yield select(selectors.firebase);
 
-          const response = yield call(loadConferenceRooms, action.payload, firebase);
-          console.log("THIS IS THE RESPONSE");
-          console.log(response);
-          yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS, payload: { roomsList: response }});
-      } catch (error) {
-          console.error(error);
+        const response = yield call(loadConferenceRooms, action.payload, firebase);
+        yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS, payload: { activeRoomsList: response.active, inactiveRoomsList: response.inactive } });
+    } catch (error) {
+        console.error(error);
 
-          notification['error']({
-              message: 'Unable to load Conference Rooms for this office.',
-              description: error.message
-          });
+        notification['error']({
+            message: 'Unable to load Conference Rooms for this office.',
+            description: error.message
+        });
 
-          yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_ERROR, payload: {error: error} });
-      }
+        yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_ERROR, payload: { error: error } });
     }
+}
 
-  function removeOfficeUser(payload, firebase) {
+function removeOfficeUser(payload, firebase) {
     const officeUID = payload.officeUID;
     const userUID = payload.userUID;
 
     const apiCall = firebase.functions.httpsCallable('removeUserFromOffice')
 
-    return apiCall({selectedOfficeUID: officeUID, selectedUserUID: userUID})
-    .then( () => {
-        console.log('removeUserApiCall-success');
-        return null
-    })
-  }
+    return apiCall({ selectedOfficeUID: officeUID, selectedUserUID: userUID })
+        .then(() => {
+            console.log('removeUserApiCall-success');
+            return null
+        })
+}
 
-  function* removeUserWorkerSaga(action) {
+function* removeUserWorkerSaga(action) {
     try {
         const payload = action.payload;
         const selectedOfficeUID = payload.officeUID;
@@ -214,7 +217,7 @@ function* loadOfficeUsersWorkerSaga(action) {
         });
 
         const newPayload = { componentRef: payload.componentRef }
-        yield put({ type: actionTypes.REMOVE_OFFICE_USER_FINISHED, payload: { ...newPayload }});
+        yield put({ type: actionTypes.REMOVE_OFFICE_USER_FINISHED, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
 
@@ -225,20 +228,20 @@ function* loadOfficeUsersWorkerSaga(action) {
 
         const payload = action.payload;
         const newPayload = { componentRef: payload.componentRef, formRef: payload.formRef }
-        yield put({ type: actionTypes.REMOVE_OFFICE_USER_FINISHED, payload: {...newPayload, error: error} });
+        yield put({ type: actionTypes.REMOVE_OFFICE_USER_FINISHED, payload: { ...newPayload, error: error } });
     }
-  }
+}
 
-  function editOfficeUser(payload, firebase) {
+function editOfficeUser(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('editUserForOffice')
-    return apiCall({...payload})
-    .then( () => {
-        console.log('editUserApiCall-success');
-        return null
-    })
-  }
+    return apiCall({ ...payload })
+        .then(() => {
+            console.log('editUserApiCall-success');
+            return null
+        })
+}
 
-  function* editUserWorkerSaga(action) {
+function* editUserWorkerSaga(action) {
     try {
         const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;
@@ -253,7 +256,7 @@ function* loadOfficeUsersWorkerSaga(action) {
         });
 
         const newPayload = { hideForm: payload.hideForm }
-        yield put({ type: actionTypes.EDIT_OFFICE_USER_FINISHED, payload: { ...newPayload }});
+        yield put({ type: actionTypes.EDIT_OFFICE_USER_FINISHED, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
 
@@ -264,6 +267,6 @@ function* loadOfficeUsersWorkerSaga(action) {
 
         const payload = action.payload;
         const newPayload = { hideForm: payload.hideForm }
-        yield put({ type: actionTypes.EDIT_OFFICE_USER_FINISHED, payload: { ...newPayload }});
+        yield put({ type: actionTypes.EDIT_OFFICE_USER_FINISHED, payload: { ...newPayload } });
     }
-  }
+}

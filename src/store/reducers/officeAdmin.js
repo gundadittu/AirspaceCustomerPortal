@@ -3,27 +3,17 @@ import { updateObject } from '../utility';
 import * as pageTitles from '../../pages/pageTitles';
 
 const initialState = {
-<<<<<<< HEAD
     userList: [],
     roomsList: [],
     isLoadingUserData: false,
     isLoadingRoomsData: false,
     createUserFormLoading: false,
-    editUserFormLoading: false
-=======
-    userList: [], 
-    isLoadingUserData: false, 
-    createUserFormLoading: false, 
     editUserFormLoading: false, 
     removeUserFormLoading: false  
->>>>>>> user edit + remove form fixes
 };
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
-<<<<<<< HEAD
-        case actionTypes.CREATE_USER_FOR_OFFICEADMIN:
-=======
         case actionTypes.EDIT_OFFICE_USER: 
             return updateObject(state, {editUserFormLoading: true});
         case actionTypes.EDIT_OFFICE_USER_FINISHED: 
@@ -38,7 +28,6 @@ const reducer = ( state = initialState, action ) => {
             componentRef.setState({removeUserFormVisible: false})
             return updateObject(state, {removeUserFormLoading: false});
         case actionTypes.CREATE_USER_FOR_OFFICEADMIN: 
->>>>>>> user edit + remove form fixes
             return updateObject(state, {createUserFormLoading: true});
         case actionTypes.CREATE_USER_FOR_OFFICEADMIN_FINISHED:
             const createPayload = action.payload;

@@ -31,7 +31,7 @@ export default class AirConferenceRoom {
         this.capacity = capacity;
         this.address = address;
         this.active = active;
-        this.reseveable = reserveable;
+        this.reserveable = reserveable;
         this.imageURL = imageURL
     }
 }

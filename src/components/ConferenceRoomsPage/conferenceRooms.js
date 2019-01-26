@@ -17,12 +17,14 @@ import getPagePayload from '../../pages/pageRoutingFunctions';
 
 import Login from '../Login/Login';
 import ConferenceRoomsTable from './conferenceRoomsTable'
+import CreateUserForm from './createRoomForm'
 
 
 class ConferenceRoomsPage extends React.Component {
 
     state = {
       current: 'Active',
+      createRoomFormVisible: false
     }
 
     handleClick = (e) => {
@@ -30,6 +32,14 @@ class ConferenceRoomsPage extends React.Component {
       this.setState({
         current: e.key,
       });
+    }
+
+    showCreateRoomFormModal = () => {
+        this.setState({createRoomFormVisible: true });
+    }
+
+    handleCancelCreateRoom = () => {
+        this.setState({ createRoomFormVisible: false });
     }
 
     componentDidMount() {
@@ -59,6 +69,11 @@ class ConferenceRoomsPage extends React.Component {
     render() {
       return (
             <div style={{backgroundColor: '#FFFFFF'}}>
+            <CreateUserForm
+                visible={this.state.createRoomFormVisible}
+                onCancel={this.handleCancelCreateRoom}
+                formTitle={this.props.currentOfficeName}
+            />
                 <Row>
                     <Col className="wide-table" span={24}>
                         <h1>Conference Rooms</h1>
@@ -76,7 +91,7 @@ class ConferenceRoomsPage extends React.Component {
                             <Menu.Item key="Inactive" >
                               <b>Inactive</b>
                             </Menu.Item>
-                            <Button className="inlineDisplay" type="primary rightAlign" >Add Room</Button>
+                            <Button className="inlineDisplay" type="primary rightAlign" onClick={this.showCreateRoomFormModal}>Add Room</Button>
                           </Menu>
                         <ConferenceRoomsTable />
                     </Col>

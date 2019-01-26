@@ -23,20 +23,6 @@ class EditUserForm extends React.Component {
         } = this.props;
         const { getFieldDecorator } = form;
         const formTitle = "Edit User";
-        const userObj = selectedUser || {};
-        const officeObj = selectedOffice || "";
-        const userAdminOffices = userObj.officeAdmins; 
-        let initialUserTypeValue = 'regular'
-
-        for (let key in userAdminOffices) { 
-            const value = userAdminOffices[key];
-            const officeUID = value.uid;
-
-            if (officeUID == officeObj) { 
-                initialUserTypeValue = 'officeAdmin'
-                break
-            }
-        }
 
         return (
 
@@ -51,7 +37,7 @@ class EditUserForm extends React.Component {
                 <Form layout="vertical">
                     <Form.Item label="First Name">
                         {getFieldDecorator('firstName', {
-                            initialValue: userObj.firstName || "",
+                            initialValue: null,
                             rules: [{ 
                                 required: true,
                                  whitespace: true, 
@@ -64,7 +50,7 @@ class EditUserForm extends React.Component {
                     </Form.Item>
                     <Form.Item label="Last Name">
                         {getFieldDecorator('lastName', {
-                            initialValue: userObj.lastName || "",
+                            initialValue: null,
                             validateTrigger: 'onBlur',
                             rules: [{ required: true, whitespace: true, message: 'Please input the user\'s last name.' }],
                         })(
@@ -73,7 +59,7 @@ class EditUserForm extends React.Component {
                     </Form.Item>
                     <Form.Item label="Email Address">
                         {getFieldDecorator('emailAddress', {
-                            initialValue: userObj.email || "",
+                            initialValue: null,
                             validateTrigger: 'onBlur',
                             rules: [{ required: true, whitespace: true, message: 'Please input the user\'s email address.' }],
                         })(
@@ -82,7 +68,7 @@ class EditUserForm extends React.Component {
                     </Form.Item>
                     <Form.Item label="Reenter Email Address">
                         {getFieldDecorator('emailAddress2', {
-                            initialValue: userObj.email || "",
+                            initialValue: null,
                             validateTrigger: 'onBlur',
                             rules: [{ 
                                 required: true,
@@ -98,7 +84,7 @@ class EditUserForm extends React.Component {
                     </Form.Item>
                     <Form.Item label="User Type" className="collection-create-form_last-form-item">
                         {getFieldDecorator('userType', {
-                            initialValue: initialUserTypeValue,
+                            initialValue: null,
                         })(
                             <Radio.Group>
                                 <Radio value="regular">User</Radio>

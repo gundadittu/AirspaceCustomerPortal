@@ -21,8 +21,8 @@ import CreateUserForm from './createUserForm';
 
 class UsersPage extends React.Component {
 
-    state =  { 
-        createUserFormVisible: false 
+    state = {
+        createUserFormVisible: false
     }
 
     showCreateUserFormModal = () => {
@@ -30,6 +30,33 @@ class UsersPage extends React.Component {
     }
 
     handleCancelCreateUser = () => {
+        this.hideCreateUserForm();
+    }
+
+    hideCreateUserForm = () => {
+        this.createUserFormRef.props.form.setFields({
+            firstName: {
+                value: '',
+                error: null
+            },
+            lastName: {
+                value: '',
+                error: null
+            },
+            emailAddress: {
+                value: '',
+                error: null
+            },
+            emailAddress2: {
+                value: '',
+                error: null
+            },
+            userType: {
+                value: '',
+                error: null
+            }
+        });
+
         this.setState({ createUserFormVisible: false });
     }
 
@@ -40,12 +67,12 @@ class UsersPage extends React.Component {
                 return;
             }
 
-            const firstName = values.firstName; 
+            const firstName = values.firstName;
             const lastName = values.lastName;
-            const emailAddress = values.emailAddress; 
+            const emailAddress = values.emailAddress;
             const makeUserOfficeAdmin = (values.userType == 'regular') ? false : true;
             const officeUID = this.props.currentOfficeUID;
-            const payload = { firstName: firstName, lastName: lastName, emailAddress: emailAddress, makeUserOfficeAdmin: makeUserOfficeAdmin, officeUID: officeUID, componentRef: this, formRef: createUserForm, }
+            const payload = { firstName: firstName, lastName: lastName, emailAddress: emailAddress, makeUserOfficeAdmin: makeUserOfficeAdmin, officeUID: officeUID, hideFormRef: this.hideCreateUserForm }
             this.props.createUserForOfficeAdmin(payload);
         });
     }
@@ -55,10 +82,21 @@ class UsersPage extends React.Component {
     }
 
     componentDidMount() {
-        // Routing stuff 
+        // Routing stuff
         if (this.props.match.isExact) {
             const selectedOfficeUID = this.props.match.params.officeUID;
-            const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID });
+
+            const list = this.props.userAdminOfficeList;
+            let officeObj = null;
+            for (let key in list) {
+                const value = list[key];
+
+                if (value.uid == selectedOfficeUID) {
+                    officeObj = value;
+                }
+            }
+
+            const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
             if (pagePayload) {
                 this.props.changePage(pagePayload);
             }
@@ -87,13 +125,13 @@ class UsersPage extends React.Component {
         }
 
         return (
-            <div style={{backgroundColor: '#FFFFFF'}}>
+            <div style={{ backgroundColor: '#FFFFFF' }}>
                 <CreateUserForm
                     wrappedComponentRef={(form) => this.saveCreateUserFormRef(form)}
                     visible={this.state.createUserFormVisible}
                     onCancel={this.handleCancelCreateUser}
                     onCreate={this.handleCreateUser}
-                    formTitle={this.props.currentOfficeName}
+                    officeObj={this.props.currentOffice}
                     confirmLoading={this.props.createUserFormLoading}
                 />
                 <Row>
@@ -102,7 +140,7 @@ class UsersPage extends React.Component {
                         <IconButton className="inlineDisplay" onClick={() => this.props.loadUserList(this.props.currentOfficeUID)}>
                             <RefreshIcon />
                         </IconButton>
-                        <Button className="inlineDisplay" type="primary rightAlign" onClick={this.showCreateUserFormModal}>Add User</Button>
+                        <Button className="inlineDisplay rightAlign" type="primary" onClick={this.showCreateUserFormModal}>Add User</Button>
                         <UsersTable />
                     </Col>
                 </Row>
@@ -115,9 +153,10 @@ const mapStateToProps = state => {
     return {
         userList: state.officeAdmin.userList,
         currentOfficeUID: state.general.currentOfficeAdminUID,
+        currentOffice: state.general.currentOfficeAdmin,
         user: state.auth.user,
         userAdminOfficeList: state.auth.adminOfficeList,
-        isLoadingUserData: state.officeAdmin.isLoadingUserData, 
+        isLoadingUserData: state.officeAdmin.isLoadingUserData,
         createUserFormLoading: state.officeAdmin.createUserFormLoading
     }
 };
@@ -126,8 +165,8 @@ const mapDispatchToProps = dispatch => {
     return {
         loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID)),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
-        createUserForOfficeAdmin: (payload) => dispatch(officeActionCreator.createUserForOfficeAdmin(payload)), 
-        createUserForOfficeAdminFinished: (payload) => dispatch({type: actionTypes.CREATE_USER_FOR_OFFICEADMIN_FINISHED, payload: { ...payload }})
+        createUserForOfficeAdmin: (payload) => dispatch(officeActionCreator.createUserForOfficeAdmin(payload))
+        // finishedCreatingUser: (payload) => dispatch({type: 'CREATE_USER_FOR_OFFICEADMIN_FINISHED', payload: { ...payload }})
     }
 };
 

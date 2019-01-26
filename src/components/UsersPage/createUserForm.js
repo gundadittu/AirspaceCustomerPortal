@@ -20,11 +20,11 @@ class CreateUserForm extends React.Component {
     render() {
 
         const {
-            visible, onCancel, onCreate, form, confirmLoading
+            visible, onCancel, onCreate, form, officeObj, confirmLoading
         } = this.props;
         const { getFieldDecorator } = form;
 
-        const formTitle = "Add a new User to "+this.props.formTitle;
+        const formTitle = "Add a new User to "+officeObj.name;
 
         return (
             <Modal

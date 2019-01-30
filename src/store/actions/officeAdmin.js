@@ -61,3 +61,22 @@ export const editUserForOfficeAdmin = (payload) => {
         }
     };
 }
+
+export const createConferenceRoom = (payload) => {
+    return {
+        type: actionTypes.ADD_CONF_ROOM,
+        payload: {
+            ...payload
+            // Payload must contain the below keys
+            // roomName: roomName, 
+            // capacity: capacity, 
+            // standardAmenities: standardAmenities, 
+            // customAmenities: customAmenities, 
+            // selectedOfficeUID: currentOfficeUID,
+            // reserveable: reserveable, 
+            // activeStatus: activeStatus, 
+            // photoFileObj: photoFileObj, 
+            // hideFormRef: this.hideCreateRoomFormModal
+        }
+    }
+}

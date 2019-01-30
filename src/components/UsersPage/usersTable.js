@@ -227,8 +227,6 @@ class UsersTable extends React.Component {
           onCancel={this.handleCancelEditUser}
           onCreate={() => this.handleEditUser(this.state.selectedUser.uid)}
           confirmLoading={this.props.editUserFormLoading}
-          selectedUser={this.state.selectedUser}
-          selectedOffice={this.props.currentOfficeUID}
           confirmLoading={this.props.editUserFormLoading}
         />
         <RemoveUserForm

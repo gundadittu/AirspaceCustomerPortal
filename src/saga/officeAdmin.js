@@ -7,6 +7,8 @@ import AirHotDesk from '../models/AirHotDesk'
 import { notification } from 'antd';
 import React from 'react';
 require("firebase/functions");
+require("firebase/storage");
+
 
 // Watchers
 
@@ -33,6 +35,12 @@ export function* removeUserForOfficeAdmin() {
 export function* editUserForOfficeAdmin() {
     yield takeLatest(actionTypes.EDIT_OFFICE_USER, editUserWorkerSaga);
 }
+
+export function* createConferenceRoomOfficeAdmin() {
+    yield takeLatest(actionTypes.ADD_CONF_ROOM, addRoomWorkerSaga);
+}
+
+// Workers 
 
 function validatePermission(selectedOfficeUID, userAdminOfficeList) {
 
@@ -315,5 +323,47 @@ function* editUserWorkerSaga(action) {
         const payload = action.payload;
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.EDIT_OFFICE_USER_FINISHED, payload: { ...newPayload } });
+    }
+}
+
+
+function addRoom(payload, firebase) { 
+    const apiCall = firebase.functions.httpsCallable('addConferenceRoomForOfficeAdmin')
+    return apiCall({ ...payload, hideFormRef: null })
+    .then( newRoomUID => { 
+        const file = payload.photoFileObj; 
+        const storageRef = firebase.storage.ref();
+        const photoRef = storageRef.child('conferenceRoomImages/'+newRoomUID);
+        return photoRef.put(file);
+    })
+}
+
+function* addRoomWorkerSaga(action) { 
+    try {
+        const payload = action.payload;
+        const selectedOfficeUID = payload.selectedOfficeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(addRoom, payload, firebase);
+
+        notification['success']({
+            message: 'Successfully added conference room.'
+        });
+
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.ADD_CONF_ROOM_FINISHED, payload: { ...newPayload } });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to add conference room.',
+            description: error.message
+        });
+
+        const payload = action.payload;
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.ADD_CONF_ROOM_FINISHED, payload: { ...newPayload } });
     }
 }

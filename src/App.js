@@ -29,11 +29,9 @@ class App extends Component {
       const weakProps = this.props;
       this.listener = firebase.auth.onAuthStateChanged(function(user) {
         if (user) {
-          console.log('auth listener found user');
           weakProps.setUpUser(user.uid);
           weakProps.history.push('/');
         } else {
-          console.log('auth listener did NOT find user');
           weakProps.setUpUser(null);
           weakProps.history.push('/login');
         }

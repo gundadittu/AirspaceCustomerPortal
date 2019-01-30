@@ -17,15 +17,14 @@ import getPagePayload from '../../pages/pageRoutingFunctions';
 
 import Login from '../Login/Login';
 import ConferenceRoomsTable from './conferenceRoomsTable'
-import CreateUserForm from './createRoomForm'
+import CreateRoomForm from './createRoomForm'
 
 
 class ConferenceRoomsPage extends React.Component {
 
     state = {
         currentList: 'active',
-        createRoomFormVisible: false,
-        clearForm: false
+        createRoomFormVisible: false
     }
 
     handleClick = (e) => {
@@ -39,11 +38,77 @@ class ConferenceRoomsPage extends React.Component {
         this.setState({ createRoomFormVisible: true });
     }
 
+    hideCreateRoomFormModal = () => { 
+        this.setState({ createRoomFormVisible: false });
+        const createRoomForm = this.createRoomFormRef.props.form;
+        createRoomForm.setFields({
+            roomName: { 
+                value: null
+            },
+            capacity: { 
+                value: null
+            },
+            standardAmenities: { 
+                value: null
+            },
+            reserveable : { 
+                value: 'reserveable'
+            },
+            activeStatus: { 
+                value: 'active'
+            },
+            uploadPhoto: { 
+                value: null
+            },
+            keys: { 
+                value: null
+            }
+        })
+    }
+
+    handleCreateRoom = () => { 
+        const createRoomForm = this.createRoomFormRef.props.form;
+        createRoomForm.validateFields((err, values) => {
+            if (err) {
+                return;
+            }
+            const roomName = values.roomName; 
+            const standardAmenities = values.standardAmenities; // [String]
+            const reserveable = values.reserveable; // format value? 
+            const activeStatus = values.activeStatus; // format value? 
+            const customAmenities = values.customAmenities;
+            const capacity = values.capacity;
+            const currentOfficeUID = this.props.currentOfficeUID;
+            let photoFileObj = null;
+            const uploadPhotoDict = values.uploadPhoto || null;
+            if (uploadPhotoDict) { 
+                const value = uploadPhotoDict[0];
+                const fileObj = value.originFileObj;
+                photoFileObj = fileObj;
+            }
+            
+            const payload = { 
+                roomName: roomName, 
+                capacity: capacity, 
+                standardAmenities: standardAmenities, 
+                customAmenities: customAmenities, 
+                selectedOfficeUID: currentOfficeUID,
+                reserveable: reserveable, 
+                activeStatus: activeStatus, 
+                photoFileObj: photoFileObj, 
+                hideForm: this.hideCreateRoomFormModal
+            }
+
+            this.props.createConferenceRoom(payload);
+        })
+    }
+
     handleCancelCreateRoom = () => {
-        this.setState({
-            createRoomFormVisible: false,
-            clearForm: true
-        });
+       this.hideCreateRoomFormModal();
+    }
+
+    saveCreateRoomFormRef = (form) => { 
+        this.createRoomFormRef = form; 
     }
 
     componentDidMount() {
@@ -92,10 +157,12 @@ class ConferenceRoomsPage extends React.Component {
 
         return (
             <div style={{ backgroundColor: '#FFFFFF' }}>
-                <CreateUserForm
+                <CreateRoomForm
+                    wrappedComponentRef={(form) => this.saveCreateRoomFormRef(form) }
                     visible={this.state.createRoomFormVisible}
                     onCancel={this.handleCancelCreateRoom}
-                    formTitle={this.props.currentOfficeName}
+                    onCreate={this.handleCreateRoom}
+                    confirmLoading={this.props.addRoomFormLoading}
                 />
                 <Row>
                     <Col className="wide-table" span={24}>
@@ -134,13 +201,14 @@ const mapStateToProps = state => {
         activeRoomsList: state.officeAdmin.activeRoomsList,
         inactiveRoomsList: state.officeAdmin.inactiveRoomsList,
         isLoadingRoomsData: state.officeAdmin.isLoadingUserData,
-        currentOfficeUID: state.general.currentOfficeAdminUID,
-        user: state.auth.user
+        currentOfficeUID: state.general.currentOfficeAdminUID, 
+        addRoomFormLoading: state.officeAdmin.addRoomFormLoading 
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        createConferenceRoom: (payload) => dispatch(actionCreator.createConferenceRoom(payload)),
         loadConferenceRooms: (officeUID) => dispatch(actionCreator.loadConferenceRooms(officeUID)),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
     }

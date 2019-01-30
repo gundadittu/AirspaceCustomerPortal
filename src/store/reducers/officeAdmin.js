@@ -11,11 +11,18 @@ const initialState = {
     isLoadingHotDesksData: false,
     createUserFormLoading: false,
     editUserFormLoading: false,
-    removeUserFormLoading: false
+    removeUserFormLoading: false, 
+    addRoomFormLoading: false 
 };
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
+        case actionTypes.ADD_CONF_ROOM:
+            return updateObject(state, {addRoomFormLoading: true});
+        case actionTypes.ADD_CONF_ROOM_FINISHED: 
+            const addPayload = action.payload; 
+            addPayload.hideForm();
+            return updateObject(state, {addRoomFormLoading: false});
         case actionTypes.EDIT_OFFICE_USER:
             return updateObject(state, {editUserFormLoading: true});
         case actionTypes.EDIT_OFFICE_USER_FINISHED:

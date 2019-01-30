@@ -19,7 +19,7 @@ class EditUserForm extends React.Component {
 
     render() {
         const {
-            visible, onCancel, onCreate, form, confirmLoading, selectedUser, selectedOffice
+            visible, onCancel, onCreate, form, confirmLoading
         } = this.props;
         const { getFieldDecorator } = form;
         const formTitle = "Edit User";

@@ -6,21 +6,24 @@ const initialState = {
     userList: [],
     activeRoomsList: [],
     inactiveRoomsList: [],
+    pastGuestsList: [],
+    upcomingGuestsList: [],
     isLoadingUserData: false,
     isLoadingRoomsData: false,
+    isLoadingGuestsData: false,
     isLoadingHotDesksData: false,
     createUserFormLoading: false,
     editUserFormLoading: false,
-    removeUserFormLoading: false, 
-    addRoomFormLoading: false 
+    removeUserFormLoading: false,
+    addRoomFormLoading: false
 };
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.ADD_CONF_ROOM:
             return updateObject(state, {addRoomFormLoading: true});
-        case actionTypes.ADD_CONF_ROOM_FINISHED: 
-            const addPayload = action.payload; 
+        case actionTypes.ADD_CONF_ROOM_FINISHED:
+            const addPayload = action.payload;
             addPayload.hideForm();
             return updateObject(state, {addRoomFormLoading: false});
         case actionTypes.EDIT_OFFICE_USER:
@@ -74,6 +77,14 @@ const reducer = ( state = initialState, action ) => {
             return updateObject(state, {desksList: desksList, isLoadingHotDesksData: false});
         case actionTypes.LOAD_HOT_DESKS_ERROR:
             return updateObject(state, {isLoadingHotDesksData: false});
+        case actionTypes.LOAD_REGISTERED_GUESTS:
+            return updateObject(state, {isLoadingGuestsData: true});
+        case actionTypes.LOAD_REGISTERED_GUESTS_SUCCESS:
+            const pastGuestsList = action.payload.pastGuestsList || null;
+            const upcomingGuestsList = action.payload.upcomingGuestsList || null;
+            return updateObject(state, {pastGuestsList: pastGuestsList, upcomingGuestsList: upcomingGuestsList, isLoadingGuestsData: false});
+        case actionTypes.LOAD_CONFERENCE_ROOMS_ERROR:
+            return updateObject(state, {isLoadingGuestsData: false});
     }
     return state;
 };

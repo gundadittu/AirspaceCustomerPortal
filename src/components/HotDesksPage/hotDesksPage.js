@@ -88,7 +88,7 @@ class HotDesksPage extends React.Component {
                     Inactive
                   </Menu.Item>
                   <Button className="inlineDisplay" type="primary rightAlign" onClick={this.showCreateDeskFormModal}>Add Hot Desk</Button>
-                </Menu>
+              </Menu>
               <HotDesksTable />
           </Col>
       </Row>

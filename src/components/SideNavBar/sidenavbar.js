@@ -13,19 +13,19 @@ const MenuItemGroup = Menu.ItemGroup;
 
 class SideNavBar extends React.Component {
 
-  getSwitchPortalSubMenuTitle = () => { 
-    if (this.props.userType == 'regular') { 
-      if (this.props.regularUserPortalMode == 'regular') { 
+  getSwitchPortalSubMenuTitle = () => {
+    if (this.props.userType == 'regular') {
+      if (this.props.regularUserPortalMode == 'regular') {
         return 'Regular Mode'
-      } else { 
-        const currentOfficeAdmin = this.props.currentOfficeAdmin; 
-        if (currentOfficeAdmin !== null) { 
+      } else {
+        const currentOfficeAdmin = this.props.currentOfficeAdmin;
+        if (currentOfficeAdmin !== null) {
           return ('Managing '+currentOfficeAdmin.name)
-        } else { 
+        } else {
           return 'Office Admin Mode'
         }
       }
-    } else { 
+    } else {
       return 'Switch Portal Mode'
     }
   }
@@ -90,7 +90,11 @@ class SideNavBar extends React.Component {
                   </Link>
                 </Menu.Item>
                 <Menu.Item key="serviceRequests">{<span><Icon type="tool" /><span>Service Requests</span></span>}</Menu.Item>
-                <Menu.Item key="registeredGuests">{<span><Icon type="idcard" /><span>Registered Guests</span></span>}</Menu.Item>
+                <Menu.Item key="registeredGuests">
+                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/registeredGuests'}>
+                    {<span><Icon type="idcard" /><span>Registered Guests</span></span>} 
+                  </Link>
+                </Menu.Item>
                 <Menu.Item key="events">{<span><Icon type="calendar" /><span>Events</span></span>}</Menu.Item>
                 {switchPortalSubMenu}
               </MenuItemGroup>
@@ -126,7 +130,7 @@ const mapStateToProps = state => {
     adminOfficeList: state.auth.adminOfficeList,
     regularUserPortalMode: state.general.regularUserPortalMode,
     currentPage: state.general.currentPage,
-    currentOfficeAdminUID: state.general.currentOfficeAdminUID, 
+    currentOfficeAdminUID: state.general.currentOfficeAdminUID,
     currentOfficeAdmin: state.general.currentOfficeAdmin
   }
 };

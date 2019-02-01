@@ -7,6 +7,7 @@ import SideNavbar from './components/SideNavBar/sidenavbar';
 import UsersPage from './components/UsersPage/usersPage';
 import ConferenceRoomsPage from './components/ConferenceRoomsPage/conferenceRoomPage';
 import HotDesksPage from './components/HotDesksPage/hotDesksPage.js';
+import RegisteredGuestsPage from './components/RegisteredGuestsPage/registeredGuestsPage.js';
 import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
@@ -118,5 +119,6 @@ const officeAdminRoutingComp = () => (
       <Route path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
       <Route path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
       <Route path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>
+      <Route path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
     </Switch>
 )

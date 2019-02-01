@@ -4,6 +4,7 @@ import * as selectors from './selectors';
 import AirUser from '../models/AirUser';
 import AirConferenceRoom from '../models/AirConferenceRoom'
 import AirHotDesk from '../models/AirHotDesk'
+import AirRegisteredGuest from '../models/AirRegisteredGuest'
 import { notification } from 'antd';
 import React from 'react';
 require("firebase/functions");
@@ -24,6 +25,10 @@ export function* loadHotDesksWatchSaga() {
     yield takeLatest(actionTypes.LOAD_HOT_DESKS, loadHotDesksWorkerSaga);
 }
 
+export function* loadRegisteredGuestsWatchSaga() {
+    yield takeLatest(actionTypes.LOAD_REGISTERED_GUESTS, loadRegisteredGuestsWorkerSaga);
+}
+
 export function* createUserForOfficeAdmin() {
     yield takeLatest(actionTypes.CREATE_USER_FOR_OFFICEADMIN, createUserWorkerSaga);
 }
@@ -40,7 +45,7 @@ export function* createConferenceRoomOfficeAdmin() {
     yield takeLatest(actionTypes.ADD_CONF_ROOM, addRoomWorkerSaga);
 }
 
-// Workers 
+// Workers
 
 function validatePermission(selectedOfficeUID, userAdminOfficeList) {
 
@@ -242,7 +247,64 @@ function* loadConferenceRoomsWorkerSaga(action) {
 
             yield put({ type: actionTypes.LOAD_HOT_DESKS_ERROR, payload: {error: error} });
         }
-      }
+    }
+
+    function loadRegisteredGuests(payload, firebase) {
+      console.log("Loading Registered Guests", payload)
+        const officeUID = payload.officeUID || null;
+        const apiCall = firebase.functions.httpsCallable('getUsersRegisteredGuests')
+
+        return apiCall({ selectedOfficeUID: officeUID })
+            .then(result => {
+                const data = result.data;
+                console.log("RESULT: ", result);
+                var upcomingGuests = data.upcoming;
+                var pastGuests = data.past;
+                /* var upcomingGuests = [];
+                var pastGuests = [];
+                for (let superKey in data) {
+                    const superValue = data[superKey];
+                    for (let key in superValue) {
+                        const value = superValue[key];
+                        const guest = new AirRegisteredGuest(value) || null;
+                        console.log("KEY:", superKey)
+                        if (guest !== null) {
+                            if (superKey == 'arrived') {
+                                pastGuests.push(guest);
+                            } else {
+                                upcomingGuests.push(guest);
+                            }
+                        }
+                    }
+                } */
+                console.log("Upcoming Guests", upcomingGuests);
+                console.log("Past Guests", pastGuests);
+                return {'upcoming': upcomingGuests, 'past': pastGuests};
+            })
+    }
+
+    function* loadRegisteredGuestsWorkerSaga(action) {
+        try {
+            const selectedOfficeUID = action.payload.officeUID;
+            const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+            validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+            let firebase = yield select(selectors.firebase);
+
+            const response = yield call(loadRegisteredGuests, action.payload, firebase);
+            yield put({ type: actionTypes.LOAD_REGISTERED_GUESTS_SUCCESS,
+              payload: { upcomingGuestsList: response.upcoming, pastGuestsList: response.past }});
+        } catch (error) {
+            console.error(error);
+
+            notification['error']({
+                message: 'Unable to load Registered Guests for this office.',
+                description: error.message
+            });
+
+            yield put({ type: actionTypes.LOAD_REGISTERED_GUESTS_ERROR, payload: {error: error} });
+        }
+    }
 
   function removeOfficeUser(payload, firebase) {
     const officeUID = payload.officeUID;
@@ -327,18 +389,18 @@ function* editUserWorkerSaga(action) {
 }
 
 
-function addRoom(payload, firebase) { 
+function addRoom(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('addConferenceRoomForOfficeAdmin')
     return apiCall({ ...payload, hideFormRef: null })
-    .then( newRoomUID => { 
-        const file = payload.photoFileObj; 
+    .then( newRoomUID => {
+        const file = payload.photoFileObj;
         const storageRef = firebase.storage.ref();
         const photoRef = storageRef.child('conferenceRoomImages/'+newRoomUID);
         return photoRef.put(file);
     })
 }
 
-function* addRoomWorkerSaga(action) { 
+function* addRoomWorkerSaga(action) {
     try {
         const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;

@@ -9,7 +9,6 @@ import * as actionCreator from '../../store/actions/officeAdmin';
 
 class RegisteredGuestsTable extends React.Component {
   state = {
-    searchText: ''
   };
 
   columns = [{
@@ -58,18 +57,11 @@ class RegisteredGuestsTable extends React.Component {
         : <span>{guest.expectedVisitDate}</span>}
       </div>
     ),
-    sorter: (a, b) => {
-      const aStatus = a.arrived;
-      const bStatus = b.arrived;
-      if (aStatus < bStatus) {
-        return -1;
-      } else if (aStatus > bStatus) {
-        return 1;
-      } else {
-        return 0
-      }
-    },
-    sortDirections: ['descend', 'ascend'],
+    filters: [
+      { text: 'Arrived', value: true},
+      { text: 'Not Yet', value: false},
+    ],
+     onFilter: (value, record) => record.arrived.toString() == value,
   }
 ];
 

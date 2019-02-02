@@ -80,6 +80,7 @@ class RegisteredGuestsTable extends React.Component {
                columns={this.columns}
                dataSource={this.props.dataSource}
                loading={this.props.isLoadingGuestsData}
+               pagination={false}
          />
       </div>
     );

@@ -92,10 +92,14 @@ class SideNavBar extends React.Component {
                 <Menu.Item key="serviceRequests">{<span><Icon type="tool" /><span>Service Requests</span></span>}</Menu.Item>
                 <Menu.Item key="registeredGuests">
                   <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/registeredGuests'}>
-                    {<span><Icon type="idcard" /><span>Registered Guests</span></span>} 
+                    {<span><Icon type="idcard" /><span>Registered Guests</span></span>}
                   </Link>
                 </Menu.Item>
-                <Menu.Item key="events">{<span><Icon type="calendar" /><span>Events</span></span>}</Menu.Item>
+                <Menu.Item key="events">
+                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/events'}>
+                    {<span><Icon type="calendar" /><span>Events</span></span>}
+                  </Link>
+                </Menu.Item>
                 {switchPortalSubMenu}
               </MenuItemGroup>
 

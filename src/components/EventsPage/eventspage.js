@@ -15,12 +15,10 @@ import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 
-import RegisteredGuestsTable from './registeredGuestsTable'
-
-class RegisteredGuestsPage extends React.Component {
+class EventsPage extends React.Component {
 
   state = {
-    currentList : 'upcoming'
+    current : 'upcoming'
   }
 
   upcomingDataSource = [{
@@ -73,7 +71,7 @@ class RegisteredGuestsPage extends React.Component {
           const secondPagePayload = getPagePayload(pageTitles.registeredGuestsPageOfficeAdmin);
           if (secondPagePayload) {
               this.props.changePage(pagePayload);
-              this.props.loadRegisteredGuests(selectedOfficeUID);
+              //this.props.loadRegisteredGuests(selectedOfficeUID);
           }
       }
   }
@@ -83,7 +81,7 @@ class RegisteredGuestsPage extends React.Component {
       const currentOfficeUID = this.props.currentOfficeUID;
 
       if (prevOfficeUID !== currentOfficeUID) {
-          this.props.loadConferenceRooms(currentOfficeUID);
+          //this.props.loadConferenceRooms(currentOfficeUID);
       }
   }
 
@@ -95,24 +93,18 @@ class RegisteredGuestsPage extends React.Component {
   }
 
   render() {
-    let dataSource = [];
-    if (this.state.currentList == 'past') {
-        dataSource = this.pastDataSource;//this.props.pastGuestsList
-    } else if (this.state.currentList == 'upcoming') {
-        dataSource = this.upcomingDataSource;//this.props.upcomingGuestsList;
-    }
     return (
       <div>
         <Row>
             <Col className="wide-table" span={24}>
-                <h1>Registered Guests</h1>
+                <h1>Events</h1>
                 <Menu
                     onClick={(e) => this.handleClick(e)}
-                    selectedKeys={[this.state.currentList]}
+                    selectedKeys={[this.state.current]}
                     mode="horizontal"
                     className="page-nav-menu"
                   >
-                    <IconButton className="inlineDisplay" onClick={() => this.props.loadRegisteredGuests(this.props.currentOfficeUID)}>
+                    <IconButton className="inlineDisplay" onClick={(e) => this.handleClick(e)}>
                         <RefreshIcon />
                     </IconButton>
                     <Menu.Item key="upcoming">
@@ -122,7 +114,6 @@ class RegisteredGuestsPage extends React.Component {
                       Past
                     </Menu.Item>
                 </Menu>
-                <RegisteredGuestsTable dataSource={dataSource}/>
             </Col>
         </Row>
       </div>
@@ -132,18 +123,13 @@ class RegisteredGuestsPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        pastGuestsList: state.officeAdmin.pastGuestsList,
-        upcomingGuestsList: state.officeAdmin.upcomingGuestsList,
-        isLoadingGuestsData: state.officeAdmin.isLoadingGuestsData,
-        currentOfficeUID: state.general.currentOfficeAdminUID
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        loadRegisteredGuests: (officeUID) => dispatch(actionCreator.loadRegisteredGuests(officeUID)),
-        changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
+      changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
     }
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RegisteredGuestsPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EventsPage));

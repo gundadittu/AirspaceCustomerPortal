@@ -13,22 +13,26 @@
   color: #f07c94 !important;
 }
 
-.wide-table { 
+.wide-table {
   width: 100%;
   padding-left: 40px;
   padding-right: 40px;
 }
 
-.wide-button { 
+.wide-button {
   width: 80%;
 }
 
-.rightAlign { 
+.rightAlign {
   float: right;
 }
 
-.inlineDisplay { 
+.inlineDisplay {
   margin-top: 20px;
   margin-bottom: 20px;
   display: inline-block;
+}
+
+.page-nav-menu {
+    border-bottom: 0
 }

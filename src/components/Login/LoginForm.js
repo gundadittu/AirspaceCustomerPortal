@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
 
     const spinner = () => { 
-      if (this.props.isLoadingSignIn == true) { 
+      if (this.props.isLoadingSignIn === true) { 
         return ( 
           <Grid container justify="center" alignItems="center" style={{marginTop: 20}}>
             <Spin />

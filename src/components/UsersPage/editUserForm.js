@@ -1,7 +1,7 @@
 import React from 'react';
 // import { connect } from 'react-redux';
 import {
-    Button, Modal, Form, Input, Radio,
+   Modal, Form, Input, Radio,
 } from 'antd';
 
 
@@ -10,7 +10,7 @@ class EditUserForm extends React.Component {
     emailValidator = (rule, value, callback) => { 
         const first = this.props.form.getFieldValue('emailAddress'); 
         const second = this.props.form.getFieldValue('emailAddress2');
-        if (first != second) { 
+        if (first !== second) { 
             callback(new Error('The email addresses do not match.'));
             return 
         }
@@ -45,7 +45,7 @@ class EditUserForm extends React.Component {
                                 }],
                         }
                         )(
-                            <Input />
+                            <Input disabled={confirmLoading} />
                         )}
                     </Form.Item>
                     <Form.Item label="Last Name">
@@ -54,7 +54,7 @@ class EditUserForm extends React.Component {
                             validateTrigger: 'onBlur',
                             rules: [{ required: true, whitespace: true, message: 'Please input the user\'s last name.' }],
                         })(
-                            <Input />
+                            <Input disabled={confirmLoading}/>
                         )}
                     </Form.Item>
                     <Form.Item label="Email Address">
@@ -63,7 +63,7 @@ class EditUserForm extends React.Component {
                             validateTrigger: 'onBlur',
                             rules: [{ required: true, whitespace: true, message: 'Please input the user\'s email address.' }],
                         })(
-                            <Input />
+                            <Input disabled={confirmLoading}/>
                         )}
                     </Form.Item>
                     <Form.Item label="Reenter Email Address">
@@ -79,7 +79,7 @@ class EditUserForm extends React.Component {
                                 validator: this.emailValidator.bind(this)
                             }],
                         })(
-                            <Input />
+                            <Input disabled={confirmLoading} />
                         )}
                     </Form.Item>
                     <Form.Item label="User Type" className="collection-create-form_last-form-item">
@@ -87,8 +87,8 @@ class EditUserForm extends React.Component {
                             initialValue: null,
                         })(
                             <Radio.Group>
-                                <Radio value="regular">User</Radio>
-                                <Radio value="officeAdmin">Office Admin</Radio>
+                                <Radio disabled={confirmLoading} value="regular">User</Radio>
+                                <Radio disabled={confirmLoading} value="officeAdmin">Office Admin</Radio>
                             </Radio.Group>
                         )}
                     </Form.Item>

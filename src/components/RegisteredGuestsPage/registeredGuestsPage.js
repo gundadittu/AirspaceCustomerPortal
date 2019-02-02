@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions/actionTypes';
+// import * as actionTypes from '../../store/actions/actionTypes';
 
-import { Row, Col, Button, Menu, Icon} from 'antd';
+import { Row, Col, Menu} from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
 import '../../App.css';
 
 import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
-import * as officeActionCreator from '../../store/actions/officeAdmin';
+// import * as officeActionCreator from '../../store/actions/officeAdmin';
 
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
@@ -61,18 +61,18 @@ class RegisteredGuestsPage extends React.Component {
           for (let key in list) {
               const value = list[key];
 
-              if (value.uid == selectedOfficeUID) {
+              if (value.uid === selectedOfficeUID) {
                   officeObj = value;
               }
           }
 
-          const pagePayload = getPagePayload(pageTitles.registeredGuestsPageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
+          const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
           if (pagePayload) {
               this.props.changePage(pagePayload);
           }
           const secondPagePayload = getPagePayload(pageTitles.registeredGuestsPageOfficeAdmin);
           if (secondPagePayload) {
-              this.props.changePage(pagePayload);
+              this.props.changePage(secondPagePayload);
               this.props.loadRegisteredGuests(selectedOfficeUID);
           }
       }
@@ -89,16 +89,16 @@ class RegisteredGuestsPage extends React.Component {
 
   handleClick = (e) => {
       var key = e.key;
-      if ((key == 'upcoming') || (key == 'past')) {
+      if ((key === 'upcoming') || (key === 'past')) {
           this.setState({ currentList: key });
       }
   }
 
   render() {
     let dataSource = [];
-    if (this.state.currentList == 'past') {
+    if (this.state.currentList === 'past') {
         dataSource = this.pastDataSource;//this.props.pastGuestsList
-    } else if (this.state.currentList == 'upcoming') {
+    } else if (this.state.currentList === 'upcoming') {
         dataSource = this.upcomingDataSource;//this.props.upcomingGuestsList;
     }
     return (
@@ -109,8 +109,8 @@ class RegisteredGuestsPage extends React.Component {
                 <Menu
                     onClick={(e) => this.handleClick(e)}
                     selectedKeys={[this.state.currentList]}
-                    mode="horizontal"
                     className="page-nav-menu"
+                    mode="horizontal"
                   >
                     <IconButton className="inlineDisplay" onClick={() => this.props.loadRegisteredGuests(this.props.currentOfficeUID)}>
                         <RefreshIcon />

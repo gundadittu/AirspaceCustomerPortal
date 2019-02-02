@@ -4,9 +4,8 @@ import * as selectors from './selectors';
 import AirUser from '../models/AirUser';
 import AirConferenceRoom from '../models/AirConferenceRoom'
 import AirHotDesk from '../models/AirHotDesk'
-import AirRegisteredGuest from '../models/AirRegisteredGuest'
+// import AirRegisteredGuest from '../models/AirRegisteredGuest'
 import { notification } from 'antd';
-import React from 'react';
 require("firebase/functions");
 require("firebase/storage");
 
@@ -70,9 +69,9 @@ function validatePermission(selectedOfficeUID, userAdminOfficeList) {
     }
 
     const newArray = userAdminOfficeList.map(x => {
-        return (x.uid == selectedOfficeUID)
+        return (x.uid === selectedOfficeUID)
     })
-    if (newArray.includes(true) == false) {
+    if (newArray.includes(true) === false) {
         notification['error']({
             message: 'Permission denied.',
             description: 'Current user is not a admin for this office.'
@@ -105,7 +104,7 @@ function* createUserWorkerSaga(action) {
         const userAdminOfficeList = yield select(selectors.userAdminOfficeList);
         validatePermission(selectedOfficeUID, userAdminOfficeList);
         let firebase = yield select(selectors.firebase);
-        const response = yield call(createUserApiCall, payload, firebase);
+        yield call(createUserApiCall, payload, firebase);
 
         notification['success']({
             message: 'Successfully added new user.',
@@ -185,7 +184,7 @@ function loadConferenceRooms(payload, firebase) {
                     const value = superValue[key];
                     const room = new AirConferenceRoom(value) || null;
                     if (room !== null) {
-                        if (superKey == 'active') {
+                        if (superKey === 'active') {
                             activeConferenceRooms.push(room);
                         } else {
                             inactiveConferenceRooms.push(room);
@@ -235,7 +234,7 @@ function* loadConferenceRoomsWorkerSaga(action) {
                     const value = superValue[key];
                     const desk = new AirHotDesk(value) || null;
                     if (desk !== null) {
-                        if (superKey == 'active') {
+                        if (superKey === 'active') {
                             activeDesks.push(desk);
                         } else {
                             inactiveDesks.push(desk);
@@ -348,7 +347,7 @@ function* removeUserWorkerSaga(action) {
         validatePermission(selectedOfficeUID, userAdminOfficeList);
 
         let firebase = yield select(selectors.firebase);
-        const response = yield call(removeOfficeUser, action.payload, firebase);
+        yield call(removeOfficeUser, action.payload, firebase);
 
         notification['success']({
             message: 'Successfully removed user from this office.'
@@ -387,7 +386,7 @@ function* editUserWorkerSaga(action) {
         validatePermission(selectedOfficeUID, userAdminOfficeList);
 
         let firebase = yield select(selectors.firebase);
-        const response = yield call(editOfficeUser, payload, firebase);
+        yield call(editOfficeUser, payload, firebase);
 
         notification['success']({
             message: 'Successfully edited user info.'
@@ -434,7 +433,7 @@ function* addRoomWorkerSaga(action) {
         validatePermission(selectedOfficeUID, userAdminOfficeList);
 
         let firebase = yield select(selectors.firebase);
-        const response = yield call(addRoom, payload, firebase);
+        yield call(addRoom, payload, firebase);
 
         notification['success']({
             message: 'Successfully added conference room.'
@@ -480,7 +479,7 @@ function* editRoomWorkerSaga(action) {
         validatePermission(selectedOfficeUID, userAdminOfficeList);
 
         let firebase = yield select(selectors.firebase);
-        const response = yield call(editRoom, payload, firebase);
+        yield call(editRoom, payload, firebase);
 
         notification['success']({
             message: 'Successfully edited conference room.'
@@ -528,7 +527,7 @@ function* addDeskWorkerSaga(action) {
         validatePermission(selectedOfficeUID, userAdminOfficeList);
 
         let firebase = yield select(selectors.firebase);
-        const response = yield call(addDesk, payload, firebase);
+        yield call(addDesk, payload, firebase);
 
         notification['success']({
             message: 'Successfully added hot desk.'
@@ -575,7 +574,7 @@ function* editDeskWorkerSaga(action) {
         validatePermission(selectedOfficeUID, userAdminOfficeList);
 
         let firebase = yield select(selectors.firebase);
-        const response = yield call(editDesk, payload, firebase);
+        yield call(editDesk, payload, firebase);
 
         notification['success']({
             message: 'Successfully edited hot desk.'

@@ -56,24 +56,26 @@ class EventsPage extends React.Component {
       // Routing stuff
       if (this.props.match.isExact) {
 
-          const selectedOfficeUID = this.props.match.params.officeUID;
-          const list = this.props.userAdminOfficeList;
-          let officeObj = null;
-          for (let key in list) {
-              const value = list[key];
+        const selectedOfficeUID = this.props.match.params.officeUID;
 
-              if (value.uid == selectedOfficeUID) {
-                  officeObj = value;
-              }
-          }
+        const list = this.props.userAdminOfficeList;
+        let officeObj = null;
+        for (let key in list) {
+            const value = list[key];
 
-          const pagePayload = getPagePayload(pageTitles.registeredGuestsPageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
-          if (pagePayload) {
-              this.props.changePage(pagePayload);
-          }
+            if (value.uid === selectedOfficeUID) {
+                officeObj = value;
+            }
+        }
+
+        const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
+        if (pagePayload) {
+            this.props.changePage(pagePayload);
+        }
+
           const secondPagePayload = getPagePayload(pageTitles.registeredGuestsPageOfficeAdmin);
           if (secondPagePayload) {
-              this.props.changePage(pagePayload);
+              this.props.changePage(secondPagePayload);
               //this.props.loadRegisteredGuests(selectedOfficeUID);
           }
       }
@@ -104,8 +106,8 @@ class EventsPage extends React.Component {
                 <Menu
                     onClick={(e) => this.handleClick(e)}
                     selectedKeys={[this.state.current]}
-                    mode="horizontal"
                     className="page-nav-menu"
+                    mode="horizontal"
                   >
                     <IconButton className="inlineDisplay" onClick={(e) => this.handleClick(e)}>
                         <RefreshIcon />
@@ -130,6 +132,7 @@ class EventsPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        userAdminOfficeList: state.auth.adminOfficeList
     }
 };
 

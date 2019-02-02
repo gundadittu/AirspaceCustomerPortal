@@ -59,7 +59,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.CHANGE_PAGE:
             const payload = action.payload || null;
             const pageName = payload.currentpage || null;
-            if (pageName == pageTitles.homePageOfficeAdmin) {
+            if (pageName === pageTitles.homePageOfficeAdmin) {
                 return initialState;
             } else {
                 return state;
@@ -108,8 +108,9 @@ const reducer = (state = initialState, action) => {
              const editDeskPayload = action.payload;
              editDeskPayload.hideForm();
             return updateObject(state, { editDeskFormLoading: false });
+        default:
+            return state 
     }
-    return state;
 };
 
 export default reducer;

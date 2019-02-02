@@ -98,7 +98,7 @@ class UsersTable extends React.Component {
       const value = userList[key];
       const currentUID = value.uid;
 
-      if (userUID == currentUID) {
+      if (userUID === currentUID) {
         this.setState({
           selectedUser: value
         });
@@ -111,7 +111,7 @@ class UsersTable extends React.Component {
       return
     }
 
-    if (key == 'edit') {
+    if (key === 'edit') {
 
       const officeObj = this.props.currentOfficeUID;
       const userAdminOffices = selectedUser.officeAdmins;
@@ -121,7 +121,7 @@ class UsersTable extends React.Component {
           const value = userAdminOffices[key];
           const officeUID = value.uid;
 
-          if (officeUID == officeObj) {
+          if (officeUID === officeObj) {
               initialUserTypeValue = 'officeAdmin'
               break
           }
@@ -151,7 +151,7 @@ class UsersTable extends React.Component {
       });
 
       this.setState({editUserFormVisible: true, removeUserFormVisible: false });
-    } else if (key == 'remove') {
+    } else if (key === 'remove') {
       this.setState({ removeUserFormVisible: true, editUserFormVisible: false });
     }
   }
@@ -160,7 +160,6 @@ class UsersTable extends React.Component {
     return (
       <Menu
         onClick={(e) => this.handleEditMenuClick(e, userUID)}
-        mode="horizontal"
         style={{ textAlign: 'left', border: 0 }}
       >
         <Menu.Item key="edit">
@@ -187,9 +186,9 @@ class UsersTable extends React.Component {
       const firstName = values.firstName;
       const lastName = values.lastName;
       const email = values.emailAddress;
-      const makeUserOfficeAdmin = (values.userType == 'regular') ? false : true;
+      const makeUserOfficeAdmin = (values.userType === 'regular') ? false : true;
       const officeUID = this.props.currentOfficeUID;
-      const payload = { hideForm: this.hideEditUserForm, makeUserOfficeAdmin: makeUserOfficeAdmin, userUID: userUID, firstName: firstName, lastName: lastName, email: email, makeUserOfficeAdmin: makeUserOfficeAdmin, officeUID: officeUID, componentRef: this, formRef: editUserForm, }
+      const payload = { hideForm: this.hideEditUserForm, userUID: userUID, firstName: firstName, lastName: lastName, email: email, makeUserOfficeAdmin: makeUserOfficeAdmin, officeUID: officeUID, componentRef: this, formRef: editUserForm, }
       this.props.editUserForOfficeAdmin(payload);
   });
   }
@@ -227,13 +226,11 @@ class UsersTable extends React.Component {
           onCancel={this.handleCancelEditUser}
           onCreate={() => this.handleEditUser(this.state.selectedUser.uid)}
           confirmLoading={this.props.editUserFormLoading}
-          confirmLoading={this.props.editUserFormLoading}
         />
         <RemoveUserForm
             visible={this.state.removeUserFormVisible}
             onCancel={this.handleCancelRemoveUser}
             onCreate={() => this.handleRemoveUser(this.state.selectedUser, this.props.currentOfficeUID)}
-            confirmLoading={this.props.editUserFormLoading}
             selectedUser={this.state.selectedUser}
             confirmLoading={this.props.removeUserFormLoading}
         />

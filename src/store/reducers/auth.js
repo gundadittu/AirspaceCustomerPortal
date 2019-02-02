@@ -13,8 +13,6 @@ const reducer = ( state = initialState, action ) => {
             return initialState; 
         case actionTypes.SIGN_IN_USER:
             break;
-        case actionTypes.SET_UP_USER_ERROR:
-            break;
         case actionTypes.SET_UP_USER_SUCCESS:
             const data = action.payload.data || null;
             const type = data.type || null;

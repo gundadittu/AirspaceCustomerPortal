@@ -10,6 +10,8 @@ const getPagePayload = (pageName, payload) => {
             return officeAdminUsersPagePayload()
         case pageTitles.conferenceRoomsPageOfficeAdmin:
             return officeAdminConferenceRoomsPagePayload()
+        case pageTitles.hotDesksPageOfficeAdmin: 
+            return officeAdminHotDesksPagePayload()
         case pageTitles.homePageRegularUser:
             return regularUserHomePagePayload()
         default:
@@ -46,3 +48,9 @@ const officeAdminConferenceRoomsPagePayload = () => {
     currentPage: pageTitles.conferenceRoomsPageOfficeAdmin,
   }
 }
+
+const officeAdminHotDesksPagePayload = () => {
+    return {
+      currentPage: pageTitles.hotDesksPageOfficeAdmin,
+    }
+  }

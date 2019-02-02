@@ -24,15 +24,17 @@ class NavBar extends React.Component {
         break;
       case 'SignOut':
         console.log("Made it here");
-        break
+        break;
+      default: 
+        break;
     }
   }
 
   handleClick = (e) => {
     console.log('click ', e);
-    if (e.key == "signOut") {
+    if (e.key === "signOut") {
       this.handleSignOut(e);
-    } else if (e.key == "notifications") {
+    } else if (e.key === "notifications") {
       this.props.loadNotifications()
     }
   }
@@ -58,26 +60,10 @@ class NavBar extends React.Component {
 
   render() {
 
-    const notData = [
-      {
-        title: 'Ant Design Title 1',
-      },
-      {
-        title: 'Ant Design Title 2',
-      },
-      {
-        title: 'Ant Design Title 3',
-      },
-      {
-        title: 'Ant Design Title 4',
-      },
-    ];
-
     const profileMenu = (
       <Menu
         className="navBarProfileMenu"
         onClick={this.handleClick}
-        mode="horizontal"
         style={{ textAlign: 'right', border: 0 }}
       >
         <Menu.Item key="signOut">
@@ -116,8 +102,8 @@ class NavBar extends React.Component {
           <Col span={24}>
             <Menu
               onClick={this.handleClick}
-              mode="horizontal"
               style={{ textAlign: 'right', border: 0 }}
+              mode="horizontal"
             >
               <Menu.Item key="notifications">
                 <Dropdown overlay={notificationMenu} trigger={['click']}>

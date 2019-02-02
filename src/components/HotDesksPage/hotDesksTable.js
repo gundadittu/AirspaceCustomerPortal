@@ -5,12 +5,15 @@ import { Dropdown, Menu, Table, Tag, message, notification, Popconfirm} from 'an
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
 import * as actionCreator from '../../store/actions/officeAdmin';
+import EditDeskForm from './editDeskForm';
 
 
 class HotDesksTable extends React.Component {
-  state = {
-    searchText: ''
-  };
+
+  state = { 
+    selectedDesk: null, 
+    editDeskFormVisible: false 
+  }
 
   componentDidMount() {
     this.props.loadHotDesks(this.props.currentOfficeUID);
@@ -47,8 +50,8 @@ class HotDesksTable extends React.Component {
     title: '',
     dataIndex: 'uid',
     key: 'more',
-    render: (userUID) => (
-      <Dropdown overlay={() => this.editMenu(userUID)} trigger={['click']}>
+    render: (deskUID) => (
+      <Dropdown overlay={() => this.editMenu(deskUID)} trigger={['click']}>
         <IconButton>
           <MoreIcon />
         </IconButton>
@@ -56,36 +59,139 @@ class HotDesksTable extends React.Component {
     ),
   }];
 
-  editMenu(userUID) {
+  editMenu = (deskUID) => {
     return (
       <Menu
-        onClick={(e) => this.handleEditMenuClick(e, userUID)}
+        onClick={(e) => this.handleEditMenuClick(e, deskUID)}
         mode="horizontal"
         style={{ textAlign: 'left', border: 0 }}
       >
         <Menu.Item key="edit">
-          Edit Room Info
+          Edit Desk Info
         </Menu.Item>
-        <Menu.Item key="inactivate">
-      </Menu.Item>
       </Menu>
     );
   }
 
-  handleEditMenuClick = (e, roomUID) => {
-    console.log(e)
+  handleEditMenuClick = (e, deskUID) => {
     const key = e.key;
+    const desksList = this.props.dataSource;
+
+     // Get selected desk object
+     let selectedDesk = null;
+     for (let key in desksList) {
+       const value = desksList[key];
+       const currentUID = value.uid;
+ 
+       if (deskUID == currentUID) {
+         this.setState({
+           selectedDesk: value
+         });
+         selectedDesk = value;
+         break;
+       }
+     }
+ 
+     if (selectedDesk == null) {
+       return
+     }
+
     if (key == 'edit') {
-    } else if (key == 'inactivate'){
-        console.log("hello")
+      const editDeskForm = this.editDeskFormRef.props.form;
+      editDeskForm.setFields({ 
+        deskName: { 
+          value: selectedDesk.name
+        }, 
+        reserveable: { 
+          value: (selectedDesk.reserveable == true) ? ['reserveable'] : []
+        }, 
+        activeStatus: { 
+          value: (selectedDesk.active == true) ? 'active' : 'inactive'
+        }
+      })
+
+      this.setState({editDeskFormVisible: true });
     }
+  }
+
+  handleCreateEditDesk = () => { 
+    const editDeskForm = this.editDeskFormRef.props.form;
+    editDeskForm.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+      const deskName = values.deskName;
+
+      let reserveable = false;
+      if (values.reserveable.includes('reserveable') == true) {
+        reserveable = true;
+      }
+
+      let activeStatus = false;
+      if (values.activeStatus == 'active') {
+        activeStatus = true;
+      }
+
+      let photoFileObj = null;
+      const uploadPhotoDict = values.uploadPhoto || null;
+      if (uploadPhotoDict) {
+        const value = uploadPhotoDict[0];
+        const fileObj = value.originFileObj;
+        photoFileObj = fileObj;
+      }
+
+      const payload = {
+        selectedDeskUID: this.state.selectedDesk.uid,
+        deskName: deskName,
+        reserveable: reserveable,
+        activeStatus: activeStatus,
+        photoFileObj: photoFileObj,
+        hideForm: this.hideEditDeskForm, 
+        selectedOfficeUID: this.props.currentOfficeUID
+      }
+
+      this.props.editHotDesk(payload);
+    })
+  }
+
+  handleCancelEditDesk = () => { 
+    this.hideEditDeskForm();
+  }
+
+  hideEditDeskForm = () => { 
+    this.setState({editDeskFormVisible: false });
+    this.editDeskFormRef.setState({ fileList: [] });
+    const editDeskForm = this.editDeskFormRef.props.form;
+    editDeskForm.setFields({ 
+      deskName: { 
+        value: null
+      }, 
+      reserveable: { 
+        value: []
+      }, 
+      activeStatus: { 
+        value: null 
+      }
+    })
+  }
+
+  saveEditDeskFormRef = (form) => { 
+    this.editDeskFormRef = form;
   }
 
   render() {
     return (
       <div>
+        <EditDeskForm
+           wrappedComponentRef={(form) => this.saveEditDeskFormRef(form)}
+           visible={this.state.editDeskFormVisible}
+           onCancel={this.handleCancelEditDesk}
+           onCreate={this.handleCreateEditDesk}
+           confirmLoading={this.props.editDeskFormLoading}
+        />
         <Table
-               columns={this.columns} dataSource={this.props.desksList}
+               columns={this.columns} 
+               dataSource={this.props.dataSource}
                pagination={false}
                loading={this.props.isLoadingHotDesksData}
          />
@@ -96,6 +202,7 @@ class HotDesksTable extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    editDeskFormLoading: state.officeAdmin.editDeskFormLoading, 
     desksList: state.officeAdmin.desksList,
     currentOfficeUID: state.general.currentOfficeAdminUID,
     isLoadingHotDesksData: state.officeAdmin.isLoadingHotDesksData
@@ -104,6 +211,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    editHotDesk: (payload) => dispatch(actionCreator.editHotDesk(payload)),
     loadHotDesks: (officeUID) => dispatch(actionCreator.loadHotDesks(officeUID))
   }
 };

@@ -15,7 +15,6 @@ import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 
-import Login from '../Login/Login';
 import ConferenceRoomsTable from './conferenceRoomsTable'
 import CreateRoomForm from './createRoomForm'
 
@@ -38,64 +37,71 @@ class ConferenceRoomsPage extends React.Component {
         this.setState({ createRoomFormVisible: true });
     }
 
-    hideCreateRoomFormModal = () => { 
+    hideCreateRoomFormModal = () => {
         this.setState({ createRoomFormVisible: false });
         const createRoomForm = this.createRoomFormRef.props.form;
+        this.createRoomFormRef.setState({ fileList: [] });
         createRoomForm.setFields({
-            roomName: { 
+            roomName: {
                 value: null
             },
-            capacity: { 
+            capacity: {
                 value: null
             },
-            standardAmenities: { 
+            standardAmenities: {
                 value: null
             },
-            reserveable : { 
+            reserveable: {
                 value: 'reserveable'
             },
-            activeStatus: { 
+            activeStatus: {
                 value: 'active'
             },
-            uploadPhoto: { 
-                value: null
+            uploadPhoto: {
+                value: []
             },
-            keys: { 
+            keys: {
                 value: null
             }
         })
     }
 
-    handleCreateRoom = () => { 
+    handleCreateRoom = () => {
         const createRoomForm = this.createRoomFormRef.props.form;
         createRoomForm.validateFields((err, values) => {
             if (err) {
                 return;
             }
-            const roomName = values.roomName; 
-            const standardAmenities = values.standardAmenities; // [String]
-            const reserveable = values.reserveable; // format value? 
-            const activeStatus = values.activeStatus; // format value? 
+            const roomName = values.roomName;
+            const standardAmenities = values.standardAmenities;
+            let reserveable = false;
+            if (values.reserveable.includes('reserveable') == true) {
+                reserveable = true;
+            }
+            let activeStatus = false;
+            if (values.activeStatus == 'active') {
+                activeStatus = true;
+            }
             const customAmenities = values.customAmenities;
             const capacity = values.capacity;
             const currentOfficeUID = this.props.currentOfficeUID;
             let photoFileObj = null;
             const uploadPhotoDict = values.uploadPhoto || null;
-            if (uploadPhotoDict) { 
+            if (uploadPhotoDict) {
                 const value = uploadPhotoDict[0];
                 const fileObj = value.originFileObj;
                 photoFileObj = fileObj;
             }
-            
-            const payload = { 
-                roomName: roomName, 
-                capacity: capacity, 
-                standardAmenities: standardAmenities, 
-                customAmenities: customAmenities, 
+
+            const payload = {
+                roomName: roomName,
+                capacity: capacity,
+                standardAmenities: standardAmenities,
+                customAmenities: customAmenities,
                 selectedOfficeUID: currentOfficeUID,
-                reserveable: reserveable, 
-                activeStatus: activeStatus, 
-                photoFileObj: photoFileObj, 
+                reserveable: reserveable,
+                activeStatus: activeStatus,
+                photoFileObj: photoFileObj,
                 hideForm: this.hideCreateRoomFormModal
             }
 
@@ -104,11 +110,11 @@ class ConferenceRoomsPage extends React.Component {
     }
 
     handleCancelCreateRoom = () => {
-       this.hideCreateRoomFormModal();
+        this.hideCreateRoomFormModal();
     }
 
-    saveCreateRoomFormRef = (form) => { 
-        this.createRoomFormRef = form; 
+    saveCreateRoomFormRef = (form) => {
+        this.createRoomFormRef = form;
     }
 
     componentDidMount() {
@@ -158,7 +164,7 @@ class ConferenceRoomsPage extends React.Component {
         return (
             <div style={{ backgroundColor: '#FFFFFF' }}>
                 <CreateRoomForm
-                    wrappedComponentRef={(form) => this.saveCreateRoomFormRef(form) }
+                    wrappedComponentRef={(form) => this.saveCreateRoomFormRef(form)}
                     visible={this.state.createRoomFormVisible}
                     onCancel={this.handleCancelCreateRoom}
                     onCreate={this.handleCreateRoom}
@@ -170,7 +176,7 @@ class ConferenceRoomsPage extends React.Component {
                         <div>
                             <Menu
                                 className="inlineDisplay"
-                                style={{border: 0}}
+                                style={{ border: 0 }}
                                 onClick={this.handleClick}
                                 defaultSelectedKeys={[this.state.currentList]}
                                 mode="horizontal"
@@ -201,8 +207,8 @@ const mapStateToProps = state => {
         activeRoomsList: state.officeAdmin.activeRoomsList,
         inactiveRoomsList: state.officeAdmin.inactiveRoomsList,
         isLoadingRoomsData: state.officeAdmin.isLoadingUserData,
-        currentOfficeUID: state.general.currentOfficeAdminUID, 
-        addRoomFormLoading: state.officeAdmin.addRoomFormLoading 
+        currentOfficeUID: state.general.currentOfficeAdminUID,
+        addRoomFormLoading: state.officeAdmin.addRoomFormLoading
     }
 };
 

@@ -8,6 +8,10 @@ let id = 0;
 
 class EditRoomForm extends React.Component {
 
+  state = {
+    fileList: []
+  }
+
   removeAmenity = (k) => {
     const { form } = this.props;
     const keys = form.getFieldValue('keys');
@@ -41,8 +45,10 @@ class EditRoomForm extends React.Component {
 
   roomPhotoFile = (e) => { 
     if (Array.isArray(e)) {
+      this.state.fileList = e; 
       return e;
     }
+    this.state.fileList = e.fileList; 
     return e && e.fileList;
   }
 
@@ -79,7 +85,7 @@ class EditRoomForm extends React.Component {
       },
     };
 
-    const formTitle = "Add a Conference Room";
+    const formTitle = "Edit Conference Room";
 
     getFieldDecorator('keys', { initialValue: [] });
     const keys = getFieldValue('keys') || [];
@@ -110,11 +116,16 @@ class EditRoomForm extends React.Component {
       </Form.Item>
     ));
 
+    let uploadDisabled = false; 
+    if (this.state.fileList.length >= 1) { 
+      uploadDisabled = true;
+    }
+
     return (
       <Modal
         visible={visible}
         title={formTitle}
-        okText="Add"
+        okText="Save"
         onCancel={onCancel}
         onOk={onCreate}
         confirmLoading={confirmLoading}
@@ -139,11 +150,9 @@ class EditRoomForm extends React.Component {
             {getFieldDecorator("standardAmenities", {})(
               <Checkbox.Group style={{ width: "100%" }}>
                 <Row>
-                  <Col span={24}><Checkbox value="Whiteboard">Whiteboard</Checkbox></Col>
-                  <Col span={24}><Checkbox value="conferenceCallPhone">Conference Call Phone</Checkbox></Col>
-                  <Col span={24}><Checkbox value="largeMonitor">Large Monitor</Checkbox></Col>
+                  <Col span={24}><Checkbox value="whiteBoard">Whiteboard</Checkbox></Col>
                   <Col span={24}><Checkbox value="screenSharing">Screen Sharing</Checkbox></Col>
-                  <Col span={24}><Checkbox value="Video Conferencing">Video Conferencing</Checkbox></Col>
+                  <Col span={24}><Checkbox value="videoConferencing">Video Conferencing</Checkbox></Col>
                 </Row>
               </Checkbox.Group>
             )}
@@ -161,7 +170,7 @@ class EditRoomForm extends React.Component {
             {getFieldDecorator('uploadPhoto', {
               getValueFromEvent: this.roomPhotoFile
             })(
-              <Upload {...uploadProps} accept='.png, jpg, jpeg' onChange={(info) => this.uploadChange(info)}>
+              <Upload {...uploadProps} disabled={uploadDisabled} fileList={this.state.fileList} accept='.png, jpg, jpeg' onChange={(info) => this.uploadChange(info)}>
                 <Button>
                   <Icon type="upload" /> Click to add a photo.
               </Button>
@@ -200,4 +209,4 @@ class EditRoomForm extends React.Component {
 }
 
 
-export default Form.create({ name: 'createRoomForm' })(EditRoomForm);
+export default Form.create({ name: 'editRoomForm' })(EditRoomForm);

@@ -6,6 +6,10 @@ import './createRoomForm.css';
 
 class CreateRoomForm extends React.Component {
 
+  state = { 
+    fileList: []
+  };
+
   removeAmenity = (k) => {
     const { form } = this.props;
     const keys = form.getFieldValue('keys');
@@ -39,8 +43,10 @@ class CreateRoomForm extends React.Component {
 
   roomPhotoFile = (e) => {
     if (Array.isArray(e)) {
+      this.state.fileList = e; 
       return e;
     }
+    this.state.fileList = e.fileList || e; 
     return e && e.fileList;
   }
 
@@ -95,7 +101,7 @@ class CreateRoomForm extends React.Component {
             message: "Please input an amenity or delete this field.",
           }],
         })(
-          <Input placeholder="Amenity" style={{ width: '60%', marginRight: 8 }} />
+          <Input placeholder="Amenity" value={this.state.customAmenities[k]} style={{ width: '60%', marginRight: 8 }} />
         )}
         {keys.length > 1 ? (
           <Icon
@@ -107,6 +113,11 @@ class CreateRoomForm extends React.Component {
         ) : null}
       </Form.Item>
     ));
+        
+    let uploadDisabled = false; 
+    if (this.state.fileList.length >= 1) { 
+      uploadDisabled = true;
+    }
 
     return (
       <Modal
@@ -158,7 +169,7 @@ class CreateRoomForm extends React.Component {
             {getFieldDecorator('uploadPhoto', {
               getValueFromEvent: this.roomPhotoFile
             })(
-              <Upload {...uploadProps} accept='.png, jpg, jpeg' onChange={(info) => this.uploadChange(info)}>
+              <Upload {...uploadProps} disabled={uploadDisabled} fileList={this.state.fileList} accept='.png, jpg, jpeg' onChange={(info) => this.uploadChange(info)}>
                 <Button>
                   <Icon type="upload" /> Click to add a photo.
               </Button>

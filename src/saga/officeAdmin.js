@@ -5,6 +5,7 @@ import AirUser from '../models/AirUser';
 import AirConferenceRoom from '../models/AirConferenceRoom'
 import AirHotDesk from '../models/AirHotDesk'
 import AirRegisteredGuest from '../models/AirRegisteredGuest'
+import AirEvent from '../models/AirEvent'
 import { notification } from 'antd';
 require("firebase/functions");
 require("firebase/storage");
@@ -321,34 +322,25 @@ function* loadRegisteredGuestsWorkerSaga(action) {
 
 function loadEvents(payload, firebase) {
     const officeUID = payload.officeUID || null;
-    const apiCall = firebase.functions.httpsCallable('getUpcomingEventsForUser')
+    const apiCall = firebase.functions.httpsCallable('getEventsForOfficeAdmin')
 
     return apiCall({ selectedOfficeUID: officeUID })
         .then(result => {
             const data = result.data;
-            console.log("RESULT: ", result);
-            var upcomingGuests = data;
-            var pastGuests = data.past;
-            /* var upcomingGuests = [];
-            var pastGuests = [];
-            for (let superKey in data) {
-                const superValue = data[superKey];
-                for (let key in superValue) {
-                    const value = superValue[key];
-                    const guest = new AirRegisteredGuest(value) || null;
-                    console.log("KEY:", superKey)
-                    if (guest !== null) {
-                        if (superKey == 'arrived') {
-                            pastGuests.push(guest);
-                        } else {
-                            upcomingGuests.push(guest);
-                        }
-                    }
-                }
-            } */
-            console.log("Upcoming Guests", upcomingGuests);
-            console.log("Past Guests", pastGuests);
-            return { 'upcoming': upcomingGuests, 'past': pastGuests };
+            var upcomingEvents = data.upcoming;
+            var pastEvents = data.past;
+            let upcomingAirEvents = [];
+            let pastAirEvents = [];
+
+            upcomingEvents.map((value) => {
+              const airEvent = new AirEvent(value) || null;
+              upcomingAirEvents.push(airEvent);
+            })
+            pastEvents.map((value) => {
+              const airEvent = new AirEvent(value) || null;
+              pastAirEvents.push(airEvent);
+            })
+            return { 'upcoming': upcomingAirEvents, 'past': pastAirEvents };
         })
 }
 

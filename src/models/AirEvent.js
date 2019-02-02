@@ -1,4 +1,5 @@
 import AirOffice from './AirOffice';
+import firebase from 'firebase';
 
 export default class AirEvent  {
     constructor(dict) {
@@ -10,10 +11,11 @@ export default class AirEvent  {
         const title = dict.title || null;
         const offices = dict.offices || null;
         const startDate = dict.startDate || null;
-        const endDate = dict.endDat || null;
+        const endDate = dict.endDate || null;
         const address = dict.address || null;
-        const canceld = dict.canceld || null;
+        const canceled = dict.canceld || null;
         const description = dict.description || null;
+        const imageURL = dict.imageURL || null;
 
         this.uid = uid;
         this.title = title;
@@ -24,11 +26,20 @@ export default class AirEvent  {
                 airOffices.push(office);
             }
         }
+        const seconds = startDate._seconds;
+        const nanoseconds = startDate._nanoseconds;
+        const timestamp =  new firebase.firestore.Timestamp(seconds, nanoseconds);
+        this.startDate = timestamp.toDate();
+
+        const endSeconds = endDate._seconds;
+        const endNanoseconds = endDate._nanoseconds;
+        const endTimestamp =  new firebase.firestore.Timestamp(endSeconds, endNanoseconds);
+        this.endDate = endTimestamp.toDate();
+
         this.offices = airOffices;
-        this.startDate = startDate;
-        this.endDate = endDate;
         this.address = address;
         this.canceled = canceled;
         this.description = description;
+        this.imageURL = imageURL
     }
 }

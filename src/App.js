@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
@@ -13,7 +13,7 @@ import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
 import * as authActionCreators from './store/actions/auth';
-import {Row, Col, Icon} from 'antd';
+import {Row, Col } from 'antd';
 import * as pageTitles from './pages/pageTitles';
 
 class App extends Component {
@@ -117,10 +117,10 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
 const officeAdminRoutingComp = () => (
     <Switch>
       <Route exact path='/officeAdmin/:officeUID' component={UsersPage}></Route>
-      <Route path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
-      <Route path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
-      <Route path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>
-      <Route path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
-      <Route path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
+      <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
+      <Route exact path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
+      <Route exact path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>
+      <Route exact path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
+      <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
     </Switch>
 )

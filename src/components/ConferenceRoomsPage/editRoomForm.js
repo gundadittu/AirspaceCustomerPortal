@@ -45,10 +45,10 @@ class EditRoomForm extends React.Component {
 
   roomPhotoFile = (e) => { 
     if (Array.isArray(e)) {
-      this.state.fileList = e; 
+      this.setState({fileList: e});
       return e;
     }
-    this.state.fileList = e.fileList; 
+    this.setState({fileList: (e.fileList || e)});
     return e && e.fileList;
   }
 
@@ -103,13 +103,13 @@ class EditRoomForm extends React.Component {
             message: "Please input an amenity or delete this field.",
           }],
         })(
-          <Input placeholder="Amenity" style={{ width: '60%', marginRight: 8 }} />
+          <Input disabled={confirmLoading} placeholder="Amenity" style={{ width: '60%', marginRight: 8 }} />
         )}
         {keys.length > 1 ? (
           <Icon
             className="dynamic-delete-button"
             type="minus-circle-o"
-            disabled={keys.length === 1}
+            disabled={keys.length === 1 || confirmLoading}
             onClick={() => this.removeAmenity(k)}
           />
         ) : null}
@@ -135,12 +135,12 @@ class EditRoomForm extends React.Component {
             {getFieldDecorator('roomName', {
               rules: [{ required: true, whitespace: true, message: 'Please input the room\'s name.' }],
             })(
-              <Input />
+              <Input disabled={confirmLoading} />
             )}
           </Form.Item>
           <Form.Item label="Capacity">
             {getFieldDecorator('capacity', {})(
-              <InputNumber min={0} />
+              <InputNumber disabled={confirmLoading} min={0} />
             )}
           </Form.Item>
           <Form.Item
@@ -150,15 +150,15 @@ class EditRoomForm extends React.Component {
             {getFieldDecorator("standardAmenities", {})(
               <Checkbox.Group style={{ width: "100%" }}>
                 <Row>
-                  <Col span={24}><Checkbox value="whiteBoard">Whiteboard</Checkbox></Col>
-                  <Col span={24}><Checkbox value="screenSharing">Screen Sharing</Checkbox></Col>
-                  <Col span={24}><Checkbox value="videoConferencing">Video Conferencing</Checkbox></Col>
+                  <Col span={24}><Checkbox disabled={confirmLoading} value="whiteBoard">Whiteboard</Checkbox></Col>
+                  <Col span={24}><Checkbox disabled={confirmLoading} value="screenSharing">Screen Sharing</Checkbox></Col>
+                  <Col span={24}><Checkbox disabled={confirmLoading} value="videoConferencing">Video Conferencing</Checkbox></Col>
                 </Row>
               </Checkbox.Group>
             )}
             <Form.Item {...formItemLayoutWithOutLabel}>
               {formItems}
-              <Button type="dashed" onClick={this.addAmenity} style={{ width: '60%' }}>
+              <Button type="dashed" disabled={confirmLoading} onClick={this.addAmenity} style={{ width: '60%' }}>
                 <Icon type="plus" /> Add Amenity
                         </Button>
             </Form.Item>
@@ -170,7 +170,7 @@ class EditRoomForm extends React.Component {
             {getFieldDecorator('uploadPhoto', {
               getValueFromEvent: this.roomPhotoFile
             })(
-              <Upload {...uploadProps} disabled={uploadDisabled} fileList={this.state.fileList} accept='.png, jpg, jpeg' onChange={(info) => this.uploadChange(info)}>
+              <Upload {...uploadProps} disabled={uploadDisabled || confirmLoading} fileList={this.state.fileList} accept='.png, jpg, jpeg' onChange={(info) => this.uploadChange(info)}>
                 <Button>
                   <Icon type="upload" /> Click to add a photo.
               </Button>
@@ -184,7 +184,7 @@ class EditRoomForm extends React.Component {
             })(
               <Checkbox.Group style={{ width: "100%" }}>
                 <Row>
-                  <Col span={24}><Checkbox value="reserveable">Reserveable</Checkbox></Col>
+                  <Col span={24}><Checkbox disabled={confirmLoading} value="reserveable">Reserveable</Checkbox></Col>
                 </Row>
               </Checkbox.Group>
             )}
@@ -197,8 +197,8 @@ class EditRoomForm extends React.Component {
               initialValue: 'active',
             })(
               <Radio.Group>
-                <Radio value="active">Active</Radio>
-                <Radio value="inactive">Inactive</Radio>
+                <Radio disabled={confirmLoading} value="active">Active</Radio>
+                <Radio disabled={confirmLoading} value="inactive">Inactive</Radio>
               </Radio.Group>
             )}
           </Form.Item>

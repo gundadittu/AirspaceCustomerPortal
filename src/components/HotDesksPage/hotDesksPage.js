@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions/actionTypes';
+// import * as actionTypes from '../../store/actions/actionTypes';
 
-import { Row, Col, Button, Menu, Icon } from 'antd';
+import { Row, Col, Button, Menu } from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
 import '../../App.css';
 
 import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
-import * as officeActionCreator from '../../store/actions/officeAdmin';
+// import * as officeActionCreator from '../../store/actions/officeAdmin';
 
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
@@ -31,13 +31,24 @@ class HotDesksPage extends React.Component {
         // Routing stuff
         if (this.props.match.isExact) {
             const selectedOfficeUID = this.props.match.params.officeUID;
-            const pagePayload = getPagePayload(pageTitles.hotDesksPageOfficeAdmin, { officeUID: selectedOfficeUID });
+
+            const list = this.props.userAdminOfficeList;
+            let officeObj = null;
+            for (let key in list) {
+                const value = list[key];
+
+                if (value.uid === selectedOfficeUID) {
+                    officeObj = value;
+                }
+            }
+
+            const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
             if (pagePayload) {
                 this.props.changePage(pagePayload);
             }
             const secondPagePayload = getPagePayload(pageTitles.hotDesksPageOfficeAdmin);
             if (secondPagePayload) {
-                this.props.changePage(pagePayload);
+                this.props.changePage(secondPagePayload);
             }
         }
     }
@@ -63,12 +74,12 @@ class HotDesksPage extends React.Component {
             const deskName = values.deskName;
 
             let reserveable = false;
-            if (values.reserveable.includes('reserveable') == true) {
+            if (values.reserveable.includes('reserveable') === true) {
                 reserveable = true;
             }
 
             let activeStatus = false;
-            if (values.activeStatus == 'active') {
+            if (values.activeStatus === 'active') {
                 activeStatus = true;
             }
 
@@ -126,16 +137,16 @@ class HotDesksPage extends React.Component {
 
     handleClick = (e) => {
         var key = e.key;
-        if ((key == 'active') || (key == 'inactive')) {
+        if ((key === 'active') || (key === 'inactive')) {
             this.setState({ currentList: key });
         }
     }
 
     render() {
         let dataSource = [];
-        if (this.state.currentList == 'active') {
+        if (this.state.currentList === 'active') {
             dataSource = this.props.activeDesksList
-        } else if (this.state.currentList == 'inactive') {
+        } else if (this.state.currentList === 'inactive') {
             dataSource = this.props.inactiveDesksList;
         }
 
@@ -183,7 +194,8 @@ const mapStateToProps = state => {
         inactiveDesksList: state.officeAdmin.inactiveDesksList,
         isLoadingHotDesksData: state.officeAdmin.isLoadingUserData,
         currentOfficeUID: state.general.currentOfficeAdminUID,
-        user: state.auth.user
+        user: state.auth.user, 
+        userAdminOfficeList: state.auth.adminOfficeList,
     }
 };
 

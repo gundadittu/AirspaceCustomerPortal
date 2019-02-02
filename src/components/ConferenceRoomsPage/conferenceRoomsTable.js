@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, Menu, Table, Tag, message, notification, Popconfirm } from 'antd';
+import { Dropdown, Menu, Table, Tag } from 'antd';
 // import Highlighter from 'react-highlight-words';
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
@@ -60,7 +60,6 @@ class ConferenceRoomsTable extends React.Component {
     return (
       <Menu
         onClick={(e) => this.handleEditMenuClick(e, roomUID)}
-        mode="horizontal"
         style={{ textAlign: 'left', border: 0 }}
       >
         <Menu.Item key="edit">
@@ -80,7 +79,7 @@ class ConferenceRoomsTable extends React.Component {
       const value = roomsList[key];
       const currentUID = value.uid;
 
-      if (roomUID == currentUID) {
+      if (roomUID === currentUID) {
         this.setState({
           selectedRoom: value
         });
@@ -93,7 +92,7 @@ class ConferenceRoomsTable extends React.Component {
       return
     }
 
-    if (key == 'edit') {
+    if (key === 'edit') {
       const editRoomForm = this.editRoomFormRef.props.form;
       editRoomForm.setFields({
         roomName: {
@@ -163,11 +162,11 @@ class ConferenceRoomsTable extends React.Component {
       const roomName = values.roomName;
       const standardAmenities = values.standardAmenities;
       let reserveable = false;
-      if (values.reserveable.includes('reserveable') == true) {
+      if (values.reserveable.includes('reserveable') === true) {
         reserveable = true;
       }
       let activeStatus = false;
-      if (values.activeStatus == 'active') {
+      if (values.activeStatus === 'active') {
         activeStatus = true;
       }
       const customAmenities = values.customAmenities;

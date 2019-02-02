@@ -23,10 +23,10 @@ class EditDeskForm extends React.Component {
 
     deskPhotoFile = (e) => {
         if (Array.isArray(e)) {
-            this.state.fileList = e;
+            this.setState({ fileList: e })
             return e;
         }
-        this.state.fileList = e.fileList || e;
+        this.setState({ fileList: (e.fileList || e) })
         return e && e.fileList;
     }
 
@@ -77,7 +77,7 @@ class EditDeskForm extends React.Component {
                         {getFieldDecorator('deskName', {
                             rules: [{ required: true, whitespace: true, message: 'Please input the room\'s name.' }],
                         })(
-                            <Input />
+                            <Input disabled={confirmLoading} />
                         )}
                     </Form.Item>
                     <Form.Item
@@ -87,7 +87,7 @@ class EditDeskForm extends React.Component {
                         {getFieldDecorator('uploadPhoto', {
                             getValueFromEvent: this.deskPhotoFile
                         })(
-                            <Upload {...uploadProps} disabled={uploadDisabled} fileList={this.state.fileList} accept='.png, jpg, jpeg' onChange={(info) => this.uploadChange(info)}>
+                            <Upload {...uploadProps} disabled={uploadDisabled || confirmLoading} fileList={this.state.fileList} accept='.png, jpg, jpeg' onChange={(info) => this.uploadChange(info)}>
                                 <Button>
                                     <Icon type="upload" /> Click to Upload
                              </Button>
@@ -101,7 +101,7 @@ class EditDeskForm extends React.Component {
                         })(
                             <Checkbox.Group style={{ width: "100%" }}>
                                 <Row>
-                                    <Col span={24}><Checkbox value="reserveable">Reserveable</Checkbox></Col>
+                                    <Col span={24}><Checkbox value="reserveable" disabled={confirmLoading}>Reserveable</Checkbox></Col>
                                 </Row>
                             </Checkbox.Group>
                         )}
@@ -112,8 +112,8 @@ class EditDeskForm extends React.Component {
                             initialValue: 'active',
                         })(
                             <Radio.Group>
-                                <Radio value="active">Active</Radio>
-                                <Radio value="inactive">Inactive</Radio>
+                                <Radio value="active" disabled={confirmLoading}>Active</Radio>
+                                <Radio value="inactive" disabled={confirmLoading}>Inactive</Radio>
                             </Radio.Group>
                         )}
                     </Form.Item>

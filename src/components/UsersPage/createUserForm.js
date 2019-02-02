@@ -1,7 +1,7 @@
 import React from 'react';
 // import { connect } from 'react-redux';
 import {
-    Button, Modal, Form, Input, Radio,
+     Modal, Form, Input, Radio,
 } from 'antd';
 
 
@@ -10,7 +10,7 @@ class CreateUserForm extends React.Component {
     emailValidator = (rule, value, callback) => {
         const first = this.props.form.getFieldValue('emailAddress');
         const second = this.props.form.getFieldValue('emailAddress2');
-        if (first != second) {
+        if (first !== second) {
             callback(new Error('The email addresses do not match.'));
             return
         }
@@ -20,7 +20,7 @@ class CreateUserForm extends React.Component {
     render() {
 
         const {
-            visible, onCancel, onCreate, form, officeObj, confirmLoading
+            visible, onCancel, onCreate, form, confirmLoading
         } = this.props;
         const { getFieldDecorator } = form;
 
@@ -40,7 +40,7 @@ class CreateUserForm extends React.Component {
                         {getFieldDecorator('firstName', {
                             rules: [{ required: true, whitespace: true, message: 'Please input the user\'s first name.' }],
                         })(
-                            <Input />
+                            <Input disabled={confirmLoading}/>
                         )}
                     </Form.Item>
                     <Form.Item label="Last Name">
@@ -48,7 +48,7 @@ class CreateUserForm extends React.Component {
                             validateTrigger: 'onBlur',
                             rules: [{ required: true, whitespace: true, message: 'Please input the user\'s last name.' }],
                         })(
-                            <Input />
+                            <Input disabled={confirmLoading}/>
                         )}
                     </Form.Item>
                     <Form.Item label="Email Address">
@@ -56,7 +56,7 @@ class CreateUserForm extends React.Component {
                             validateTrigger: 'onBlur',
                             rules: [{ required: true, message: 'Please input the user\'s email address.', whitespace: true, pattern: /^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/}],
                         })(
-                            <Input />
+                            <Input disabled={confirmLoading}/>
                         )}
                     </Form.Item>
                     <Form.Item label="Reenter Email Address">
@@ -71,7 +71,7 @@ class CreateUserForm extends React.Component {
                                 validator: this.emailValidator.bind(this)
                             }],
                         })(
-                            <Input />
+                            <Input disabled={confirmLoading}/>
                         )}
                     </Form.Item>
 
@@ -80,8 +80,8 @@ class CreateUserForm extends React.Component {
                             initialValue: 'regular',
                         })(
                             <Radio.Group>
-                                <Radio value="regular">Regular</Radio>
-                                <Radio value="officeAdmin">Office Admin</Radio>
+                                <Radio disabled={confirmLoading} value="regular">Regular</Radio>
+                                <Radio disabled={confirmLoading} value="officeAdmin">Office Admin</Radio>
                             </Radio.Group>
                         )}
                     </Form.Item>

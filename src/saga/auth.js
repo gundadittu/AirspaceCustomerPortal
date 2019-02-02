@@ -5,7 +5,6 @@ import AirOffice from "../models/AirOffice";
 import "firebase/functions";
 import "firebase/auth";
 import { notification } from 'antd';
-import React from 'react';
 
 // Watchers
 
@@ -48,7 +47,7 @@ function signInUser(payload, firebase) {
 function* userSignInWorkerSaga(action) {
     try {
         let firebase = yield select(selectors.firebase);
-        const response = yield call(signInUser, action.payload, firebase);
+        yield call(signInUser, action.payload, firebase);
         yield put({ type: actionTypes.SIGN_IN_USER_SUCCESS });
     } catch (error) {
         
@@ -73,7 +72,7 @@ function* userSignInWorkerSaga(action) {
   function* userSignOutWorkerSaga(action) {
       try {
           let firebase = yield select(selectors.firebase);
-          const response = yield call(signOutUser, firebase);
+          yield call(signOutUser, firebase);
           // Need to properly parse call here
           console.log("SIGN OUT CALL SUCCESSFUL");
           yield put({ type: actionTypes.SIGN_OUT_USER_SUCCESS });

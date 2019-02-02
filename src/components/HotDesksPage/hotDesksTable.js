@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, Menu, Table, Tag, message, notification, Popconfirm} from 'antd';
+import { Dropdown, Menu, Table } from 'antd';
 // import Highlighter from 'react-highlight-words';
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
@@ -63,7 +63,6 @@ class HotDesksTable extends React.Component {
     return (
       <Menu
         onClick={(e) => this.handleEditMenuClick(e, deskUID)}
-        mode="horizontal"
         style={{ textAlign: 'left', border: 0 }}
       >
         <Menu.Item key="edit">
@@ -83,7 +82,7 @@ class HotDesksTable extends React.Component {
        const value = desksList[key];
        const currentUID = value.uid;
  
-       if (deskUID == currentUID) {
+       if (deskUID === currentUID) {
          this.setState({
            selectedDesk: value
          });
@@ -96,17 +95,17 @@ class HotDesksTable extends React.Component {
        return
      }
 
-    if (key == 'edit') {
+    if (key === 'edit') {
       const editDeskForm = this.editDeskFormRef.props.form;
       editDeskForm.setFields({ 
         deskName: { 
           value: selectedDesk.name
         }, 
         reserveable: { 
-          value: (selectedDesk.reserveable == true) ? ['reserveable'] : []
+          value: (selectedDesk.reserveable === true) ? ['reserveable'] : []
         }, 
         activeStatus: { 
-          value: (selectedDesk.active == true) ? 'active' : 'inactive'
+          value: (selectedDesk.active === true) ? 'active' : 'inactive'
         }
       })
 
@@ -123,12 +122,12 @@ class HotDesksTable extends React.Component {
       const deskName = values.deskName;
 
       let reserveable = false;
-      if (values.reserveable.includes('reserveable') == true) {
+      if (values.reserveable.includes('reserveable') === true) {
         reserveable = true;
       }
 
       let activeStatus = false;
-      if (values.activeStatus == 'active') {
+      if (values.activeStatus === 'active') {
         activeStatus = true;
       }
 

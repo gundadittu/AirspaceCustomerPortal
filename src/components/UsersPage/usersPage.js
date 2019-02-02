@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions/actionTypes';
+// import * as actionTypes from '../../store/actions/actionTypes';
 
 import { Row, Col, Button } from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
@@ -70,7 +70,7 @@ class UsersPage extends React.Component {
             const firstName = values.firstName;
             const lastName = values.lastName;
             const emailAddress = values.emailAddress;
-            const makeUserOfficeAdmin = (values.userType == 'regular') ? false : true;
+            const makeUserOfficeAdmin = (values.userType === 'regular') ? false : true;
             const officeUID = this.props.currentOfficeUID;
             const payload = { firstName: firstName, lastName: lastName, emailAddress: emailAddress, makeUserOfficeAdmin: makeUserOfficeAdmin, officeUID: officeUID, hideFormRef: this.hideCreateUserForm }
             this.props.createUserForOfficeAdmin(payload);
@@ -91,7 +91,7 @@ class UsersPage extends React.Component {
             for (let key in list) {
                 const value = list[key];
 
-                if (value.uid == selectedOfficeUID) {
+                if (value.uid === selectedOfficeUID) {
                     officeObj = value;
                 }
             }
@@ -102,7 +102,7 @@ class UsersPage extends React.Component {
             }
             const secondPagePayload = getPagePayload(pageTitles.userPageOfficeAdmin);
             if (secondPagePayload) {
-                this.props.changePage(pagePayload);
+                this.props.changePage(secondPagePayload);
             }
         }
     }

@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions/actionTypes';
+// import * as actionTypes from '../../store/actions/actionTypes';
 
-import { Row, Col, Button, Menu, Icon } from 'antd';
+import { Row, Col, Button, Menu } from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
 import '../../App.css';
 
 import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
-import * as officeActionCreator from '../../store/actions/officeAdmin';
+// import * as officeActionCreator from '../../store/actions/officeAdmin';
 
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
@@ -28,7 +28,7 @@ class ConferenceRoomsPage extends React.Component {
 
     handleClick = (e) => {
         var key = e.key;
-        if ((key == 'active') || (key == 'inactive')) {
+        if ((key === 'active') || (key === 'inactive')) {
             this.setState({ currentList: key });
         }
     }
@@ -75,11 +75,11 @@ class ConferenceRoomsPage extends React.Component {
             const roomName = values.roomName;
             const standardAmenities = values.standardAmenities;
             let reserveable = false;
-            if (values.reserveable.includes('reserveable') == true) {
+            if (values.reserveable.includes('reserveable') === true) {
                 reserveable = true;
             }
             let activeStatus = false;
-            if (values.activeStatus == 'active') {
+            if (values.activeStatus === 'active') {
                 activeStatus = true;
             }
             const customAmenities = values.customAmenities;
@@ -127,7 +127,7 @@ class ConferenceRoomsPage extends React.Component {
             for (let key in list) {
                 const value = list[key];
 
-                if (value.uid == selectedOfficeUID) {
+                if (value.uid === selectedOfficeUID) {
                     officeObj = value;
                 }
             }
@@ -136,9 +136,11 @@ class ConferenceRoomsPage extends React.Component {
             if (pagePayload) {
                 this.props.changePage(pagePayload);
             }
+            console.log(pagePayload);
             const secondPagePayload = getPagePayload(pageTitles.conferenceRoomsPageOfficeAdmin);
+            console.log(secondPagePayload);
             if (secondPagePayload) {
-                this.props.changePage(pagePayload);
+                this.props.changePage(secondPagePayload);
                 this.props.loadConferenceRooms(selectedOfficeUID);
             }
         }
@@ -155,9 +157,9 @@ class ConferenceRoomsPage extends React.Component {
 
     render() {
         let dataSource = [];
-        if (this.state.currentList == 'active') {
+        if (this.state.currentList === 'active') {
             dataSource = this.props.activeRoomsList
-        } else if (this.state.currentList == 'inactive') {
+        } else if (this.state.currentList === 'inactive') {
             dataSource = this.props.inactiveRoomsList;
         }
 
@@ -174,6 +176,9 @@ class ConferenceRoomsPage extends React.Component {
                     <Col className="wide-table" span={24}>
                         <h1>Conference Rooms</h1>
                         <div>
+                            <IconButton onClick={() => this.props.loadConferenceRooms(this.props.currentOfficeUID)}>
+                                <RefreshIcon />
+                            </IconButton>
                             <Menu
                                 className="inlineDisplay"
                                 style={{ border: 0 }}
@@ -181,12 +186,9 @@ class ConferenceRoomsPage extends React.Component {
                                 defaultSelectedKeys={[this.state.currentList]}
                                 mode="horizontal"
                             >
-                                <IconButton onClick={() => this.props.loadConferenceRooms(this.props.currentOfficeUID)}>
-                                    <RefreshIcon />
-                                </IconButton>
                                 <Menu.Item key="active">
                                     Active
-                            </Menu.Item>
+                                </Menu.Item>
                                 <Menu.Item key="inactive" >
                                     Inactive
                             </Menu.Item>

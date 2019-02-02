@@ -56,12 +56,6 @@ class ConferenceRoomsTable extends React.Component {
     ),
   }];
 
-  confirmRoomDeactivation = (e, roomUID) => {
-    // construct payload !!!!!!!!!!!!!!!
-    // dispatch action 
-    // show loading indicator & notification message on completion
-  }
-
   editMenu = (roomUID) => {
     return (
       <Menu
@@ -71,11 +65,6 @@ class ConferenceRoomsTable extends React.Component {
       >
         <Menu.Item key="edit">
           Edit Room Info
-        </Menu.Item>
-        <Menu.Item key="deactivate">
-          <Popconfirm title="Are you sure deactive this conference room?" onConfirm={(e) => this.confirmRoomDeactivation(e, roomUID)} okText="Yes" cancelText="No">
-            Deactivate Room
-          </Popconfirm>
         </Menu.Item>
       </Menu>
     );
@@ -110,23 +99,23 @@ class ConferenceRoomsTable extends React.Component {
         roomName: {
           value: selectedRoom.name
         },
-        capacity: { 
-          value: selectedRoom.capacity 
+        capacity: {
+          value: selectedRoom.capacity
         },
         standardAmenities: {
-          value: null // populate !!!!!!!!!!!!!!!
+          value: selectedRoom.amenities
         },
         reserveable: {
-          value: (selectedRoom.reserveable) ? ['reserveable'] : null 
+          value: (selectedRoom.reserveable) ? ['reserveable'] : null
         },
         activeStatus: {
-          value: (selectedRoom.active) ? 'active' : 'inactive' 
+          value: (selectedRoom.active) ? 'active' : 'inactive'
         },
         uploadPhoto: {
-          value: null // populate !!!!!!!!!!!!!!!
+          value: null // populate?
         },
         keys: {
-          value: null // populate !!!!!!!!!!!!!!!
+          value: null // populate?
         }
       });
 
@@ -137,11 +126,12 @@ class ConferenceRoomsTable extends React.Component {
 
   hideEditRoomForm = () => {
     const editRoomForm = this.editRoomFormRef.props.form;
+    this.editRoomFormRef.setState({ fileList: [] });
     editRoomForm.setFields({
       roomName: {
         value: null
       },
-      capacity: { 
+      capacity: {
         value: null
       },
       standardAmenities: {
@@ -170,8 +160,39 @@ class ConferenceRoomsTable extends React.Component {
         return;
       }
 
-      // construct payload !!!!!!!!!!!!!!!
-      // pass reference to hideEditRoomForm
+      const roomName = values.roomName;
+      const standardAmenities = values.standardAmenities;
+      let reserveable = false;
+      if (values.reserveable.includes('reserveable') == true) {
+        reserveable = true;
+      }
+      let activeStatus = false;
+      if (values.activeStatus == 'active') {
+        activeStatus = true;
+      }
+      const customAmenities = values.customAmenities;
+      const capacity = values.capacity;
+      let photoFileObj = null;
+      const uploadPhotoDict = values.uploadPhoto || null;
+      if (uploadPhotoDict) {
+        const value = uploadPhotoDict[0];
+        const fileObj = value.originFileObj;
+        photoFileObj = fileObj;
+      }
+
+      const payload = {
+        selectedRoomUID: this.state.selectedRoom.uid,
+        roomName: roomName,
+        capacity: capacity,
+        standardAmenities: standardAmenities,
+        customAmenities: customAmenities,
+        reserveable: reserveable,
+        activeStatus: activeStatus,
+        photoFileObj: photoFileObj,
+        hideForm: this.hideEditRoomForm, 
+        selectedOfficeUID: this.props.currentOfficeUID
+      }
+      this.props.editConferenceRoom(payload);
     });
   }
 
@@ -191,6 +212,7 @@ class ConferenceRoomsTable extends React.Component {
           visible={this.state.editRoomFormVisible}
           onCancel={this.handleCancelEditRoom}
           onCreate={this.handleCreateEditRoom}
+          confirmLoading={this.props.editRoomFormLoading}
         />
         <Table
           columns={this.columns}
@@ -205,15 +227,16 @@ class ConferenceRoomsTable extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    editRoomFormLoading: state.officeAdmin.editRoomFormLoading,
     currentOfficeUID: state.general.currentOfficeAdminUID,
     isLoadingRoomsData: state.officeAdmin.isLoadingRoomsData
   }
 };
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     loadConferenceRooms: (officeUID) => dispatch(actionCreator.loadConferenceRooms(officeUID))
-//   }
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+    editConferenceRoom: (payload) => dispatch(actionCreator.editConferenceRoom(payload))
+  }
+};
 
-export default connect(mapStateToProps, null)(ConferenceRoomsTable);
+export default connect(mapStateToProps, mapDispatchToProps)(ConferenceRoomsTable);

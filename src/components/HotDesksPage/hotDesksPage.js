@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 
-import { Row, Col, Button, Menu, Icon} from 'antd';
+import { Row, Col, Button, Menu, Icon } from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
 import '../../App.css';
@@ -22,86 +22,166 @@ import CreateDeskForm from './createDeskForm'
 
 class HotDesksPage extends React.Component {
 
-  state = {
-    current: 'Active',
-    createDeskFormVisible: false,
-  }
-
-  componentDidMount() {
-      // Routing stuff
-      if (this.props.match.isExact) {
-          const selectedOfficeUID = this.props.match.params.officeUID;
-          const pagePayload = getPagePayload(pageTitles.hotDesksPageOfficeAdmin, { officeUID: selectedOfficeUID });
-          if (pagePayload) {
-              this.props.changePage(pagePayload);
-          }
-          const secondPagePayload = getPagePayload(pageTitles.hotDesksPageOfficeAdmin);
-          if (secondPagePayload) {
-              this.props.changePage(pagePayload);
-          }
-      }
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-      const prevOfficeUID = prevProps.currentOfficeUID;
-      const currentOfficeUID = this.props.currentOfficeUID;
-      if (prevOfficeUID !== currentOfficeUID) {
-          this.props.loadHotDesks(currentOfficeUID);
-      }
-      console.log(this.props.desksList)
-  }
-
-  showCreateDeskFormModal = () => {
-      this.setState({createDeskFormVisible: true });
-  }
-
-  handleCancelCreateDesk = () => {
-      this.setState({
+    state = {
+        currentList: 'active',
         createDeskFormVisible: false,
-        clearForm: true
-      });
-  }
+    }
 
-  render() {
-    return (
-      <div>
-      <Row>
-          <Col className="wide-table" span={24}>
-              <h1>Hot Desks</h1>
-              <CreateDeskForm
-                  visible={this.state.createDeskFormVisible}
-                  onCancel={this.handleCancelCreateDesk}
-                  formTitle={this.props.currentOfficeName}
-              />
-              <Menu
-                  onClick={this.handleClick}
-                  selectedKeys={[this.state.current]}
-                  mode="horizontal"
-                >
-                  <IconButton className="inlineDisplay" onClick={() => this.props.loadHotDesks(this.props.currentOfficeUID)}>
-                      <RefreshIcon />
-                  </IconButton>
-                  <Menu.Item key="Active">
-                    Active
-                  </Menu.Item>
-                  <Menu.Item key="Inactive" >
-                    Inactive
-                  </Menu.Item>
-                  <Button className="inlineDisplay" type="primary rightAlign" onClick={this.showCreateDeskFormModal}>Add Hot Desk</Button>
-              </Menu>
-              <HotDesksTable />
-          </Col>
-      </Row>
-      </div>
-    )
-  }
+    componentDidMount() {
+        // Routing stuff
+        if (this.props.match.isExact) {
+            const selectedOfficeUID = this.props.match.params.officeUID;
+            const pagePayload = getPagePayload(pageTitles.hotDesksPageOfficeAdmin, { officeUID: selectedOfficeUID });
+            if (pagePayload) {
+                this.props.changePage(pagePayload);
+            }
+            const secondPagePayload = getPagePayload(pageTitles.hotDesksPageOfficeAdmin);
+            if (secondPagePayload) {
+                this.props.changePage(pagePayload);
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const prevOfficeUID = prevProps.currentOfficeUID;
+        const currentOfficeUID = this.props.currentOfficeUID;
+        if (prevOfficeUID !== currentOfficeUID) {
+            this.props.loadHotDesks(currentOfficeUID);
+        }
+    }
+
+    showCreateDeskFormModal = () => {
+        this.setState({ createDeskFormVisible: true });
+    }
+
+    handleConfirmCreateDesk = () => {
+        const createDeskForm = this.createDeskFormRef.props.form;
+        createDeskForm.validateFields((err, values) => { 
+            if (err) { 
+                return;
+            }
+            const deskName = values.deskName;
+
+            let reserveable = false;
+            if (values.reserveable.includes('reserveable') == true) {
+                reserveable = true;
+            }
+
+            let activeStatus = false;
+            if (values.activeStatus == 'active') {
+                activeStatus = true;
+            }
+
+            let photoFileObj = null;
+            const uploadPhotoDict = values.uploadPhoto || null;
+            if (uploadPhotoDict) {
+                const value = uploadPhotoDict[0];
+                const fileObj = value.originFileObj;
+                photoFileObj = fileObj;
+            }
+
+            const currentOfficeUID = this.props.currentOfficeUID;
+
+            const payload = {
+                deskName: deskName,
+                selectedOfficeUID: currentOfficeUID,
+                reserveable: reserveable,
+                activeStatus: activeStatus,
+                photoFileObj: photoFileObj,
+                hideForm: this.hideCreateDeskForm
+            }
+           this.props.createHotDesk(payload);
+        })
+    }
+
+    handleCancelCreateDesk = () => {
+        this.hideCreateDeskForm();
+    }
+
+    hideCreateDeskForm = () => {
+        this.setState({
+            createDeskFormVisible: false
+        });
+        const createDeskForm = this.createDeskFormRef.props.form;
+        this.createDeskFormRef.setState({ fileList: [] });
+        createDeskForm.setFields({
+            deskName:  { 
+                value: null
+            },
+            reserveable: { 
+                value: ['reserveable']
+            },
+            activeStatus: { 
+                value: 'active'
+            },
+            uploadPhoto: {
+                value: []
+            }
+        })
+    }
+
+    saveCreateDeskFormRef = (form) => {
+        this.createDeskFormRef = form;
+    }
+
+    handleClick = (e) => {
+        var key = e.key;
+        if ((key == 'active') || (key == 'inactive')) {
+            this.setState({ currentList: key });
+        }
+    }
+
+    render() {
+        let dataSource = [];
+        if (this.state.currentList == 'active') {
+            dataSource = this.props.activeDesksList
+        } else if (this.state.currentList == 'inactive') {
+            dataSource = this.props.inactiveDesksList;
+        }
+
+        return (
+            <div>
+                <Row>
+                    <Col className="wide-table" span={24}>
+                        <h1>Hot Desks</h1>
+                        <CreateDeskForm
+                            wrappedComponentRef={(form) => this.saveCreateDeskFormRef(form)}
+                            visible={this.state.createDeskFormVisible}
+                            onCancel={this.handleCancelCreateDesk}
+                            onCreate={this.handleConfirmCreateDesk}
+                            confirmLoading={this.props.createDeskFormLoading}
+                        />
+                        <Menu
+                            onClick={this.handleClick}
+                            selectedKeys={[this.state.currentList]}
+                            mode="horizontal"
+                        >
+                            <IconButton className="inlineDisplay" onClick={() => this.props.loadHotDesks(this.props.currentOfficeUID)}>
+                                <RefreshIcon />
+                            </IconButton>
+                            <Menu.Item key="active">
+                                Active
+                            </Menu.Item>
+                            <Menu.Item key="inactive" >
+                                Inactive
+                            </Menu.Item>
+                            <Button className="inlineDisplay" type="primary rightAlign" onClick={this.showCreateDeskFormModal}>Add Hot Desk</Button>
+                        </Menu>
+                        <HotDesksTable dataSource={dataSource}/>
+                    </Col>
+                </Row>
+            </div>
+        )
+    }
 }
 
 
 const mapStateToProps = state => {
     return {
-        desksList: state.officeAdmin.desksList,
-        isLoadingHotDesksData : state.officeAdmin.isLoadingUserData,
+        createDeskFormLoading: state.officeAdmin.createDeskFormLoading,
+        activeDesksList: state.officeAdmin.activeDesksList,
+        inactiveDesksList: state.officeAdmin.inactiveDesksList,
+        isLoadingHotDesksData: state.officeAdmin.isLoadingUserData,
         currentOfficeUID: state.general.currentOfficeAdminUID,
         user: state.auth.user
     }
@@ -109,6 +189,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        createHotDesk: (payload) => dispatch(actionCreator.createHotDesk(payload)),
         loadHotDesks: (officeUID) => dispatch(actionCreator.loadHotDesks(officeUID)),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
     }

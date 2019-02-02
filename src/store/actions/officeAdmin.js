@@ -36,6 +36,15 @@ export const loadRegisteredGuests = (officeUID) => {
     };
 }
 
+export const loadEvents = (officeUID) => {
+    return {
+        type: actionTypes.LOAD_EVENTS,
+        payload: {
+            officeUID: officeUID
+        }
+    };
+}
+
 export const createUserForOfficeAdmin = (payload) => {
     return {
         type: actionTypes.CREATE_USER_FOR_OFFICEADMIN,
@@ -79,14 +88,14 @@ export const editConferenceRoom = (payload) => {
             amenities: payload.standardAmenities
             // Payload must contain the below keys
             // selectedRoomUID: uid,
-            // roomName: roomName, 
-            // capacity: capacity, 
-            // standardAmenities: standardAmenities, 
-            // customAmenities: customAmenities, 
+            // roomName: roomName,
+            // capacity: capacity,
+            // standardAmenities: standardAmenities,
+            // customAmenities: customAmenities,
             // selectedOfficeUID: currentOfficeUID,
-            // reserveable: reserveable, 
-            // activeStatus: activeStatus, 
-            // photoFileObj: photoFileObj, 
+            // reserveable: reserveable,
+            // activeStatus: activeStatus,
+            // photoFileObj: photoFileObj,
             // hideFormRef: this.hideCreateRoomFormModal
         }
     }
@@ -122,7 +131,7 @@ export const createHotDesk = (payload) => {
             // selectedOfficeUID
             // reserveable
             // activeStatus
-            // photoFileObj: photoFileObj, 
+            // photoFileObj: photoFileObj,
             // hideForm: this.hideCreateRoomFormModal
         }
     }

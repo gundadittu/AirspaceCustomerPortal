@@ -8,19 +8,22 @@ const initialState = {
     inactiveRoomsList: [],
     pastGuestsList: [],
     upcomingGuestsList: [],
-    activeDesksList: [], 
+    activeDesksList: [],
     inactiveDesksList: [],
+    upcomingEventsList: [],
+    pastEventsList: [],
     isLoadingUserData: false,
     isLoadingRoomsData: false,
     isLoadingGuestsData: false,
     isLoadingHotDesksData: false,
+    isLoadingEventsData: false,
     createUserFormLoading: false,
     editUserFormLoading: false,
     removeUserFormLoading: false,
     addRoomFormLoading: false,
-    editRoomFormLoading: false, 
-    createDeskFormLoading: false, 
-    editDeskFormLoading: false 
+    editRoomFormLoading: false,
+    createDeskFormLoading: false,
+    editDeskFormLoading: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -96,15 +99,23 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, {pastGuestsList: pastGuestsList, upcomingGuestsList: upcomingGuestsList, isLoadingGuestsData: false});
         case actionTypes.LOAD_REGISTERED_GUESTS_ERROR:
             return updateObject(state, {isLoadingGuestsData: false});
-        case actionTypes.ADD_HOT_DESK: 
+        case actionTypes.LOAD_EVENTS:
+            return updateObject(state, {isLoadingEventsData: true});
+        case actionTypes.LOAD_EVENTS_SUCCESS:
+            const pastEventsList = action.payload.pastEventsList || null;
+            const upcomingEventsList = action.payload.upcomingEventsList || null;
+            return updateObject(state, {pastEventsList: pastEventsList, upcomingEventsList: upcomingEventsList, isLoadingEventsData: false});
+        case actionTypes.LOAD_EVENTS_ERROR:
+            return updateObject(state, {isLoadingEventsData: false});
+        case actionTypes.ADD_HOT_DESK:
             return updateObject(state, { createDeskFormLoading: true });
-        case actionTypes.ADD_HOT_DESK_FINISHED: 
+        case actionTypes.ADD_HOT_DESK_FINISHED:
              const addDeskPayload = action.payload;
              addDeskPayload.hideForm();
             return updateObject(state, { createDeskFormLoading: false });
-        case actionTypes.EDIT_HOT_DESK: 
+        case actionTypes.EDIT_HOT_DESK:
             return updateObject(state, { editDeskFormLoading: true });
-        case actionTypes.EDIT_HOT_DESK_FINISHED: 
+        case actionTypes.EDIT_HOT_DESK_FINISHED:
              const editDeskPayload = action.payload;
              editDeskPayload.hideForm();
             return updateObject(state, { editDeskFormLoading: false });

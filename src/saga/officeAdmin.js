@@ -29,6 +29,10 @@ export function* loadRegisteredGuestsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_REGISTERED_GUESTS, loadRegisteredGuestsWorkerSaga);
 }
 
+export function* loadEventsWatchSaga() {
+    yield takeLatest(actionTypes.LOAD_EVENTS, loadEventsWorkerSaga);
+}
+
 export function* createUserForOfficeAdmin() {
     yield takeLatest(actionTypes.CREATE_USER_FOR_OFFICEADMIN, createUserWorkerSaga);
 }
@@ -45,19 +49,19 @@ export function* createConferenceRoomOfficeAdmin() {
     yield takeLatest(actionTypes.ADD_CONF_ROOM, addRoomWorkerSaga);
 }
 
-export function* editConferenceRoomForOfficeAdmin() { 
+export function* editConferenceRoomForOfficeAdmin() {
     yield takeLatest(actionTypes.EDIT_CONF_ROOM, editRoomWorkerSaga);
 }
 
-export function* createHotDeskOfficeAdmin() { 
+export function* createHotDeskOfficeAdmin() {
     yield takeLatest(actionTypes.ADD_HOT_DESK, addDeskWorkerSaga);
 }
 
-export function* editHotDeskForOfficeAdmin() { 
+export function* editHotDeskForOfficeAdmin() {
     yield takeLatest(actionTypes.EDIT_HOT_DESK, editDeskWorkerSaga);
 }
 
-// Workers 
+// Workers
 
 function validatePermission(selectedOfficeUID, userAdminOfficeList) {
 
@@ -327,6 +331,62 @@ function* loadConferenceRoomsWorkerSaga(action) {
         }
     }
 
+  function loadEvents(payload, firebase) {
+      const officeUID = payload.officeUID || null;
+      const apiCall = firebase.functions.httpsCallable('getUpcomingEventsForUser')
+
+      return apiCall({ selectedOfficeUID: officeUID })
+          .then(result => {
+              const data = result.data;
+              console.log("RESULT: ", result);
+              var upcomingGuests = data;
+              var pastGuests = data.past;
+              /* var upcomingGuests = [];
+              var pastGuests = [];
+              for (let superKey in data) {
+                  const superValue = data[superKey];
+                  for (let key in superValue) {
+                      const value = superValue[key];
+                      const guest = new AirRegisteredGuest(value) || null;
+                      console.log("KEY:", superKey)
+                      if (guest !== null) {
+                          if (superKey == 'arrived') {
+                              pastGuests.push(guest);
+                          } else {
+                              upcomingGuests.push(guest);
+                          }
+                      }
+                  }
+              } */
+              console.log("Upcoming Guests", upcomingGuests);
+              console.log("Past Guests", pastGuests);
+              return {'upcoming': upcomingGuests, 'past': pastGuests};
+          })
+  }
+
+  function* loadEventsWorkerSaga(action) {
+      try {
+          const selectedOfficeUID = action.payload.officeUID;
+          const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+          validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+          let firebase = yield select(selectors.firebase);
+
+          const response = yield call(loadEvents, action.payload, firebase);
+          yield put({ type: actionTypes.LOAD_EVENTS_SUCCESS,
+            payload: { upcomingEventsList: response.upcoming, pastEventsList: response.past }});
+      } catch (error) {
+          console.error(error);
+
+          notification['error']({
+              message: 'Unable to load Events for this office.',
+              description: error.message
+          });
+
+          yield put({ type: actionTypes.LOAD_EVENTS_ERROR, payload: {error: error} });
+      }
+  }
+
   function removeOfficeUser(payload, firebase) {
     const officeUID = payload.officeUID;
     const userUID = payload.userUID;
@@ -410,18 +470,18 @@ function* editUserWorkerSaga(action) {
 }
 
 
-function addRoom(payload, firebase) { 
+function addRoom(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('addConferenceRoomForOfficeAdmin');
     return apiCall({ ...payload, hideForm: null })
-    .then( response => { 
+    .then( response => {
         const file = payload.photoFileObj;
-        if (file) { 
+        if (file) {
             const storageRef = firebase.storage.ref();
-            const newRoomUID = response.data; 
+            const newRoomUID = response.data;
             const photoRef = storageRef.child('conferenceRoomImages/'+newRoomUID+'.jpg');
             return photoRef.put(file);
-        }  else { 
-            return 
+        }  else {
+            return
         }
     })
 }
@@ -456,23 +516,23 @@ function* addRoomWorkerSaga(action) {
     }
 }
 
-function editRoom(payload, firebase) { 
+function editRoom(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('editConferenceRoomForOfficeAdmin');
     return apiCall({ ...payload, hideForm: null })
-    .then( response => { 
-        const file = payload.photoFileObj; 
-        if (file) { 
+    .then( response => {
+        const file = payload.photoFileObj;
+        if (file) {
             const storageRef = firebase.storage.ref();
-            const roomUID = payload.selectedRoomUID; 
+            const roomUID = payload.selectedRoomUID;
             const photoRef = storageRef.child('conferenceRoomImages/'+roomUID+'.jpg');
             return photoRef.put(file);
-        } else { 
-            return 
+        } else {
+            return
         }
     })
 }
 
-function* editRoomWorkerSaga(action) { 
+function* editRoomWorkerSaga(action) {
     try {
         const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;
@@ -489,7 +549,7 @@ function* editRoomWorkerSaga(action) {
         const newPayload = { hideForm: payload.hideForm };
         yield put({ type: actionTypes.EDIT_CONF_ROOM_FINISHED, payload: { ...newPayload } });
 
-    } catch (error) { 
+    } catch (error) {
         console.error(error);
 
         notification['error']({
@@ -504,24 +564,24 @@ function* editRoomWorkerSaga(action) {
 
 }
 
-function addDesk(payload, firebase) { 
+function addDesk(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('addHotDeskForOfficeAdmin');
     return apiCall({ ...payload, hideForm: null })
-    .then( response => { 
+    .then( response => {
         const file = payload.photoFileObj;
-        if (file) { 
+        if (file) {
             const storageRef = firebase.storage.ref();
-            const newDeskUID = response.data; 
+            const newDeskUID = response.data;
             const photoRef = storageRef.child('deskImages/'+newDeskUID+'.jpg');
             return photoRef.put(file);
-        }  else { 
-            return 
+        }  else {
+            return
         }
     })
 }
 
-function* addDeskWorkerSaga(action) { 
-    try { 
+function* addDeskWorkerSaga(action) {
+    try {
         const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;
         const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
@@ -537,9 +597,9 @@ function* addDeskWorkerSaga(action) {
         const newPayload = { hideForm: payload.hideForm };
         yield put({ type: actionTypes.ADD_HOT_DESK_FINISHED, payload: { ...newPayload } });
 
-    } catch (error) { 
+    } catch (error) {
         console.error(error);
-        
+
         notification['error']({
             message: 'Unable to add hot desk.',
             description: error.message
@@ -551,24 +611,24 @@ function* addDeskWorkerSaga(action) {
     }
 }
 
-function editDesk(payload, firebase) { 
+function editDesk(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('editHotDeskForOfficeAdmin');
     return apiCall({ ...payload, hideForm: null })
-    .then( response => { 
+    .then( response => {
         const file = payload.photoFileObj;
-        if (file) { 
+        if (file) {
             const storageRef = firebase.storage.ref();
-            const deskUID = payload.selectedDeskUID; 
+            const deskUID = payload.selectedDeskUID;
             const photoRef = storageRef.child('deskImages/'+deskUID+'.jpg');
             return photoRef.put(file);
-        }  else { 
-            return 
+        }  else {
+            return
         }
     })
 }
 
-function* editDeskWorkerSaga(action) { 
-    try { 
+function* editDeskWorkerSaga(action) {
+    try {
         const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;
         const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
@@ -583,8 +643,8 @@ function* editDeskWorkerSaga(action) {
 
         const newPayload = { hideForm: payload.hideForm };
         yield put({ type: actionTypes.EDIT_HOT_DESK_FINISHED, payload: { ...newPayload } });
-    } catch (error) { 
-        console.error(error); 
+    } catch (error) {
+        console.error(error);
 
         notification['error']({
             message: 'Unable to edit hot desk.',

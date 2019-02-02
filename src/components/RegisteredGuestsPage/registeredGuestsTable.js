@@ -1,29 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, Icon, Menu, Table, Tag, message, notification, Popconfirm} from 'antd';
-// import Highlighter from 'react-highlight-words';
-import IconButton from '@material-ui/core/IconButton';
-import MoreIcon from '@material-ui/icons/MoreHoriz';
-import * as actionCreator from '../../store/actions/officeAdmin';
-
+import { Icon, Table } from 'antd';
+const moment = require('moment');
 
 class RegisteredGuestsTable extends React.Component {
-  state = {
-  };
-
-  columns = [{
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-  }, {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  }, {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  }];
 
   columns = [{
     title: 'Name',
@@ -50,16 +30,16 @@ class RegisteredGuestsTable extends React.Component {
     dataIndex: 'arrived',
     key: 'arrived',
     render: (bool, guest) => (
-      <div style={bool ? {color: 'green'} : {color: 'red'}}>
+      <div style={bool ? {color: 'green'} : {color: 'black'}}>
         {bool ? <span>
           Arrived <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" />
           </span>
-        : <span>{guest.expectedVisitDate}</span>}
+        :  <span>Expected {moment(guest.expectedVisitDate).format('ddd MMM DD, YYYY')} at {moment(guest.expectedVisitDate).format('hh:mm a')}</span> }
       </div>
     ),
     filters: [
       { text: 'Arrived', value: true},
-      { text: 'Not Yet', value: false},
+      { text: 'Not Arrived', value: false},
     ],
      onFilter: (value, record) => record.arrived.toString() == value,
   }
@@ -67,21 +47,18 @@ class RegisteredGuestsTable extends React.Component {
 
   render() {
     return (
-      <div>
         <Table
                columns={this.columns}
                dataSource={this.props.dataSource}
                loading={this.props.isLoadingGuestsData}
                pagination={false}
          />
-      </div>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    currentOfficeUID: state.general.currentOfficeAdminUID,
     isLoadingGuestsData: state.officeAdmin.isLoadingGuestsData
   }
 };

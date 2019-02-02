@@ -6,8 +6,7 @@ const initialState = {
     userList: [],
     activeRoomsList: [],
     inactiveRoomsList: [],
-    pastGuestsList: [],
-    upcomingGuestsList: [],
+    guestsList: [],
     activeDesksList: [],
     inactiveDesksList: [],
     upcomingEventsList: [],
@@ -94,9 +93,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOAD_REGISTERED_GUESTS:
             return updateObject(state, {isLoadingGuestsData: true});
         case actionTypes.LOAD_REGISTERED_GUESTS_SUCCESS:
-            const pastGuestsList = action.payload.pastGuestsList || null;
-            const upcomingGuestsList = action.payload.upcomingGuestsList || null;
-            return updateObject(state, {pastGuestsList: pastGuestsList, upcomingGuestsList: upcomingGuestsList, isLoadingGuestsData: false});
+            const guestList = action.payload.guestList || null;
+            return updateObject(state, { guestsList: guestList, isLoadingGuestsData: false});
         case actionTypes.LOAD_REGISTERED_GUESTS_ERROR:
             return updateObject(state, {isLoadingGuestsData: false});
         case actionTypes.LOAD_EVENTS:

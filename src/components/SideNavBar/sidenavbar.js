@@ -64,13 +64,13 @@ class SideNavBar extends React.Component {
       if (this.props.regularUserPortalMode === "officeAdmin") {
         return (
           <Affix className="airspace-side-nav-bar-group" >
+            {sideBarLogo}
             <Menu
               style={{ border: 0 }}
               defaultSelectedKeys={[this.props.currentPage]}
               mode="inline"
               className="airspace-side-nav-bar"
             >
-              {sideBarLogo}
               <MenuItemGroup key="g2" title="">
                 <Menu.Item key="home">{<span><Icon type="home" /><span>Home</span></span>}</Menu.Item>
                 <Menu.Item key={pageTitles.userPageOfficeAdmin} >

@@ -1,3 +1,5 @@
+import firebase from 'firebase';
+
 export default class AirRegisteredGuest {
     constructor(dict) {
         const uid = dict.uid || null;
@@ -18,7 +20,14 @@ export default class AirRegisteredGuest {
         this.email = email;
         this.arrived = arrived;
         this.canceled = canceled;
-        this.expectedVisitDate = expectedVisitDate;
+
+        if (expectedVisitDate) { 
+            const seconds = expectedVisitDate._seconds; 
+            const nanoseconds = expectedVisitDate._nanoseconds;
+            const timestamp =  new firebase.firestore.Timestamp(seconds, nanoseconds);
+            this.expectedVisitDate = timestamp.toDate();
+        }
+
         this.hostUID = hostUID;
         this.visitingOfficeUID = visitingOfficeUID;
         this.visitingCompanyUID = visitingCompanyUID;

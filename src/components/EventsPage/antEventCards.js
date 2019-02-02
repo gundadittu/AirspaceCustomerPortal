@@ -50,7 +50,6 @@ class AntEventCards extends React.Component {
           </Col>
           <Col span={8}>
           <Card
-            bordered={false}
             hoverable
             cover={<img alt="example" src="https://coda.newjobs.com/api/imagesproxy/ms/cms/content30/images/startup-spotlight-resize.jpg" />}
           >

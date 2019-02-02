@@ -1,18 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-import {Row, Col} from 'antd';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {
@@ -87,59 +77,65 @@ const styles = theme => ({
   },
 });
 
-class MaterialUIEventCards extends React.Component {
-  state = {
-  };
+const images = [
+  {
+    url: 'http://schroedersolutions.com/wp-content/uploads/2017/07/googleinterior.jpg',
+    title: 'Breakfast',
+    width: '40%',
+  },
+  {
+    url: 'https://blog.nus.edu.sg/audreyc/files/2015/03/003-10j72tl.jpg',
+    title: 'Burgers',
+    width: '30%',
+  },
+  {
+    url: 'https://i.pinimg.com/474x/3a/67/8f/3a678f7df7e3378976d73d332bc609fa.jpg',
+    title: 'Camera',
+    width: '30%',
+  },
+];
 
-  render() {
-    return (
-      <div style={{ background: '#ECECEC', padding: '30px' }}>
-        <Row gutter={16}>
-          <Col span={8}>
-          <div className={styles.root}>
-          <ButtonBase
-              focusRipple
-              key={"Sample"}
-              className={styles.image}
-              focusVisibleClassName={styles.focusVisible}
+function MaterialUIEventCards(props) {
+  const { classes } = props;
 
+  return (
+    <div className={classes.root}>
+      {images.map(image => (
+        <ButtonBase
+          focusRipple
+          key={image.title}
+          className={classes.image}
+          focusVisibleClassName={classes.focusVisible}
+          style={{
+            width: image.width,
+          }}
+        >
+          <span
+            className={classes.imageSrc}
+            style={{
+              backgroundImage: `url(${image.url})`,
+            }}
+          />
+          <span className={classes.imageBackdrop} />
+          <span className={classes.imageButton}>
+            <Typography
+              component="span"
+              variant="subtitle1"
+              color="inherit"
+              className={classes.imageTitle}
             >
-              <span
-                className={styles.imageSrc}
-                style={{
-                  backgroundImage: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/screen-shot-2018-02-20-at-17-24-24-1519147509.jpg?crop=1xw:1xh;center,top&resize=480:*",
-                }}
-              />
-              <span className={styles.imageBackdrop} />
-              <span className={styles.imageButton}>
-                <Typography
-                  component="span"
-                  variant="subtitle1"
-                  color="inherit"
-                  className={styles.imageTitle}
-                >
-                  {"Sample"}
-                  <span className={styles.imageMarked} />
-                </Typography>
-              </span>
-            </ButtonBase>
-          </div>
-            </Col>
-          <Col span={8}>
-          </Col>
-          <Col span={8}>
-          </Col>
-        </Row>
-      </div>
-    );
-  }
+              {image.title}
+              <span className={classes.imageMarked} />
+            </Typography>
+          </span>
+        </ButtonBase>
+      ))}
+    </div>
+  );
 }
 
-const mapStateToProps = state => {
-  return {
-    currentOfficeUID: state.general.currentOfficeAdminUID,
-    isLoadingGuestsData: state.officeAdmin.isLoadingGuestsData
-  }
+MaterialUIEventCards.propTypes = {
+  classes: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, null)(MaterialUIEventCards);
+export default withStyles(styles)(MaterialUIEventCards);

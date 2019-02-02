@@ -118,6 +118,9 @@ class EventsPage extends React.Component {
                     </Menu.Item>
                 </Menu>
                 <AntEventCards />
+                <br />
+                <br />
+                <MaterialUIEventCards/>
             </Col>
         </Row>
       </div>

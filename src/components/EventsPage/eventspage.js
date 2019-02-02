@@ -75,8 +75,13 @@ class EventsPage extends React.Component {
 
           const secondPagePayload = getPagePayload(pageTitles.registeredGuestsPageOfficeAdmin);
           if (secondPagePayload) {
+<<<<<<< HEAD
               this.props.changePage(secondPagePayload);
               //this.props.loadRegisteredGuests(selectedOfficeUID);
+=======
+              this.props.changePage(pagePayload);
+              this.props.loadEvents(this.props.currentOfficeAdminUID);
+>>>>>>> e720d5a44eb6093f3b50dd3aaa45ec3a71e92fb6
           }
       }
   }
@@ -86,7 +91,7 @@ class EventsPage extends React.Component {
       const currentOfficeUID = this.props.currentOfficeUID;
 
       if (prevOfficeUID !== currentOfficeUID) {
-          //this.props.loadConferenceRooms(currentOfficeUID);
+          this.props.loadEvents(this.props.currentOfficeAdminUID);
       }
   }
 
@@ -132,13 +137,20 @@ class EventsPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        userAdminOfficeList: state.auth.adminOfficeList
+        userAdminOfficeList: state.auth.adminOfficeList,
+        upcomingEventsList: state.officeAdmin.upcomingEventsList,
+        pastEventsList: state.officeAdmin.pastEventsList,
+        isLoadingEventsData: state.officeAdmin.isLoadingUserData,
+        currentOfficeUID: state.general.currentOfficeAdminUID,
+        currentOfficeAdminUID: state.general.currentOfficeAdminUID,
+        addRoomFormLoading: state.officeAdmin.addRoomFormLoading
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-      changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
+        loadEvents: (officeUID) => dispatch(actionCreator.loadEvents(officeUID)),
+        changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
     }
 };
 

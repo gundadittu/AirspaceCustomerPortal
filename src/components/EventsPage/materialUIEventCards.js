@@ -80,17 +80,17 @@ const styles = theme => ({
 const images = [
   {
     url: 'http://schroedersolutions.com/wp-content/uploads/2017/07/googleinterior.jpg',
-    title: 'Breakfast',
+    title: 'General Meeting',
     width: '40%',
   },
   {
     url: 'https://blog.nus.edu.sg/audreyc/files/2015/03/003-10j72tl.jpg',
-    title: 'Burgers',
+    title: 'Product Launch',
     width: '30%',
   },
   {
     url: 'https://i.pinimg.com/474x/3a/67/8f/3a678f7df7e3378976d73d332bc609fa.jpg',
-    title: 'Camera',
+    title: 'Performance Evaluation Feedback',
     width: '30%',
   },
 ];

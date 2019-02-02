@@ -75,13 +75,8 @@ class EventsPage extends React.Component {
 
           const secondPagePayload = getPagePayload(pageTitles.registeredGuestsPageOfficeAdmin);
           if (secondPagePayload) {
-<<<<<<< HEAD
               this.props.changePage(secondPagePayload);
-              //this.props.loadRegisteredGuests(selectedOfficeUID);
-=======
-              this.props.changePage(pagePayload);
               this.props.loadEvents(this.props.currentOfficeAdminUID);
->>>>>>> e720d5a44eb6093f3b50dd3aaa45ec3a71e92fb6
           }
       }
   }

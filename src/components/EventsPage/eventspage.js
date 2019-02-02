@@ -15,6 +15,9 @@ import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 
+import AntEventCards from './antEventCards.js'
+import MaterialUIEventCards from './materialUIEventCards.js'
+
 class EventsPage extends React.Component {
 
   state = {
@@ -114,6 +117,7 @@ class EventsPage extends React.Component {
                       Past
                     </Menu.Item>
                 </Menu>
+                <AntEventCards />
             </Col>
         </Row>
       </div>

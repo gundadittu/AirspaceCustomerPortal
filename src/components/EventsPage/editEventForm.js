@@ -1,8 +1,10 @@
 import React from 'react';
 import {
-    Button, Modal, Form, Input, Radio, Checkbox, Row, Col, Icon, Upload, message, InputNumber
+    Button, Modal, Form, Input, Radio, Checkbox, Row, Col, Icon, Upload, message, InputNumber, DatePicker
 } from 'antd';
 import '../ConferenceRoomsPage/createRoomForm.css';
+
+const { RangePicker } = DatePicker;
 
 let id = 0;
 
@@ -72,14 +74,47 @@ class EditEventForm extends React.Component {
     if (this.state.fileList.length >= 1) {
       uploadDisabled = true;
     }
+    const rangeConfig = {
+      rules: [{ type: 'array', required: true, message: 'Please select time!' }],
+    };
 
+    var selectedEvent = this.props.event;
     return (
       <Form layout="vertical">
         <Form.Item label="Event Name">
-          {getFieldDecorator('eventName', {
+          {getFieldDecorator('roomName', {
             rules: [{ required: true, whitespace: true, message: 'Please input the room\'s name.' }],
           })(
-            <Input disabled={confirmLoading} />
+            <Input disabled={confirmLoading}/>
+          )}
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label="Event Date"
+        >
+          {getFieldDecorator('range-time-picker', rangeConfig)(
+            <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+          )}
+        </Form.Item>
+        <Form.Item label="Description">
+          {getFieldDecorator('description', {
+            rules: [{ required: true, whitespace: true, message: 'Please input a description.' }],
+          })(
+            <Input.TextArea/>
+          )}
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label="Upload Image"
+        >
+          {getFieldDecorator('uploadPhoto', {
+            getValueFromEvent: this.eventPhotoFile
+          })(
+            <Upload {...uploadProps} disabled={uploadDisabled || confirmLoading} fileList={this.state.fileList} accept='.png, jpg, jpeg' onChange={(info) => this.uploadChange(info)}>
+              <Button>
+                <Icon type="upload" /> Click to add a photo.
+            </Button>
+            </Upload>,
           )}
         </Form.Item>
       </Form>

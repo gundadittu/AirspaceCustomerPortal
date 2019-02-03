@@ -101,7 +101,7 @@ class CreateEventForm extends React.Component {
             label="Event Date"
           >
             {getFieldDecorator('range-time-picker', rangeConfig)(
-              <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+              <RangePicker showTime format="MMMM Do YYYY, h:mm:ss a" />
             )}
           </Form.Item>
           <Form.Item label="Description">

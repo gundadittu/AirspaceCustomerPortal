@@ -64,24 +64,17 @@ class EventsPage extends React.Component {
       }
   }
 
-  /*handleCreateRoom = () => {
-      const createRoomForm = this.createRoomFormRef.props.form;
-      createRoomForm.validateFields((err, values) => {
+  handleCreateEvent = () => {
+      const createEventForm = this.createEventFormRef.props.form;
+      createEventForm.validateFields((err, values) => {
           if (err) {
               return;
           }
-          const roomName = values.roomName;
-          const standardAmenities = values.standardAmenities;
-          let reserveable = false;
-          if (values.reserveable.includes('reserveable') === true) {
-              reserveable = true;
-          }
-          let activeStatus = false;
-          if (values.activeStatus === 'active') {
-              activeStatus = true;
-          }
-          const customAmenities = values.customAmenities;
-          const capacity = values.capacity;
+          const eventTitle = values.eventName;
+          const description = values.description
+          //const startDate = values.startDate
+          //const endDate = values.endDate
+
           const currentOfficeUID = this.props.currentOfficeUID;
           let photoFileObj = null;
           const uploadPhotoDict = values.uploadPhoto || null;
@@ -92,20 +85,17 @@ class EventsPage extends React.Component {
           }
 
           const payload = {
-              roomName: roomName,
-              capacity: capacity,
-              standardAmenities: standardAmenities,
-              customAmenities: customAmenities,
+              eventTitle: eventTitle,
+              description: description,
               selectedOfficeUID: currentOfficeUID,
-              reserveable: reserveable,
-              activeStatus: activeStatus,
               photoFileObj: photoFileObj,
-              hideForm: this.hideCreateRoomFormModal
+              hideForm: this.hideCreateEventFormModal
+              //startDate: startDate
+              //endDate: endDate
           }
-
-          this.props.createConferenceRoom(payload);
+          //this.props.createEvent(payload);
       })
-  } */
+  }
 
   hideCreateEventFormModal = () => {
     this.setState({
@@ -143,8 +133,8 @@ class EventsPage extends React.Component {
                       wrappedComponentRef={(form) => this.saveCreateEventFormRef(form)}
                       visible={this.state.createEventFormVisible}
                       onCancel={this.handleCancelCreateEvent}
-                      onCreate={this.handleCreateRoom}
-                      confirmLoading={this.props.addRoomFormLoading}
+                      onCreate={this.handleCreateEvent}
+                      confirmLoading={this.props.addEventFormLoading}
                   />
                   <Menu
                       onClick={(e) => this.handleClick(e)}
@@ -193,7 +183,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         loadEvents: (officeUID) => dispatch(actionCreator.loadEvents(officeUID)),
-        changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
+        changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
+        createEvent: (payload) => dispatch(action.Creator.loadEvents(payload))
     }
 };
 

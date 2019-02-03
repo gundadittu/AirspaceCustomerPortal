@@ -108,6 +108,7 @@ class EventCard extends React.Component {
                 <EditEventForm
                   showEditForm={this.state.showEditForm}
                   wrappedComponentRef={(form) => this.saveEditEventFormRef(form)}
+                  event={event}
                 />
               </div>
             )}

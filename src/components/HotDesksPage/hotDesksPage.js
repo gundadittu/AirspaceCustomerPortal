@@ -67,8 +67,8 @@ class HotDesksPage extends React.Component {
 
     handleConfirmCreateDesk = () => {
         const createDeskForm = this.createDeskFormRef.props.form;
-        createDeskForm.validateFields((err, values) => { 
-            if (err) { 
+        createDeskForm.validateFields((err, values) => {
+            if (err) {
                 return;
             }
             const deskName = values.deskName;
@@ -101,7 +101,7 @@ class HotDesksPage extends React.Component {
                 photoFileObj: photoFileObj,
                 hideForm: this.hideCreateDeskForm
             }
-           this.props.createHotDesk(payload);
+            this.props.createHotDesk(payload);
         })
     }
 
@@ -116,13 +116,13 @@ class HotDesksPage extends React.Component {
         const createDeskForm = this.createDeskFormRef.props.form;
         this.createDeskFormRef.setState({ fileList: [] });
         createDeskForm.setFields({
-            deskName:  { 
+            deskName: {
                 value: null
             },
-            reserveable: { 
+            reserveable: {
                 value: ['reserveable']
             },
-            activeStatus: { 
+            activeStatus: {
                 value: 'active'
             },
             uploadPhoto: {
@@ -162,23 +162,27 @@ class HotDesksPage extends React.Component {
                             onCreate={this.handleConfirmCreateDesk}
                             confirmLoading={this.props.createDeskFormLoading}
                         />
-                        <Menu
-                            onClick={this.handleClick}
-                            selectedKeys={[this.state.currentList]}
-                            mode="horizontal"
-                        >
+                        <div>
                             <IconButton className="inlineDisplay" onClick={() => this.props.loadHotDesks(this.props.currentOfficeUID)}>
                                 <RefreshIcon />
                             </IconButton>
-                            <Menu.Item key="active">
-                                Active
+                            <Menu
+                                className="inlineDisplay"
+                                style={{ border: 0 }}
+                                onClick={this.handleClick}
+                                selectedKeys={[this.state.currentList]}
+                                mode="horizontal"
+                            >
+                                <Menu.Item key="active">
+                                    Active
                             </Menu.Item>
-                            <Menu.Item key="inactive" >
-                                Inactive
+                                <Menu.Item key="inactive" >
+                                    Inactive
                             </Menu.Item>
-                            <Button className="inlineDisplay" type="primary rightAlign" onClick={this.showCreateDeskFormModal}>Add Hot Desk</Button>
-                        </Menu>
-                        <HotDesksTable dataSource={dataSource}/>
+                            </Menu>
+                            <Button className="inlineDisplay rightAlign" type="primary" onClick={this.showCreateDeskFormModal}>Add Hot Desk</Button>
+                        </div>
+                        <HotDesksTable dataSource={dataSource} />
                     </Col>
                 </Row>
             </div>
@@ -194,7 +198,7 @@ const mapStateToProps = state => {
         inactiveDesksList: state.officeAdmin.inactiveDesksList,
         isLoadingHotDesksData: state.officeAdmin.isLoadingUserData,
         currentOfficeUID: state.general.currentOfficeAdminUID,
-        user: state.auth.user, 
+        user: state.auth.user,
         userAdminOfficeList: state.auth.adminOfficeList,
     }
 };

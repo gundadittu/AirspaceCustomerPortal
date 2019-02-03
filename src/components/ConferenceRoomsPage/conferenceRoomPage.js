@@ -82,7 +82,7 @@ class ConferenceRoomsPage extends React.Component {
             if (values.activeStatus === 'active') {
                 activeStatus = true;
             }
-            const customAmenities = values.customAmenities;
+            // const customAmenities = values.customAmenities;
             const capacity = values.capacity;
             const currentOfficeUID = this.props.currentOfficeUID;
             let photoFileObj = null;
@@ -97,7 +97,7 @@ class ConferenceRoomsPage extends React.Component {
                 roomName: roomName,
                 capacity: capacity,
                 standardAmenities: standardAmenities,
-                customAmenities: customAmenities,
+                // customAmenities: customAmenities,
                 selectedOfficeUID: currentOfficeUID,
                 reserveable: reserveable,
                 activeStatus: activeStatus,
@@ -122,6 +122,7 @@ class ConferenceRoomsPage extends React.Component {
         if (this.props.match.isExact) {
 
             const selectedOfficeUID = this.props.match.params.officeUID;
+
             const list = this.props.userAdminOfficeList;
             let officeObj = null;
             for (let key in list) {
@@ -136,9 +137,7 @@ class ConferenceRoomsPage extends React.Component {
             if (pagePayload) {
                 this.props.changePage(pagePayload);
             }
-            console.log(pagePayload);
             const secondPagePayload = getPagePayload(pageTitles.conferenceRoomsPageOfficeAdmin);
-            console.log(secondPagePayload);
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
                 this.props.loadConferenceRooms(selectedOfficeUID);
@@ -206,6 +205,7 @@ class ConferenceRoomsPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        userAdminOfficeList: state.auth.adminOfficeList,
         activeRoomsList: state.officeAdmin.activeRoomsList,
         inactiveRoomsList: state.officeAdmin.inactiveRoomsList,
         isLoadingRoomsData: state.officeAdmin.isLoadingUserData,

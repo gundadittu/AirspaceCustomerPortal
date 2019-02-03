@@ -1,4 +1,5 @@
 import AirOffice from './AirOffice';
+import AirAmenity from './AirAmenity';
 
 export default class AirConferenceRoom {
     constructor(dict) {
@@ -8,7 +9,7 @@ export default class AirConferenceRoom {
         }
         const name = dict.name || null;
         const offices = dict.offices || null;
-        const amenities = dict.amenities || null;
+        const amenitiesRaw = dict.amenities || null;
         const capacity = dict.capacity || null;
         const address = dict.address || null;
         const active = dict.active || null;
@@ -25,6 +26,15 @@ export default class AirConferenceRoom {
             }
         }
         this.offices = airOffices;
+
+        let amenities = [];
+        for (let key in amenitiesRaw) { 
+            const value = amenitiesRaw[key];
+            const amenityObj = new AirAmenity(value); 
+            if (amenityObj !== null) { 
+                amenities.push(amenityObj);
+            }
+        }
         this.amenities = amenities;
         this.capacity = capacity;
         this.address = address;

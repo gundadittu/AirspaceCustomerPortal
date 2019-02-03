@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, Menu, Table } from 'antd';
-// import Highlighter from 'react-highlight-words';
+import { Dropdown, Menu, Table, Tag } from 'antd';
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
 import * as actionCreator from '../../store/actions/officeAdmin';
@@ -40,11 +39,17 @@ class HotDesksTable extends React.Component {
     title: 'Reserveable',
     dataIndex: 'reserveable',
     key: 'reserveable',
-    render: (bool) => (
-      <div style={bool ? {color: 'green'} : {color: 'red'}}>
-        {bool ? 'true' : 'false'}
-      </div>
-    )
+    render: (bool) => {
+      if (bool === true) {
+        return (
+          <span>
+            <Tag color="blue">Reserveable</Tag>
+          </span>
+        )
+      } else { 
+        return null 
+      }
+    }
   },
   {
     title: '',

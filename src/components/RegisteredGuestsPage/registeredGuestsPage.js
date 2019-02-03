@@ -113,6 +113,7 @@ class RegisteredGuestsPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        userAdminOfficeList: state.auth.adminOfficeList,
         guestsList: state.officeAdmin.guestsList,
         currentOfficeUID: state.general.currentOfficeAdminUID
     }

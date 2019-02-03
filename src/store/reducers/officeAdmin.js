@@ -22,7 +22,11 @@ const initialState = {
     addRoomFormLoading: false,
     editRoomFormLoading: false,
     createDeskFormLoading: false,
-    editDeskFormLoading: false
+    editDeskFormLoading: false, 
+    isLoadingSpaceInfo: false, 
+    onboardingURL: null, 
+    floorplanURL: null,
+    buildingDetailsURL: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -117,6 +121,16 @@ const reducer = (state = initialState, action) => {
              const editDeskPayload = action.payload;
              editDeskPayload.hideForm();
             return updateObject(state, { editDeskFormLoading: false });
+        case actionTypes.LOAD_SPACE_INFO: 
+            return updateObject(state, { isLoadingSpaceInfo: true });
+        case actionTypes.LOAD_SPACE_INFO_FINISHED: 
+            const spacePayload = action.payload; 
+            const onboardingURL = spacePayload.onboardingURL; 
+            const floorplanURL = spacePayload.floorplanURL; 
+            const buildingDetailsURL = spacePayload.buildingDetailsURL; 
+            return updateObject(state, { isLoadingSpaceInfo: false, onboardingURL: onboardingURL, floorplanURL: floorplanURL, buildingDetailsURL: buildingDetailsURL });
+        case actionTypes.LOAD_SPACE_INFO_FINISHED_ERROR: 
+            return updateObject(state, { isLoadingSpaceInfo: false });
         default:
             return state 
     }

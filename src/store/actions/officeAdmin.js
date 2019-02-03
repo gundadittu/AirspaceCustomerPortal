@@ -121,6 +121,15 @@ export const createConferenceRoom = (payload) => {
     }
 }
 
+export const getSpaceInfo = (payload) => { 
+    return { 
+        type: actionTypes.LOAD_SPACE_INFO, 
+        payload: { 
+            selectedOfficeUID: payload.officeUID 
+        }
+    }
+}
+
 export const createHotDesk = (payload) => {
     return {
         type: actionTypes.ADD_HOT_DESK,

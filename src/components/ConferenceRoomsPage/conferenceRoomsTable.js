@@ -33,15 +33,33 @@ class ConferenceRoomsTable extends React.Component {
   {
     title: 'Amenities',
     dataIndex: 'amenities',
-    render: (amenities => (
-      <span>
-        {amenities.map(amenity => <Tag color="blue" key={amenity}>{amenity}</Tag>)}
-      </span>
-    ))
+    render: (amenities) => {
+      return (
+        <span>
+          {amenities.map(amenity => <Tag color="blue" key={amenity.type}>{amenity.title}</Tag>)}
+        </span>
+      )
+    }
   },
   {
     title: 'Capacity',
     dataIndex: 'capacity'
+  },
+  {
+    title: 'Reserveable',
+    dataIndex: 'reserveable',
+    key: 'reserveable',
+    render: (bool) => {
+      if (bool === true) {
+        return (
+          <span>
+            <Tag color="blue">Reserveable</Tag>
+          </span>
+        )
+      } else {
+        return null
+      }
+    }
   },
   {
     title: '',
@@ -169,7 +187,7 @@ class ConferenceRoomsTable extends React.Component {
       if (values.activeStatus === 'active') {
         activeStatus = true;
       }
-      const customAmenities = values.customAmenities;
+      // const customAmenities = values.customAmenities;
       const capacity = values.capacity;
       let photoFileObj = null;
       const uploadPhotoDict = values.uploadPhoto || null;
@@ -184,11 +202,11 @@ class ConferenceRoomsTable extends React.Component {
         roomName: roomName,
         capacity: capacity,
         standardAmenities: standardAmenities,
-        customAmenities: customAmenities,
+        // customAmenities: customAmenities,
         reserveable: reserveable,
         activeStatus: activeStatus,
         photoFileObj: photoFileObj,
-        hideForm: this.hideEditRoomForm, 
+        hideForm: this.hideEditRoomForm,
         selectedOfficeUID: this.props.currentOfficeUID
       }
       this.props.editConferenceRoom(payload);

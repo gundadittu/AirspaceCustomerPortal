@@ -7,8 +7,10 @@ import SideNavbar from './components/SideNavBar/sidenavbar';
 import UsersPage from './components/UsersPage/usersPage';
 import ConferenceRoomsPage from './components/ConferenceRoomsPage/conferenceRoomPage';
 import HotDesksPage from './components/HotDesksPage/hotDesksPage.js';
-import RegisteredGuestsPage from './components/RegisteredGuestsPage/registeredGuestsPage.js';
-import EventsPage from './components/EventsPage/eventspage.js';
+import RegisteredGuestsPage from './components/RegisteredGuestsPage/registeredGuestsPage';
+import EventsPage from './components/EventsPage/eventspage';
+import SpaceInfoPage from './components/SpaceInfoPage/spaceInfoPage';
+
 import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
@@ -122,5 +124,6 @@ const officeAdminRoutingComp = () => (
       <Route exact path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
+      <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>
     </Switch>
 )

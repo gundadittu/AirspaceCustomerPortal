@@ -60,6 +60,10 @@ export function* editHotDeskForOfficeAdmin() {
     yield takeLatest(actionTypes.EDIT_HOT_DESK, editDeskWorkerSaga);
 }
 
+export function* getSpaceInfoForOfficeAdmin() {
+    yield takeLatest(actionTypes.LOAD_SPACE_INFO, getSpaceInfoWorkerSaga);
+}
+
 // Workers
 
 function validatePermission(selectedOfficeUID, userAdminOfficeList) {
@@ -96,7 +100,6 @@ function createUserApiCall(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('addUserToOffice');
     return apiCall(dict)
         .then(result => {
-            console.log('createUserApiCall-success');
             return null
         })
 }
@@ -326,7 +329,6 @@ function loadEvents(payload, firebase) {
     return apiCall({ selectedOfficeUID: officeUID })
         .then(result => {
             const data = result.data;
-            console.log("RESULT: ", result);
             var upcomingGuests = data;
             var pastGuests = data.past;
             /* var upcomingGuests = [];
@@ -385,7 +387,6 @@ function removeOfficeUser(payload, firebase) {
 
     return apiCall({ selectedOfficeUID: officeUID, selectedUserUID: userUID })
         .then(() => {
-            console.log('removeUserApiCall-success');
             return null
         })
 }
@@ -421,10 +422,10 @@ function* removeUserWorkerSaga(action) {
 }
 
 function editOfficeUser(payload, firebase) {
+
     const apiCall = firebase.functions.httpsCallable('editUserForOffice')
     return apiCall({ ...payload })
         .then(() => {
-            console.log('editUserApiCall-success');
             return null
         })
 }
@@ -644,5 +645,37 @@ function* editDeskWorkerSaga(action) {
         const payload = action.payload;
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.EDIT_HOT_DESK_FINISHED, payload: { ...newPayload } });
+    }
+}
+
+function getSpaceInfo(payload, firebase) { 
+    const apiCall = firebase.functions.httpsCallable('getSpaceInfoForOfficeAdmin');
+    return apiCall({ ...payload }) 
+    .then( response => { 
+        const data = response.data; 
+        return data 
+    })
+}
+
+function* getSpaceInfoWorkerSaga(action) { 
+    try {
+        const payload = action.payload;
+        const selectedOfficeUID = payload.selectedOfficeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(getSpaceInfo, payload, firebase);
+
+        yield put({ type: actionTypes.LOAD_SPACE_INFO_FINISHED, payload: { onboardingURL: response.onboardingURL, floorplanURL: response.floorplanURL, buildingDetailsURL: response.buildingDetailsURL } });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to load space info for this office.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.LOAD_SPACE_INFO_FINISHED_ERROR });
     }
 }

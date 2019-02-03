@@ -31,6 +31,7 @@ class SideNavBar extends React.Component {
   }
 
   render() {
+
     const sideBarLogo = (
       <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
     );
@@ -40,6 +41,7 @@ class SideNavBar extends React.Component {
       if (this.props.adminOfficeList == null) {
         return null;
       }
+
 
       return (
         this.props.adminOfficeList.map((office) => (
@@ -51,6 +53,7 @@ class SideNavBar extends React.Component {
         ))
       );
     }
+
     const switchPortalSubMenu = (
       <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
         <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
@@ -60,6 +63,8 @@ class SideNavBar extends React.Component {
       </SubMenu>
     );
 
+    let currentPage = [this.props.currentPage]; 
+
     if (this.props.userType === "regular") {
       if (this.props.regularUserPortalMode === "officeAdmin") {
         return (
@@ -67,7 +72,7 @@ class SideNavBar extends React.Component {
             {sideBarLogo}
             <Menu
               style={{ border: 0 }}
-              defaultSelectedKeys={[this.props.currentPage]}
+              defaultSelectedKeys={currentPage}
               mode="inline"
               className="airspace-side-nav-bar"
             >
@@ -103,7 +108,7 @@ class SideNavBar extends React.Component {
                     {<span><Icon type="calendar" /><span>Events</span></span>}
                   </Link>
                 </Menu.Item>
-                <Menu.Item key="spaceInfo">
+                <Menu.Item key={pageTitles.spaceInfoPageOfficeAdmin}>
                   <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/spaceInfo'}>
                     {<span><Icon type="info-circle" /><span>Space Info</span></span>}
                   </Link>

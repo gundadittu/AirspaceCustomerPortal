@@ -17,40 +17,14 @@ import getPagePayload from '../../pages/pageRoutingFunctions';
 
 import AntEventCards from './antEventCards.js'
 import MaterialUIEventCards from './materialUIEventCards.js'
+import CreateEventForm from './createEventForm.js'
 
 class EventsPage extends React.Component {
 
   state = {
-    current : 'upcoming'
+    currentList : 'upcoming',
+    createEventFormVisible: false
   }
-
-  upcomingDataSource = [{
-    key: '1',
-    name: 'Aditya Gunda',
-    email: 'adityagunda@uchicago.edu',
-    arrived: true,
-    expectedVisitDate: 'Febryary 4, 2019',
-  }, {
-    key: '2',
-    name: 'Diego Ibarra',
-    email: 'diegoibarra@uchicago.edu',
-    arrived: false,
-    expectedVisitDate: 'February 2, 2019',
-  }];
-
-  pastDataSource = [{
-    key: '3',
-    name: 'Soheil Ebadat',
-    email: 'soheilebadat@uchicago.edu',
-    arrived: true,
-    expectedVisitDate: 'January 1, 2019',
-  }, {
-    key: '4',
-    name: 'Tim Koenning',
-    email: 'timkoenning@uchicago.edu',
-    arrived: true,
-    expectedVisitDate: 'January 13, 2019',
-  }];
 
   componentDidMount() {
       // Routing stuff
@@ -90,11 +64,62 @@ class EventsPage extends React.Component {
       }
   }
 
+  handleCreateEvent = () => {
+      const createEventForm = this.createEventFormRef.props.form;
+      createEventForm.validateFields((err, values) => {
+          if (err) {
+              return;
+          }
+          const eventTitle = values.eventName;
+          const description = values.description
+          //const startDate = values.startDate
+          //const endDate = values.endDate
+
+          const currentOfficeUID = this.props.currentOfficeUID;
+          let photoFileObj = null;
+          const uploadPhotoDict = values.uploadPhoto || null;
+          if (uploadPhotoDict) {
+              const value = uploadPhotoDict[0];
+              const fileObj = value.originFileObj;
+              photoFileObj = fileObj;
+          }
+
+          const payload = {
+              eventTitle: eventTitle,
+              description: description,
+              selectedOfficeUID: currentOfficeUID,
+              photoFileObj: photoFileObj,
+              hideForm: this.hideCreateEventFormModal
+              //startDate: startDate
+              //endDate: endDate
+          }
+          //this.props.createEvent(payload);
+      })
+  }
+
+  hideCreateEventFormModal = () => {
+    this.setState({
+      createEventFormVisible: false
+    })
+  }
+
+  handleCancelCreateEvent = () => {
+      this.hideCreateEventFormModal();
+  }
+
+  showCreateEventFormModal = () => {
+      this.setState({ createEventFormVisible: true });
+  }
+
   handleClick = (e) => {
       var key = e.key;
       if ((key == 'upcoming') || (key == 'past')) {
           this.setState({ currentList: key });
       }
+  }
+
+  saveCreateEventFormRef = (form) => {
+      this.createEventFormRef = form;
   }
 
   render() {
@@ -103,26 +128,39 @@ class EventsPage extends React.Component {
         <Row>
             <Col className="wide-table" span={24}>
                 <h1>Events</h1>
-                <Menu
-                    onClick={(e) => this.handleClick(e)}
-                    selectedKeys={[this.state.current]}
-                    className="page-nav-menu"
-                    mode="horizontal"
-                  >
-                    <IconButton className="inlineDisplay" onClick={(e) => this.handleClick(e)}>
-                        <RefreshIcon />
-                    </IconButton>
-                    <Menu.Item key="upcoming">
-                      Upcoming
-                    </Menu.Item>
-                    <Menu.Item key="past" >
-                      Past
-                    </Menu.Item>
-                </Menu>
-                <AntEventCards />
+                <div>
+                  <CreateEventForm
+                      wrappedComponentRef={(form) => this.saveCreateEventFormRef(form)}
+                      visible={this.state.createEventFormVisible}
+                      onCancel={this.handleCancelCreateEvent}
+                      onCreate={this.handleCreateEvent}
+                      confirmLoading={this.props.addEventFormLoading}
+                  />
+                  <Menu
+                      onClick={(e) => this.handleClick(e)}
+                      selectedKeys={[this.state.currentList]}
+                      defaultSelectedKeys={[this.state.currentList]}
+                      className="page-nav-menu"
+                      mode="horizontal"
+                    >
+                      <IconButton className="inlineDisplay" onClick={(e) => this.handleClick(e)}>
+                          <RefreshIcon />
+                      </IconButton>
+                      <Menu.Item key="upcoming">
+                        Upcoming
+                      </Menu.Item>
+                      <Menu.Item key="past" >
+                        Past
+                      </Menu.Item>
+                      <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showCreateEventFormModal}>Add Event</Button>
+                  </Menu>
+                </div>
+                <AntEventCards currentList={this.state.currentList}/>
                 <br />
                 <br />
-                <MaterialUIEventCards/>
+                {/*MaterialUIEventCards is no longer needed. They are concept buttons
+                  that may be useful for the user page*/}
+                {/*<MaterialUIEventCards/>*/}
             </Col>
         </Row>
       </div>
@@ -145,7 +183,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         loadEvents: (officeUID) => dispatch(actionCreator.loadEvents(officeUID)),
-        changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
+        changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
+        createEvent: (payload) => dispatch(actionCreator.loadEvents(payload))
     }
 };
 

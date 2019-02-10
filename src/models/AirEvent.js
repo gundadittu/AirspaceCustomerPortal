@@ -13,7 +13,7 @@ export default class AirEvent  {
         const startDate = dict.startDate || null;
         const endDate = dict.endDate || null;
         const address = dict.address || null;
-        const canceled = dict.canceld || null;
+        const canceled = dict.canceled || null;
         const description = dict.description || null;
         const imageURL = dict.imageURL || null;
 

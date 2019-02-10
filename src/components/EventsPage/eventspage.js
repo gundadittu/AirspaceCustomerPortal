@@ -1,22 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions/actionTypes';
+// import * as actionTypes from '../../store/actions/actionTypes';
 
-import { Row, Col, Button, Menu, Icon} from 'antd';
+import { Row, Col, Button, Menu} from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
 import '../../App.css';
 
 import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
-import * as officeActionCreator from '../../store/actions/officeAdmin';
+// import * as officeActionCreator from '../../store/actions/officeAdmin';
 
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 
 import AntEventCards from './antEventCards.js'
-import MaterialUIEventCards from './materialUIEventCards.js'
+// import MaterialUIEventCards from './materialUIEventCards.js'
 import CreateEventForm from './createEventForm.js'
 
 class EventsPage extends React.Component {
@@ -70,12 +70,20 @@ class EventsPage extends React.Component {
           if (err) {
               return;
           }
-          const eventTitle = values.eventName;
-          const description = values.description
-          //const startDate = values.startDate
-          //const endDate = values.endDate
 
           const currentOfficeUID = this.props.currentOfficeUID;
+
+          const eventTitle = values.eventName;
+          const description = values.description;
+
+          const timeRange = values.eventTimeRange;
+          if (Object.keys(timeRange).length < 2) { 
+            // handle error 
+            return 
+          }
+          const startDate = timeRange[0]._d; 
+          const endDate = timeRange[1]._d; 
+     
           let photoFileObj = null;
           const uploadPhotoDict = values.uploadPhoto || null;
           if (uploadPhotoDict) {
@@ -87,13 +95,14 @@ class EventsPage extends React.Component {
           const payload = {
               eventTitle: eventTitle,
               description: description,
-              selectedOfficeUID: currentOfficeUID,
+              startDate: startDate,
+              endDate: endDate, 
               photoFileObj: photoFileObj,
+              selectedOfficeUID: currentOfficeUID,
               hideForm: this.hideCreateEventFormModal
-              //startDate: startDate
-              //endDate: endDate
           }
-          //this.props.createEvent(payload);
+          
+          this.props.createEvent(payload);
       })
   }
 
@@ -116,6 +125,10 @@ class EventsPage extends React.Component {
       if ((key == 'upcoming') || (key == 'past')) {
           this.setState({ currentList: key });
       }
+  }
+
+  handleRefresh = () => { 
+      this.props.loadEvents(this.props.currentOfficeAdminUID);
   }
 
   saveCreateEventFormRef = (form) => {
@@ -143,7 +156,7 @@ class EventsPage extends React.Component {
                       className="page-nav-menu"
                       mode="horizontal"
                     >
-                      <IconButton className="inlineDisplay" onClick={(e) => this.handleClick(e)}>
+                      <IconButton className="inlineDisplay" onClick={this.handleRefresh}>
                           <RefreshIcon />
                       </IconButton>
                       <Menu.Item key="upcoming">
@@ -157,10 +170,6 @@ class EventsPage extends React.Component {
                 </div>
                 <AntEventCards currentList={this.state.currentList}/>
                 <br />
-                <br />
-                {/*MaterialUIEventCards is no longer needed. They are concept buttons
-                  that may be useful for the user page*/}
-                {/*<MaterialUIEventCards/>*/}
             </Col>
         </Row>
       </div>
@@ -176,7 +185,7 @@ const mapStateToProps = state => {
         isLoadingEventsData: state.officeAdmin.isLoadingUserData,
         currentOfficeUID: state.general.currentOfficeAdminUID,
         currentOfficeAdminUID: state.general.currentOfficeAdminUID,
-        addRoomFormLoading: state.officeAdmin.addRoomFormLoading
+        addEventFormLoading: state.officeAdmin.addEventFormLoading
     }
 };
 
@@ -184,7 +193,7 @@ const mapDispatchToProps = dispatch => {
     return {
         loadEvents: (officeUID) => dispatch(actionCreator.loadEvents(officeUID)),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
-        createEvent: (payload) => dispatch(actionCreator.loadEvents(payload))
+        createEvent: (payload) => dispatch(actionCreator.createEvent(payload))
     }
 };
 

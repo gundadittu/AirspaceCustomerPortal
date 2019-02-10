@@ -21,6 +21,8 @@ const initialState = {
     removeUserFormLoading: false,
     addRoomFormLoading: false,
     editRoomFormLoading: false,
+    addEventFormLoading: false,
+    editEventFormLoading: false, 
     createDeskFormLoading: false,
     editDeskFormLoading: false, 
     isLoadingSpaceInfo: false, 
@@ -131,6 +133,18 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { isLoadingSpaceInfo: false, onboardingURL: onboardingURL, floorplanURL: floorplanURL, buildingDetailsURL: buildingDetailsURL });
         case actionTypes.LOAD_SPACE_INFO_FINISHED_ERROR: 
             return updateObject(state, { isLoadingSpaceInfo: false });
+        case actionTypes.CREATE_EVENT: 
+            return updateObject(state, { addEventFormLoading: true });
+        case actionTypes.CREATE_EVENT_FINISHED:
+            const createEventPayload = action.payload; 
+            createEventPayload.hideForm();
+            return updateObject(state, { addEventFormLoading: false });
+        case actionTypes.EDIT_EVENT: 
+            return updateObject(state, { editEventFormLoading: true });
+        case actionTypes.EDIT_EVENT_FINISHED:
+            const editEventPayload = action.payload; 
+            editEventPayload.hideForm();
+            return updateObject(state, { editEventFormLoading: false });   
         default:
             return state 
     }

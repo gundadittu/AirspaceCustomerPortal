@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button, Modal, Form, Input, Radio, Checkbox, Row, Col, Icon, Upload, message, InputNumber, DatePicker
+  Button, Modal, Form, Input, Icon, Upload, message, DatePicker
 } from 'antd';
 import '../ConferenceRoomsPage/createRoomForm.css';
 const { RangePicker } = DatePicker;
@@ -59,13 +59,6 @@ class CreateEventForm extends React.Component {
       },
     };
 
-    const formItemLayoutWithOutLabel = {
-      wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 20, offset: 0 },
-      },
-    };
-
     const formTitle = "Add an Event";
 
     getFieldDecorator('keys', { initialValue: [] });
@@ -76,7 +69,7 @@ class CreateEventForm extends React.Component {
       uploadDisabled = true;
     }
     const rangeConfig = {
-      rules: [{ type: 'array', required: true, message: 'Please select time!' }],
+      rules: [{ type: 'array', required: true, message: 'Please select data & time!' }],
     };
 
     return (
@@ -90,25 +83,25 @@ class CreateEventForm extends React.Component {
       >
         <Form layout="vertical">
           <Form.Item label="Event Name">
-            {getFieldDecorator('roomName', {
-              rules: [{ required: true, whitespace: true, message: 'Please input the room\'s name.' }],
+            {getFieldDecorator('eventName', {
+              rules: [{ required: true, whitespace: true, message: 'Please input the event\'s name.' }],
             })(
               <Input disabled={confirmLoading}/>
             )}
           </Form.Item>
           <Form.Item
             {...formItemLayout}
-            label="Event Date"
+            label="Event Timeframe"
           >
-            {getFieldDecorator('range-time-picker', rangeConfig)(
-              <RangePicker showTime format="MMMM Do YYYY, h:mm:ss a" />
+            {getFieldDecorator('eventTimeRange', rangeConfig)(
+              <RangePicker showTime format="MMMM Do YYYY, h:mm:ss a"  disabled={confirmLoading}/>
             )}
           </Form.Item>
           <Form.Item label="Description">
             {getFieldDecorator('description', {
               rules: [{ required: true, whitespace: true, message: 'Please input a description.' }],
             })(
-              <Input.TextArea/>
+              <Input.TextArea  disabled={confirmLoading}/>
             )}
           </Form.Item>
           <Form.Item

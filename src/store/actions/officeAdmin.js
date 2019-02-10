@@ -121,6 +121,42 @@ export const createConferenceRoom = (payload) => {
     }
 }
 
+export const editEvent = (payload) => { 
+    return { 
+        type: actionTypes.EDIT_EVENT, 
+        payload: { 
+           ...payload
+        // Need to provide the below: 
+        // selectedEventUID: selectedEventUID, 
+        // eventTitle: eventTitle,
+        // description: description,
+        // startDate: startDate,
+        // endDate: endDate,
+        // photoFileObj: photoFileObj,
+        // canceled: canceled, 
+        // selectedOfficeUID: currentOfficeUID,
+        // hideForm: this.handleFinishedEditEventRequest
+        }
+    }
+}
+
+export const createEvent = (payload) => { 
+    return { 
+        type: actionTypes.CREATE_EVENT, 
+        payload: { 
+           ...payload
+        // Need to provide the below: 
+        //    eventTitle: eventTitle,
+        //    description: description,
+        //    startDate: startDate,
+        //    endDate: endDate, 
+        //    photoFileObj: photoFileObj,
+        //    selectedOfficeUID: currentOfficeUID,
+        //    hideForm: this.hideCreateEventFormModal
+        }
+    }
+}
+
 export const getSpaceInfo = (payload) => { 
     return { 
         type: actionTypes.LOAD_SPACE_INFO, 

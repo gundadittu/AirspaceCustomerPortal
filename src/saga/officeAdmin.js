@@ -33,6 +33,14 @@ export function* loadEventsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_EVENTS, loadEventsWorkerSaga);
 }
 
+export function* createEventsWatchSaga() {
+    yield takeLatest(actionTypes.CREATE_EVENT, createEventWorkerSaga);
+}
+
+export function* editEventsWatchSaga() {
+    yield takeLatest(actionTypes.EDIT_EVENT, editEventWorkerSaga);
+}
+
 export function* createUserForOfficeAdmin() {
     yield takeLatest(actionTypes.CREATE_USER_FOR_OFFICEADMIN, createUserWorkerSaga);
 }
@@ -371,6 +379,118 @@ function* loadEventsWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_EVENTS_ERROR, payload: { error: error } });
     }
 }
+
+function createEvent(payload, firebase) { 
+    const selectedOfficeUID = payload.selectedOfficeUID;
+    const title = payload.eventTitle;
+    const description = payload.description;
+    const startDate = payload.startDate.toUTCString(); 
+    const endDate = payload.endDate.toUTCString();
+    const dict = { selectedOfficeUID: selectedOfficeUID, title: title, description: description, startDate: startDate, endDate: endDate };
+
+    const apiCall = firebase.functions.httpsCallable('createEventForOfficeAdmin');
+    return apiCall(dict)
+    .then( response => { 
+        const eventUID = response.data; 
+        const file = payload.photoFileObj;
+        if (file && eventUID) {
+            const storageRef = firebase.storage.ref();
+            const photoRef = storageRef.child('eventPhotos/' + eventUID + '.jpg');
+            return photoRef.put(file);
+        } else {
+            return
+        }
+    })
+}
+
+function* createEventWorkerSaga(action) { 
+    try {
+        const payload = action.payload; 
+        const selectedOfficeUID = payload.selectedOfficeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+        let firebase = yield select(selectors.firebase);
+
+        const response = yield call(createEvent, action.payload, firebase);
+
+        notification['success']({
+            message: 'Successfully created event.',
+            description: null
+        });
+
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.CREATE_EVENT_FINISHED, payload: { ...newPayload } });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to create event for this office.',
+            description: error.message
+        });
+
+        const payload = action.payload; 
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.CREATE_EVENT_FINISHED, payload: { ...newPayload } });
+    }
+}
+
+function editEvent(payload, firebase) { 
+    const selectedEventUID = payload.selectedEventUID; 
+    const title = payload.eventTitle;
+    const description = payload.description;
+    const startDate = payload.startDate.toUTCString(); 
+    const endDate = payload.endDate.toUTCString();
+    const canceled = payload.canceled; 
+    const dict = { selectedEventUID: selectedEventUID, title: title, description: description, startDate: startDate, endDate: endDate, canceled: canceled };
+
+    const apiCall = firebase.functions.httpsCallable('editEventsForOfficeAdmin');
+    return apiCall(dict)
+    .then( response => { 
+        const eventUID = selectedEventUID; 
+        const file = payload.photoFileObj;
+        if (file && eventUID) {
+            const storageRef = firebase.storage.ref();
+            const photoRef = storageRef.child('eventPhotos/' + eventUID + '.jpg');
+            return photoRef.put(file);
+        } else {
+            return
+        }
+    })
+}
+
+function* editEventWorkerSaga(action) { 
+    try {
+        const payload = action.payload; 
+        const selectedOfficeUID = payload.selectedOfficeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+        let firebase = yield select(selectors.firebase);
+
+        const response = yield call(editEvent, action.payload, firebase);
+
+        notification['success']({
+            message: 'Successfully edited event.',
+            description: null
+        });
+
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.EDIT_EVENT_FINISHED, payload: { ...newPayload } });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to edit event for this office.',
+            description: error.message
+        });
+
+        const payload = action.payload; 
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.EDIT_EVENT_FINISHED, payload: { ...newPayload } });
+    }
+}
+
 
 function removeOfficeUser(payload, firebase) {
     const officeUID = payload.officeUID;

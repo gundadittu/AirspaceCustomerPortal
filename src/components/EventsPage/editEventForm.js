@@ -1,12 +1,11 @@
 import React from 'react';
 import {
-    Button, Modal, Form, Input, Radio, Checkbox, Row, Col, Icon, Upload, message, InputNumber, DatePicker
+  Button, Form, Input, Icon, Upload, message, DatePicker, Checkbox, Row, Col
 } from 'antd';
+import moment from 'moment';
 import '../ConferenceRoomsPage/createRoomForm.css';
 
 const { RangePicker } = DatePicker;
-
-let id = 0;
 
 class EditEventForm extends React.Component {
 
@@ -15,9 +14,9 @@ class EditEventForm extends React.Component {
   }
 
   uploadChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
+    // if (info.file.status !== 'uploading') {
+    //   console.log(info.file, info.fileList);
+    // }
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === 'error') {
@@ -27,19 +26,28 @@ class EditEventForm extends React.Component {
 
   roomPhotoFile = (e) => {
     if (Array.isArray(e)) {
-      this.setState({fileList: e});
+      this.setState({ fileList: e });
       return e;
     }
-    this.setState({fileList: (e.fileList || e)});
+    this.setState({ fileList: (e.fileList || e) });
+    return e && e.fileList;
+  }
+
+  eventPhotoFile = (e) => {
+    if (Array.isArray(e)) {
+      this.setState({ fileList: e });
+      return e;
+    }
+    this.setState({ fileList: (e.fileList || e) });
     return e && e.fileList;
   }
 
   render() {
 
     const {
-      visible, onCancel, onCreate, form, confirmLoading,
+      visible, event, confirmLoading, form
     } = this.props;
-    const { getFieldDecorator, getFieldValue } = form;
+    const { getFieldDecorator } = form;
 
     const uploadProps = {
       name: 'file',
@@ -60,47 +68,43 @@ class EditEventForm extends React.Component {
       },
     };
 
-    const formItemLayoutWithOutLabel = {
-      wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 20, offset: 0 },
-      },
-    };
-
-    const formTitle = "Edit Event";
-    getFieldDecorator('keys', { initialValue: [] });
-
     let uploadDisabled = false;
     if (this.state.fileList.length >= 1) {
       uploadDisabled = true;
     }
     const rangeConfig = {
+      initialValue: [moment(event.startDate || null), moment(event.endDate || null)],
       rules: [{ type: 'array', required: true, message: 'Please select time!' }],
     };
 
-    var selectedEvent = this.props.event;
+    if (visible === false) {
+      return null
+    }
+
     return (
       <Form layout="vertical">
         <Form.Item label="Event Name">
-          {getFieldDecorator('roomName', {
-            rules: [{ required: true, whitespace: true, message: 'Please input the room\'s name.' }],
+          {getFieldDecorator('eventName', {
+            initialValue: event.title || null,
+            rules: [{ required: true, whitespace: true, message: 'Please input the event\'s name.' }],
           })(
-            <Input disabled={confirmLoading}/>
+            <Input disabled={confirmLoading} />
           )}
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label="Event Date"
+          label="Event Timeframe"
         >
-          {getFieldDecorator('range-time-picker', rangeConfig)(
-            <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+          {getFieldDecorator('eventTimeRange', rangeConfig)(
+            <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" disabled={confirmLoading} />
           )}
         </Form.Item>
         <Form.Item label="Description">
           {getFieldDecorator('description', {
+            initialValue: event.description || null,
             rules: [{ required: true, whitespace: true, message: 'Please input a description.' }],
           })(
-            <Input.TextArea/>
+            <Input.TextArea disabled={confirmLoading} />
           )}
         </Form.Item>
         <Form.Item
@@ -117,10 +121,20 @@ class EditEventForm extends React.Component {
             </Upload>,
           )}
         </Form.Item>
+        <Form.Item className="collection-create-form_last-form-item">
+            {getFieldDecorator('cancelStatus', {
+              initialValue: (event.canceled === true) ? ['cancelled'] : [],
+            })(
+              <Checkbox.Group style={{ width: "100%" }}>
+                <Row>
+                  <Col span={24}><Checkbox disabled={confirmLoading} value="cancelled">Cancel this Event</Checkbox></Col>
+                </Row>
+              </Checkbox.Group>
+            )}
+          </Form.Item>
       </Form>
     );
   }
 }
-
 
 export default Form.create({ name: 'editEventForm' })(EditEventForm);

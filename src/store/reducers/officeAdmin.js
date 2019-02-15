@@ -22,11 +22,11 @@ const initialState = {
     addRoomFormLoading: false,
     editRoomFormLoading: false,
     addEventFormLoading: false,
-    editEventFormLoading: false, 
+    editEventFormLoading: false,
     createDeskFormLoading: false,
-    editDeskFormLoading: false, 
-    isLoadingSpaceInfo: false, 
-    onboardingURL: null, 
+    editDeskFormLoading: false,
+    isLoadingSpaceInfo: false,
+    onboardingURL: null,
     floorplanURL: null,
     buildingDetailsURL: null
 };
@@ -75,7 +75,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOAD_OFFICE_USERS:
             return updateObject(state, { isLoadingUserData: true });
         case actionTypes.LOAD_OFFICE_USERS_SUCCESS:
-            // properly update state here
             const userList = action.payload.userList || null;
             return updateObject(state, { userList: userList, isLoadingUserData: false });
         case actionTypes.LOAD_OFFICE_USERS_ERROR:
@@ -123,30 +122,30 @@ const reducer = (state = initialState, action) => {
              const editDeskPayload = action.payload;
              editDeskPayload.hideForm();
             return updateObject(state, { editDeskFormLoading: false });
-        case actionTypes.LOAD_SPACE_INFO: 
+        case actionTypes.LOAD_SPACE_INFO:
             return updateObject(state, { isLoadingSpaceInfo: true });
-        case actionTypes.LOAD_SPACE_INFO_FINISHED: 
-            const spacePayload = action.payload; 
-            const onboardingURL = spacePayload.onboardingURL; 
-            const floorplanURL = spacePayload.floorplanURL; 
-            const buildingDetailsURL = spacePayload.buildingDetailsURL; 
+        case actionTypes.LOAD_SPACE_INFO_FINISHED:
+            const spacePayload = action.payload;
+            const onboardingURL = spacePayload.onboardingURL;
+            const floorplanURL = spacePayload.floorplanURL;
+            const buildingDetailsURL = spacePayload.buildingDetailsURL;
             return updateObject(state, { isLoadingSpaceInfo: false, onboardingURL: onboardingURL, floorplanURL: floorplanURL, buildingDetailsURL: buildingDetailsURL });
-        case actionTypes.LOAD_SPACE_INFO_FINISHED_ERROR: 
+        case actionTypes.LOAD_SPACE_INFO_FINISHED_ERROR:
             return updateObject(state, { isLoadingSpaceInfo: false });
-        case actionTypes.CREATE_EVENT: 
+        case actionTypes.CREATE_EVENT:
             return updateObject(state, { addEventFormLoading: true });
         case actionTypes.CREATE_EVENT_FINISHED:
-            const createEventPayload = action.payload; 
+            const createEventPayload = action.payload;
             createEventPayload.hideForm();
             return updateObject(state, { addEventFormLoading: false });
-        case actionTypes.EDIT_EVENT: 
+        case actionTypes.EDIT_EVENT:
             return updateObject(state, { editEventFormLoading: true });
         case actionTypes.EDIT_EVENT_FINISHED:
-            const editEventPayload = action.payload; 
+            const editEventPayload = action.payload;
             editEventPayload.hideForm();
-            return updateObject(state, { editEventFormLoading: false });   
+            return updateObject(state, { editEventFormLoading: false });
         default:
-            return state 
+            return state
     }
 };
 

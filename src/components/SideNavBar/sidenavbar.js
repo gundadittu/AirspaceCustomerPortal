@@ -63,7 +63,7 @@ class SideNavBar extends React.Component {
       </SubMenu>
     );
 
-    let currentPage = [this.props.currentPage]; 
+    let currentPage = [this.props.currentPage];
 
     if (this.props.userType === "regular") {
       if (this.props.regularUserPortalMode === "officeAdmin") {

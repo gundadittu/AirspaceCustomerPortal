@@ -10,6 +10,7 @@ import HotDesksPage from './components/HotDesksPage/hotDesksPage.js';
 import RegisteredGuestsPage from './components/RegisteredGuestsPage/registeredGuestsPage';
 import EventsPage from './components/EventsPage/eventspage';
 import SpaceInfoPage from './components/SpaceInfoPage/spaceInfoPage';
+import ServiceRequestsPage from './components/ServiceRequestsPage/serviceRequestsPage';
 
 import Firebase from './components/Firebase';
 
@@ -122,6 +123,7 @@ const officeAdminRoutingComp = () => (
       <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>
+      <Route exact path='/officeAdmin/:officeUID/serviceRequests' component={ServiceRequestsPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>

@@ -10,15 +10,17 @@ const getPagePayload = (pageName, payload) => {
             return officeAdminUsersPagePayload()
         case pageTitles.conferenceRoomsPageOfficeAdmin:
             return officeAdminConferenceRoomsPagePayload()
-        case pageTitles.hotDesksPageOfficeAdmin: 
+        case pageTitles.hotDesksPageOfficeAdmin:
             return officeAdminHotDesksPagePayload()
-        case pageTitles.registeredGuestsPageOfficeAdmin: 
-            return officeAdminRegGuestsPagePayload() 
-        case pageTitles.eventsPageOfficeAdmin: 
+        case pageTitles.registeredGuestsPageOfficeAdmin:
+            return officeAdminRegGuestsPagePayload()
+        case pageTitles.serviceRequestsPageOfficeAdmin:
+            return officeAdminServiceRequestsPagePayload()
+        case pageTitles.eventsPageOfficeAdmin:
             return officeAdminEventsPagePayload()
         case pageTitles.homePageRegularUser:
             return regularUserHomePagePayload()
-        case pageTitles.spaceInfoPageOfficeAdmin: 
+        case pageTitles.spaceInfoPageOfficeAdmin:
             return officeAdminSpaceInfoPagePayload()
         default:
             return {}
@@ -67,6 +69,12 @@ const officeAdminHotDesksPagePayload = () => {
     }
   }
 
+  const officeAdminServiceRequestsPagePayload = () => {
+      return {
+        currentPage: pageTitles.serviceRequestsPageOfficeAdmin,
+      }
+    }
+
   const officeAdminEventsPagePayload = () => {
     return {
       currentPage: pageTitles.eventsPageOfficeAdmin,
@@ -78,4 +86,3 @@ const officeAdminHotDesksPagePayload = () => {
       currentPage: pageTitles.registeredGuestsPageOfficeAdmin,
     }
   }
-

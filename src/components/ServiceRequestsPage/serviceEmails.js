@@ -11,8 +11,10 @@ class ServiceEmails extends React.Component {
   };
 
   componentDidMount() {
+    var emailTags = this.props.emails
+    console.log(emailTags)
     this.setState({
-      tags: this.props.emails
+      tags: emailTags
     })
   }
 
@@ -37,19 +39,22 @@ class ServiceEmails extends React.Component {
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
-    console.log(tags);
+
     var newTags = this.state.tags.splice()
     this.setState({
       tags,
       inputVisible: false,
       inputValue: '',
     });
+
+    this.props.updateEmail(this.props.key, tags);
   }
 
   saveInputRef = input => this.input = input
 
   render() {
-    const { tags, inputVisible, inputValue } = this.state;
+    const { /*tags, */inputVisible, inputValue } = this.state;
+    var tags = this.props.emails
     return (
       <div>
         {tags.map((tag, index) => {

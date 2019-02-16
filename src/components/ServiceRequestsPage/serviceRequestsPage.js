@@ -42,15 +42,16 @@ class ServiceRequestsPage extends React.Component {
               }
           }
 
-          const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
+          const pagePayload = getPagePayload(pageTitles.serviceRequestsPageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
+          console.log("pagePayload ", pagePayload)
           if (pagePayload) {
               this.props.changePage(pagePayload);
           }
 
-            const secondPagePayload = getPagePayload(pageTitles.registeredGuestsPageOfficeAdmin);
+            const secondPagePayload = getPagePayload(pageTitles.serviceRequestsPageOfficeAdmin);
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
-                this.props.loadServiceRequests('qGTShTzLuOI3uDXXNM6J');
+                this.props.loadServiceRequests(selectedOfficeUID);
             }
         }
     }
@@ -60,19 +61,17 @@ class ServiceRequestsPage extends React.Component {
         const currentOfficeUID = this.props.currentOfficeUID;
 
         if (prevOfficeUID !== currentOfficeUID) {
-            this.props.loadServiceRequests('qGTShTzLuOI3uDXXNM6J');
+            this.props.loadServiceRequests(currentOfficeUID);
         }
     }
 
     showEmailModal() {
-      console.log("Show")
       this.setState({
         showModal: true
       })
     }
 
     closeEmailModal() {
-      console.log("Close")
       this.setState({
         showModal: false
       })
@@ -125,7 +124,6 @@ class ServiceRequestsPage extends React.Component {
     }
 
     render() {
-
         return (
             <div>
                 <Row>
@@ -152,7 +150,7 @@ class ServiceRequestsPage extends React.Component {
                             onCreate={this.handleCreateEvent}
                           />
                         </Modal>
-                        <ServiceRequestsTable />
+                        <ServiceRequestsTable dataSource={this.props.serviceRequestsList}/>
                     </Col>
                 </Row>
             </div>

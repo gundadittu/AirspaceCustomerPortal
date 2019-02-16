@@ -292,28 +292,13 @@ function* loadHotDesksWorkerSaga(action) {
 
 function loadServiceRequests(payload, firebase) {
     const officeUID = payload.officeUID || null;
-    const apiCall = firebase.functions.httpsCallable('getUsersServiceRequests');
-
+    const apiCall = firebase.functions.httpsCallable('getAllServiceRequestsForOfficeAdmin');
+    console.log("officeUID ", officeUID)
     return apiCall({ selectedOfficeUID: officeUID })
         .then(result => {
             const data = result.data;
-            /*
-            const data = result.data;
-              var closed = data.closed;
-              var pending = data.pending;
-              var open = data.open;
 
-              closed.map((value) => (new AirServiceRequest(value)))
-              pending.map((value) => (new AirServiceRequest(value)))
-              open.map((value) => (new AirServiceRequest(value)))
-
-              const dict = {
-                'closed': closed,
-                'pending': pending,
-                'open': open
-              }
-            */
-            const dict = { 'serviceRequests': data.serviceRequests};
+            const dict = { 'serviceRequests': data};
             return dict
         })
 }
@@ -326,8 +311,8 @@ function* loadServiceRequestsWorkerSaga(action) {
 
         let firebase = yield select(selectors.firebase);
 
+        console.log(action.payload)
         const response = yield call(loadServiceRequests, action.payload, firebase);
-        //console.log("THIS IS SERVICE REQUESTS: ", response)
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_SUCCESS, payload: { serviceRequestsList: response.serviceRequests} });
     } catch (error) {
         console.error(error);

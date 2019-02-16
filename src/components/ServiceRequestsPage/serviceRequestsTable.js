@@ -42,7 +42,7 @@ class ServiceRequestsTable extends React.Component {
 
   columns = [{
     title: 'Issue',
-    dataIndex: 'issue',
+    dataIndex: 'note',
     sorter: (a, b) => {
       const aName = a.name;
       const bName = b.name;
@@ -58,8 +58,8 @@ class ServiceRequestsTable extends React.Component {
   },
   {
     title: 'Type',
-    dataIndex: 'type',
-    key: 'type',
+    dataIndex: 'issueType',
+    key: 'issueType',
     render: (type) => {
         return (
           <span>
@@ -245,6 +245,7 @@ class ServiceRequestsTable extends React.Component {
   }
 
   render() {
+    console.log("Requests List: ", this.props.serviceRequestsList)
     return (
       <div>
         <EditRoomForm
@@ -254,11 +255,12 @@ class ServiceRequestsTable extends React.Component {
           onCreate={this.handleCreateEditRoom}
           confirmLoading={this.props.editRoomFormLoading}
         />
+        {console.log(this.props.datastore)}
         <Table
           columns={this.columns}
-          dataSource={this.data}
+          dataSource={this.props.serviceRequestsList}
           pagination={false}
-          loading={this.props.isLoadingRoomsData}
+          loading={this.props.isLoadingServiceRequestsData}
         />
       </div>
     );
@@ -268,6 +270,7 @@ class ServiceRequestsTable extends React.Component {
 const mapStateToProps = state => {
   return {
     editRoomFormLoading: state.officeAdmin.editRoomFormLoading,
+    serviceRequestsList: state.officeAdmin.serviceRequestsList,
     currentOfficeUID: state.general.currentOfficeAdminUID,
     isLoadingRoomsData: state.officeAdmin.isLoadingRoomsData
   }

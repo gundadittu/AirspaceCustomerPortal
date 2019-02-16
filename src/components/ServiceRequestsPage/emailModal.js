@@ -10,7 +10,7 @@ import ServiceEmails from './serviceEmails.js';
 class EmailModal extends React.Component {
 
     state = {
-        tags: ['Unremovable', 'Tag 2', 'Tag 3'],
+        emails: ['Unremovable', 'Tag 2', 'Tag 3'],
         inputVisible: [],
         inputValue: ""
     };
@@ -22,17 +22,40 @@ class EmailModal extends React.Component {
     handleInputConfirm = () => {
       const state = this.state;
       const inputValue = state.inputValue;
-      let tags = state.tags;
-      if (inputValue && tags.indexOf(inputValue) === -1) {
-        tags = [...tags, inputValue];
+      let emails = state.emails;
+      if (inputValue && emails.indexOf(inputValue) === -1) {
+        emails = [...emails, inputValue];
       }
-      console.log(tags);
+      console.log(emails);
       this.setState({
-        tags,
+        emails,
         inputVisible: false,
         inputValue: '',
       });
-      console.log("Tags2 ", this.state.tags)
+      console.log("emails2 ", this.state.emails)
+    }
+
+    updateEmails = (serviceType, email) => {
+      console.log("updateEmails: ", serviceType, " vs. ", email)
+    }
+
+    componentDidMount() {
+      var dic = {
+        'IT': ['polsky_IT@gmail.com'],
+        'Plumbing': ['polsky_Plumb@gmail.com'],
+        'Lighting': ['polsky_Light@gmail.com'],
+        'General Maintenance': ['polsky_GM@gmail.com'],
+        'Furniture': ['polsky_Fur@gmail.com'],
+        'Door': ['polsky_Door@gmail.com'],
+        'Heating/Cooling': ['polsky_Temp@gmail.com'],
+        'Cleaning': ['polsky_Clean@gmail.com'],
+        'Supplies': ['polsky_Sup@gmail.com'],
+        'Other': ['polsky_Other@gmail.com'],
+      }
+
+      this.setState({
+        emails: dic
+      })
     }
 
     /* handleConfirmCreateDesk = () => {
@@ -104,7 +127,7 @@ class EmailModal extends React.Component {
     saveInputRef = input => this.input = input
 
     render() {
-      const { tags, inputVisible, inputValue } = this.state;
+      const { emails, inputVisible, inputValue } = this.state;
       var dic = {
         'IT': ['polsky_IT@gmail.com'],
         'Plumbing': ['polsky_Plumb@gmail.com'],
@@ -120,7 +143,7 @@ class EmailModal extends React.Component {
       return (
         <Row >
           <Form>
-            <Col align={'center'} span={24}>
+            <Col align={'left'} span={24}>
               <h1>Auto Routing Emails</h1>
             </Col>
             <Form.Item>
@@ -130,7 +153,7 @@ class EmailModal extends React.Component {
                   <b>{key}</b>
                 </Col>
                 <Col align={'left'} span={16}>
-                  <ServiceEmails emails={dic[key]}/>
+                  <ServiceEmails emails={dic[key]} key={key} updateEmails={this.updateEmails}/>
                 </Col>
                 {/*<Tag color={'green'} key={key}>{dic[key]}</Tag>
                 <Tag

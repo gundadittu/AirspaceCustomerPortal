@@ -18,6 +18,15 @@ export const loadServiceRequests = (officeUID) => {
     };
 }
 
+export const loadServiceRequestsEmails = (officeUID) => {
+    return {
+        type: actionTypes.LOAD_SERVICE_REQUESTS_EMAILS,
+        payload: {
+            officeUID: officeUID
+        }
+    };
+}
+
 export const loadConferenceRooms = (officeUID) => {
     return {
         type: actionTypes.LOAD_CONFERENCE_ROOMS,

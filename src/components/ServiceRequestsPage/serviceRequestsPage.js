@@ -52,6 +52,7 @@ class ServiceRequestsPage extends React.Component {
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
                 this.props.loadServiceRequests(selectedOfficeUID);
+                this.props.loadServiceRequestsEmails(selectedOfficeUID);
             }
         }
     }
@@ -62,6 +63,7 @@ class ServiceRequestsPage extends React.Component {
 
         if (prevOfficeUID !== currentOfficeUID) {
             this.props.loadServiceRequests(currentOfficeUID);
+            this.props.loadServiceRequestsEmails(currentOfficeUID);
         }
     }
 
@@ -72,6 +74,7 @@ class ServiceRequestsPage extends React.Component {
     }
 
     closeEmailModal() {
+      console.log(this)
       this.setState({
         showModal: false
       })
@@ -135,21 +138,14 @@ class ServiceRequestsPage extends React.Component {
                             </IconButton>
                             <Button className="inlineDisplay rightAlign" type="primary" onClick={() => this.showEmailModal()}>Auto Routing</Button>
                         </div>
-                        <Modal
-
-                          visible={this.state.showModal}
-                          onCancel={() => this.closeEmailModal()}
-                          onOk={this.handleUpdateEmails}
-                          onCancel={() => this.closeEmailModal()}
-                          className={"page-nav-menu"}
-                          bordered={true}
-                        >
-                          <EmailModal
+                        <EmailModal
                           wrappedComponentRef={(form) => this.saveUpdateEmailsFormRef(form)}
-                            onCancel={() => this.closeEmailModal()}
-                            onCreate={this.handleCreateEvent}
-                          />
-                        </Modal>
+                          onCancel={() => this.closeEmailModal()}
+                          onCreate={this.handleCreateEvent}
+                          showModal={this.state.showModal}
+                          closeEmailModal={() => this.closeEmailModal()}
+                          handleUpdateEmails={this.handleUpdateEmails}
+                        />
                         <ServiceRequestsTable dataSource={this.props.serviceRequestsList}/>
                     </Col>
                 </Row>
@@ -164,6 +160,7 @@ const mapStateToProps = state => {
         user: state.auth.user,
         userAdminOfficeList: state.auth.adminOfficeList,
         serviceRequestsList: state.officeAdmin.serviceRequestsList,
+        serviceRequestsEmails: state.officeAdmin.serviceRequestsEmails,
         currentOfficeUID: state.general.currentOfficeAdminUID
     }
 };
@@ -171,6 +168,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         loadServiceRequests: (officeUID) => dispatch(actionCreator.loadServiceRequests(officeUID)),
+        loadServiceRequestsEmails: (officeUID) => dispatch(actionCreator.loadServiceRequestsEmails(officeUID)),
         //updateEmails: (payload) => dispatch(actionCreator.updateEmails(payload)),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
     }

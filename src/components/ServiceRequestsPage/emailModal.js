@@ -10,7 +10,7 @@ import ServiceEmails from './serviceEmails.js';
 class EmailModal extends React.Component {
 
     state = {
-        emails: ['Unremovable', 'Tag 2', 'Tag 3'],
+        emails: {},
         inputVisible: [],
         inputValue: ""
     };
@@ -35,8 +35,14 @@ class EmailModal extends React.Component {
       console.log("emails2 ", this.state.emails)
     }
 
-    updateEmails = (serviceType, email) => {
-      console.log("updateEmails: ", serviceType, " vs. ", email)
+    updateEmails = (serviceType, emails) => {
+      console.log("updateEmails: ", serviceType, " vs. ", emails);
+      var updatedEmails = this.state.emails;
+      updatedEmails[serviceType] = emails;
+      this.setState({
+        emails: updatedEmails
+      })
+      console.log("UpdatedEmails ", this.state.emails)
     }
 
     componentDidMount() {
@@ -124,10 +130,8 @@ class EmailModal extends React.Component {
         })
     } */
 
-    saveInputRef = input => this.input = input
-
-    render() {
-      const { emails, inputVisible, inputValue } = this.state;
+    cancelModal() {
+      this.props.closeEmailModal();
       var dic = {
         'IT': ['polsky_IT@gmail.com'],
         'Plumbing': ['polsky_Plumb@gmail.com'],
@@ -140,33 +144,53 @@ class EmailModal extends React.Component {
         'Supplies': ['polsky_Sup@gmail.com'],
         'Other': ['polsky_Other@gmail.com'],
       }
+
+      this.setState({
+        emails: dic
+      })
+    }
+
+    saveInputRef = input => this.input = input
+
+    render() {
+      const { emails, inputVisible, inputValue } = this.state;
+      var dic = this.state.emails
+      console.log(dic)
       return (
-        <Row >
-          <Form>
-            <Col align={'left'} span={24}>
-              <h1>Auto Routing Emails</h1>
-            </Col>
-            <Form.Item>
-            {Object.keys(dic).map((key) => {
-              return <Col span={24}>
-                <Col align={'center'}span={8}>
-                  <b>{key}</b>
-                </Col>
-                <Col align={'left'} span={16}>
-                  <ServiceEmails emails={dic[key]} key={key} updateEmails={this.updateEmails}/>
-                </Col>
-                {/*<Tag color={'green'} key={key}>{dic[key]}</Tag>
-                <Tag
-                  onClick={this.showInput}
-                  style={{ background: '#fff', borderStyle: 'dashed' }}
-                >
-                  <Icon type="plus" /> New Tag
-                </Tag> */}
+        <Modal
+          visible={this.props.showModal}
+          onCancel={() => this.cancelModal()}
+          onOk={this.props.handleUpdateEmails}
+          className={"page-nav-menu"}
+          bordered={true}
+        >
+          <Row >
+            <Form>
+              <Col align={'left'} span={24}>
+                <h1>Auto Routing Emails</h1>
               </Col>
-            })}
-            </Form.Item>
-          </Form>
-        </Row>
+              <Form.Item>
+              {Object.keys(dic).map((key) => {
+                return <Col span={24}>
+                  <Col align={'center'}span={8}>
+                    <b>{key}</b>
+                  </Col>
+                  <Col align={'left'} span={16}>
+                    <ServiceEmails emails={emails[key]} rawType={key} updateEmails={this.updateEmails}/>
+                  </Col>
+                  {/*<Tag color={'green'} key={key}>{dic[key]}</Tag>
+                  <Tag
+                    onClick={this.showInput}
+                    style={{ background: '#fff', borderStyle: 'dashed' }}
+                  >
+                    <Icon type="plus" /> New Tag
+                  </Tag> */}
+                </Col>
+              })}
+              </Form.Item>
+            </Form>
+          </Row>
+        </Modal>
       );
     }
 }

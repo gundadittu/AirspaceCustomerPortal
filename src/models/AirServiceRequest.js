@@ -9,7 +9,7 @@ export default class AirServiceRequest {
         if (uid === null) {
             return null
         }
-        const canceled = dict.canceled || null;
+        const canceled = dict.canceled;
         const issueType = dict.issueType || null;
         const note = dict.note || null;
         const officeUID = dict.officeUID || null;

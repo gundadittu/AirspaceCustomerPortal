@@ -46,8 +46,8 @@ class ServiceEmails extends React.Component {
       inputVisible: false,
       inputValue: '',
     });
-
-    this.props.updateEmail(this.props.key, tags);
+    
+    this.props.updateEmails(this.props.rawType, tags);
   }
 
   saveInputRef = input => this.input = input

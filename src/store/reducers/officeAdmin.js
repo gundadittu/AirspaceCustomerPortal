@@ -8,6 +8,7 @@ const initialState = {
     inactiveRoomsList: [],
     guestsList: [],
     serviceRequestsList: [],
+    serviceRequestsEmailsList: [],
     activeDesksList: [],
     inactiveDesksList: [],
     upcomingEventsList: [],
@@ -17,6 +18,7 @@ const initialState = {
     isLoadingGuestsData: false,
     isLoadingHotDesksData: false,
     isLoadingServiceRequestsData: false,
+    isLoadingServiceRequestsEmailsData: false,
     isLoadingEventsData: false,
     createUserFormLoading: false,
     editUserFormLoading: false,
@@ -104,6 +106,15 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { serviceRequestsList: serviceRequestsList, isLoadingServiceRequestsData: false});
         case actionTypes.LOAD_SERVICE_REQUESTS_ERROR:
             return updateObject(state, {isLoadingServiceRequestsData: false});
+            //
+        case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS:
+            return updateObject(state, {isLoadingServiceRequestsEmailsData: true});
+        case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_SUCCESS:
+            const serviceRequestsEmailsList = action.payload.serviceRequestsList || null;
+            return updateObject(state, { serviceRequestsEmailsList: serviceRequestsEmailsList, isLoadingServiceRequestsEmailsData: false});
+        case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_ERROR:
+            return updateObject(state, {isLoadingServiceRequestsEmailsData: false});
+            //
         case actionTypes.LOAD_REGISTERED_GUESTS:
             return updateObject(state, {isLoadingGuestsData: true});
         case actionTypes.LOAD_REGISTERED_GUESTS_SUCCESS:

@@ -30,6 +30,10 @@ export function* loadServiceRequestsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_SERVICE_REQUESTS, loadServiceRequestsWorkerSaga);
 }
 
+export function* loadServiceRequestsEmailsWatchSaga() {
+    yield takeLatest(actionTypes.LOAD_SERVICE_REQUESTS_EMAILS, loadServiceRequestsEmailsWorkerSaga);
+}
+
 export function* loadRegisteredGuestsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_REGISTERED_GUESTS, loadRegisteredGuestsWorkerSaga);
 }
@@ -325,6 +329,43 @@ function* loadServiceRequestsWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_ERROR, payload: { error: error } });
     }
 }
+
+//--------------
+function loadServiceRequestEmails(payload, firebase) {
+    const officeUID = payload.officeUID || null;
+    const apiCall = firebase.functions.httpsCallable('getServiceRequestAutoRoutingForOfficeAdmin');
+    return apiCall({ selectedOfficeUID: officeUID })
+        .then(result => {
+            const data = result.data;
+            console.log("SERVICE EMAILS ", data)
+            const dict = { 'serviceRequestsEmails': data};
+            return dict
+        })
+}
+
+function* loadServiceRequestsEmailsWorkerSaga(action) {
+    try {
+        const selectedOfficeUID = action.payload.officeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+        let firebase = yield select(selectors.firebase);
+
+        console.log(action.payload)
+        const response = yield call(loadServiceRequestEmails, action.payload, firebase);
+        yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { serviceEmailsList: response.serviceRequestsEmails} });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to load Service Requests Emails for this office.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_ERROR, payload: { error: error } });
+    }
+}
+//--------------
 
 function loadRegisteredGuests(payload, firebase) {
     const officeUID = payload.officeUID || null;

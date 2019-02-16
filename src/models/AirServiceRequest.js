@@ -1,4 +1,6 @@
 import AirOffice from './AirOffice';
+import AirServiceType from './AirServiceType'
+import firebase from 'firebase';
 
 export default class AirServiceRequest {
     constructor(dict) {
@@ -24,7 +26,7 @@ export default class AirServiceRequest {
             this.timestamp = firestamp.toDate();
         }
 
-        this.issueType = issueType;
+        this.issueType = new AirServiceType(issueType);
         this.note = note;
         this.officeUID = officeUID;
         this.userUID = userUID;

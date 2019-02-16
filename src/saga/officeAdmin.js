@@ -6,6 +6,7 @@ import AirConferenceRoom from '../models/AirConferenceRoom'
 import AirHotDesk from '../models/AirHotDesk'
 import AirRegisteredGuest from '../models/AirRegisteredGuest'
 import AirEvent from '../models/AirEvent'
+import AirServiceRequest from '../models/AirServiceRequest'
 import { notification } from 'antd';
 require("firebase/functions");
 require("firebase/storage");
@@ -23,6 +24,10 @@ export function* loadConferenceRoomsWatchSaga() {
 
 export function* loadHotDesksWatchSaga() {
     yield takeLatest(actionTypes.LOAD_HOT_DESKS, loadHotDesksWorkerSaga);
+}
+
+export function* loadServiceRequestsWatchSaga() {
+    yield takeLatest(actionTypes.LOAD_SERVICE_REQUESTS, loadServiceRequestsWorkerSaga);
 }
 
 export function* loadRegisteredGuestsWatchSaga() {
@@ -285,6 +290,57 @@ function* loadHotDesksWorkerSaga(action) {
     }
 }
 
+function loadServiceRequests(payload, firebase) {
+    const officeUID = payload.officeUID || null;
+    const apiCall = firebase.functions.httpsCallable('getUsersServiceRequests');
+
+    return apiCall({ selectedOfficeUID: officeUID })
+        .then(result => {
+            const data = result.data;
+            /*
+            const data = result.data;
+              var closed = data.closed;
+              var pending = data.pending;
+              var open = data.open;
+
+              closed.map((value) => (new AirServiceRequest(value)))
+              pending.map((value) => (new AirServiceRequest(value)))
+              open.map((value) => (new AirServiceRequest(value)))
+
+              const dict = {
+                'closed': closed,
+                'pending': pending,
+                'open': open
+              }
+            */
+            const dict = { 'serviceRequests': data.serviceRequests};
+            return dict
+        })
+}
+
+function* loadServiceRequestsWorkerSaga(action) {
+    try {
+        const selectedOfficeUID = action.payload.officeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+        let firebase = yield select(selectors.firebase);
+
+        const response = yield call(loadServiceRequests, action.payload, firebase);
+        //console.log("THIS IS SERVICE REQUESTS: ", response)
+        yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_SUCCESS, payload: { serviceRequestsList: response.serviceRequests} });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to load Service Requests for this office.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_ERROR, payload: { error: error } });
+    }
+}
+
 function loadRegisteredGuests(payload, firebase) {
     const officeUID = payload.officeUID || null;
     const apiCall = firebase.functions.httpsCallable('getAllRegisteredGuestsForOfficeAdmin')
@@ -380,18 +436,18 @@ function* loadEventsWorkerSaga(action) {
     }
 }
 
-function createEvent(payload, firebase) { 
+function createEvent(payload, firebase) {
     const selectedOfficeUID = payload.selectedOfficeUID;
     const title = payload.eventTitle;
     const description = payload.description;
-    const startDate = payload.startDate.toUTCString(); 
+    const startDate = payload.startDate.toUTCString();
     const endDate = payload.endDate.toUTCString();
     const dict = { selectedOfficeUID: selectedOfficeUID, title: title, description: description, startDate: startDate, endDate: endDate };
 
     const apiCall = firebase.functions.httpsCallable('createEventForOfficeAdmin');
     return apiCall(dict)
-    .then( response => { 
-        const eventUID = response.data; 
+    .then( response => {
+        const eventUID = response.data;
         const file = payload.photoFileObj;
         if (file && eventUID) {
             const storageRef = firebase.storage.ref();
@@ -403,9 +459,9 @@ function createEvent(payload, firebase) {
     })
 }
 
-function* createEventWorkerSaga(action) { 
+function* createEventWorkerSaga(action) {
     try {
-        const payload = action.payload; 
+        const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;
         const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
         validatePermission(selectedOfficeUID, userAdminOfficeList);
@@ -429,25 +485,25 @@ function* createEventWorkerSaga(action) {
             description: error.message
         });
 
-        const payload = action.payload; 
+        const payload = action.payload;
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.CREATE_EVENT_FINISHED, payload: { ...newPayload } });
     }
 }
 
-function editEvent(payload, firebase) { 
-    const selectedEventUID = payload.selectedEventUID; 
+function editEvent(payload, firebase) {
+    const selectedEventUID = payload.selectedEventUID;
     const title = payload.eventTitle;
     const description = payload.description;
-    const startDate = payload.startDate.toUTCString(); 
+    const startDate = payload.startDate.toUTCString();
     const endDate = payload.endDate.toUTCString();
-    const canceled = payload.canceled; 
+    const canceled = payload.canceled;
     const dict = { selectedEventUID: selectedEventUID, title: title, description: description, startDate: startDate, endDate: endDate, canceled: canceled };
 
     const apiCall = firebase.functions.httpsCallable('editEventsForOfficeAdmin');
     return apiCall(dict)
-    .then( response => { 
-        const eventUID = selectedEventUID; 
+    .then( response => {
+        const eventUID = selectedEventUID;
         const file = payload.photoFileObj;
         if (file && eventUID) {
             const storageRef = firebase.storage.ref();
@@ -459,9 +515,9 @@ function editEvent(payload, firebase) {
     })
 }
 
-function* editEventWorkerSaga(action) { 
+function* editEventWorkerSaga(action) {
     try {
-        const payload = action.payload; 
+        const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;
         const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
         validatePermission(selectedOfficeUID, userAdminOfficeList);
@@ -485,7 +541,7 @@ function* editEventWorkerSaga(action) {
             description: error.message
         });
 
-        const payload = action.payload; 
+        const payload = action.payload;
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.EDIT_EVENT_FINISHED, payload: { ...newPayload } });
     }
@@ -761,16 +817,16 @@ function* editDeskWorkerSaga(action) {
     }
 }
 
-function getSpaceInfo(payload, firebase) { 
+function getSpaceInfo(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('getSpaceInfoForOfficeAdmin');
-    return apiCall({ ...payload }) 
-    .then( response => { 
-        const data = response.data; 
-        return data 
+    return apiCall({ ...payload })
+    .then( response => {
+        const data = response.data;
+        return data
     })
 }
 
-function* getSpaceInfoWorkerSaga(action) { 
+function* getSpaceInfoWorkerSaga(action) {
     try {
         const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;

@@ -9,6 +9,15 @@ export const loadOfficeUsers = (officeUID) => {
     };
 }
 
+export const loadServiceRequests = (officeUID) => {
+    return {
+        type: actionTypes.LOAD_SERVICE_REQUESTS,
+        payload: {
+            officeUID: officeUID
+        }
+    };
+}
+
 export const loadConferenceRooms = (officeUID) => {
     return {
         type: actionTypes.LOAD_CONFERENCE_ROOMS,
@@ -121,35 +130,35 @@ export const createConferenceRoom = (payload) => {
     }
 }
 
-export const editEvent = (payload) => { 
-    return { 
-        type: actionTypes.EDIT_EVENT, 
-        payload: { 
+export const editEvent = (payload) => {
+    return {
+        type: actionTypes.EDIT_EVENT,
+        payload: {
            ...payload
-        // Need to provide the below: 
-        // selectedEventUID: selectedEventUID, 
+        // Need to provide the below:
+        // selectedEventUID: selectedEventUID,
         // eventTitle: eventTitle,
         // description: description,
         // startDate: startDate,
         // endDate: endDate,
         // photoFileObj: photoFileObj,
-        // canceled: canceled, 
+        // canceled: canceled,
         // selectedOfficeUID: currentOfficeUID,
         // hideForm: this.handleFinishedEditEventRequest
         }
     }
 }
 
-export const createEvent = (payload) => { 
-    return { 
-        type: actionTypes.CREATE_EVENT, 
-        payload: { 
+export const createEvent = (payload) => {
+    return {
+        type: actionTypes.CREATE_EVENT,
+        payload: {
            ...payload
-        // Need to provide the below: 
+        // Need to provide the below:
         //    eventTitle: eventTitle,
         //    description: description,
         //    startDate: startDate,
-        //    endDate: endDate, 
+        //    endDate: endDate,
         //    photoFileObj: photoFileObj,
         //    selectedOfficeUID: currentOfficeUID,
         //    hideForm: this.hideCreateEventFormModal
@@ -157,11 +166,11 @@ export const createEvent = (payload) => {
     }
 }
 
-export const getSpaceInfo = (payload) => { 
-    return { 
-        type: actionTypes.LOAD_SPACE_INFO, 
-        payload: { 
-            selectedOfficeUID: payload.officeUID 
+export const getSpaceInfo = (payload) => {
+    return {
+        type: actionTypes.LOAD_SPACE_INFO,
+        payload: {
+            selectedOfficeUID: payload.officeUID
         }
     }
 }

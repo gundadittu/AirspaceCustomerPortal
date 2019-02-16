@@ -114,7 +114,7 @@ class EditEventForm extends React.Component {
           {getFieldDecorator('uploadPhoto', {
             getValueFromEvent: this.eventPhotoFile
           })(
-            <Upload {...uploadProps} disabled={uploadDisabled || confirmLoading} fileList={this.state.fileList} accept='.png, jpg, jpeg' onChange={(info) => this.uploadChange(info)}>
+            <Upload {...uploadProps} disabled={uploadDisabled || confirmLoading} fileList={this.state.fileList} accept='.png, .jpg, .jpeg' onChange={(info) => this.uploadChange(info)}>
               <Button>
                 <Icon type="upload" /> Click to add a photo.
             </Button>

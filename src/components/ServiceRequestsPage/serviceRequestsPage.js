@@ -80,47 +80,50 @@ class ServiceRequestsPage extends React.Component {
       })
     }
 
+    format_email_obj = (emails) => {
+      var emailObj = {}
+
+      Object.keys(emails).map((key) => {
+        if (key == 'IT'){
+          emailObj.infoTech = emails[key]
+        } else if (key == 'Plumbing') {
+          emailObj.plumbing = emails[key]
+        } else if (key == 'Lighting') {
+          emailObj.lighting = emails[key]
+        } else if (key == 'GeneralMaintenance') {
+          emailObj.generalMaintenance = emails[key]
+        } else if (key == 'Furniture'){
+          emailObj.furniture = emails[key]
+        } else if (key == 'Door'){
+          emailObj.door = emails[key]
+        } else if (key == 'Heating/Cooling'){
+          emailObj.heatingCooling = emails[key]
+        } else if (key == 'Cleaning'){
+          emailObj.cleaning = emails[key]
+        } else if (key == 'Supplies'){
+          emailObj.supplies = emails[key]
+        }
+      })
+
+      return emailObj;
+    }
+
     handleUpdateEmails = () => {
-        console.log(this.updateEmailsFormRef)
-        /* const createEventForm = this.createEventFormRef.props.form;
-        createEventForm.validateFields((err, values) => {
-            if (err) {
-                return;
-            }
+        var newEmails = this.updateEmailsFormRef.state.emails
+        console.log(newEmails)
+        const updateEmailsFormRef = this.updateEmailsFormRef.props.form;
+        const currentOfficeUID = this.props.currentOfficeUID;
+        console.log(currentOfficeUID)
 
-            const currentOfficeUID = this.props.currentOfficeUID;
+        var rawEmails = this.format_email_obj(newEmails);
+        console.log(rawEmails)
 
-            const eventTitle = values.eventName;
-            const description = values.description;
+        const payload = {
+            selectedOfficeUID: currentOfficeUID,
+            updatedEmails: rawEmails
+        }
 
-            const timeRange = values.eventTimeRange;
-            if (Object.keys(timeRange).length < 2) {
-              // handle error
-              return
-            }
-            const startDate = timeRange[0]._d;
-            const endDate = timeRange[1]._d;
-
-            let photoFileObj = null;
-            const uploadPhotoDict = values.uploadPhoto || null;
-            if (uploadPhotoDict) {
-                const value = uploadPhotoDict[0];
-                const fileObj = value.originFileObj;
-                photoFileObj = fileObj;
-            }
-
-            const payload = {
-                eventTitle: eventTitle,
-                description: description,
-                startDate: startDate,
-                endDate: endDate,
-                photoFileObj: photoFileObj,
-                selectedOfficeUID: currentOfficeUID,
-                hideForm: this.hideCreateEventFormModal
-            }
-
-            this.props.createEvent(payload);
-        }) */
+        this.props.editServiceRequestsEmails(payload);
     }
     saveUpdateEmailsFormRef = (form) => {
       this.updateEmailsFormRef = form;
@@ -170,6 +173,7 @@ const mapDispatchToProps = dispatch => {
         loadServiceRequests: (officeUID) => dispatch(actionCreator.loadServiceRequests(officeUID)),
         loadServiceRequestsEmails: (officeUID) => dispatch(actionCreator.loadServiceRequestsEmails(officeUID)),
         //updateEmails: (payload) => dispatch(actionCreator.updateEmails(payload)),
+        editServiceRequestsEmails: (payload) => dispatch(actionCreator.editServiceRequestEmailsForOfficeAdmin(payload)),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
     }
 };

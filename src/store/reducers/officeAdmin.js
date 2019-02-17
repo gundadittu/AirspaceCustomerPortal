@@ -115,6 +115,15 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_ERROR:
             return updateObject(state, {isLoadingServiceRequestsEmailsData: false});
             //
+            //
+        case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS:
+            return updateObject(state, {isLoadingServiceRequestsEmailsData: true});
+        case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS:
+            const updatedEmail = action.payload.serviceRequestsList || null;
+            return updateObject(state, { serviceRequestsEmailsList: updatedEmail, isLoadingServiceRequestsEmailsData: false});
+        case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_ERROR:
+            return updateObject(state, {isLoadingServiceRequestsEmailsData: false});
+            //
         case actionTypes.LOAD_REGISTERED_GUESTS:
             return updateObject(state, {isLoadingGuestsData: true});
         case actionTypes.LOAD_REGISTERED_GUESTS_SUCCESS:

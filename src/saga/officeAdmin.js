@@ -34,6 +34,10 @@ export function* loadServiceRequestsEmailsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_SERVICE_REQUESTS_EMAILS, loadServiceRequestsEmailsWorkerSaga);
 }
 
+export function* editServiceRequestsEmailsWatchSaga() {
+    yield takeLatest(actionTypes.EDIT_SERVICE_REQUESTS_EMAILS, editServiceRequestsEmailsWorkerSaga);
+}
+
 export function* loadRegisteredGuestsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_REGISTERED_GUESTS, loadRegisteredGuestsWorkerSaga);
 }
@@ -301,8 +305,14 @@ function loadServiceRequests(payload, firebase) {
     return apiCall({ selectedOfficeUID: officeUID })
         .then(result => {
             const data = result.data;
-
-            const dict = { 'serviceRequests': data};
+            var requests = [];
+            for (var i = 0; i<data.length; i++){
+              var newData = new AirServiceRequest(data[i])
+              requests.push(newData)
+            }
+            console.log(data)
+            console.log(requests)
+            const dict = { 'serviceRequests': requests};
             return dict
         })
 }
@@ -365,6 +375,57 @@ function* loadServiceRequestsEmailsWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_ERROR, payload: { error: error } });
     }
 }
+//--------------
+
+function editEmails(payload, firebase) {
+    const selectedOfficeUID = payload.selectedOfficeUID;
+    const updatedEmails = payload.updatedEmails;
+    const dict = {
+      selectedOfficeUID: selectedOfficeUID,
+      updatedEmails: updatedEmails
+    }
+
+    const apiCall = firebase.functions.httpsCallable('updateServiceRequestAutoRoutingForOfficeAdmin');
+    return apiCall(dict)
+    .then( response => {
+        console.log("RESPONSE ", response)
+    })
+}
+
+function* editServiceRequestsEmailsWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        const selectedOfficeUID = payload.selectedOfficeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        console.log(payload, userAdminOfficeList)
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+        let firebase = yield select(selectors.firebase);
+
+        const response = yield call(editEmails, action.payload, firebase);
+
+        notification['success']({
+            message: 'Successfully edited emails.',
+            description: null
+        });
+
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { ...newPayload } });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to edit emails for this office.',
+            description: error.message
+        });
+
+        const payload = action.payload;
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_ERROR, payload: { ...newPayload } });
+    }
+}
+
+
 //--------------
 
 function loadRegisteredGuests(payload, firebase) {

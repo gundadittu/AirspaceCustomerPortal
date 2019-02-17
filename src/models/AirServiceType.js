@@ -13,7 +13,7 @@ var AirServiceRequestType = {
     },
     generalMaintenance: {
       rawValue: 'generalMaintenance',
-      title: 'GeneralMaintenance'
+      title: 'General Maintenance'
     },
     furniture: {
       rawValue: 'furniture',
@@ -41,7 +41,7 @@ export default class AirServiceType {
 
     constructor(type) {
         this.type = type;
-        this.title = AirServiceRequestType[type.title];
+        this.title = AirServiceRequestType[type];
         return
     }
 }

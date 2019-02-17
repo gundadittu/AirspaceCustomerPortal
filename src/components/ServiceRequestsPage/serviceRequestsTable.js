@@ -60,10 +60,11 @@ class ServiceRequestsTable extends React.Component {
     title: 'Type',
     dataIndex: 'issueType',
     key: 'issueType',
-    render: (type) => {
+    render: (typeObj) => {
+        console.log(typeObj)
         return (
           <span>
-            <Tag color="blue">{type}</Tag>
+            <Tag color="blue">{typeObj.title ? typeObj.title.title : typeObj.type}</Tag>
           </span>
         )
     }
@@ -94,6 +95,18 @@ class ServiceRequestsTable extends React.Component {
     render: (email) => (
       <span>{email}</span>
     )
+  },
+  {
+    title: '',
+    dataIndex: 'uid',
+    key: 'more',
+    render: (roomUID) => (
+      <Dropdown overlay={() => this.editMenu(roomUID)} trigger={['click']}>
+        <IconButton>
+          <MoreIcon />
+        </IconButton>
+      </Dropdown>
+    )
   }
 ];
 
@@ -103,8 +116,20 @@ class ServiceRequestsTable extends React.Component {
         onClick={(e) => this.handleEditMenuClick(e, roomUID)}
         style={{ textAlign: 'left', border: 0 }}
       >
+      <Menu.Item key="edit">
+        Edit Status
+      </Menu.Item>
+      <Menu.Divider />
         <Menu.Item key="edit">
-          Edit Room Info
+          <Tag color={'green'} key='open'>open</Tag>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="edit">
+          <Tag color={'volcano'} key='pending'>pending</Tag>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="edit">
+          <Tag color={'red'} key='closed'>closed</Tag>
         </Menu.Item>
       </Menu>
     );
@@ -128,38 +153,12 @@ class ServiceRequestsTable extends React.Component {
         break;
       }
     }
+    if (key === 'open') {
 
-    if (selectedRoom == null) {
-      return
-    }
+    } else if (key == 'pending'){
 
-    if (key === 'edit') {
-      const editRoomForm = this.editRoomFormRef.props.form;
-      editRoomForm.setFields({
-        roomName: {
-          value: selectedRoom.name
-        },
-        capacity: {
-          value: selectedRoom.capacity
-        },
-        standardAmenities: {
-          value: selectedRoom.amenities
-        },
-        reserveable: {
-          value: (selectedRoom.reserveable) ? ['reserveable'] : null
-        },
-        activeStatus: {
-          value: (selectedRoom.active) ? 'active' : 'inactive'
-        },
-        uploadPhoto: {
-          value: null // populate?
-        },
-        keys: {
-          value: null // populate?
-        }
-      });
+    } else if (key == 'closed'){
 
-      this.setState({ editRoomFormVisible: true });
     }
   }
 

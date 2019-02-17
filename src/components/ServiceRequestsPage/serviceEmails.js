@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Tag, Input, Tooltip, Icon,
+  Tag, Input, Tooltip, Icon, message
 } from 'antd';
 
 class ServiceEmails extends React.Component {
@@ -32,22 +32,45 @@ class ServiceEmails extends React.Component {
     this.setState({ inputValue: e.target.value });
   }
 
+  validateEmail = (mail) => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
+     {
+       return (true)
+     }
+       message.error("You have entered an invalid email address!")
+       return (false)
+   }
+
+   handleTagClickAway = () => {
+     let tags = this.state.tags;
+     this.setState({
+       tags,
+       inputVisible: false,
+       inputValue: '',
+     });
+   }
+
+
   handleInputConfirm = () => {
     const state = this.state;
     const inputValue = state.inputValue;
-    let tags = state.tags;
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue];
-    }
 
-    var newTags = this.state.tags.splice()
-    this.setState({
-      tags,
-      inputVisible: false,
-      inputValue: '',
-    });
-    
-    this.props.updateEmails(this.props.rawType, tags);
+    const validInput = this.validateEmail(inputValue)
+    if (validInput) {
+      let tags = state.tags;
+      if (inputValue && tags.indexOf(inputValue) === -1) {
+        tags = [...tags, inputValue];
+      }
+
+      var newTags = this.state.tags.splice()
+      this.setState({
+        tags,
+        inputVisible: false,
+        inputValue: '',
+      });
+
+      this.props.updateEmails(this.props.rawType, tags);
+    }
   }
 
   saveInputRef = input => this.input = input
@@ -74,7 +97,7 @@ class ServiceEmails extends React.Component {
             style={{ width: 78 }}
             value={inputValue}
             onChange={this.handleInputChange}
-            onBlur={this.handleInputConfirm}
+            onBlur={this.handleTagClickAway}
             onPressEnter={this.handleInputConfirm}
           />
         )}

@@ -11,6 +11,7 @@ export default class AirServiceRequest {
         }
         const canceled = dict.canceled;
         const issueType = dict.issueType || null;
+        const status = dict.status || null;
         const note = dict.note || null;
         const officeUID = dict.officeUID || null;
         const userUID = dict.userUID || null;
@@ -29,6 +30,7 @@ export default class AirServiceRequest {
         this.issueType = new AirServiceType(issueType);
         this.note = note;
         this.officeUID = officeUID;
+        this.status = status
         this.userUID = userUID;
         this.timestamp = timestamp;
     }

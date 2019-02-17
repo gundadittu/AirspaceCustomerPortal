@@ -38,6 +38,10 @@ export function* editServiceRequestsEmailsWatchSaga() {
     yield takeLatest(actionTypes.EDIT_SERVICE_REQUESTS_EMAILS, editServiceRequestsEmailsWorkerSaga);
 }
 
+export function* editServiceRequestsStatusWatchSaga() {
+    yield takeLatest(actionTypes.EDIT_SERVICE_REQUESTS_STATUS, editServiceRequestsStatusWorkerSaga);
+}
+
 export function* loadRegisteredGuestsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_REGISTERED_GUESTS, loadRegisteredGuestsWorkerSaga);
 }
@@ -361,7 +365,6 @@ function* loadServiceRequestsEmailsWorkerSaga(action) {
 
         let firebase = yield select(selectors.firebase);
 
-        console.log(action.payload)
         const response = yield call(loadServiceRequestEmails, action.payload, firebase);
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { serviceEmailsList: response.serviceRequestsEmails} });
     } catch (error) {
@@ -410,6 +413,57 @@ function* editServiceRequestsEmailsWorkerSaga(action) {
         });
 
         const newPayload = { hideForm: payload.hideForm }
+        console.log("NEW PAYLOAD ", newPayload)
+        yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { ...newPayload } });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to edit emails for this office.',
+            description: error.message
+        });
+
+        const payload = action.payload;
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_ERROR, payload: { ...newPayload } });
+    }
+}
+
+//--------------
+
+function editStatus(payload, firebase) {
+    const selectedServiceRequestUID = payload.selectedServiceRequestUID;
+    const newStatus = payload.newStatus;
+    const dict = {
+      selectedServiceRequestUID: selectedServiceRequestUID,
+      newStatus: newStatus
+    }
+    const apiCall = firebase.functions.httpsCallable('updateServiceRequestStatusForOfficeAdmin');
+    return apiCall(dict)
+    .then( response => {
+        console.log("Update Status Response ", response)
+    })
+}
+
+function* editServiceRequestsStatusWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        //const selectedOfficeUID = payload.selectedOfficeUID;
+        //const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        console.log(payload)
+        //validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+        let firebase = yield select(selectors.firebase);
+
+        const response = yield call(editStatus, action.payload, firebase);
+
+        notification['success']({
+            message: 'Successfully edited emails.',
+            description: null
+        });
+
+        const newPayload = { hideForm: payload.hideForm }
+        console.log("NEW PAYLOAD ", newPayload)
         yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);

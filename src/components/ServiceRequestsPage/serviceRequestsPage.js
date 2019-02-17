@@ -28,7 +28,6 @@ class ServiceRequestsPage extends React.Component {
 
     componentDidMount() {
         // Routing stuff
-        console.log(this.props.user)
         if (this.props.match.isExact) {
           const selectedOfficeUID = this.props.match.params.officeUID;
 
@@ -43,7 +42,6 @@ class ServiceRequestsPage extends React.Component {
           }
 
           const pagePayload = getPagePayload(pageTitles.serviceRequestsPageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
-          console.log("pagePayload ", pagePayload)
           if (pagePayload) {
               this.props.changePage(pagePayload);
           }
@@ -74,10 +72,38 @@ class ServiceRequestsPage extends React.Component {
     }
 
     closeEmailModal() {
-      console.log(this)
       this.setState({
         showModal: false
       })
+    }
+
+    reverse_format = (emails) => {
+      var emailObj = {}
+      if(emails){
+        Object.keys(emails).map((key) => {
+          if (key == 'infoTech'){
+            emailObj.IT = emails[key]
+          } else if (key == 'plumbing') {
+            emailObj.Plumbing = emails[key]
+          } else if (key == 'lighting') {
+            emailObj.Lighting = emails[key]
+          } else if (key == 'generalMaintenance') {
+            emailObj['General Maintenance'] = emails[key]
+          } else if (key == 'furniture'){
+            emailObj.Furniture = emails[key]
+          } else if (key == 'door'){
+            emailObj.Door = emails[key]
+          } else if (key == 'heatingCooling'){
+            emailObj['Heating/Cooling'] = emails[key]
+          } else if (key == 'cleaning'){
+            emailObj.Cleaning = emails[key]
+          } else if (key == 'supplies'){
+            emailObj.Supplies = emails[key]
+          }
+        })
+      }
+
+      return emailObj;
     }
 
     format_email_obj = (emails) => {
@@ -90,7 +116,7 @@ class ServiceRequestsPage extends React.Component {
           emailObj.plumbing = emails[key]
         } else if (key == 'Lighting') {
           emailObj.lighting = emails[key]
-        } else if (key == 'GeneralMaintenance') {
+        } else if (key == 'General Maintenance') {
           emailObj.generalMaintenance = emails[key]
         } else if (key == 'Furniture'){
           emailObj.furniture = emails[key]
@@ -110,13 +136,10 @@ class ServiceRequestsPage extends React.Component {
 
     handleUpdateEmails = () => {
         var newEmails = this.updateEmailsFormRef.state.emails
-        console.log(newEmails)
         const updateEmailsFormRef = this.updateEmailsFormRef.props.form;
         const currentOfficeUID = this.props.currentOfficeUID;
-        console.log(currentOfficeUID)
 
         var rawEmails = this.format_email_obj(newEmails);
-        console.log(rawEmails)
 
         const payload = {
             selectedOfficeUID: currentOfficeUID,
@@ -148,8 +171,10 @@ class ServiceRequestsPage extends React.Component {
                           showModal={this.state.showModal}
                           closeEmailModal={() => this.closeEmailModal()}
                           handleUpdateEmails={this.handleUpdateEmails}
+                          finishedUpdatingEmails={this.props.finishedUpdatingEmails}
+                          dataSource={this.reverse_format(this.props.serviceRequestsEmailsList)}
                         />
-                        <ServiceRequestsTable dataSource={this.props.serviceRequestsList}/>
+                        <ServiceRequestsTable />
                     </Col>
                 </Row>
             </div>
@@ -163,8 +188,9 @@ const mapStateToProps = state => {
         user: state.auth.user,
         userAdminOfficeList: state.auth.adminOfficeList,
         serviceRequestsList: state.officeAdmin.serviceRequestsList,
-        serviceRequestsEmails: state.officeAdmin.serviceRequestsEmails,
-        currentOfficeUID: state.general.currentOfficeAdminUID
+        serviceRequestsEmailsList: state.officeAdmin.serviceRequestsEmailsList,
+        currentOfficeUID: state.general.currentOfficeAdminUID,
+        finishedUpdatingEmails: state.officeAdmin.finishedUpdatingEmails
     }
 };
 

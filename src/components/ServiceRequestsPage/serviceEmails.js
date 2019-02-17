@@ -12,7 +12,6 @@ class ServiceEmails extends React.Component {
 
   componentDidMount() {
     var emailTags = this.props.emails
-    console.log(emailTags)
     this.setState({
       tags: emailTags
     })
@@ -20,7 +19,6 @@ class ServiceEmails extends React.Component {
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
-    console.log(tags);
     this.setState({ tags });
   }
 

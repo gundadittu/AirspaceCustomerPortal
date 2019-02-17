@@ -61,7 +61,6 @@ class ServiceRequestsTable extends React.Component {
     dataIndex: 'issueType',
     key: 'issueType',
     render: (typeObj) => {
-        console.log(typeObj)
         return (
           <span>
             <Tag color="blue">{typeObj.title ? typeObj.title.title : typeObj.type}</Tag>
@@ -120,46 +119,32 @@ class ServiceRequestsTable extends React.Component {
         Edit Status
       </Menu.Item>
       <Menu.Divider />
-        <Menu.Item key="edit">
+        <Menu.Item key="open">
           <Tag color={'green'} key='open'>open</Tag>
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="edit">
+        <Menu.Item key="pending">
           <Tag color={'volcano'} key='pending'>pending</Tag>
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="edit">
+        <Menu.Item key="closed">
           <Tag color={'red'} key='closed'>closed</Tag>
         </Menu.Item>
       </Menu>
     );
   }
 
-  handleEditMenuClick = (e, roomUID) => {
+  handleEditMenuClick = (e, serviceUID) => {
     const key = e.key;
     const roomsList = this.props.dataSource;
-
-    // Get selected room object
-    let selectedRoom = null;
-    for (let key in roomsList) {
-      const value = roomsList[key];
-      const currentUID = value.uid;
-
-      if (roomUID === currentUID) {
-        this.setState({
-          selectedRoom: value
-        });
-        selectedRoom = value;
-        break;
-      }
+    console.log("e ", e)
+    console.log("Service UID ", serviceUID)
+    var payload = {
+      selectedServiceRequestUID: serviceUID,
+      newStatus: e.key
     }
-    if (key === 'open') {
 
-    } else if (key == 'pending'){
-
-    } else if (key == 'closed'){
-
-    }
+    this.props.editServiceRequestStatusForOfficeAdmin(payload)
   }
 
 
@@ -244,7 +229,6 @@ class ServiceRequestsTable extends React.Component {
   }
 
   render() {
-    console.log("Requests List: ", this.props.serviceRequestsList)
     return (
       <div>
         <EditRoomForm
@@ -254,7 +238,6 @@ class ServiceRequestsTable extends React.Component {
           onCreate={this.handleCreateEditRoom}
           confirmLoading={this.props.editRoomFormLoading}
         />
-        {console.log(this.props.datastore)}
         <Table
           columns={this.columns}
           dataSource={this.props.serviceRequestsList}
@@ -277,7 +260,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    editConferenceRoom: (payload) => dispatch(actionCreator.editConferenceRoom(payload))
+    editConferenceRoom: (payload) => dispatch(actionCreator.editConferenceRoom(payload)),
+    editServiceRequestStatusForOfficeAdmin: (payload) => dispatch(actionCreator.editServiceRequestStatusForOfficeAdmin(payload))
   }
 };
 

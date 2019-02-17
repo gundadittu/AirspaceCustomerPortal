@@ -19,6 +19,7 @@ const initialState = {
     isLoadingHotDesksData: false,
     isLoadingServiceRequestsData: false,
     isLoadingServiceRequestsEmailsData: false,
+    updatingServiceStatus: false,
     isLoadingEventsData: false,
     createUserFormLoading: false,
     editUserFormLoading: false,
@@ -30,6 +31,7 @@ const initialState = {
     createDeskFormLoading: false,
     editDeskFormLoading: false,
     isLoadingSpaceInfo: false,
+    finishedUpdatingEmails: false,
     onboardingURL: null,
     floorplanURL: null,
     buildingDetailsURL: null
@@ -110,20 +112,25 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS:
             return updateObject(state, {isLoadingServiceRequestsEmailsData: true});
         case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_SUCCESS:
-            const serviceRequestsEmailsList = action.payload.serviceRequestsList || null;
+            const serviceRequestsEmailsList = action.payload.serviceEmailsList || null;
             return updateObject(state, { serviceRequestsEmailsList: serviceRequestsEmailsList, isLoadingServiceRequestsEmailsData: false});
         case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_ERROR:
             return updateObject(state, {isLoadingServiceRequestsEmailsData: false});
             //
             //
         case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS:
-            return updateObject(state, {isLoadingServiceRequestsEmailsData: true});
+            return updateObject(state, {finishedUpdatingEmails: false, isLoadingServiceRequestsEmailsData: true});
         case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS:
-            const updatedEmail = action.payload.serviceRequestsList || null;
-            return updateObject(state, { serviceRequestsEmailsList: updatedEmail, isLoadingServiceRequestsEmailsData: false});
+            return updateObject(state, { finishedUpdatingEmails: true, isLoadingServiceRequestsEmailsData: false });
         case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_ERROR:
-            return updateObject(state, {isLoadingServiceRequestsEmailsData: false});
+            return updateObject(state, {finishedUpdatingEmails: true, isLoadingServiceRequestsEmailsData: false});
             //
+        case actionTypes.EDIT_SERVICE_REQUESTS_STATUS:
+            return updateObject(state, {updatingServiceStatus: true});
+        case actionTypes.EDIT_SERVICE_REQUESTS_STATUS_SUCCESS:
+            return updateObject(state, {updatingServiceStatus: false });
+        case actionTypes.EDIT_SERVICE_REQUESTS_STATUS_ERROR:
+            return updateObject(state, {updatingServiceStatus: false});
         case actionTypes.LOAD_REGISTERED_GUESTS:
             return updateObject(state, {isLoadingGuestsData: true});
         case actionTypes.LOAD_REGISTERED_GUESTS_SUCCESS:

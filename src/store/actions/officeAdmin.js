@@ -37,6 +37,16 @@ export const editServiceRequestEmailsForOfficeAdmin = (payload) => {
     };
 }
 
+export const editServiceRequestStatusForOfficeAdmin = (payload) => {
+    return {
+        type: actionTypes.EDIT_SERVICE_REQUESTS_STATUS,
+        payload: {
+            selectedServiceRequestUID: payload.selectedServiceRequestUID,
+            newStatus: payload.newStatus
+        }
+    };
+}
+
 export const loadConferenceRooms = (officeUID) => {
     return {
         type: actionTypes.LOAD_CONFERENCE_ROOMS,

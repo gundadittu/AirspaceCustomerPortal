@@ -20,6 +20,8 @@ class ServiceEmails extends React.Component {
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
     this.setState({ tags });
+
+    this.props.updateEmails(this.props.rawType, tags);
   }
 
   showInput = () => {

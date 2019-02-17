@@ -150,8 +150,6 @@ class ServiceRequestsTable extends React.Component {
   handleEditMenuClick = (e, serviceUID) => {
     const key = e.key;
     const roomsList = this.props.dataSource;
-    console.log("e ", e)
-    console.log("Service UID ", serviceUID)
     var payload = {
       selectedServiceRequestUID: serviceUID,
       newStatus: e.key
@@ -209,7 +207,7 @@ const mapStateToProps = state => {
     editRoomFormLoading: state.officeAdmin.editRoomFormLoading,
     serviceRequestsList: state.officeAdmin.serviceRequestsList,
     currentOfficeUID: state.general.currentOfficeAdminUID,
-    isLoadingRoomsData: state.officeAdmin.isLoadingRoomsData
+    isLoadingServiceRequestsData: state.officeAdmin.isLoadingServiceRequestsData
   }
 };
 

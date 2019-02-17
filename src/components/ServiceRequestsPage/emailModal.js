@@ -86,10 +86,10 @@ class EmailModal extends React.Component {
     render() {
       const { emails, inputVisible, inputValue } = this.state;
       var dic = this.state.emails
-      console.log(this.props.dataSource)
+
       return (
         <Modal
-          visible={this.props.showModal /*&& !(this.props.finishedUpdatingEmails)*/}
+          visible={this.props.showModal}
           onCancel={() => this.cancelModal()}
           onOk={this.props.handleUpdateEmails}
           className={"page-nav-menu"}
@@ -109,13 +109,6 @@ class EmailModal extends React.Component {
                   <Col align={'left'} span={16}>
                     <ServiceEmails emails={emails[key]} rawType={key} updateEmails={this.updateEmails}/>
                   </Col>
-                  {/*<Tag color={'green'} key={key}>{dic[key]}</Tag>
-                  <Tag
-                    onClick={this.showInput}
-                    style={{ background: '#fff', borderStyle: 'dashed' }}
-                  >
-                    <Icon type="plus" /> New Tag
-                  </Tag> */}
                 </Col>
               })}
               </Form.Item>

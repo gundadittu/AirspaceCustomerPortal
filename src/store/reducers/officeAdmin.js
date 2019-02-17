@@ -31,7 +31,6 @@ const initialState = {
     createDeskFormLoading: false,
     editDeskFormLoading: false,
     isLoadingSpaceInfo: false,
-    finishedUpdatingEmails: false,
     onboardingURL: null,
     floorplanURL: null,
     buildingDetailsURL: null

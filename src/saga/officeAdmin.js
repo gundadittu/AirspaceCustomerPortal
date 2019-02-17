@@ -305,7 +305,6 @@ function* loadHotDesksWorkerSaga(action) {
 function loadServiceRequests(payload, firebase) {
     const officeUID = payload.officeUID || null;
     const apiCall = firebase.functions.httpsCallable('getAllServiceRequestsForOfficeAdmin');
-    console.log("officeUID ", officeUID)
     return apiCall({ selectedOfficeUID: officeUID })
         .then(result => {
             const data = result.data;
@@ -314,8 +313,7 @@ function loadServiceRequests(payload, firebase) {
               var newData = new AirServiceRequest(data[i])
               requests.push(newData)
             }
-            console.log(data)
-            console.log(requests)
+
             const dict = { 'serviceRequests': requests};
             return dict
         })
@@ -329,7 +327,6 @@ function* loadServiceRequestsWorkerSaga(action) {
 
         let firebase = yield select(selectors.firebase);
 
-        console.log(action.payload)
         const response = yield call(loadServiceRequests, action.payload, firebase);
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_SUCCESS, payload: { serviceRequestsList: response.serviceRequests} });
     } catch (error) {
@@ -351,7 +348,6 @@ function loadServiceRequestEmails(payload, firebase) {
     return apiCall({ selectedOfficeUID: officeUID })
         .then(result => {
             const data = result.data;
-            console.log("SERVICE EMAILS ", data)
             const dict = { 'serviceRequestsEmails': data};
             return dict
         })
@@ -400,7 +396,6 @@ function* editServiceRequestsEmailsWorkerSaga(action) {
         const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;
         const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
-        console.log(payload)
         validatePermission(selectedOfficeUID, userAdminOfficeList);
 
         let firebase = yield select(selectors.firebase);
@@ -411,7 +406,6 @@ function* editServiceRequestsEmailsWorkerSaga(action) {
             message: 'Successfully edited emails.',
             description: null
         });
-
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
@@ -447,10 +441,6 @@ function editStatus(payload, firebase) {
 function* editServiceRequestsStatusWorkerSaga(action) {
     try {
         const payload = action.payload;
-        //const selectedOfficeUID = payload.selectedOfficeUID;
-        //const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
-        console.log(payload)
-        //validatePermission(selectedOfficeUID, userAdminOfficeList);
 
         let firebase = yield select(selectors.firebase);
 
@@ -462,7 +452,6 @@ function* editServiceRequestsStatusWorkerSaga(action) {
         });
 
         const newPayload = { hideForm: payload.hideForm }
-        console.log("NEW PAYLOAD ", newPayload)
         yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);

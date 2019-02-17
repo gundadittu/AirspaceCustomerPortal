@@ -147,7 +147,8 @@ class ServiceRequestsPage extends React.Component {
             hideForm: () => this.closeEmailModal()
         }
 
-        this.props.editServiceRequestsEmails(payload);
+        this.props.editServiceRequestsEmails(payload)
+        this.props.loadServiceRequestsEmails(this.props.currentOfficeUID);
     }
     saveUpdateEmailsFormRef = (form) => {
       this.updateEmailsFormRef = form;
@@ -161,7 +162,7 @@ class ServiceRequestsPage extends React.Component {
                     <Col className="wide-table" span={24}>
                         <h1>Service Requests</h1>
                         <div>
-                            <IconButton className="inlineDisplay">
+                            <IconButton onClick={() => this.props.loadServiceRequests(this.props.currentOfficeUID)} className="inlineDisplay">
                                 <RefreshIcon />
                             </IconButton>
                             <Button className="inlineDisplay rightAlign" type="primary" onClick={() => this.showEmailModal()}>Auto Routing</Button>
@@ -173,7 +174,6 @@ class ServiceRequestsPage extends React.Component {
                           showModal={this.state.showModal}
                           closeEmailModal={() => this.closeEmailModal()}
                           handleUpdateEmails={this.handleUpdateEmails}
-                          finishedUpdatingEmails={this.props.finishedUpdatingEmails}
                           dataSource={emailsToPass}
                         />
                         <ServiceRequestsTable dataSource={this.props.serviceRequestsEmailsList}/>
@@ -191,8 +191,7 @@ const mapStateToProps = state => {
         userAdminOfficeList: state.auth.adminOfficeList,
         serviceRequestsList: state.officeAdmin.serviceRequestsList,
         serviceRequestsEmailsList: state.officeAdmin.serviceRequestsEmailsList,
-        currentOfficeUID: state.general.currentOfficeAdminUID,
-        finishedUpdatingEmails: state.officeAdmin.finishedUpdatingEmails
+        currentOfficeUID: state.general.currentOfficeAdminUID
     }
 };
 
@@ -200,7 +199,6 @@ const mapDispatchToProps = dispatch => {
     return {
         loadServiceRequests: (officeUID) => dispatch(actionCreator.loadServiceRequests(officeUID)),
         loadServiceRequestsEmails: (officeUID) => dispatch(actionCreator.loadServiceRequestsEmails(officeUID)),
-        //updateEmails: (payload) => dispatch(actionCreator.updateEmails(payload)),
         editServiceRequestsEmails: (payload) => dispatch(actionCreator.editServiceRequestEmailsForOfficeAdmin(payload)),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
     }

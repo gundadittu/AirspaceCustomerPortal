@@ -32,7 +32,8 @@ export const editServiceRequestEmailsForOfficeAdmin = (payload) => {
         type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS,
         payload: {
             selectedOfficeUID: payload.selectedOfficeUID,
-            updatedEmails: payload.updatedEmails
+            updatedEmails: payload.updatedEmails,
+            hideForm: payload.hideForm
         }
     };
 }

@@ -143,7 +143,8 @@ class ServiceRequestsPage extends React.Component {
 
         const payload = {
             selectedOfficeUID: currentOfficeUID,
-            updatedEmails: rawEmails
+            updatedEmails: rawEmails,
+            hideForm: () => this.closeEmailModal()
         }
 
         this.props.editServiceRequestsEmails(payload);

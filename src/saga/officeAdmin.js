@@ -400,7 +400,7 @@ function* editServiceRequestsEmailsWorkerSaga(action) {
         const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;
         const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
-        console.log(payload, userAdminOfficeList)
+        console.log(payload)
         validatePermission(selectedOfficeUID, userAdminOfficeList);
 
         let firebase = yield select(selectors.firebase);
@@ -413,7 +413,6 @@ function* editServiceRequestsEmailsWorkerSaga(action) {
         });
 
         const newPayload = { hideForm: payload.hideForm }
-        console.log("NEW PAYLOAD ", newPayload)
         yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
@@ -458,7 +457,7 @@ function* editServiceRequestsStatusWorkerSaga(action) {
         const response = yield call(editStatus, action.payload, firebase);
 
         notification['success']({
-            message: 'Successfully edited emails.',
+            message: 'Successfully edited service request status.',
             description: null
         });
 

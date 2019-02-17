@@ -11,14 +11,10 @@ const moment = require('moment');
 class ServiceRequestsTable extends React.Component {
   state = {
     searchText: '',
+    emails: {},
     editRoomFormVisible: false,
     selectedRoom: null,
   };
-
-  Issue
-  type
-  Status
-  Notified
 
   data = [{
       key: '1',
@@ -82,18 +78,35 @@ class ServiceRequestsTable extends React.Component {
       </span>
     ),
     filters: [
-      { text: 'Arrived', value: true},
-      { text: 'Not Arrived', value: false},
+      { text: 'open', value: 'open'},
+      { text: 'pending', value: 'pending'},
+      { text: 'closed', value: 'closed'}
     ],
-     onFilter: (value, record) => record.arrived.toString() == value,
+     onFilter: (value, record) => record.status == value,
   },
   {
     title: 'Notified',
-    dataIndex: 'notified',
-    key: 'notified',
-    render: (email) => (
-      <span>{email}</span>
-    )
+    dataIndex: 'issueType',
+    key: 'issueType',
+    render: (issue) => {
+      const emails = this.props.dataSource[issue.type]
+      if (emails){
+        return <div>
+          {
+            emails.map((email) => {
+              const isLongTag = email.length > 20;
+              const tagElem = (
+                <Tag key={email}  color="blue">
+                  {isLongTag ? `${email.slice(0, 20)}...` : email}
+                </Tag>
+              );
+
+              return tagElem
+            })
+          }
+        </div>
+      }
+    }
   },
   {
     title: '',
@@ -177,67 +190,9 @@ class ServiceRequestsTable extends React.Component {
     this.setState({ editRoomFormVisible: false, selectedRoom: null });
   }
 
-  handleCreateEditRoom = () => {
-    const editRoomForm = this.editRoomFormRef.props.form;
-    editRoomForm.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-
-      const roomName = values.roomName;
-      const standardAmenities = values.standardAmenities;
-      let reserveable = false;
-      if (values.reserveable.includes('reserveable') === true) {
-        reserveable = true;
-      }
-      let activeStatus = false;
-      if (values.activeStatus === 'active') {
-        activeStatus = true;
-      }
-      // const customAmenities = values.customAmenities;
-      const capacity = values.capacity;
-      let photoFileObj = null;
-      const uploadPhotoDict = values.uploadPhoto || null;
-      if (uploadPhotoDict) {
-        const value = uploadPhotoDict[0];
-        const fileObj = value.originFileObj;
-        photoFileObj = fileObj;
-      }
-
-      const payload = {
-        selectedRoomUID: this.state.selectedRoom.uid,
-        roomName: roomName,
-        capacity: capacity,
-        standardAmenities: standardAmenities,
-        // customAmenities: customAmenities,
-        reserveable: reserveable,
-        activeStatus: activeStatus,
-        photoFileObj: photoFileObj,
-        hideForm: this.hideEditRoomForm,
-        selectedOfficeUID: this.props.currentOfficeUID
-      }
-      this.props.editConferenceRoom(payload);
-    });
-  }
-
-  handleCancelEditRoom = () => {
-    this.hideEditRoomForm()
-  }
-
-  saveEditRoomFormRef = (form) => {
-    this.editRoomFormRef = form
-  }
-
   render() {
     return (
       <div>
-        <EditRoomForm
-          wrappedComponentRef={(form) => this.saveEditRoomFormRef(form)}
-          visible={this.state.editRoomFormVisible}
-          onCancel={this.handleCancelEditRoom}
-          onCreate={this.handleCreateEditRoom}
-          confirmLoading={this.props.editRoomFormLoading}
-        />
         <Table
           columns={this.columns}
           dataSource={this.props.serviceRequestsList}

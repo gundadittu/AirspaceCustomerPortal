@@ -153,6 +153,7 @@ class ServiceRequestsPage extends React.Component {
     }
 
     render() {
+        var emailsToPass = this.reverse_format(this.props.serviceRequestsEmailsList)
         return (
             <div>
                 <Row>
@@ -172,9 +173,9 @@ class ServiceRequestsPage extends React.Component {
                           closeEmailModal={() => this.closeEmailModal()}
                           handleUpdateEmails={this.handleUpdateEmails}
                           finishedUpdatingEmails={this.props.finishedUpdatingEmails}
-                          dataSource={this.reverse_format(this.props.serviceRequestsEmailsList)}
+                          dataSource={emailsToPass}
                         />
-                        <ServiceRequestsTable />
+                        <ServiceRequestsTable dataSource={this.props.serviceRequestsEmailsList}/>
                     </Col>
                 </Row>
             </div>

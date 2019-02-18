@@ -78,6 +78,7 @@ class SideNavBar extends React.Component {
             >
               <MenuItemGroup key="g2" title="">
                 <Menu.Item key="home">{<span><Icon type="home" /><span>Home</span></span>}</Menu.Item>
+                <Menu.Item key="announcements">{<span><Icon type="notification" /><span>Announcements</span></span>}</Menu.Item>
                 <Menu.Item key={pageTitles.userPageOfficeAdmin} >
                   <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/users'}>
                     {<span><Icon type="user" /><span>Users</span></span>}

@@ -73,7 +73,7 @@ formatDate(date){
       { text: 'Supplies', value: 'supplies'},
       { text: 'Other', value: 'other'},
     ],
-    onFilter: (value, record) => false */
+    onFilter: (value, record) => console.log("HERE")*/
   },
   {
     title: 'Status',

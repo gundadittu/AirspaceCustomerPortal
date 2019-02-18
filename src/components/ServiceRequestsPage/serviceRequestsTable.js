@@ -36,21 +36,19 @@ class ServiceRequestsTable extends React.Component {
     notified: "polsky_handyman@gmail.com",
 }]
 
+capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+formatDate(date){
+  var description = moment(date).format('ddd MMM DD, YYYY') + ": ";
+  description += (moment(date).format('hh:mm a'));
+  return description;
+}
+
   columns = [{
     title: 'Issue',
     dataIndex: 'note',
-    sorter: (a, b) => {
-      const aName = a.name;
-      const bName = b.name;
-      if (aName < bName) {
-        return -1;
-      } else if (aName > bName) {
-        return 1;
-      } else {
-        return 0
-      }
-    },
-    sortDirections: ['descend', 'ascend'],
   },
   {
     title: 'Type',
@@ -58,11 +56,24 @@ class ServiceRequestsTable extends React.Component {
     key: 'issueType',
     render: (typeObj) => {
         return (
-          <span>
+          <span key={typeObj.type}>
             <Tag color="blue">{typeObj.title ? typeObj.title.title : typeObj.type}</Tag>
           </span>
         )
-    }
+    }/*,
+    filters: [
+      { text: 'IT', value: 'it'},
+      { text: 'Plumbing', value: 'plumbing'},
+      { text: 'Lighting', value: 'lighting'},
+      { text: 'General Maintenance', value: 'generalMaintenance'},
+      { text: 'Furniture', value: 'furniture'},
+      { text: 'Door', value: 'door'},
+      { text: 'Heating/Cooling', value: 'heatingCooling'},
+      { text: 'Cleaning', value: 'cleaning'},
+      { text: 'Supplies', value: 'supplies'},
+      { text: 'Other', value: 'other'},
+    ],
+    onFilter: (value, record) => false */
   },
   {
     title: 'Status',
@@ -71,16 +82,16 @@ class ServiceRequestsTable extends React.Component {
     render: (status) => (
       <span>
         {
-          status=='open' ? <Tag color={'green'} key={status}>{status}</Tag> :
-          status=='pending' ? <Tag color={'volcano'} key={status}>{status}</Tag> :
-          <Tag color={'red'} key={status}>{status}</Tag>
+          status=='open' ? <Tag color={'green'} key={status}>{this.capitalizeFirstLetter(status)}</Tag> :
+          status=='pending' ? <Tag color={'volcano'} key={status}>In Progress</Tag> :
+          <Tag color={'red'} key={status}>{this.capitalizeFirstLetter(status)}</Tag>
         }
       </span>
     ),
     filters: [
-      { text: 'open', value: 'open'},
-      { text: 'pending', value: 'pending'},
-      { text: 'closed', value: 'closed'}
+      { text: 'Open', value: 'open'},
+      { text: 'In Progress', value: 'pending'},
+      { text: 'Closed', value: 'closed'}
     ],
      onFilter: (value, record) => record.status == value,
   },
@@ -109,6 +120,16 @@ class ServiceRequestsTable extends React.Component {
     }
   },
   {
+    title: 'Date',
+    dataIndex: 'timestamp',
+    key: 'timestamp',
+    render: (time) => (
+      <span>
+        {this.formatDate(time)}
+      </span>
+    )
+  },
+  {
     title: '',
     dataIndex: 'uid',
     key: 'more',
@@ -133,15 +154,15 @@ class ServiceRequestsTable extends React.Component {
       </Menu.Item>
       <Menu.Divider />
         <Menu.Item key="open">
-          <Tag color={'green'} key='open'>open</Tag>
+          <Tag color={'green'} key='open'>Open</Tag>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="pending">
-          <Tag color={'volcano'} key='pending'>pending</Tag>
+          <Tag color={'volcano'} key='pending'>In Progress</Tag>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="closed">
-          <Tag color={'red'} key='closed'>closed</Tag>
+          <Tag color={'red'} key='closed'>Closed</Tag>
         </Menu.Item>
       </Menu>
     );
@@ -186,6 +207,9 @@ class ServiceRequestsTable extends React.Component {
       }
     });
     this.setState({ editRoomFormVisible: false, selectedRoom: null });
+  }
+  componentDidMount() {
+    console.log(this.props.serviceRequestsList)
   }
 
   render() {

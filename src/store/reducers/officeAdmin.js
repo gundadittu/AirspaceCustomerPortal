@@ -121,7 +121,6 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, {finishedUpdatingEmails: false, isLoadingServiceRequestsEmailsData: true});
         case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS:
             const editEmailsPayload = action.payload;
-            console.log(editEmailsPayload)
             editEmailsPayload.hideForm();
             return updateObject(state, { finishedUpdatingEmails: true, isLoadingServiceRequestsEmailsData: false });
         case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_ERROR:

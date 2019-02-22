@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, Modal } from 'antd';
+import { Row, Col, Card, Modal, Spin} from 'antd';
 import EditEventForm from './editEventForm.js'
 import '../../App.css'
 import * as actionCreator from '../../store/actions/officeAdmin';
@@ -12,7 +12,9 @@ class EventCard extends React.Component {
 
   state = {
     showModal: false,
-    showInfo: true
+    showInfo: true,
+    loadingImage: true,
+    loadingModalImage: true
   };
 
   calcDate(date) {
@@ -26,6 +28,17 @@ class EventCard extends React.Component {
     return description;
   }
 
+  completeLoad = () => {
+    this.setState({
+      loadingImage: false
+    })
+  }
+  completeLoadExpanded = () => {
+    this.setState({
+      loadModalImage: false
+    })
+  }
+
   handleEditEvent = () => {
 
     if (this.state.showInfo === true) {
@@ -34,7 +47,7 @@ class EventCard extends React.Component {
         showInfo: false
       });
     } else if (this.state.showInfo === false) {
-      // submit edit changes 
+      // submit edit changes
 
       const editEventForm = this.editEventFormRef.props.form;
       editEventForm.validateFields((err, values) => {
@@ -46,15 +59,15 @@ class EventCard extends React.Component {
 
         const eventTitle = values.eventName;
         const description = values.description;
-        
+
         const timeRange = values.eventTimeRange;
         if (Object.keys(timeRange).length < 2) {
-          // handle error 
+          // handle error
           return
         }
         const startDate = timeRange[0]._d;
         const endDate = timeRange[1]._d;
-        const canceled = (values.cancelStatus.includes('cancelled') === true) ? true : false; 
+        const canceled = (values.cancelStatus.includes('cancelled') === true) ? true : false;
 
         let photoFileObj = null;
         const uploadPhotoDict = values.uploadPhoto || null;
@@ -65,18 +78,18 @@ class EventCard extends React.Component {
         }
 
         const selectedEventUID = this.props.event.uid;
-        if (selectedEventUID === null) { 
-          return 
-        } 
+        if (selectedEventUID === null) {
+          return
+        }
 
         const payload = {
-          selectedEventUID: selectedEventUID, 
+          selectedEventUID: selectedEventUID,
           eventTitle: eventTitle,
           description: description,
           startDate: startDate,
           endDate: endDate,
           photoFileObj: photoFileObj,
-          canceled: canceled, 
+          canceled: canceled,
           selectedOfficeUID: currentOfficeUID,
           hideForm: this.handleFinishedEditEventRequest
         }
@@ -99,7 +112,7 @@ class EventCard extends React.Component {
         showModal: false,
       });
     } else {
-      // if currently editing, switch back to info mode 
+      // if currently editing, switch back to info mode
       this.setState({
         showInfo: true
       });
@@ -135,12 +148,16 @@ class EventCard extends React.Component {
 
               (<Row gutter={16}>
                 <Col span={8}>
+                <Spin tip="Loading..." spinning={this.state.loadModalImage}>
                   <Card
-                    cover={<img alt="Event Photo" src={event.imageURL} />}
+                    cover={<img alt="Event Photo" src={event.imageURL}
+                    onLoad={this.completeLoadExpanded}
+                    />}
                     onClick={this.handleCardSelection}
-                    bordered={true}
+                    bordered={false}
                   >
                   </Card>
+                </Spin>
                 </Col>
                 <Col span={16}>
                   <div>
@@ -159,22 +176,28 @@ class EventCard extends React.Component {
             <EditEventForm
               wrappedComponentRef={(form) => this.saveEditEventFormRef(form)}
               visible={showEditForm}
+
               event={event}
               confirmLoading={this.props.editEventFormLoading}
             />
           </Modal>
-
-          <Card
-            bordered={false}
-            hoverable
-            cover={<img alt="Event Photo" src={event.imageURL} />}
-            onClick={this.handleCardSelection}
-          >
-            <Meta
-              title={event.title}
-              description={this.formatDate(event)}
-            />
-          </Card>
+          <Spin tip="Loading..." spinning={this.state.loadingImage}>
+            <Card
+              bordered={false}
+              visible={false}
+              hoverable
+              cover={<img
+                alt="Event Photo" src={event.imageURL}
+                onLoad={this.completeLoad}
+                />}
+              onClick={this.handleCardSelection}
+            >
+              <Meta
+                title={event.title}
+                description={this.formatDate(event)}
+              />
+            </Card>
+          </Spin>
         </Col>
       </div>
     )
@@ -189,7 +212,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return { 
+  return {
     editEvent: (payload) => dispatch(actionCreator.editEvent(payload))
   }
 }

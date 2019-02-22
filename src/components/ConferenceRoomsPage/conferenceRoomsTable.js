@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Dropdown, Menu, Table, Tag } from 'antd';
 // import Highlighter from 'react-highlight-words';
 import IconButton from '@material-ui/core/IconButton';
-import MoreIcon from '@material-ui/icons/MoreHoriz';
+import EditIcon from '@material-ui/icons/Edit';
 import EditRoomForm from './editRoomForm.js'
 import * as actionCreator from '../../store/actions/officeAdmin';
 
@@ -66,14 +66,15 @@ class ConferenceRoomsTable extends React.Component {
     dataIndex: 'uid',
     key: 'more',
     render: (roomUID) => (
-      <Dropdown overlay={() => this.editMenu(roomUID)} trigger={['click']}>
-        <IconButton>
-          <MoreIcon />
-        </IconButton>
-      </Dropdown>
+      <IconButton onClick={() => this.handleEditMenuClick(roomUID)}>
+        <EditIcon />
+      </IconButton>
     ),
   }];
 
+  /*
+  got rid of edit room menu
+  
   editMenu = (roomUID) => {
     return (
       <Menu
@@ -86,9 +87,9 @@ class ConferenceRoomsTable extends React.Component {
       </Menu>
     );
   }
+  */
 
-  handleEditMenuClick = (e, roomUID) => {
-    const key = e.key;
+  handleEditMenuClick = (roomUID) => {
     const roomsList = this.props.dataSource;
 
     // Get selected room object
@@ -110,8 +111,10 @@ class ConferenceRoomsTable extends React.Component {
       return
     }
 
-    if (key === 'edit') {
+    if (roomUID) {
       const editRoomForm = this.editRoomFormRef.props.form;
+      const imgUrl = selectedRoom.imageURL
+
       editRoomForm.setFields({
         roomName: {
           value: selectedRoom.name
@@ -129,7 +132,7 @@ class ConferenceRoomsTable extends React.Component {
           value: (selectedRoom.active) ? 'active' : 'inactive'
         },
         uploadPhoto: {
-          value: null // populate?
+          fileList: null // populate?
         },
         keys: {
           value: null // populate?

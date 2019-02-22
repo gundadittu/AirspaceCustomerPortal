@@ -34,6 +34,10 @@ var AirServiceRequestType = {
     supplies: {
       rawValue: 'supplies',
       title: 'Supplies'
+    },
+    other: {
+      rawValue: 'other',
+      title: 'Other'
     }
 }
 

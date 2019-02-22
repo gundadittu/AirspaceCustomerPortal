@@ -43,7 +43,7 @@ class EditRoomForm extends React.Component {
     }
   }
 
-  roomPhotoFile = (e) => { 
+  roomPhotoFile = (e) => {
     if (Array.isArray(e)) {
       this.setState({fileList: e});
       return e;
@@ -116,8 +116,8 @@ class EditRoomForm extends React.Component {
     //   </Form.Item>
     // ));
 
-    let uploadDisabled = false; 
-    if (this.state.fileList.length >= 1) { 
+    let uploadDisabled = false;
+    if (this.state.fileList.length >= 1) {
       uploadDisabled = true;
     }
 

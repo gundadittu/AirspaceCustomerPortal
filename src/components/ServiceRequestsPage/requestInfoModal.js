@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, Modal, Spin} from 'antd';
+import { Button, Row, Col, Card, Modal, Spin, Comment, Tag} from 'antd';
 import '../../App.css'
+import StaticRequestPhoto from "../../assets/images/service_request.png";
 import * as actionCreator from '../../store/actions/officeAdmin';
 const moment = require('moment');
 
@@ -39,30 +40,46 @@ class ReqestInfoModal extends React.Component {
           >
             <Col span={24}>
               <Col span={8}>
-                Image
+                <Card
+                  cover={<img alt="Request Photo" src={StaticRequestPhoto} />}
+                  bordered={false}
+                />
               </Col>
-              <Col span={8}>
+              <Col span={12}>
                 <Row >
-                  {request.uid}
+                  <h3>ID: {request.uid}</h3>
                 </Row>
                 <Row >
                   Time
                 </Row>
                 <Row >
-                  {request.issueType.title.title}
+                  <Col span={12}>
+                    <h3>Request Type:</h3>
+                  </Col>
+                  <Col span={12}>
+                     <Tag color="blue">{request.issueType.title.title}</Tag>
+                  </Col>
                 </Row>
               </Col>
-              <Col span={8}>
-                {request.status}
+              <Col span={4} align='right'>
+                {request.status=='open' ? <Tag color={'green'} key={request.status}>Open</Tag> :
+                request.status=='pending' ? <Tag color={'volcano'} key={request.status}>In Progress</Tag> :
+                <Tag color={'red'} key={request.status}>Closed</Tag>}
               </Col>
             </Col>
             <Col span={24}>
-              {request.note}
+              <h3>Note: {request.note}</h3>
             </Col>
             <Col span={24}>
-              notified
-              resend
+              <h3>Notified:</h3>
+              {this.props.emailsToPass[request.issueType.title.rawValue].map((email) => (
+                <Tag key={email} closable={false} color="blue">
+                  {email.length > 20 ? `${email.slice(0, 20)}...` : email}
+                </Tag>
+              ))}
+              {console.log(this.props.emailsToPass[request.issueType.title.rawValue])}
             </Col>
+            <Button type="primary">Resend</Button>
           </Modal>
         </div>
       )

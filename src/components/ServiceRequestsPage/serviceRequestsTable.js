@@ -29,8 +29,13 @@ formatDate(date){
 }
 
   columns = [{
-    title: 'ID',
+    title: 'Request ID',
     dataIndex: 'uid',
+    render: (requestID) => (
+      <span>
+        {requestID.slice(0, 6)}
+      </span>
+    )
   },
   {
     title: 'Date',
@@ -130,14 +135,14 @@ formatDate(date){
   handleEditMenuClick = (e, request) => {
     const key = e.key;
     if (key == 'showInfo'){
-      
+
       this.setState({
         showInfoModal: true,
         selectedRequest: request
       })
 
     } else {
-      const roomsList = this.props.dataSource;
+      const roomsList = this.props.emailsToPass;
       var payload = {
         selectedServiceRequestUID: request.UID,
         newStatus: e.key
@@ -189,7 +194,7 @@ formatDate(date){
     return (
       <div>
         <RequestInfoModal selectedRequest={this.state.selectedRequest} showInfoModal={this.state.showInfoModal}
-          cancelInfoModal={this.cancelInfoModal}
+          cancelInfoModal={this.cancelInfoModal} emailsToPass={this.props.emailsToPass}
         />
         <Table
           columns={this.columns}

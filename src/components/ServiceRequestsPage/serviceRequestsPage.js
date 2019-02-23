@@ -176,7 +176,7 @@ class ServiceRequestsPage extends React.Component {
                           handleUpdateEmails={this.handleUpdateEmails}
                           dataSource={emailsToPass}
                         />
-                        <ServiceRequestsTable dataSource={this.props.serviceRequestsEmailsList}/>
+                        <ServiceRequestsTable emailsToPass={this.props.serviceRequestsEmailsList}/>
                     </Col>
                 </Row>
             </div>

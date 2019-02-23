@@ -4,7 +4,7 @@ import { Dropdown, Menu, Table, Tag, Icon} from 'antd';
 // import Highlighter from 'react-highlight-words';
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
-import EditRoomForm from '../ConferenceRoomsPage/editRoomForm.js'
+import RequestInfoModal from '../ServiceRequestsPage/requestInfoModal.js'
 import * as actionCreator from '../../store/actions/officeAdmin';
 const moment = require('moment');
 const SubMenu = Menu.SubMenu;
@@ -14,28 +14,9 @@ class ServiceRequestsTable extends React.Component {
     searchText: '',
     emails: {},
     editRoomFormVisible: false,
-    selectedRoom: null,
+    showInfoModal: false,
+    selectedRequest: null,
   };
-
-  data = [{
-      key: '1',
-      issue: 'Men\'s bathroom on the third floor is clogged',
-      type: "Plumbing",
-      status: 'pending',
-      notified: "polsky_plumber@uchicago.edu",
-    }, {
-      key: '2',
-      issue: 'There is a broken table in the co-working space on the second floor',
-      type: "Furniture",
-      status: 'closed',
-      notified: "polsky_handyman@gmail.com",
-  }, {
-    key: '2',
-    issue: 'Half the lightbulbs in the back of the room do not work',
-    type: "Lighting",
-    status: 'open',
-    notified: "polsky_handyman@gmail.com",
-}]
 
 capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -108,10 +89,10 @@ formatDate(date){
   },
   {
     title: '',
-    dataIndex: 'uid',
+    dataIndex: '',
     key: 'more',
-    render: (roomUID) => (
-      <Dropdown overlay={() => this.editMenu(roomUID)} trigger={['click']}>
+    render: (request) => (
+      <Dropdown overlay={() => this.editMenu(request)} trigger={['click']}>
         <IconButton>
           <MoreIcon />
         </IconButton>
@@ -120,33 +101,10 @@ formatDate(date){
   }
 ];
 
-  satusMenu = (roomUID) => {
+  editMenu = (request) => {
     return (
       <Menu
-        onClick={(e) => this.handleEditMenuClick(e, roomUID)}
-        style={{ textAlign: 'left', border: 0 }}
-      >
-        <Menu.Divider />
-        <Menu.Item key="open">
-          <Tag color={'green'} key='open'>Open</Tag>
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="pending">
-          <Tag color={'volcano'} key='pending'>In Progress</Tag>
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="closed">
-          <Tag color={'red'} key='closed'>Closed</Tag>
-        </Menu.Item>
-      </Menu>
-
-    )
-  }
-
-  editMenu = (roomUID) => {
-    return (
-      <Menu
-        onClick={(e) => this.handleEditMenuClick(e, roomUID)}
+        onClick={(e) => this.handleEditMenuClick(e, request)}
         style={{ textAlign: 'left', border: 0 }}
       >
         <SubMenu key="edit" title={<span>Edit Status</span>}>
@@ -169,14 +127,19 @@ formatDate(date){
     );
   }
 
-  handleEditMenuClick = (e, serviceUID) => {
+  handleEditMenuClick = (e, request) => {
     const key = e.key;
     if (key == 'showInfo'){
+      
+      this.setState({
+        showInfoModal: true,
+        selectedRequest: request
+      })
 
     } else {
       const roomsList = this.props.dataSource;
       var payload = {
-        selectedServiceRequestUID: serviceUID,
+        selectedServiceRequestUID: request.UID,
         newStatus: e.key
       }
 
@@ -184,6 +147,11 @@ formatDate(date){
     }
   }
 
+  cancelInfoModal = () => {
+    this.setState({
+      showInfoModal: false
+    })
+  }
 
   hideEditRoomForm = () => {
     const editRoomForm = this.editRoomFormRef.props.form;
@@ -220,6 +188,9 @@ formatDate(date){
   render() {
     return (
       <div>
+        <RequestInfoModal selectedRequest={this.state.selectedRequest} showInfoModal={this.state.showInfoModal}
+          cancelInfoModal={this.cancelInfoModal}
+        />
         <Table
           columns={this.columns}
           dataSource={this.props.serviceRequestsList}

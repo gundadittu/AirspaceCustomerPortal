@@ -77,7 +77,11 @@ class SideNavBar extends React.Component {
               className="airspace-side-nav-bar"
             >
               <MenuItemGroup key="g2" title="">
-                <Menu.Item key="home">{<span><Icon type="home" /><span>Home</span></span>}</Menu.Item>
+                <Menu.Item key={pageTitles.homePageOfficeAdmin}>
+                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/home'}>
+                    {<span><Icon type="home" /><span>Home</span></span>}
+                  </Link>
+                </Menu.Item>
                 <Menu.Item key="announcements">{<span><Icon type="notification" /><span>Announcements</span></span>}</Menu.Item>
                 <Menu.Item key={pageTitles.userPageOfficeAdmin} >
                   <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/users'}>

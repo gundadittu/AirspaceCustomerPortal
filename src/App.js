@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
 import SideNavbar from './components/SideNavBar/sidenavbar';
+import HomeAdminPage from './components/HomeAdminPage/homeAdminPage';
 import UsersPage from './components/UsersPage/usersPage';
 import ConferenceRoomsPage from './components/ConferenceRoomsPage/conferenceRoomPage';
 import HotDesksPage from './components/HotDesksPage/hotDesksPage.js';
@@ -120,6 +121,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
 const officeAdminRoutingComp = () => (
     <Switch>
       <Route exact path='/officeAdmin/:officeUID' component={UsersPage}></Route>
+      <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>

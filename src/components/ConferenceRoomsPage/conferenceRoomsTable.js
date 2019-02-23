@@ -11,7 +11,7 @@ class ConferenceRoomsTable extends React.Component {
   state = {
     searchText: '',
     editRoomFormVisible: false,
-    selectedRoom: null,
+    selectedRoom: null
   };
 
   columns = [{
@@ -74,7 +74,7 @@ class ConferenceRoomsTable extends React.Component {
 
   /*
   got rid of edit room menu
-  
+
   editMenu = (roomUID) => {
     return (
       <Menu
@@ -114,6 +114,7 @@ class ConferenceRoomsTable extends React.Component {
     if (roomUID) {
       const editRoomForm = this.editRoomFormRef.props.form;
       const imgUrl = selectedRoom.imageURL
+      //this.editRoomFormRef.setState({ fileList: [imgUrl] });
 
       editRoomForm.setFields({
         roomName: {
@@ -132,7 +133,7 @@ class ConferenceRoomsTable extends React.Component {
           value: (selectedRoom.active) ? 'active' : 'inactive'
         },
         uploadPhoto: {
-          fileList: null // populate?
+          fileList: [imgUrl] // populate?
         },
         keys: {
           value: null // populate?

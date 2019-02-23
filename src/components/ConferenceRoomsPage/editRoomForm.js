@@ -44,12 +44,17 @@ class EditRoomForm extends React.Component {
   }
 
   roomPhotoFile = (e) => {
+    console.log("Here ", e)
     if (Array.isArray(e)) {
       this.setState({fileList: e});
       return e;
     }
     this.setState({fileList: (e.fileList || e)});
     return e && e.fileList;
+  }
+
+  componentDidMount() {
+    console.log("Props: ", this.props.uploadedFileProp)
   }
 
   render() {

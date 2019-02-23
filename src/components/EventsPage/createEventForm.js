@@ -97,6 +97,13 @@ class CreateEventForm extends React.Component {
               <RangePicker showTime format="MMMM Do YYYY, h:mm:ss a"  disabled={confirmLoading}/>
             )}
           </Form.Item>
+          <Form.Item label="Event Address">
+            {getFieldDecorator('eventAddress', {
+              rules: [{ required: true, whitespace: true, message: 'Please input the event\'s address.' }],
+            })(
+              <Input defaultValue="26888888" />
+            )}
+          </Form.Item>
           <Form.Item label="Description">
             {getFieldDecorator('description', {
               rules: [{ required: true, whitespace: true, message: 'Please input a description.' }],

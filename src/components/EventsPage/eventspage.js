@@ -23,7 +23,8 @@ class EventsPage extends React.Component {
 
   state = {
     currentList : 'upcoming',
-    createEventFormVisible: false
+    createEventFormVisible: false,
+    officeObj: null
   }
 
   componentDidMount() {
@@ -39,6 +40,9 @@ class EventsPage extends React.Component {
 
             if (value.uid === selectedOfficeUID) {
                 officeObj = value;
+                this.setState({
+                  officeObj: officeObj
+                })
             }
         }
 
@@ -77,13 +81,13 @@ class EventsPage extends React.Component {
           const description = values.description;
 
           const timeRange = values.eventTimeRange;
-          if (Object.keys(timeRange).length < 2) { 
-            // handle error 
-            return 
+          if (Object.keys(timeRange).length < 2) {
+            // handle error
+            return
           }
-          const startDate = timeRange[0]._d; 
-          const endDate = timeRange[1]._d; 
-     
+          const startDate = timeRange[0]._d;
+          const endDate = timeRange[1]._d;
+
           let photoFileObj = null;
           const uploadPhotoDict = values.uploadPhoto || null;
           if (uploadPhotoDict) {
@@ -96,12 +100,12 @@ class EventsPage extends React.Component {
               eventTitle: eventTitle,
               description: description,
               startDate: startDate,
-              endDate: endDate, 
+              endDate: endDate,
               photoFileObj: photoFileObj,
               selectedOfficeUID: currentOfficeUID,
               hideForm: this.hideCreateEventFormModal
           }
-          
+
           this.props.createEvent(payload);
       })
   }
@@ -127,7 +131,7 @@ class EventsPage extends React.Component {
       }
   }
 
-  handleRefresh = () => { 
+  handleRefresh = () => {
       this.props.loadEvents(this.props.currentOfficeAdminUID);
   }
 
@@ -148,6 +152,7 @@ class EventsPage extends React.Component {
                       onCancel={this.handleCancelCreateEvent}
                       onCreate={this.handleCreateEvent}
                       confirmLoading={this.props.addEventFormLoading}
+                      address={this.state.officeObj ? this.state.officeObj.building.address : 'invalid'}
                   />
                   <Menu
                       onClick={(e) => this.handleClick(e)}

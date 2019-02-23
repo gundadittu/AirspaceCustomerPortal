@@ -7,6 +7,7 @@ import MoreIcon from '@material-ui/icons/MoreHoriz';
 import EditRoomForm from '../ConferenceRoomsPage/editRoomForm.js'
 import * as actionCreator from '../../store/actions/officeAdmin';
 const moment = require('moment');
+const SubMenu = Menu.SubMenu;
 
 class ServiceRequestsTable extends React.Component {
   state = {
@@ -47,8 +48,18 @@ formatDate(date){
 }
 
   columns = [{
-    title: 'Issue',
-    dataIndex: 'note',
+    title: 'ID',
+    dataIndex: 'uid',
+  },
+  {
+    title: 'Date',
+    dataIndex: 'timestamp',
+    key: 'timestamp',
+    render: (time) => (
+      <span>
+        {this.formatDate(time)}
+      </span>
+    )
   },
   {
     title: 'Type',
@@ -60,9 +71,9 @@ formatDate(date){
             <Tag color="blue">{typeObj.title ? typeObj.title.title : typeObj.type}</Tag>
           </span>
         )
-    }/*,
+    },
     filters: [
-      { text: 'IT', value: 'it'},
+      { text: 'IT', value: 'infoTech'},
       { text: 'Plumbing', value: 'plumbing'},
       { text: 'Lighting', value: 'lighting'},
       { text: 'General Maintenance', value: 'generalMaintenance'},
@@ -73,7 +84,7 @@ formatDate(date){
       { text: 'Supplies', value: 'supplies'},
       { text: 'Other', value: 'other'},
     ],
-    onFilter: (value, record) => console.log("HERE")*/
+    onFilter: (value, request) => (value == request.issueType.title.rawValue)
   },
   {
     title: 'Status',
@@ -96,40 +107,6 @@ formatDate(date){
      onFilter: (value, record) => record.status == value,
   },
   {
-    title: 'Notified',
-    dataIndex: 'issueType',
-    key: 'issueType',
-    render: (issue) => {
-      const emails = this.props.dataSource[issue.type]
-      if (emails){
-        return <div>
-          {
-            emails.map((email) => {
-              const isLongTag = email.length > 20;
-              const tagElem = (
-                <Tag key={email}  color="blue">
-                  {isLongTag ? `${email.slice(0, 20)}...` : email}
-                </Tag>
-              );
-
-              return tagElem
-            })
-          }
-        </div>
-      }
-    }
-  },
-  {
-    title: 'Date',
-    dataIndex: 'timestamp',
-    key: 'timestamp',
-    render: (time) => (
-      <span>
-        {this.formatDate(time)}
-      </span>
-    )
-  },
-  {
     title: '',
     dataIndex: 'uid',
     key: 'more',
@@ -143,16 +120,13 @@ formatDate(date){
   }
 ];
 
-  editMenu = (roomUID) => {
+  satusMenu = (roomUID) => {
     return (
       <Menu
         onClick={(e) => this.handleEditMenuClick(e, roomUID)}
         style={{ textAlign: 'left', border: 0 }}
       >
-      <Menu.Item key="edit">
-        Edit Status
-      </Menu.Item>
-      <Menu.Divider />
+        <Menu.Divider />
         <Menu.Item key="open">
           <Tag color={'green'} key='open'>Open</Tag>
         </Menu.Item>
@@ -165,18 +139,49 @@ formatDate(date){
           <Tag color={'red'} key='closed'>Closed</Tag>
         </Menu.Item>
       </Menu>
+
+    )
+  }
+
+  editMenu = (roomUID) => {
+    return (
+      <Menu
+        onClick={(e) => this.handleEditMenuClick(e, roomUID)}
+        style={{ textAlign: 'left', border: 0 }}
+      >
+        <SubMenu key="edit" title={<span>Edit Status</span>}>
+          <Menu.Item key="open">
+            <Tag color={'green'} key='open'>Open</Tag>
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item key="pending">
+            <Tag color={'volcano'} key='pending'>In Progress</Tag>
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item key="closed">
+            <Tag color={'red'} key='closed'>Closed</Tag>
+          </Menu.Item>
+        </SubMenu>
+        <Menu.Item key="showInfo">
+          Show Info
+        </Menu.Item>
+      </Menu>
     );
   }
 
   handleEditMenuClick = (e, serviceUID) => {
     const key = e.key;
-    const roomsList = this.props.dataSource;
-    var payload = {
-      selectedServiceRequestUID: serviceUID,
-      newStatus: e.key
-    }
+    if (key == 'showInfo'){
 
-    this.props.editServiceRequestStatusForOfficeAdmin(payload)
+    } else {
+      const roomsList = this.props.dataSource;
+      var payload = {
+        selectedServiceRequestUID: serviceUID,
+        newStatus: e.key
+      }
+
+      this.props.editServiceRequestStatusForOfficeAdmin(payload)
+    }
   }
 
 

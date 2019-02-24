@@ -258,7 +258,7 @@ function postAnnouncement(payload, firebase) {
     const message = payload.message;
     const dict = { selectedOfficeUID: selectedOfficeUID, message: message};
 
-    const apiCall = firebase.functions.httpsCallable('postAnnouncementForOfficeADmin');
+    const apiCall = firebase.functions.httpsCallable('postAnnouncementForOfficeAdmin');
     return apiCall(dict)
     .then( response => {
         console.log("Response for post announcement")

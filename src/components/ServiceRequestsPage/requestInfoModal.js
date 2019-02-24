@@ -75,8 +75,8 @@ class ReqestInfoModal extends React.Component {
               </Col>
               <Col span={1}/>
               <Col span={11} >
-                <h3>ID: {request.uid}</h3>
-                <span>Issued: {moment(request.timestamp).format('ddd MMM DD, YYYY')} at {moment(request.timestamp).format('hh:mm a')}</span>
+                <h3>ID: {request.uid.slice(0,6)}</h3>
+                <span>{moment(request.timestamp).format('ddd MMM DD, YYYY')} at {moment(request.timestamp).format('hh:mm a')}</span>
                 <h3>Request Type:</h3>
                 <Tag color="blue">{request.issueType.title.title}</Tag>
               </Col>

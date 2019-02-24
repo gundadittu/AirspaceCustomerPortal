@@ -18,11 +18,11 @@ export const loadAdminAnnouncements = (selectedOfficeUID) => {
     };
 }
 
-export const postAdminAnnouncement = (selectedfOfficeUID, message) => {
+export const postAdminAnnouncement = (selectedOfficeUID, message) => {
     return {
         type: actionTypes.POST_ADMIN_ANNOUNCEMENT,
         payload: {
-            selectedfOfficeUID: selectedfOfficeUID,
+            selectedOfficeUID: selectedOfficeUID,
             message: message
         }
     };

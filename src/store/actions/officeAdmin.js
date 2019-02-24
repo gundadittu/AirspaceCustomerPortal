@@ -9,6 +9,25 @@ export const loadOfficeUsers = (officeUID) => {
     };
 }
 
+export const loadAdminAnnouncements = (selectedOfficeUID) => {
+    return {
+        type: actionTypes.LOAD_ADMIN_ANNOUNCEMENTS,
+        payload: {
+            selectedOfficeUID: selectedOfficeUID
+        }
+    };
+}
+
+export const postAdminAnnouncement = (selectedfOfficeUID, message) => {
+    return {
+        type: actionTypes.POST_ADMIN_ANNOUNCEMENT,
+        payload: {
+            selectedfOfficeUID: selectedfOfficeUID,
+            message: message
+        }
+    };
+}
+
 export const loadServiceRequests = (officeUID) => {
     return {
         type: actionTypes.LOAD_SERVICE_REQUESTS,

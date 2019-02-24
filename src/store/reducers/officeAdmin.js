@@ -4,6 +4,7 @@ import * as pageTitles from '../../pages/pageTitles';
 
 const initialState = {
     userList: [],
+    announcementsList: [],
     activeRoomsList: [],
     inactiveRoomsList: [],
     guestsList: [],
@@ -13,6 +14,7 @@ const initialState = {
     inactiveDesksList: [],
     upcomingEventsList: [],
     pastEventsList: [],
+    isLoadingAnnouncementsData: false,
     isLoadingUserData: false,
     isLoadingRoomsData: false,
     isLoadingGuestsData: false,
@@ -85,6 +87,22 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { userList: userList, isLoadingUserData: false });
         case actionTypes.LOAD_OFFICE_USERS_ERROR:
             return updateObject(state, { isLoadingUserData: false });
+        //
+        case actionTypes.LOAD_ADMIN_ANNOUNCEMENTS:
+            return updateObject(state, { isLoadingAnnouncementsData: true });
+        case actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_SUCCESS:
+            const announcements = action.payload.announcements || null;
+            return updateObject(state, { announcementsList: announcements, isLoadingAnnouncementsData: false });
+        case actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_ERROR:
+            return updateObject(state, { isLoadingAnnouncementsData: false });
+
+        case actionTypes.POST_ADMIN_ANNOUNCEMENT:
+            return updateObject(state, {});
+        case actionTypes.POST_ADMIN_ANNOUNCEMENT_SUCCESS:
+            return updateObject(state, {});
+        case actionTypes.POST_ADMIN_ANNOUNCEMENT_ERROR:
+            return updateObject(state, {});
+        //
         case actionTypes.LOAD_CONFERENCE_ROOMS:
             return updateObject(state, { isLoadingRoomsData: true });
         case actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS:

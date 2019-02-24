@@ -8,6 +8,8 @@ const getPagePayload = (pageName, payload) => {
             return officeAdminHomePagePayload(officeUID, officeObj)
         case pageTitles.userPageOfficeAdmin:
             return officeAdminUsersPagePayload()
+        case pageTitles.announcementsPageOfficeAdmin:
+            return officeAdminAnnouncementsPagePayload()
         case pageTitles.conferenceRoomsPageOfficeAdmin:
             return officeAdminConferenceRoomsPagePayload()
         case pageTitles.hotDesksPageOfficeAdmin:
@@ -42,6 +44,12 @@ const officeAdminHomePagePayload = (officeUID, officeObj) => {
         currentOfficeAdminUID: officeUID,
         currentOfficeAdmin: officeObj,
         regularUserPortalMode: 'officeAdmin'
+    }
+}
+
+const officeAdminAnnouncementsPagePayload = () => {
+    return {
+        currentPage: pageTitles.announcementsPageOfficeAdmin,
     }
 }
 

@@ -18,6 +18,14 @@ export function* loadOfficeUsersWatchSaga() {
     yield takeLatest(actionTypes.LOAD_OFFICE_USERS, loadOfficeUsersWorkerSaga);
 }
 
+export function* loadAdminAnnouncementsWatchSaga() {
+    yield takeLatest(actionTypes.LOAD_ADMIN_ANNOUNCEMENTS, loadAdminAnnouncementsWorkerSaga);
+}
+
+export function* postAdminAnnouncementWatchSaga() {
+    yield takeLatest(actionTypes.POST_ADMIN_ANNOUNCEMENT, postAdminAnnouncementWorkerSaga);
+}
+
 export function* loadConferenceRoomsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_CONFERENCE_ROOMS, loadConferenceRoomsWorkerSaga);
 }
@@ -97,7 +105,7 @@ export function* getSpaceInfoForOfficeAdmin() {
 // Workers
 
 function validatePermission(selectedOfficeUID, userAdminOfficeList) {
-
+    console.log("Validate ", selectedOfficeUID, " vs ", userAdminOfficeList )
     if (userAdminOfficeList == null) {
         notification['error']({
             message: 'Permission denied.',
@@ -204,6 +212,91 @@ function* loadOfficeUsersWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_OFFICE_USERS_ERROR, payload: { error: error } });
     }
 }
+
+//
+function loadAdminAnnouncements(payload, firebase) {
+    const selectedOfficeUID = payload.selectedOfficeUID;
+    const apiCall = firebase.functions.httpsCallable('getAnnouncementsForOfficeAdmin')
+    const dict = {
+      selectedOfficeUID: selectedOfficeUID
+    }
+    console.log(dict)
+    return apiCall({ selectedOfficeUID: selectedOfficeUID })
+        .then(result => {
+            console.log("WHAT IS DATA ", result)
+            var userList = []
+            return result;
+        })
+}
+
+function* loadAdminAnnouncementsWorkerSaga(action) {
+  try {
+        const payload = action.payload;
+        const selectedOfficeUID = payload.selectedOfficeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(loadAdminAnnouncements, action.payload, firebase);
+        console.log("THIS IS THE RESPONSE OF LOAD ANNOUNCEMENTS ", response)
+        yield put({ type: actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_SUCCESS, payload: { announcements: response.data } });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to load Announcements for this office.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_ERROR, payload: { error: error } });
+    }
+}
+
+
+function postAnnouncement(payload, firebase) {
+    const selectedOfficeUID = payload.selectedOfficeUID;
+    const message = payload.message;
+    const dict = { selectedOfficeUID: selectedOfficeUID, message: message};
+
+    const apiCall = firebase.functions.httpsCallable('postAnnouncementForOfficeADmin');
+    return apiCall(dict)
+    .then( response => {
+        console.log("Response for post announcement")
+    })
+}
+
+function* postAdminAnnouncementWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        const selectedOfficeUID = payload.selectedOfficeUID;
+        const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        validatePermission(selectedOfficeUID, userAdminOfficeList);
+
+        let firebase = yield select(selectors.firebase);
+
+        const response = yield call(postAnnouncement, action.payload, firebase);
+
+        notification['success']({
+            message: 'Successfully posted announcement.',
+            description: null
+        });
+
+        const newPayload = {}
+        yield put({ type: actionTypes.POST_ADMIN_ANNOUNCEMENT_SUCCESS, payload: { ...newPayload } });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to post announcement for this office.',
+            description: error.message
+        });
+
+        const payload = action.payload;
+        const newPayload = {}
+        yield put({ type: actionTypes.POST_ADMIN_ANNOUNCEMENT_ERROR, payload: { ...newPayload } });
+    }
+}
+//
 
 function loadConferenceRooms(payload, firebase) {
     const officeUID = payload.officeUID || null;

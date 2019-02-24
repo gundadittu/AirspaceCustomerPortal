@@ -1,4 +1,4 @@
-
+export const announcementsPageOfficeAdmin = "announcementsPageOfficeAdmin";
 export const homePageOfficeAdmin = "homePageOfficeAdmin";
 export const userPageOfficeAdmin = "userPageOfficeAdmin";
 export const conferenceRoomsPageOfficeAdmin = "conferenceRoomsPageOfficeAdmin";

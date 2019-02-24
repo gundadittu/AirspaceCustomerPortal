@@ -21,6 +21,13 @@ class AnnouncementsPage extends React.Component {
     }
 
     componentDidMount() {
+        // Routing stuff
+        if (this.props.match.isExact) {
+          const selectedOfficeUID = this.props.match.params.officeUID;
+          console.log(selectedOfficeUID)
+          console.log(this.props)
+          this.props.loadAdminAnnouncements(selectedOfficeUID);
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -28,10 +35,11 @@ class AnnouncementsPage extends React.Component {
 
     render() {
         return (
-            <div style={{ backgroundColor: '#FFFFFF' }}>\
+            <div style={{ backgroundColor: '#FFFFFF' }}>
               <Row>
                     <Col className="wide-table" span={24}>
                         <h1>Annoucements Page</h1>
+                        {console.log(this.props.announcementsList)}
                     </Col>
                 </Row>
             </div>
@@ -41,11 +49,14 @@ class AnnouncementsPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
+      isLoadingAnnouncementsData: state.officeAdmin.isLoadingAnnouncementsData,
+      announcementsList: state.officeAdmin.announcementsList
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+      loadAdminAnnouncements: (payload) => dispatch(actionCreator.loadAdminAnnouncements(payload))
     }
 };
 

@@ -19,6 +19,7 @@ const initialState = {
     isLoadingHotDesksData: false,
     isLoadingServiceRequestsData: false,
     isLoadingServiceRequestsEmailsData: false,
+    isEditingGuestsData: false,
     updatingServiceStatus: false,
     isLoadingEventsData: false,
     createUserFormLoading: false,
@@ -139,6 +140,14 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { guestsList: guestList, isLoadingGuestsData: false});
         case actionTypes.LOAD_REGISTERED_GUESTS_ERROR:
             return updateObject(state, {isLoadingGuestsData: false});
+            //
+        case actionTypes.EDIT_REGISTERED_GUESTS_STATUS:
+            return updateObject(state, {isEditingGuestsData: true});
+        case actionTypes.EDIT_REGISTERED_GUESTS_STATUS_SUCCESS:
+            return updateObject(state, { isEditingGuestsData: false});
+        case actionTypes.EDIT_REGISTERED_GUESTS_STATUS_ERROR:
+            return updateObject(state, {isEditingGuestsData: false});
+            //
         case actionTypes.LOAD_EVENTS:
             return updateObject(state, {isLoadingEventsData: true});
         case actionTypes.LOAD_EVENTS_SUCCESS:

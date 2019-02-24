@@ -1,8 +1,19 @@
-
 var AirAmenityType = {
     whiteBoard: 'White Board',
-    videoConferencing: 'Video Conferencing', 
-    screenSharing: 'Screen Sharing'
+    videoConferencing: 'Video Conferencing',
+    screenSharing: 'Screen Sharing',
+    conferencePhone: 'Conference Phone',
+    inputSwitchingEnabled: 'Input Switching Enabled',
+    microphone: 'Microphone',
+    adapters: 'Adapters',
+    builtInComputer: 'Built-in Computer',
+    hdmiCables: 'HDMI Cables',
+    powerStrip: 'Power Strip',
+    speakers: 'Speakers',
+    projector: 'Projector',
+    smartTV: 'Smart TV',
+    largeMonitor: 'Large Monitor'
+
 }
 
 export default class AirAmenity {

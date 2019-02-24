@@ -48,6 +48,16 @@ export const editServiceRequestStatusForOfficeAdmin = (payload) => {
     };
 }
 
+export const editRegisteredGuestStatusForOfficeAdmin = (payload) => {
+  return {
+    type: actionTypes.EDIT_REGISTERED_GUESTS_STATUS,
+    payload: {
+      registeredGuestUID: payload.registeredGuestUID,
+      newArrivalStatus: payload.newArrivalStatus
+    }
+  }
+}
+
 export const loadConferenceRooms = (officeUID) => {
     return {
         type: actionTypes.LOAD_CONFERENCE_ROOMS,

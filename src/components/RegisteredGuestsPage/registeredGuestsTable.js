@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Icon, Table } from 'antd';
+import { Icon, Table, Menu, Dropdown, Tag} from 'antd';
+import IconButton from '@material-ui/core/IconButton';
+import MoreIcon from '@material-ui/icons/MoreHoriz';
+import * as actionCreator from '../../store/actions/officeAdmin';
 const moment = require('moment');
 
 class RegisteredGuestsTable extends React.Component {
@@ -42,8 +45,54 @@ class RegisteredGuestsTable extends React.Component {
       { text: 'Not Arrived', value: false},
     ],
      onFilter: (value, record) => record.arrived.toString() == value,
+  },
+  {
+    title: '',
+    dataIndex: '',
+    key: 'more',
+    render: (regGuest) => (
+      <Dropdown overlay={() => this.editArrival(regGuest)} trigger={['click']}>
+        <IconButton>
+          <MoreIcon />
+        </IconButton>
+      </Dropdown>
+    )
   }
 ];
+
+editArrival = (guest) => {
+  return (
+    <Menu
+      onClick={(e) => this.handleEditArrival(e, guest)}
+      style={{ textAlign: 'left', border: 0 }}
+    >
+      <Menu.Item key="ignore" disabled={true}>
+        Mark Registered Guest as:
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="arrived">
+        <Tag color={'green'} key='open'>Arrived</Tag>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="missing">
+        <Tag color={'volcano'} key='pending'>Missing</Tag>
+      </Menu.Item>
+    </Menu>
+  );
+}
+
+handleEditArrival = (e, guest) => {
+  const roomsList = this.props.emailsToPass;
+  var newStatus = true;
+  if(e.key == "missing") {
+    newStatus = false
+  }
+  var payload = {
+    registeredGuestUID: guest.uid,
+    newArrivalStatus: newStatus
+  }
+  this.props.editRegisteredGuestStatusForOfficeAdmin(payload)
+}
 
   render() {
     return (
@@ -59,8 +108,13 @@ class RegisteredGuestsTable extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    isLoadingGuestsData: state.officeAdmin.isLoadingGuestsData
   }
 };
 
-export default connect(mapStateToProps, null)(RegisteredGuestsTable);
+const mapDispatchToProps = dispatch => {
+  return {
+    editRegisteredGuestStatusForOfficeAdmin: (payload) => dispatch(actionCreator.editRegisteredGuestStatusForOfficeAdmin(payload))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisteredGuestsTable);

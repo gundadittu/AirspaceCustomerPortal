@@ -46,6 +46,10 @@ export function* loadRegisteredGuestsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_REGISTERED_GUESTS, loadRegisteredGuestsWorkerSaga);
 }
 
+export function* editRegisteredGuestStatusForOfficeAdminWatchSaga() {
+    yield takeLatest(actionTypes.EDIT_REGISTERED_GUESTS_STATUS, editRegisteredGuestStatusForOfficeAdminWorkerSaga);
+}
+
 export function* loadEventsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_EVENTS, loadEventsWorkerSaga);
 }
@@ -515,6 +519,50 @@ function* loadRegisteredGuestsWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_REGISTERED_GUESTS_ERROR, payload: { error: error } });
     }
 }
+
+
+function changeRegisteredGuestsStatus(payload, firebase) {
+    const registeredGuestUID = payload.registeredGuestUID;
+    const newStatus = payload.newArrivalStatus;
+    const dict = {
+      registeredGuestUID: registeredGuestUID,
+      newArrivalStatus: true
+    }
+    console.log("Payload ", dict)
+    const apiCall = firebase.functions.httpsCallable('changeRegisteredGuestStatusForOfficeAdmin');
+    return apiCall(dict)
+    .then( response => {
+        console.log("Update Registered Guest Response ", response)
+    })
+}
+
+function* editRegisteredGuestStatusForOfficeAdminWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(changeRegisteredGuestsStatus, action.payload, firebase);
+
+        notification['success']({
+            message: 'Successfully changed the arrival status of your guest.',
+            description: null
+        });
+
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.EDIT_REGISTERED_GUESTS_STATUS_SUCCESS, payload: { ...newPayload } });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to change the arrival status of your guest.',
+            description: error.message
+        });
+
+        const payload = action.payload;
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.EDIT_REGISTERED_GUESTS_STATUS_ERROR, payload: { ...newPayload } });
+    }
+}
+
 
 function loadEvents(payload, firebase) {
     const officeUID = payload.officeUID || null;

@@ -2,47 +2,42 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import * as actionTypes from '../../store/actions/actionTypes';
 
-import { Row, Col, Button, Menu, Card} from 'antd';
+import { Row, Col, Button } from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
-import StaticImage from "../../assets/images/home_empty_state.png";
 import '../../App.css';
 
 import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
-// import * as officeActionCreator from '../../store/actions/officeAdmin';
+import * as officeActionCreator from '../../store/actions/officeAdmin';
 
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 
-
-
-class HomeAdminPage extends React.Component {
+class AnnouncementsPage extends React.Component {
 
     state = {
-        currentList: 'active',
-        createDeskFormVisible: false,
+    }
+
+    componentDidMount() {
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
     }
 
     render() {
-
         return (
-            <div>
-                <Row>
+            <div style={{ backgroundColor: '#FFFFFF' }}>\
+              <Row>
                     <Col className="wide-table" span={24}>
-                        <h1>Home Page</h1>
-                        <Card
-                          cover={<img alt="Request Photo" src={StaticImage} />}
-                          bordered={false}
-                        />
+                        <h1>Annoucements Page</h1>
                     </Col>
                 </Row>
             </div>
-        )
+        );
     }
 }
-
 
 const mapStateToProps = state => {
     return {
@@ -54,4 +49,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeAdminPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AnnouncementsPage));

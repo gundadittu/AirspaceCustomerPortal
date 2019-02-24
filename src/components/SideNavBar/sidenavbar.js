@@ -82,7 +82,11 @@ class SideNavBar extends React.Component {
                     {<span><Icon type="home" /><span>Home</span></span>}
                   </Link>
                 </Menu.Item>
-                <Menu.Item key="announcements">{<span><Icon type="notification" /><span>Announcements</span></span>}</Menu.Item>
+                <Menu.Item key="announcements">
+                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/announcements'}>
+                    {<span><Icon type="notification" /><span>Announcements</span></span>}
+                  </Link>
+                </Menu.Item>
                 <Menu.Item key={pageTitles.userPageOfficeAdmin} >
                   <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/users'}>
                     {<span><Icon type="user" /><span>Users</span></span>}

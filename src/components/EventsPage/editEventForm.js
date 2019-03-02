@@ -101,6 +101,7 @@ class EditEventForm extends React.Component {
         </Form.Item>
         <Form.Item label="Event Address">
           {getFieldDecorator('eventAddress', {
+            initialValue: event.address || null,
             rules: [{ required: true, whitespace: true, message: 'Please input the event\'s address.' }],
           })(
             <Input defaultValue="26888888" />

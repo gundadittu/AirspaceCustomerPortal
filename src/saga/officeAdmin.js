@@ -58,6 +58,10 @@ export function* editRegisteredGuestStatusForOfficeAdminWatchSaga() {
     yield takeLatest(actionTypes.EDIT_REGISTERED_GUESTS_STATUS, editRegisteredGuestStatusForOfficeAdminWorkerSaga);
 }
 
+export function* guestSelfCheckInWatchSaga() {
+    yield takeLatest(actionTypes.GUEST_SELF_CHECK_IN_STATUS, guestSelfCheckInWorkerSaga);
+}
+
 export function* loadEventsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_EVENTS, loadEventsWorkerSaga);
 }
@@ -617,9 +621,10 @@ function* loadRegisteredGuestsWorkerSaga(action) {
 function changeRegisteredGuestsStatus(payload, firebase) {
     const registeredGuestUID = payload.registeredGuestUID;
     const newStatus = payload.newArrivalStatus;
+
     const dict = {
       registeredGuestUID: registeredGuestUID,
-      newArrivalStatus: true
+      newArrivalStatus: newStatus
     }
     console.log("Payload ", dict)
     const apiCall = firebase.functions.httpsCallable('changeRegisteredGuestStatusForOfficeAdmin');
@@ -653,6 +658,45 @@ function* editRegisteredGuestStatusForOfficeAdminWorkerSaga(action) {
         const payload = action.payload;
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.EDIT_REGISTERED_GUESTS_STATUS_ERROR, payload: { ...newPayload } });
+    }
+}
+
+function guestSelfCheckIn(payload, firebase) {
+    const registeredGuestUID = payload.registeredGuestUID;
+
+    const dict = {
+      registeredGuestUID: registeredGuestUID,
+    }
+    console.log("Payload ", dict)
+    const apiCall = firebase.functions.httpsCallable('guestSelfCheckIn');
+    return apiCall(dict)
+    .then( response => {
+        console.log("Update Registered Guest Self Check-in ", response)
+    })
+}
+
+function* guestSelfCheckInWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(guestSelfCheckIn, action.payload, firebase);
+
+        notification['success']({
+            message: 'Successfully checked in.',
+            description: null
+        });
+
+        yield put({ type: actionTypes.GUEST_SELF_CHECK_IN_STATUS_SUCCESS, payload: {} });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to check you in.',
+            description: error.message
+        });
+
+        const payload = action.payload;
+        yield put({ type: actionTypes.GUEST_SELF_CHECK_IN_STATUS_ERROR, payload: {} });
     }
 }
 

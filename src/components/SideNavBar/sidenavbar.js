@@ -12,6 +12,10 @@ const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 class SideNavBar extends React.Component {
+  /*
+  state = {
+    showDrawer : false
+  } */
 
   getSwitchPortalSubMenuTitle = () => {
     if (this.props.userType === 'regular') {
@@ -29,6 +33,13 @@ class SideNavBar extends React.Component {
       return 'Switch Portal Mode'
     }
   }
+
+  toggleDrawer = () => {
+    const newStatus = this.state.showDrawer
+    this.setState({
+      showDrawer: !newStatus,
+    });
+  };
 
   render() {
 
@@ -64,6 +75,27 @@ class SideNavBar extends React.Component {
     );
 
     let currentPage = [this.props.currentPage];
+
+
+    /*if(this.props.device == "mobile"){
+      <div>
+        <Button onClick={this.toggleDrawer()}>Open Left</Button>
+        <SwipeableDrawer
+            open={this.state.left}
+            onClose={this.toggleDrawer('left', false)}
+            onOpen={this.toggleDrawer('left', true)}
+          >
+            <div
+              tabIndex={0}
+              role="button"
+              onClick={this.toggleDrawer('left', false)}
+              onKeyDown={this.toggleDrawer('left', false)}
+            >
+              {sideList}
+            </div>
+          </SwipeableDrawer>
+        </div>
+    } */
 
     if (this.props.userType === "regular") {
       if (this.props.regularUserPortalMode === "officeAdmin") {

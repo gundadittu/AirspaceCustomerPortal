@@ -1,4 +1,5 @@
 import React from 'react';
+import MediaQuery from 'react-responsive';
 import { Avatar, Menu, Dropdown, Icon, Row, Col, List, Affix } from 'antd';
 import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
@@ -25,7 +26,7 @@ class NavBar extends React.Component {
       case 'SignOut':
         console.log("Made it here");
         break;
-      default: 
+      default:
         break;
     }
   }

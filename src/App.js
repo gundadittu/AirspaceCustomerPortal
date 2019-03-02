@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 import { connect } from 'react-redux';
+import ConfirmationPage from './components/ConfirmationPage/confirmationPage'
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
 import SideNavbar from './components/SideNavBar/sidenavbar';
@@ -36,8 +38,21 @@ class App extends Component {
       const weakProps = this.props;
       this.listener = firebase.auth.onAuthStateChanged(function(user) {
         if (user) {
+          const simplifiedPageTitles = {
+            announcementsPageOfficeAdmin: "announcements",
+            homePageOfficeAdmin: "home",
+            conferenceRoomsPageOfficeAdmin: "conferenceRooms",
+            userPageOfficeAdmin: "users",
+            hotDesksPageOfficeAdmin: "hotDesks",
+            serviceRequestsPageOfficeAdmin: "serviceRequests",
+            registeredGuestsPageOfficeAdmin: "registeredGuests",
+            eventsPageOfficeAdmin: "events",
+            spaceInfoPageOfficeAdmin: "spaceInfo"
+          }
           weakProps.setUpUser(user.uid);
+          console.log(weakProps.currentPage)
           weakProps.history.push('/');
+          weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/' + simplifiedPageTitles[weakProps.currentPage]);
         } else {
           weakProps.setUpUser(null);
           weakProps.history.push('/login');
@@ -71,11 +86,17 @@ class App extends Component {
   render() {
 
     if (this.props.user) { // logged in
+      this.props.signInRedirect();
       return (
         <div>
           <Row>
             <Col span={4}>
-              <SideNavbar />
+              <MediaQuery minDeviceWidth={1224}>
+                <SideNavbar device={"desktop"}/>
+              </MediaQuery>
+              <MediaQuery maxDeviceWidth={1224}>
+                <SideNavbar device={"mobile"}/>
+              </MediaQuery>
             </Col>
             <Col span={20}>
               <NavBar/>
@@ -91,6 +112,7 @@ class App extends Component {
       return (
         <div>
            <Switch>
+            <Route exact path='/arrivedGuest/:UID' component={ConfirmationPage}></Route>
             <Route path="/" component={Login}/>
             <Route path="/login" component={Login}/>
           </ Switch>
@@ -103,6 +125,7 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     user: state.auth.user,
+    currentOfficeAdminUID: state.general.currentOfficeAdminUID,
     isLoading: state.general.isLoading,
     error: state.general.error,
     firebase: state.firebase.firebase,
@@ -113,7 +136,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setUpFirebase: (firebaseInstance) => dispatch(generalActionCreators.setUpFirebaseInstanceAction(firebaseInstance)),
-    setUpUser: (uid) => dispatch(authActionCreators.setUpUserAction(uid))
+    setUpUser: (uid) => dispatch(authActionCreators.setUpUserAction(uid)),
+    signInRedirect: () => dispatch(authActionCreators.signInRedirect())
   }
 };
 

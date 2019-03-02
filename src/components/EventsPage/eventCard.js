@@ -59,6 +59,7 @@ class EventCard extends React.Component {
 
         const eventTitle = values.eventName;
         const description = values.description;
+        const address = values.address;
 
         const timeRange = values.eventTimeRange;
         if (Object.keys(timeRange).length < 2) {
@@ -91,7 +92,8 @@ class EventCard extends React.Component {
           photoFileObj: photoFileObj,
           canceled: canceled,
           selectedOfficeUID: currentOfficeUID,
-          hideForm: this.handleFinishedEditEventRequest
+          hideForm: this.handleFinishedEditEventRequest,
+          address: address
         }
         this.props.editEvent(payload);
       })

@@ -23,7 +23,9 @@ class LoginNavBar extends React.Component {
           <div>
             <AppBar position="static" style={{ background: 'transparent'}}>
               <Grid container justify="center" alignItems="center" >
+                <a href="https://airspaceoffice.co">
                   <img className="logo-nav-image" src={require('../../assets/images/nav-logo.png')}></img>
+                </a>
               </Grid>
             </AppBar>
           </div>

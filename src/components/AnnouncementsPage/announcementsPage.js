@@ -29,6 +29,11 @@ class AnnouncementsPage extends React.Component {
           console.log(selectedOfficeUID)
           console.log(this.props)
           this.props.loadAdminAnnouncements(selectedOfficeUID);
+
+          const secondPagePayload = getPagePayload(pageTitles.registeredGuestsPageOfficeAdmin);
+          if (secondPagePayload) {
+              this.props.changePage(secondPagePayload);
+          }
         }
     }
 
@@ -71,7 +76,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
       loadAdminAnnouncements: (payload) => dispatch(actionCreator.loadAdminAnnouncements(payload)),
-      postAdminAnnouncement: (selectedOfficeUID, message) => dispatch(actionCreator.postAdminAnnouncement(selectedOfficeUID, message))
+      postAdminAnnouncement: (selectedOfficeUID, message) => dispatch(actionCreator.postAdminAnnouncement(selectedOfficeUID, message)),
+      changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
     }
 };
 

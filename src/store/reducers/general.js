@@ -4,16 +4,22 @@ import { updateObject } from '../utility';
 const initialState = {
     isLoading: false,
     error: null,
-    currentPage: null, 
+    currentPage: null,
     regularUserPortalMode: 'regular',
-    currentOfficeAdminUID: null, 
+    currentOfficeAdminUID: null,
     currentOfficeAdmin: null,
-    isLoadingSignIn: false, 
-    notifications: []
+    isLoadingSignIn: false,
+    notifications: [],
+    checkIn: false,
+    checking_user_in: false
 };
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
+        case actionTypes.START_HOME:
+            if (state.currentPage){
+              return updateObject(state, {currentPage:'homePageOfficeAdmin'})
+            }
         case actionTypes.SIGN_IN_USER:
             return updateObject(state, {isLoadingSignIn: true});
         case actionTypes.SIGN_IN_USER_SUCCESS:
@@ -43,10 +49,16 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.CHANGE_PAGE:
             const payload = action.payload || null;
             return updateObject(state, {...payload})
-        case actionTypes.LOAD_NOTIFICATIONS_SUCCESS: 
-        case actionTypes.LOAD_NOTIFICATIONS_ERROR: 
+        case actionTypes.LOAD_NOTIFICATIONS_SUCCESS:
+        case actionTypes.LOAD_NOTIFICATIONS_ERROR:
             const notPayload = action.payload || null;
             return updateObject(state, {...notPayload})
+        case actionTypes.GUEST_SELF_CHECK_IN_STATUS:
+            return updateObject(state, {checkedIn: false, checking_user_in: true})
+        case actionTypes.GUEST_SELF_CHECK_IN_STATUS_SUCCESS:
+            return updateObject(state, {checkedIn: true, checking_user_in: false})
+        case actionTypes.GUEST_SELF_CHECK_IN_STATUS_ERROR:
+            return updateObject(state, {checkedIn: true, checking_user_in: false})
         default:
             return state;
     }

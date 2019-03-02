@@ -30,14 +30,14 @@ class LoginForm extends React.Component {
 
     const { getFieldDecorator } = this.props.form;
 
-    const spinner = () => { 
-      if (this.props.isLoadingSignIn === true) { 
-        return ( 
+    const spinner = () => {
+      if (this.props.isLoadingSignIn === true) {
+        return (
           <Grid container justify="center" alignItems="center" style={{marginTop: 20}}>
             <Spin />
          </Grid>
         );
-      } else { 
+      } else {
         return null;
       }
     }
@@ -99,8 +99,8 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-const mapStateToProps = state => { 
-  return { 
+const mapStateToProps = state => {
+  return {
     isLoadingSignIn: state.general.isLoadingSignIn
   }
 }

@@ -14,6 +14,7 @@ const initialState = {
     inactiveDesksList: [],
     upcomingEventsList: [],
     pastEventsList: [],
+    checkedIn: false,
     isLoadingAnnouncementsData: false,
     isLoadingUserData: false,
     isLoadingRoomsData: false,
@@ -160,11 +161,11 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, {isLoadingGuestsData: false});
             //
         case actionTypes.EDIT_REGISTERED_GUESTS_STATUS:
-            return updateObject(state, {isEditingGuestsData: true});
+            return updateObject(state, {isEditingGuestsData: true, checkedIn: false});
         case actionTypes.EDIT_REGISTERED_GUESTS_STATUS_SUCCESS:
-            return updateObject(state, { isEditingGuestsData: false});
+            return updateObject(state, { isEditingGuestsData: false, checkedIn: true});
         case actionTypes.EDIT_REGISTERED_GUESTS_STATUS_ERROR:
-            return updateObject(state, {isEditingGuestsData: false});
+            return updateObject(state, {isEditingGuestsData: false, checkedIn: false});
             //
         case actionTypes.LOAD_EVENTS:
             return updateObject(state, {isLoadingEventsData: true});

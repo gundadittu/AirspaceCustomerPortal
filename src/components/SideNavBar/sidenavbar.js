@@ -15,10 +15,10 @@ const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 class SideNavBar extends React.Component {
-  /*
+
   state = {
     showDrawer : false
-  } */
+  }
 
   getSwitchPortalSubMenuTitle = () => {
     if (this.props.userType === 'regular') {
@@ -159,10 +159,27 @@ class SideNavBar extends React.Component {
   }
 
   render() {
+    return this.renderSubNavBar()
+    /*return (<div>
+      <Button onClick={() => this.toggleDrawer()}>Open Left</Button>
+      <SwipeableDrawer
+          open={this.state.showDrawer}
+          onClose={this.toggleDrawer()}
+          onOpen={this.toggleDrawer()}
+        >
+          <div
+            tabIndex={0}
+            role="button"
+            onClick={this.toggleDrawer()}
+            onKeyDown={this.toggleDrawer()}
+          >
+            {this.renderSubNavBar()}
+          </div>
+        </SwipeableDrawer>
+      </div>
+    ) */
 
-
-
-    if(this.props.device == "mobile"){
+    /*if(this.props.device == "mobile"){
       return <div>
         <Button onClick={this.toggleDrawer()}>Open Left</Button>
         <SwipeableDrawer
@@ -182,7 +199,7 @@ class SideNavBar extends React.Component {
         </div>
     } else {
       return this.renderSubNavBar()
-    }
+    } */
 
   }
 }

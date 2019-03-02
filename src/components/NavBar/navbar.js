@@ -1,6 +1,7 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
 import { Avatar, Menu, Dropdown, Icon, Row, Col, List, Affix } from 'antd';
+import SideNavBar from '../SideNavBar/sidenavbar';
 import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
 import * as genActionCreators from '../../store/actions/general';
@@ -101,6 +102,7 @@ class NavBar extends React.Component {
       <Affix>
         <Row>
           <Col span={24}>
+            {this.props.device == "mobile" ? <SideNavBar /> : <div></div>}
             <Menu
               onClick={this.handleClick}
               style={{ textAlign: 'right', border: 0 }}

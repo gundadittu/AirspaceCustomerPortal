@@ -102,11 +102,8 @@ class App extends Component {
                 </Col>
               </MediaQuery>
               <MediaQuery maxDeviceWidth={1224}>
-                <Col span={1}>
-                  <SideNavbar device={"mobile"}/>
-                </Col>
-                <Col span={23}>
-                  <NavBar/>
+                <Col span={24}>
+                  <NavBar device={"mobile"}/>
                   <Switch>
                     <Route path="/officeAdmin" component={officeAdminRoutingComp}/>
                   </Switch>

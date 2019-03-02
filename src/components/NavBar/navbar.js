@@ -101,11 +101,12 @@ class NavBar extends React.Component {
       <Card
       cover={<img alt="Airspace Photo" src={require('../../assets/images/updated_logo.png')} />}
       bordered={false}
+      style={{ height: 150}}
       />
     );
     return (
       <Affix>
-        <Row style={{ height: 150}}>
+        <Row>
 
             {this.props.device == "mobile" ? (
               <div>

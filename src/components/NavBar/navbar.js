@@ -117,7 +117,7 @@ class NavBar extends React.Component {
                 <Col span={8}>
                   {navBarLogo}
                 </Col>
-                <Col span={8} style={{justifyContent:'center'}>
+                <Col span={8} style={{justifyContent:'center'}}>
                   <Menu
                     onClick={this.handleClick}
                     style={{ textAlign: 'right', border: 0 }}

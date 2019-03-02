@@ -24,8 +24,12 @@ import {Row, Col } from 'antd';
 import * as pageTitles from './pages/pageTitles';
 
 class App extends Component {
+  state = {
+    toggle_render: false
+  }
 
   componentWillMount() {
+    console.log("COmponent will mount ", this.props)
     if (this.props.firebase === null) {
       this.firebase = new Firebase()
       this.props.setUpFirebase(this.firebase);
@@ -36,9 +40,24 @@ class App extends Component {
     const firebase = this.firebase || null;
     if (firebase) {
       const weakProps = this.props;
+      //console.log("Weak props ", weakProps)
       this.listener = firebase.auth.onAuthStateChanged(function(user) {
+        //console.log("user ", user)
         if (user) {
-          const simplifiedPageTitles = {
+          //console.log("USER")
+          weakProps.setUpUser(user.uid);
+          if (weakProps.currentOfficeAdminUID){
+            if (weakProps.currentPage == null) {
+              //console.log("Here")
+              weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/home');
+              /*var toggle = this.state.toggle_render
+              this.setState({
+                toggle_render: !toggle
+              }) */
+            }
+          }
+          //
+          /*const simplifiedPageTitles = {
             announcementsPageOfficeAdmin: "announcements",
             homePageOfficeAdmin: "home",
             conferenceRoomsPageOfficeAdmin: "conferenceRooms",
@@ -50,10 +69,20 @@ class App extends Component {
             spaceInfoPageOfficeAdmin: "spaceInfo"
           }
           weakProps.setUpUser(user.uid);
-          console.log(weakProps.currentPage)
-          weakProps.history.push('/');
-          weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/' + simplifiedPageTitles[weakProps.currentPage]);
+          console.log(weakProps)
+          //
+          if (weakProps.currentOfficeAdminUID){
+            if (weakProps.currentPage) {
+              weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/' + simplifiedPageTitles[weakProps.currentPage]);
+            } else {
+              weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/home');
+            }
+          } else {
+            weakProps.history.push('/');
+          }
+          */
         } else {
+          console.log("LOGIN")
           weakProps.setUpUser(null);
           weakProps.history.push('/login');
         }
@@ -86,7 +115,8 @@ class App extends Component {
   render() {
 
     if (this.props.user) { // logged in
-      this.props.signInRedirect();
+      //this.props.signInRedirect();
+      console.log(this.props.match.path)
       return (
         <div>
           <Row>
@@ -150,7 +180,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
 
 const officeAdminRoutingComp = () => (
     <Switch>
-      <Route exact path='/officeAdmin/:officeUID' component={UsersPage}></Route>
+      <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/announcements' component={AnnouncementsPage}></Route>
       <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>

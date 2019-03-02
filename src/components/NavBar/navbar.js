@@ -97,33 +97,60 @@ class NavBar extends React.Component {
         }
       />
     )
-
+    const navBarLogo = (
+      <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/updated_logo.png')} />
+    );
     return (
       <Affix>
         <Row>
           <Col span={24}>
-            <Menu
-              onClick={this.handleClick}
-              style={{ textAlign: 'right', border: 0 }}
-              mode="horizontal"
-            >
-              {this.props.device == "mobile" ? <SideNavBar device={"mobile"}/> : <div></div>}
-              <Menu.Item key="notifications">
-                <Dropdown overlay={notificationMenu} trigger={['click']}>
-                  <a className="ant-dropdown-link" href="#">
-                    <Icon type="bell" style={{ fontSize: 18 }} />
-                  </a>
-                </Dropdown>
-              </Menu.Item>
+            {this.props.device == "mobile" ? (
+              <Menu
+                onClick={this.handleClick}
+                style={{ textAlign: 'right', border: 0 }}
+                mode="horizontal"
+              >
+                <SideNavBar device={"mobile"}/>
+                {navBarLogo}
+                <Menu.Item key="notifications">
+                  <Dropdown overlay={notificationMenu} trigger={['click']}>
+                    <a className="ant-dropdown-link" href="#">
+                      <Icon type="bell" style={{ fontSize: 18 }} />
+                    </a>
+                  </Dropdown>
+                </Menu.Item>
 
-              <Menu.Item key="profile">
-                <Dropdown overlay={profileMenu} trigger={['click']}>
-                  <a className="ant-dropdown-link" href="#">
-                    <Avatar src={this.props.user.profileImageURL} />
-                  </a>
-                </Dropdown>
-              </Menu.Item>
-            </Menu>
+                <Menu.Item key="profile">
+                  <Dropdown overlay={profileMenu} trigger={['click']}>
+                    <a className="ant-dropdown-link" href="#">
+                      <Avatar src={this.props.user.profileImageURL} />
+                    </a>
+                  </Dropdown>
+                </Menu.Item>
+              </Menu>
+            ) : (
+              <Menu
+                onClick={this.handleClick}
+                style={{ textAlign: 'right', border: 0 }}
+                mode="horizontal"
+              >
+                <Menu.Item key="notifications">
+                  <Dropdown overlay={notificationMenu} trigger={['click']}>
+                    <a className="ant-dropdown-link" href="#">
+                      <Icon type="bell" style={{ fontSize: 18 }} />
+                    </a>
+                  </Dropdown>
+                </Menu.Item>
+
+                <Menu.Item key="profile">
+                  <Dropdown overlay={profileMenu} trigger={['click']}>
+                    <a className="ant-dropdown-link" href="#">
+                      <Avatar src={this.props.user.profileImageURL} />
+                    </a>
+                  </Dropdown>
+                </Menu.Item>
+              </Menu>
+            )}
           </Col>
         </Row>
       </Affix>

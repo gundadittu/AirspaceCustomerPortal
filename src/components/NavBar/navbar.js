@@ -102,12 +102,12 @@ class NavBar extends React.Component {
       <Affix>
         <Row>
           <Col span={24}>
-            {this.props.device == "mobile" ? <SideNavBar device={"mobile"}/> : <div></div>}
             <Menu
               onClick={this.handleClick}
               style={{ textAlign: 'right', border: 0 }}
               mode="horizontal"
             >
+              {this.props.device == "mobile" ? <SideNavBar device={"mobile"}/> : <div></div>}
               <Menu.Item key="notifications">
                 <Dropdown overlay={notificationMenu} trigger={['click']}>
                   <a className="ant-dropdown-link" href="#">

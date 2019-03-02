@@ -41,7 +41,7 @@ class ServiceRequestsPage extends React.Component {
               }
           }
 
-          const pagePayload = getPagePayload(pageTitles.serviceRequestsPageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
+          const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
           if (pagePayload) {
               this.props.changePage(pagePayload);
           }

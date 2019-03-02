@@ -25,6 +25,28 @@ class HomeAdminPage extends React.Component {
         createDeskFormVisible: false,
     }
 
+    componentDidMount() {
+      if (this.props.match.isExact) {
+
+          const selectedOfficeUID = this.props.match.params.officeUID;
+          const list = this.props.userAdminOfficeList;
+          let officeObj = null;
+          for (let key in list) {
+              const value = list[key];
+
+              if (value.uid === selectedOfficeUID) {
+                  officeObj = value;
+              }
+          }
+
+          const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
+          if (pagePayload) {
+              this.props.changePage(pagePayload);
+          }
+      }
+
+    }
+
     render() {
 
         return (
@@ -51,6 +73,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+      changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
     }
 };
 

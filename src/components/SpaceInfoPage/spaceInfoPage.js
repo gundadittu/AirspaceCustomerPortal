@@ -12,9 +12,9 @@ import '../../App.css';
 class SpaceInfoPage extends React.Component {
 
     state = {
-        uploadFileFormVisible: false, 
-        uploadFormType: null, 
-        uploadFormLoading: false 
+        uploadFileFormVisible: false,
+        uploadFormType: null,
+        uploadFormLoading: false
     }
 
     componentDidMount() {
@@ -44,7 +44,7 @@ class SpaceInfoPage extends React.Component {
         }
     }
 
-    showUploadFormRef = (type) => { 
+    showUploadFormRef = (type) => {
         this.setState({ uploadFileFormVisible: true, uploadFormType: type });
     }
 
@@ -53,8 +53,8 @@ class SpaceInfoPage extends React.Component {
     }
 
     handleCreateUploadForm = () => {
-        const formType = this.state.uploadFormType; 
-        const form = this.uploadFormRef.props.form; 
+        const formType = this.state.uploadFormType;
+        const form = this.uploadFormRef.props.form;
         form.validateFields((err, values) => {
             if (err) {
                 return;
@@ -66,21 +66,21 @@ class SpaceInfoPage extends React.Component {
                 const value = uploadFileDict[0];
                 fileObj = value.originFileObj;
             }
-            
-            const firebase = this.props.firebase; 
+
+            const firebase = this.props.firebase;
             const storageRef = firebase.storage.ref();
-            if (formType === 'onboarding') { 
+            if (formType === 'onboarding') {
                 const fileRef = storageRef.child('onboardingPDFs/' + this.props.currentOfficeUID + '.pdf');
                 this.setState({uploadFormLoading: true});
                 return fileRef.put(fileObj)
-                .then( () => { 
+                .then( () => {
                     this.setState({uploadFormLoading: false});
                     this.hideUploadForm();
                     notification['success']({
                         message: 'Successfully uploaded file.'
                     });
                 })
-                .catch(error => { 
+                .catch(error => {
                     console.error(error);
                     this.setState({uploadFormLoading: false});
                     notification['error']({
@@ -88,18 +88,18 @@ class SpaceInfoPage extends React.Component {
                         description: error.message
                     });
                 })
-            } else if (formType === 'floorplan') { 
+            } else if (formType === 'floorplan') {
                 const fileRef = storageRef.child('floorplanPDFs/' + this.props.currentOfficeUID + '.pdf');
                 this.setState({uploadFormLoading: true});
                 return fileRef.put(fileObj)
-                .then( () => { 
+                .then( () => {
                     this.setState({uploadFormLoading: false});
                     this.hideUploadForm();
                     notification['success']({
                         message: 'Successfully uploaded file.'
                     });
                 })
-                .catch(error => { 
+                .catch(error => {
                     console.error(error);
                     this.setState({uploadFormLoading: false});
                     notification['error']({
@@ -107,18 +107,18 @@ class SpaceInfoPage extends React.Component {
                         description: error.message
                     });
                 })
-            } else if (formType === 'buildingdetails') { 
+            } else if (formType === 'buildingdetails') {
                 const fileRef = storageRef.child('buildingDetailPDFs/' + this.props.currentOfficeUID + '.pdf');
                 this.setState({uploadFormLoading: true});
                 return fileRef.put(fileObj)
-                .then( () => { 
+                .then( () => {
                     this.setState({uploadFormLoading: false});
                     this.hideUploadForm();
                     notification['success']({
                         message: 'Successfully uploaded file.'
                     });
                 })
-                .catch(error => { 
+                .catch(error => {
                     console.error(error);
                     this.setState({uploadFormLoading: false});
                     notification['error']({
@@ -143,17 +143,17 @@ class SpaceInfoPage extends React.Component {
         const data = [
             {
                 title: 'Onboarding PDF',
-                url: this.props.onboardingURL, 
+                url: this.props.onboardingURL,
                 type: 'onboarding'
             },
             {
                 title: 'Floor Plan PDF',
-                url: this.props.floorplanURL, 
+                url: this.props.floorplanURL,
                 type: 'floorplan'
             },
             {
                 title: 'Building Details PDF',
-                url: this.props.buildingDetailsURL, 
+                url: this.props.buildingDetailsURL,
                 type: 'buildingdetails'
             }
         ];

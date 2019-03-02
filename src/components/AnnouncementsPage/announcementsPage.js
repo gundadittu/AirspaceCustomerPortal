@@ -25,15 +25,27 @@ class AnnouncementsPage extends React.Component {
     componentDidMount() {
         // Routing stuff
         if (this.props.match.isExact) {
-          const selectedOfficeUID = this.props.match.params.officeUID;
-          console.log(selectedOfficeUID)
-          console.log(this.props)
-          this.props.loadAdminAnnouncements(selectedOfficeUID);
 
-          const secondPagePayload = getPagePayload(pageTitles.registeredGuestsPageOfficeAdmin);
-          if (secondPagePayload) {
-              this.props.changePage(secondPagePayload);
-          }
+            const selectedOfficeUID = this.props.match.params.officeUID;
+
+            const list = this.props.userAdminOfficeList;
+            let officeObj = null;
+            for (let key in list) {
+                const value = list[key];
+
+                if (value.uid === selectedOfficeUID) {
+                    officeObj = value;
+                }
+            }
+            //
+            const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
+            if (pagePayload) {
+                this.props.changePage(pagePayload);
+            }
+            const secondPagePayload = getPagePayload(pageTitles.announcementsPageOfficeAdmin);
+            if (secondPagePayload) {
+                this.props.changePage(secondPagePayload);
+            }
         }
     }
 

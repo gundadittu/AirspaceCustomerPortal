@@ -117,7 +117,7 @@ class NavBar extends React.Component {
                 <Col span={8}>
                   {navBarLogo}
                 </Col>
-                <Col span={8} justifyContent={'center'}>
+                <Col span={8} style={{justifyContent:'center'}>
                   <Menu
                     onClick={this.handleClick}
                     style={{ textAlign: 'right', border: 0 }}
@@ -126,7 +126,7 @@ class NavBar extends React.Component {
                     <Menu.Item key="notifications">
                       <Dropdown overlay={notificationMenu} trigger={['click']}>
                         <a className="ant-dropdown-link" href="#">
-                          <Icon type="bell" style={{ fontSize: 18 }} />
+                          <Icon type="bell" style={{ fontSize: 75 }} />
                         </a>
                       </Dropdown>
                     </Menu.Item>
@@ -151,7 +151,7 @@ class NavBar extends React.Component {
                   <Menu.Item key="notifications">
                     <Dropdown overlay={notificationMenu} trigger={['click']}>
                       <a className="ant-dropdown-link" href="#">
-                        <Icon type="bell" style={{ fontSize: 18 }} />
+                        <Icon type="bell" style={{ fontSize: 75 }} />
                       </a>
                     </Dropdown>
                   </Menu.Item>

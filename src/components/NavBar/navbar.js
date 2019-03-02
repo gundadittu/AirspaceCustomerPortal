@@ -98,7 +98,7 @@ class NavBar extends React.Component {
       />
     )
     const navBarLogo = (
-      <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/updated_logo.png')} />
+      <img style={{ height: 200, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/updated_logo.png')} />
     );
     return (
       <Affix>

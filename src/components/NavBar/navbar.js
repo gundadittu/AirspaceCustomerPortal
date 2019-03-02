@@ -161,7 +161,6 @@ class NavBar extends React.Component {
                 </Menu>
               </Col>
             )}
-          </Col>
         </Row>
       </Affix>
     );

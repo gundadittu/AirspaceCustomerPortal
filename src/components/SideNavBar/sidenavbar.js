@@ -209,7 +209,7 @@ class SideNavBar extends React.Component {
   render() {
     if(this.props.device == "mobile"){
       return <div>
-        <IconButton onClick={this.toggleDrawer}>
+        <IconButton onClick={this.toggleDrawer} style={{height : 75}}>
           <UnfoldMore />
         </IconButton>
         <SwipeableDrawer

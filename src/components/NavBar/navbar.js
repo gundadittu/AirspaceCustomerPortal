@@ -100,7 +100,7 @@ class NavBar extends React.Component {
     const navBarLogo = (
       <Card
       cover={<img
-        style={{ height: 150}}
+        style={{ height: 150, width: 150}}
         alt="Airspace Photo" src={require('../../assets/images/updated_logo.png')} />}
       bordered={false}
       />

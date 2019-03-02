@@ -102,7 +102,7 @@ class NavBar extends React.Component {
       <Affix>
         <Row>
           <Col span={24}>
-            {this.props.device == "mobile" ? <SideNavBar /> : <div></div>}
+            {this.props.device == "mobile" ? <SideNavBar device={"mobile"}/> : <div></div>}
             <Menu
               onClick={this.handleClick}
               style={{ textAlign: 'right', border: 0 }}

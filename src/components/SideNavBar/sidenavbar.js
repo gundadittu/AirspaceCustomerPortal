@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Icon, Affix, Tag } from 'antd';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { Link } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import * as actionCreators from '../../store/actions/general';
@@ -41,12 +44,7 @@ class SideNavBar extends React.Component {
     });
   };
 
-  render() {
-
-    const sideBarLogo = (
-      <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
-    );
-
+  renderSubNavBar() {
     const officeAdminPortalDiv = () => {
 
       if (this.props.adminOfficeList == null) {
@@ -65,118 +63,127 @@ class SideNavBar extends React.Component {
       );
     }
 
-    const switchPortalSubMenu = (
-      <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
-        <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
-        <MenuItemGroup key="g1" title="Office Admin Portals">
-          {officeAdminPortalDiv()}
-        </MenuItemGroup>
-      </SubMenu>
+    const sideBarLogo = (
+      <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
     );
+        const switchPortalSubMenu = (
+          <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
+            <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
+            <MenuItemGroup key="g1" title="Office Admin Portals">
+              {officeAdminPortalDiv()}
+            </MenuItemGroup>
+          </SubMenu>
+        );
 
-    let currentPage = [this.props.currentPage];
+        let currentPage = [this.props.currentPage];
+        if (this.props.userType === "regular") {
+          if (this.props.regularUserPortalMode === "officeAdmin") {
+            return (
+              <Affix className="airspace-side-nav-bar-group" >
+                {sideBarLogo}
+                <Menu
+                  style={{ border: 0 }}
+                  defaultSelectedKeys={currentPage}
+                  mode="inline"
+                  className="airspace-side-nav-bar"
+                >
+                  <MenuItemGroup key="g2" title="">
+                    <Menu.Item key={pageTitles.homePageOfficeAdmin}>
+                      <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/home'}>
+                        {<span><Icon type="home" /><span>Home</span></span>}
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item key="announcements">
+                      <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/announcements'}>
+                        {<span><Icon type="notification" /><span>Announcements</span></span>}
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item key={pageTitles.userPageOfficeAdmin} >
+                      <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/users'}>
+                        {<span><Icon type="user" /><span>Users</span></span>}
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item key={pageTitles.conferenceRoomsPageOfficeAdmin}>
+                      <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/conferenceRooms'}>
+                        {<span><Icon type="schedule" /><span>Conference Rooms</span></span>}
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item key={pageTitles.hotDesksPageOfficeAdmin}>
+                      <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/hotDesks'}>
+                        {<span><Icon type="laptop" /><span>Hot Desks</span></span>}
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item key="serviceRequests">
+                      <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/serviceRequests'}>
+                        {<span><Icon type="tool" /><span>Service Requests</span></span>}
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item key={pageTitles.registeredGuestsPageOfficeAdmin}>
+                      <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/registeredGuests'}>
+                        {<span><Icon type="idcard" /><span>Registered Guests</span></span>}
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item key={pageTitles.eventsPageOfficeAdmin}>
+                      <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/events'}>
+                        {<span><Icon type="calendar" /><span>Events</span></span>}
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item key={pageTitles.spaceInfoPageOfficeAdmin}>
+                      <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/spaceInfo'}>
+                        {<span><Icon type="info-circle" /><span>Space Info</span></span>}
+                      </Link>
+                    </Menu.Item>
+                  </MenuItemGroup>
+                  {switchPortalSubMenu}
+                </Menu>
+              </Affix>
+            );
+          } else if (this.props.regularUserPortalMode === "regular") {
+            return (
+              <Menu
+                onClick={this.handleClick}
+                style={{ width: 256, height: 100, border: 0 }}
+                defaultSelectedKeys={['1']}
+                defaultOpenKeys={['sub1']}
+                mode="inline"
+              >
+                {sideBarLogo}
+                {switchPortalSubMenu}
+              </Menu>
+            )
+          }
+        } else {
+          // if not a regular user
+          return null;
+        }
+  }
+
+  render() {
 
 
-    /*if(this.props.device == "mobile"){
-      <div>
+
+    if(this.props.device == "mobile"){
+      return <div>
         <Button onClick={this.toggleDrawer()}>Open Left</Button>
         <SwipeableDrawer
-            open={this.state.left}
-            onClose={this.toggleDrawer('left', false)}
-            onOpen={this.toggleDrawer('left', true)}
+            open={this.state.showDrawer}
+            onClose={this.toggleDrawer()}
+            onOpen={this.toggleDrawer()}
           >
             <div
               tabIndex={0}
               role="button"
-              onClick={this.toggleDrawer('left', false)}
-              onKeyDown={this.toggleDrawer('left', false)}
+              onClick={this.toggleDrawer()}
+              onKeyDown={this.toggleDrawer()}
             >
-              {sideList}
+              {this.renderSubNavBar()}
             </div>
           </SwipeableDrawer>
         </div>
-    } */
-
-    if (this.props.userType === "regular") {
-      if (this.props.regularUserPortalMode === "officeAdmin") {
-        return (
-          <Affix className="airspace-side-nav-bar-group" >
-            {sideBarLogo}
-            <Menu
-              style={{ border: 0 }}
-              defaultSelectedKeys={currentPage}
-              mode="inline"
-              className="airspace-side-nav-bar"
-            >
-              <MenuItemGroup key="g2" title="">
-                <Menu.Item key={pageTitles.homePageOfficeAdmin}>
-                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/home'}>
-                    {<span><Icon type="home" /><span>Home</span></span>}
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="announcements">
-                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/announcements'}>
-                    {<span><Icon type="notification" /><span>Announcements</span></span>}
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key={pageTitles.userPageOfficeAdmin} >
-                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/users'}>
-                    {<span><Icon type="user" /><span>Users</span></span>}
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key={pageTitles.conferenceRoomsPageOfficeAdmin}>
-                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/conferenceRooms'}>
-                    {<span><Icon type="schedule" /><span>Conference Rooms</span></span>}
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key={pageTitles.hotDesksPageOfficeAdmin}>
-                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/hotDesks'}>
-                    {<span><Icon type="laptop" /><span>Hot Desks</span></span>}
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="serviceRequests">
-                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/serviceRequests'}>
-                    {<span><Icon type="tool" /><span>Service Requests</span></span>}
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key={pageTitles.registeredGuestsPageOfficeAdmin}>
-                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/registeredGuests'}>
-                    {<span><Icon type="idcard" /><span>Registered Guests</span></span>}
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key={pageTitles.eventsPageOfficeAdmin}>
-                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/events'}>
-                    {<span><Icon type="calendar" /><span>Events</span></span>}
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key={pageTitles.spaceInfoPageOfficeAdmin}>
-                  <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/spaceInfo'}>
-                    {<span><Icon type="info-circle" /><span>Space Info</span></span>}
-                  </Link>
-                </Menu.Item>
-              </MenuItemGroup>
-              {switchPortalSubMenu}
-            </Menu>
-          </Affix>
-        );
-      } else if (this.props.regularUserPortalMode === "regular") {
-        return (
-          <Menu
-            onClick={this.handleClick}
-            style={{ width: 256, height: 100, border: 0 }}
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            mode="inline"
-          >
-            {sideBarLogo}
-            {switchPortalSubMenu}
-          </Menu>
-        )
-      }
     } else {
-      // if not a regular user
-      return null;
+      return this.renderSubNavBar()
     }
+
   }
 }
 

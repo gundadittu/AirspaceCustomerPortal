@@ -1,6 +1,6 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
-import { Avatar, Menu, Dropdown, Icon, Row, Col, List, Affix } from 'antd';
+import { Avatar, Menu, Dropdown, Icon, Row, Col, List, Affix, Card } from 'antd';
 import SideNavBar from '../SideNavBar/sidenavbar';
 import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
@@ -98,11 +98,14 @@ class NavBar extends React.Component {
       />
     )
     const navBarLogo = (
-      <img style={{ height: 200, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/updated_logo.png')} />
+      <Card
+      cover={<img alt="Airspace Photo" src={require('../../assets/images/updated_logo.png')} />}
+      bordered={false}
+      />
     );
     return (
       <Affix>
-        <Row>
+        <Row style={{ height: 150}}>
 
             {this.props.device == "mobile" ? (
               <div>

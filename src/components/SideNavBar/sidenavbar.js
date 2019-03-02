@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Menu, Icon, Affix, Tag } from 'antd';
-import Button from '@material-ui/core/Button';
+import { Button, Menu, Icon, Affix, Tag } from 'antd';
+//import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -81,7 +81,7 @@ class SideNavBar extends React.Component {
       <div>
         {sideBarLogo}
         <Menu
-          style={{ border: 0 }}
+          style={{ border: 0}}
           defaultSelectedKeys={currentPage}
           mode="inline"
           className="airspace-side-nav-bar"
@@ -209,9 +209,8 @@ class SideNavBar extends React.Component {
   render() {
     if(this.props.device == "mobile"){
       return <div>
-        <IconButton onClick={this.toggleDrawer} size={'large'}>
-          <UnfoldMore />
-        </IconButton>
+        <Button icon="bars" style={{fontSize: 40, height:80, width:80}} bordered={false} shape="circle" onClick={this.toggleDrawer}>
+        </Button>
         <SwipeableDrawer
             open={this.state.showDrawer}
             onClose={this.toggleDrawer}
@@ -222,45 +221,6 @@ class SideNavBar extends React.Component {
     } else {
       return this.renderSubNavBar()
     }
-    /*return (<div>
-      <Button onClick={() => this.toggleDrawer()}>Open Left</Button>
-      <SwipeableDrawer
-          open={this.state.showDrawer}
-          onClose={this.toggleDrawer()}
-          onOpen={this.toggleDrawer()}
-        >
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer()}
-            onKeyDown={this.toggleDrawer()}
-          >
-            {this.renderSubNavBar()}
-          </div>
-        </SwipeableDrawer>
-      </div>
-    ) */
-
-    /*if(this.props.device == "mobile"){
-      return <div>
-        <Button onClick={this.toggleDrawer()}>Open Left</Button>
-        <SwipeableDrawer
-            open={this.state.showDrawer}
-            onClose={this.toggleDrawer()}
-          >
-            <div
-              tabIndex={0}
-              role="button"
-              onClick={this.toggleDrawer()}
-              onKeyDown={this.toggleDrawer()}
-            >
-              {this.renderSubNavBar()}
-            </div>
-          </SwipeableDrawer>
-        </div>
-    } else {
-      return this.renderSubNavBar()
-    } */
 
   }
 }

@@ -100,24 +100,25 @@ class NavBar extends React.Component {
     const navBarLogo = (
       <Card
       cover={<img
-        style={{ height: 150, width: 150}}
+        style={{ height: 125, width: 125}}
         alt="Airspace Photo" src={require('../../assets/images/updated_logo.png')} />}
       bordered={false}
       />
     );
+    const DemoBox = props => <p className={`height-${props.value}`}>{props.children}</p>
     return (
       <Affix>
-        <Row style={{ height: 150}}>
+        <Row >
 
             {this.props.device == "mobile" ? (
               <div>
                 <Col span={8}>
-                  <SideNavBar device={"mobile"}/>
+                    <SideNavBar device={"mobile"}/>
                 </Col>
                 <Col span={8}>
                   {navBarLogo}
                 </Col>
-                <Col span={8} style={{justifyContent:'center'}}>
+                <Col span={8} >
                   <Menu
                     onClick={this.handleClick}
                     style={{ textAlign: 'right', border: 0 }}
@@ -126,7 +127,7 @@ class NavBar extends React.Component {
                     <Menu.Item key="notifications">
                       <Dropdown overlay={notificationMenu} trigger={['click']}>
                         <a className="ant-dropdown-link" href="#">
-                          <Icon type="bell" style={{ fontSize: 75 }} />
+                          <Icon type="bell" style={{ fontSize: 45 }} />
                         </a>
                       </Dropdown>
                     </Menu.Item>
@@ -134,7 +135,7 @@ class NavBar extends React.Component {
                     <Menu.Item key="profile">
                       <Dropdown overlay={profileMenu} trigger={['click']}>
                         <a className="ant-dropdown-link" href="#">
-                          <Avatar src={this.props.user.profileImageURL} />
+                          <Avatar src={this.props.user.profileImageURL} style={{height: 45, width:45}}/>
                         </a>
                       </Dropdown>
                     </Menu.Item>
@@ -151,7 +152,7 @@ class NavBar extends React.Component {
                   <Menu.Item key="notifications">
                     <Dropdown overlay={notificationMenu} trigger={['click']}>
                       <a className="ant-dropdown-link" href="#">
-                        <Icon type="bell" style={{ fontSize: 75 }} />
+                        <Icon type="bell" style={{ fontSize: 18 }} />
                       </a>
                     </Dropdown>
                   </Menu.Item>

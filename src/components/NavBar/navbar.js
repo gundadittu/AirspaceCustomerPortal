@@ -105,29 +105,31 @@ class NavBar extends React.Component {
         <Row>
           <Col span={24}>
             {this.props.device == "mobile" ? (
-              <Menu
-                onClick={this.handleClick}
-                style={{ textAlign: 'right', border: 0 }}
-                mode="horizontal"
-              >
+              <div justifyContent={"space-around"}>
                 <SideNavBar device={"mobile"}/>
                 {navBarLogo}
-                <Menu.Item key="notifications">
-                  <Dropdown overlay={notificationMenu} trigger={['click']}>
-                    <a className="ant-dropdown-link" href="#">
-                      <Icon type="bell" style={{ fontSize: 18 }} />
-                    </a>
-                  </Dropdown>
-                </Menu.Item>
+                <Menu
+                  onClick={this.handleClick}
+                  style={{ textAlign: 'right', border: 0 }}
+                  mode="horizontal"
+                >
+                  <Menu.Item key="notifications">
+                    <Dropdown overlay={notificationMenu} trigger={['click']}>
+                      <a className="ant-dropdown-link" href="#">
+                        <Icon type="bell" style={{ fontSize: 18 }} />
+                      </a>
+                    </Dropdown>
+                  </Menu.Item>
 
-                <Menu.Item key="profile">
-                  <Dropdown overlay={profileMenu} trigger={['click']}>
-                    <a className="ant-dropdown-link" href="#">
-                      <Avatar src={this.props.user.profileImageURL} />
-                    </a>
-                  </Dropdown>
-                </Menu.Item>
-              </Menu>
+                  <Menu.Item key="profile">
+                    <Dropdown overlay={profileMenu} trigger={['click']}>
+                      <a className="ant-dropdown-link" href="#">
+                        <Avatar src={this.props.user.profileImageURL} />
+                      </a>
+                    </Dropdown>
+                  </Menu.Item>
+                </Menu>
+              </div>
             ) : (
               <Menu
                 onClick={this.handleClick}

@@ -56,7 +56,7 @@ class AnnouncementsPage extends React.Component {
             <div style={{ backgroundColor: '#FFFFFF' }}>
               <Row>
                     <Col className="wide-table" span={24}>
-                        <h1>Annoucements Page</h1>
+                        <h1>Annoucements</h1>
                         <TextArea rows={4} onChange={(e) => this.handleInputChange(e)}/>
                         <Button className='inlineDisplay rightAlign' type="primary" onClick={this.postAnnouncement}>Post</Button>
                     </Col>

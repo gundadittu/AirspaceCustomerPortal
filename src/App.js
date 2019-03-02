@@ -90,20 +90,28 @@ class App extends Component {
       return (
         <div>
           <Row>
-            <Col span={4}>
               <MediaQuery minDeviceWidth={1224}>
-                <SideNavbar device={"desktop"}/>
+                <Col span={4}>
+                  <SideNavbar device={"desktop"}/>
+                </Col>
+                <Col span={20}>
+                  <NavBar/>
+                  <Switch>
+                    <Route path="/officeAdmin" component={officeAdminRoutingComp}/>
+                  </Switch>
+                </Col>
               </MediaQuery>
               <MediaQuery maxDeviceWidth={1224}>
-                <SideNavbar device={"mobile"}/>
+                <Col span={1}>
+                  <SideNavbar device={"mobile"}/>
+                </Col>
+                <Col span={23}>
+                  <NavBar/>
+                  <Switch>
+                    <Route path="/officeAdmin" component={officeAdminRoutingComp}/>
+                  </Switch>
+                </Col>
               </MediaQuery>
-            </Col>
-            <Col span={20}>
-              <NavBar/>
-              <Switch>
-                <Route path="/officeAdmin" component={officeAdminRoutingComp}/>
-              </Switch>
-            </Col>
           </Row>
         </div>
       );

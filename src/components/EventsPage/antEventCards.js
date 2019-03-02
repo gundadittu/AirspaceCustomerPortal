@@ -57,13 +57,14 @@ class AntEventCards extends React.Component {
     if (this.props.currentList == 'past'){
       selectedEventsList = this.props.pastEventsList;
     }
+    console.log(selectedEventsList)
     return (
       <div>
       <div style={{ padding: '30px' }}>
         <Row gutter={16}>
-          {selectedEventsList.map((event) => (
+          {selectedEventsList? selectedEventsList.map((event) => (
             <EventCard event={event}/>
-          ))}
+          )) : <div></div>}
         </Row>
       </div>
       </div>

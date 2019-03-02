@@ -103,11 +103,41 @@ class NavBar extends React.Component {
     return (
       <Affix>
         <Row>
-          <Col span={24}>
+
             {this.props.device == "mobile" ? (
-              <div justifyContent={"space-around"}>
-                <SideNavBar device={"mobile"}/>
-                {navBarLogo}
+              <div>
+                <Col span={8}>
+                  <SideNavBar device={"mobile"}/>
+                </Col>
+                <Col span={8}>
+                  {navBarLogo}
+                </Col>
+                <Col span={8}>
+                  <Menu
+                    onClick={this.handleClick}
+                    style={{ textAlign: 'right', border: 0 }}
+                    mode="horizontal"
+                  >
+                    <Menu.Item key="notifications">
+                      <Dropdown overlay={notificationMenu} trigger={['click']}>
+                        <a className="ant-dropdown-link" href="#">
+                          <Icon type="bell" style={{ fontSize: 18 }} />
+                        </a>
+                      </Dropdown>
+                    </Menu.Item>
+
+                    <Menu.Item key="profile">
+                      <Dropdown overlay={profileMenu} trigger={['click']}>
+                        <a className="ant-dropdown-link" href="#">
+                          <Avatar src={this.props.user.profileImageURL} />
+                        </a>
+                      </Dropdown>
+                    </Menu.Item>
+                  </Menu>
+                </Col>
+              </div>
+            ) : (
+              <Col span={24}>
                 <Menu
                   onClick={this.handleClick}
                   style={{ textAlign: 'right', border: 0 }}
@@ -129,29 +159,7 @@ class NavBar extends React.Component {
                     </Dropdown>
                   </Menu.Item>
                 </Menu>
-              </div>
-            ) : (
-              <Menu
-                onClick={this.handleClick}
-                style={{ textAlign: 'right', border: 0 }}
-                mode="horizontal"
-              >
-                <Menu.Item key="notifications">
-                  <Dropdown overlay={notificationMenu} trigger={['click']}>
-                    <a className="ant-dropdown-link" href="#">
-                      <Icon type="bell" style={{ fontSize: 18 }} />
-                    </a>
-                  </Dropdown>
-                </Menu.Item>
-
-                <Menu.Item key="profile">
-                  <Dropdown overlay={profileMenu} trigger={['click']}>
-                    <a className="ant-dropdown-link" href="#">
-                      <Avatar src={this.props.user.profileImageURL} />
-                    </a>
-                  </Dropdown>
-                </Menu.Item>
-              </Menu>
+              </Col>
             )}
           </Col>
         </Row>

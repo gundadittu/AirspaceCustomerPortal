@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Menu, Icon, Affix, Tag } from 'antd';
+import { Button, Menu, Icon, Affix, Tag, Drawer} from 'antd';
 //import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -58,7 +59,7 @@ class SideNavBar extends React.Component {
 
       return (
         this.props.adminOfficeList.map((office) => (
-          <Menu.Item key={office.uid}>
+          <Menu.Item key={office.uid} >
             <Link to={'/officeAdmin/' + office.uid}>
               {office.name}
             </Link>
@@ -77,9 +78,76 @@ class SideNavBar extends React.Component {
         </MenuItemGroup>
       </SubMenu>
     );
+
+    var fontSize = 14;
+    var iconSize = 14;
+    if (this.props.device == "mobile"){
+      fontSize = 35;
+      iconSize = 25
+    }
+
+    const sideMenuLinks = {
+      home: {
+        keyVal: pageTitles.homePageOfficeAdmin,
+        iconType: "home",
+        pageSubtitle: "home",
+        linkTitle: "Home"
+      },
+      announcements: {
+        keyVal: pageTitles.announcementsPageOfficeAdmin,
+        iconType: "notification",
+        pageSubtitle: 'announcements',
+        linkTitle: "Announcements"
+      },
+      users: {
+        keyVal: pageTitles.userPageOfficeAdmin,
+        iconType: "user",
+        pageSubtitle: 'users',
+        linkTitle: "Users"
+      },
+      conferenceRooms: {
+        keyVal: pageTitles.conferenceRoomsPageOfficeAdmin,
+        iconType: "schedule",
+        pageSubtitle: 'conferenceRooms',
+        linkTitle: "ConferenceRooms"
+      },
+      hotDesks: {
+        keyVal: pageTitles.hotDesksPageOfficeAdmin,
+        iconType: "laptop",
+        pageSubtitle: 'hotDesks',
+        linkTitle: "Hot Desks"
+      },
+      serviceRequests: {
+        key: pageTitles.serviceRequestsPageOfficeAdmin,
+        iconType: "tool",
+        pageSubtitle: 'serviceRequests',
+        linkTitle: "Service Requests"
+      },
+      registeredGuests: {
+        keyVal: pageTitles.registeredGuestsPageOfficeAdmin,
+        iconType: "idcard",
+        pageSubtitle: 'registeredGuests',
+        linkTitle: "RegisteredGuests"
+      },
+      eventsPage: {
+        keyVal: pageTitles.eventsPageOfficeAdmin,
+        iconType: "calendar",
+        pageSubtitle: 'events',
+        linkTitle: "Events"
+      },
+      spaceInfo: {
+        keyVal: pageTitles.spaceInfoPageOfficeAdmin,
+        iconType: "info-circle",
+        pageSubtitle: 'spaceInfo',
+        linkTitle: "Space Info"
+      }
+    }
+
+    const currentOfficeAdminUID = this.props.currentOfficeAdminUID
+    console.log(currentOfficeAdminUID, '\n')
     return (
       <div>
-        {sideBarLogo}
+        {this.props.device == "mobile" ? <div></div> : sideBarLogo}
         <Menu
           style={{ border: 0}}
           defaultSelectedKeys={currentPage}
@@ -87,51 +155,13 @@ class SideNavBar extends React.Component {
           className="airspace-side-nav-bar"
         >
           <MenuItemGroup key="g2" title="">
-            <Menu.Item key={pageTitles.homePageOfficeAdmin}>
-              <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/home'}>
-                {<span><Icon type="home" /><span>Home</span></span>}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="announcements">
-              <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/announcements'}>
-                {<span><Icon type="notification" /><span>Announcements</span></span>}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key={pageTitles.userPageOfficeAdmin} >
-              <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/users'}>
-                {<span><Icon type="user" /><span>Users</span></span>}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key={pageTitles.conferenceRoomsPageOfficeAdmin}>
-              <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/conferenceRooms'}>
-                {<span><Icon type="schedule" /><span>Conference Rooms</span></span>}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key={pageTitles.hotDesksPageOfficeAdmin}>
-              <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/hotDesks'}>
-                {<span><Icon type="laptop" /><span>Hot Desks</span></span>}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="serviceRequests">
-              <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/serviceRequests'}>
-                {<span><Icon type="tool" /><span>Service Requests</span></span>}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key={pageTitles.registeredGuestsPageOfficeAdmin}>
-              <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/registeredGuests'}>
-                {<span><Icon type="idcard" /><span>Registered Guests</span></span>}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key={pageTitles.eventsPageOfficeAdmin}>
-              <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/events'}>
-                {<span><Icon type="calendar" /><span>Events</span></span>}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key={pageTitles.spaceInfoPageOfficeAdmin}>
-              <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/spaceInfo'}>
-                {<span><Icon type="info-circle" /><span>Space Info</span></span>}
-              </Link>
-            </Menu.Item>
+            {Object.keys(sideMenuLinks).map((key) => (
+              <Menu.Item key={sideMenuLinks[key].keyVal}>
+                <Link to={'/officeAdmin/' + currentOfficeAdminUID + '/' + sideMenuLinks[key].pageSubtitle}>
+                  {<span style={{fontSize: fontSize}}><Icon type={sideMenuLinks[key].iconType} style={{ fontSize: iconSize }}/><span>{sideMenuLinks[key].linkTitle}</span></span>}
+                </Link>
+              </Menu.Item>
+            ))}
           </MenuItemGroup>
           {switchPortalSubMenu}
         </Menu>
@@ -207,16 +237,28 @@ class SideNavBar extends React.Component {
   }
 
   render() {
+
+    const drawerWidth = 240;
+
+    const styles = theme => ({
+      drawerPaper: {
+        width: drawerWidth,
+      },
+    })
     if(this.props.device == "mobile"){
       return <div>
         <Button icon="bars" style={{fontSize: 40, height:80, width:80}} bordered={false} shape="circle" onClick={this.toggleDrawer}>
         </Button>
-        <SwipeableDrawer
-            open={this.state.showDrawer}
+        <Drawer
+            visible={this.state.showDrawer}
+            placement='left'
             onClose={this.toggleDrawer}
+            classes={styles.drawerPaper}
+            width={520}
+            closable={false}
           >
               {this.renderSubNavBar()}
-          </SwipeableDrawer>
+          </Drawer>
         </div>
     } else {
       return this.renderSubNavBar()

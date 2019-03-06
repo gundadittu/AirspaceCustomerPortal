@@ -23,7 +23,7 @@ capitalizeFirstLetter(string) {
 }
 
 formatDate(date){
-  var description = moment(date).format('ddd MMM DD, YYYY') + ": ";
+  var description = moment(date).format('ddd MMM DD, YYYY') + ': ';
   description += (moment(date).format('hh:mm a'));
   return description;
 }

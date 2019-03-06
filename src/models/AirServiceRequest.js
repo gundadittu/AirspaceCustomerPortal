@@ -32,6 +32,5 @@ export default class AirServiceRequest {
         this.officeUID = officeUID;
         this.status = status
         this.userUID = userUID;
-        this.timestamp = timestamp;
     }
 }

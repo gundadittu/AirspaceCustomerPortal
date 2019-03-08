@@ -70,13 +70,15 @@ editArrival = (guest) => {
         Mark Registered Guest as:
       </Menu.Item>
       <Menu.Divider />
+      {guest.arrived ? (
+        <Menu.Item key="notArrived">
+          <Tag color={'volcano'} key='pending'>Not Arrived</Tag>
+        </Menu.Item>
+    ) : (
       <Menu.Item key="arrived">
         <Tag color={'green'} key='open'>Arrived</Tag>
       </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="missing">
-        <Tag color={'volcano'} key='pending'>Missing</Tag>
-      </Menu.Item>
+    )}
     </Menu>
   );
 }
@@ -84,7 +86,7 @@ editArrival = (guest) => {
 handleEditArrival = (e, guest) => {
   const roomsList = this.props.emailsToPass;
   var newStatus = true;
-  if(e.key == "missing") {
+  if(e.key == "notArrived") {
     newStatus = false
   }
   var payload = {

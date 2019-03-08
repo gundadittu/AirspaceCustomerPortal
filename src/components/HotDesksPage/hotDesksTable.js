@@ -9,9 +9,9 @@ import EditDeskForm from './editDeskForm';
 
 class HotDesksTable extends React.Component {
 
-  state = { 
-    selectedDesk: null, 
-    editDeskFormVisible: false 
+  state = {
+    selectedDesk: null,
+    editDeskFormVisible: false
   }
 
   componentDidMount() {
@@ -46,14 +46,14 @@ class HotDesksTable extends React.Component {
             <Tag color="blue">Reserveable</Tag>
           </span>
         )
-      } else { 
-        return null 
+      } else {
+        return null
       }
     }
   },
   {
     title: '',
-    dataIndex: 'uid',
+    dataIndex: '',
     key: 'more',
     render: (deskUID) => (
       <Dropdown overlay={() => this.editMenu(deskUID)} trigger={['click']}>
@@ -67,7 +67,7 @@ class HotDesksTable extends React.Component {
   editMenu = (deskUID) => {
     return (
       <Menu
-        onClick={(e) => this.handleEditMenuClick(e, deskUID)}
+        onClick={(e) => this.handleEditMenuClick(e, deskUID.uid)}
         style={{ textAlign: 'left', border: 0 }}
       >
         <Menu.Item key="edit">
@@ -80,45 +80,50 @@ class HotDesksTable extends React.Component {
   handleEditMenuClick = (e, deskUID) => {
     const key = e.key;
     const desksList = this.props.dataSource;
-
      // Get selected desk object
      let selectedDesk = null;
      for (let key in desksList) {
        const value = desksList[key];
        const currentUID = value.uid;
- 
+
        if (deskUID === currentUID) {
-         this.setState({
-           selectedDesk: value
-         });
          selectedDesk = value;
+         this.setState({
+           selectedDesk: selectedDesk
+         });
+         console.log(selectedDesk)
+         console.log(this.state.selectedDesk)
          break;
        }
      }
- 
+     console.log(selectedDesk)
+
      if (selectedDesk == null) {
        return
      }
 
     if (key === 'edit') {
       const editDeskForm = this.editDeskFormRef.props.form;
-      editDeskForm.setFields({ 
-        deskName: { 
+      editDeskForm.setFields({
+        deskName: {
           value: selectedDesk.name
-        }, 
-        reserveable: { 
+        },
+        reserveable: {
           value: (selectedDesk.reserveable === true) ? ['reserveable'] : []
-        }, 
-        activeStatus: { 
+        },
+        activeStatus: {
           value: (selectedDesk.active === true) ? 'active' : 'inactive'
         }
       })
-
+      this.setState({
+        selectedDesk: selectedDesk
+      })
+      console.log(this.state.selectedDesk)
       this.setState({editDeskFormVisible: true });
     }
   }
 
-  handleCreateEditDesk = () => { 
+  handleCreateEditDesk = () => {
     const editDeskForm = this.editDeskFormRef.props.form;
     editDeskForm.validateFields((err, values) => {
       if (err) {
@@ -150,7 +155,7 @@ class HotDesksTable extends React.Component {
         reserveable: reserveable,
         activeStatus: activeStatus,
         photoFileObj: photoFileObj,
-        hideForm: this.hideEditDeskForm, 
+        hideForm: this.hideEditDeskForm,
         selectedOfficeUID: this.props.currentOfficeUID
       }
 
@@ -158,28 +163,28 @@ class HotDesksTable extends React.Component {
     })
   }
 
-  handleCancelEditDesk = () => { 
+  handleCancelEditDesk = () => {
     this.hideEditDeskForm();
   }
 
-  hideEditDeskForm = () => { 
+  hideEditDeskForm = () => {
     this.setState({editDeskFormVisible: false });
     this.editDeskFormRef.setState({ fileList: [] });
     const editDeskForm = this.editDeskFormRef.props.form;
-    editDeskForm.setFields({ 
-      deskName: { 
+    editDeskForm.setFields({
+      deskName: {
         value: null
-      }, 
-      reserveable: { 
+      },
+      reserveable: {
         value: []
-      }, 
-      activeStatus: { 
-        value: null 
+      },
+      activeStatus: {
+        value: null
       }
     })
   }
 
-  saveEditDeskFormRef = (form) => { 
+  saveEditDeskFormRef = (form) => {
     this.editDeskFormRef = form;
   }
 
@@ -189,12 +194,13 @@ class HotDesksTable extends React.Component {
         <EditDeskForm
            wrappedComponentRef={(form) => this.saveEditDeskFormRef(form)}
            visible={this.state.editDeskFormVisible}
+           selectedDesk={this.state.selectedDesk}
            onCancel={this.handleCancelEditDesk}
            onCreate={this.handleCreateEditDesk}
            confirmLoading={this.props.editDeskFormLoading}
         />
         <Table
-               columns={this.columns} 
+               columns={this.columns}
                dataSource={this.props.dataSource}
                pagination={false}
                loading={this.props.isLoadingHotDesksData}
@@ -206,7 +212,7 @@ class HotDesksTable extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    editDeskFormLoading: state.officeAdmin.editDeskFormLoading, 
+    editDeskFormLoading: state.officeAdmin.editDeskFormLoading,
     desksList: state.officeAdmin.desksList,
     currentOfficeUID: state.general.currentOfficeAdminUID,
     isLoadingHotDesksData: state.officeAdmin.isLoadingHotDesksData

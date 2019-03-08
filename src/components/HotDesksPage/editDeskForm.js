@@ -21,6 +21,11 @@ class EditDeskForm extends React.Component {
         }
     }
 
+    componentDidMount() {
+      console.log("Component Did Mount Edit Form Ref")
+      console.log(this.props.selectedDesk)
+    }
+
     deskPhotoFile = (e) => {
         if (Array.isArray(e)) {
             this.setState({ fileList: e })

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router'
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import LoginNavBar from '../Login/LoginNavBar';
 import ConfirmationImage from "../../assets/images/confirm_registered_guest.png";
 import ConfirmationErrorImage from "../../assets/images/confirmation_error.png";
@@ -26,8 +27,9 @@ class CreatePasswordPage extends React.Component {
   render() {
 
     if (this.props.create_password_url) {
+      const relativeURL = this.props.create_password_url.replace("https://airspace-management-app.firebaseapp.com", "")
       return (
-        <Redirect to={this.props.create_password_url}/>
+        <Redirect to={relativeURL}/>
       )
     }
 
@@ -59,4 +61,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePasswordPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreatePasswordPage));

@@ -27,20 +27,20 @@ class CreatePasswordPage extends React.Component {
   render() {
 
     if (this.props.create_password_url) {
-      const relativeURL = this.props.create_password_url.replace("https://airspace-management-app.firebaseapp.com", "")
-      return (
-        <Redirect to={relativeURL}/>
-      )
+      window.location.assign(this.props.create_password_url);
     }
-
     return (
       <div>
         <Row>
           <LoginNavBar/>
         </Row>
+        <Row type="flex" justify="space-around" align="middle">
+          <h2>Creating password</h2>
+        </Row>
+        <Row type="flex" justify="space-around" align="middle">
+          <Spin size="large" />
+        </Row>
         <br />
-        <div>Creating password</div>
-
 
       </div>
 

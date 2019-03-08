@@ -3,23 +3,28 @@ import { connect } from 'react-redux';
 import LoginNavBar from '../Login/LoginNavBar';
 import ConfirmationImage from "../../assets/images/confirm_registered_guest.png";
 import ConfirmationErrorImage from "../../assets/images/confirmation_error.png";
-import * as actionCreator from '../../store/actions/general';
+//import * as actionCreator from '../../store/actions/general';
+import * as actionCreator from '../../store/actions/officeAdmin';
 import { Row, Col, Card, Spin } from 'antd';
 import '../Login/Login.css'
 
-class ConfirmationPage extends React.Component {
+class UpdateServiceRequestStatusPage extends React.Component {
   state = ({
     valid_confirmation: true
   })
 
   componentDidMount() {
-    console.log("Confirmation Page")
+    console.log("UpdateSerivceRequestPage")
     console.log(this)
-    const rgUID = this.props.match.params.UID
+    const serviceRequestUID = this.props.match.params.uid
+    const newStatus = this.props.match.params.status
+
     var payload = {
-      registeredGuestUID: rgUID
+      selectedServiceRequestUID: serviceRequestUID,
+      newStatus: newStatus
     }
-    this.props.guestSelfCheckIn(payload)
+    console.log("Payload", payload)
+    this.props.editServiceRequestStatusForOfficeAdmin(payload)
   }
 
   render() {
@@ -37,7 +42,7 @@ class ConfirmationPage extends React.Component {
               </Col>
               <Col span={10}>
                 <Card
-                cover={<img alt="Request Photo" src={this.props.checkedIn? ConfirmationImage : ConfirmationErrorImage} />}
+                cover={<img alt="Request Photo" src={this.props.successfulServiceRequestUpdate? ConfirmationImage : ConfirmationErrorImage} />}
                 bordered={false}
                 />
               </Col>
@@ -55,6 +60,9 @@ class ConfirmationPage extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    currentOfficeUID: state.general.currentOfficeAdminUID,
+    isLoadingServiceRequestsData: state.officeAdmin.isLoadingServiceRequestsData,
+    successfulServiceRequestUpdate: state.officeAdmin.successfulServiceRequestUpdate,
     checkedIn: state.general.checkedIn,
     checkingUserIn: state.general.checking_user_in
   }
@@ -62,8 +70,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    guestSelfCheckIn: (payload) => dispatch(actionCreator.guestSelfCheckIn(payload))
+    editServiceRequestStatusForOfficeAdmin: (payload) => dispatch(actionCreator.editServiceRequestStatusForOfficeAdmin(payload))
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmationPage);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateServiceRequestStatusPage);

@@ -22,6 +22,7 @@ const initialState = {
     isLoadingHotDesksData: false,
     isLoadingServiceRequestsData: false,
     isLoadingServiceRequestsEmailsData: false,
+    successfulServiceRequestUpdate: false,
     isEditingGuestsData: false,
     updatingServiceStatus: false,
     isLoadingEventsData: false,
@@ -147,9 +148,9 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, {finishedUpdatingEmails: true, isLoadingServiceRequestsEmailsData: false});
             //
         case actionTypes.EDIT_SERVICE_REQUESTS_STATUS:
-            return updateObject(state, {updatingServiceStatus: true});
+            return updateObject(state, {updatingServiceStatus: true, successfulServiceRequestUpdate: false});
         case actionTypes.EDIT_SERVICE_REQUESTS_STATUS_SUCCESS:
-            return updateObject(state, {updatingServiceStatus: false });
+            return updateObject(state, {updatingServiceStatus: false, successfulServiceRequestUpdate: true });
         case actionTypes.EDIT_SERVICE_REQUESTS_STATUS_ERROR:
             return updateObject(state, {updatingServiceStatus: false});
         case actionTypes.LOAD_REGISTERED_GUESTS:

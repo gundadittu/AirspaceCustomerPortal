@@ -526,12 +526,14 @@ function* editServiceRequestsEmailsWorkerSaga(action) {
 //--------------
 
 function editStatus(payload, firebase) {
+    console.log("Here", payload)
     const selectedServiceRequestUID = payload.selectedServiceRequestUID;
     const newStatus = payload.newStatus;
     const dict = {
       selectedServiceRequestUID: selectedServiceRequestUID,
       newStatus: newStatus
     }
+    console.log(dict)
     const apiCall = firebase.functions.httpsCallable('updateServiceRequestStatusForOfficeAdmin');
     return apiCall(dict)
     .then( response => {
@@ -542,7 +544,7 @@ function editStatus(payload, firebase) {
 function* editServiceRequestsStatusWorkerSaga(action) {
     try {
         const payload = action.payload;
-
+        console.log("Payload for edit", payload)
         let firebase = yield select(selectors.firebase);
 
         const response = yield call(editStatus, action.payload, firebase);
@@ -553,18 +555,19 @@ function* editServiceRequestsStatusWorkerSaga(action) {
         });
 
         const newPayload = { hideForm: payload.hideForm }
-        yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { ...newPayload } });
+        yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_STATUS_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
+      console.log("THERE HAS BEEN AN ERROR")
         console.error(error);
 
         notification['error']({
-            message: 'Unable to edit emails for this office.',
+            message: 'Unable to edit status for this office.',
             description: error.message
         });
 
         const payload = action.payload;
         const newPayload = { hideForm: payload.hideForm }
-        yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_ERROR, payload: { ...newPayload } });
+        yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_STATUS_ERROR, payload: { ...newPayload } });
     }
 }
 

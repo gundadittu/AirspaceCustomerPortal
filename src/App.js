@@ -3,6 +3,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import { connect } from 'react-redux';
 import ConfirmationPage from './components/ConfirmationPage/confirmationPage'
+import UpdateServiceRequestStatusPage from './components/UpdateServiceRequestStatusPage/updateServiceRequestStatusPage'
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
 import SideNavbar from './components/SideNavBar/sidenavbar';
@@ -148,6 +149,7 @@ class App extends Component {
         <div>
            <Switch>
             <Route exact path='/arrivedGuest/:UID' component={ConfirmationPage}></Route>
+            <Route exact path='/updateServiceRequestStatus/:uid/:status' component={UpdateServiceRequestStatusPage}></Route>
             <Route path="/" component={Login}/>
             <Route path="/login" component={Login}/>
           </ Switch>

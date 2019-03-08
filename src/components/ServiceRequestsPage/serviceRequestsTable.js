@@ -144,7 +144,7 @@ formatDate(date){
     } else {
       const roomsList = this.props.emailsToPass;
       var payload = {
-        selectedServiceRequestUID: request.UID,
+        selectedServiceRequestUID: request.uid,
         newStatus: e.key
       }
 

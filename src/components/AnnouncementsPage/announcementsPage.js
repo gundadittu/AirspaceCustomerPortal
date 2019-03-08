@@ -64,12 +64,13 @@ class AnnouncementsPage extends React.Component {
     }
 
     render() {
+        var announcementsDescription = "Post an announcement that is to be sent to everyone in the office!"
         return (
             <div style={{ backgroundColor: '#FFFFFF' }}>
               <Row>
                     <Col className="wide-table" span={24}>
                         <h1>Annoucements</h1>
-                        <TextArea rows={4} onChange={(e) => this.handleInputChange(e)}/>
+                        <TextArea rows={4} onChange={(e) => this.handleInputChange(e)} placeholder={announcementsDescription}/>
                         <Button className='inlineDisplay rightAlign' type="primary" onClick={this.postAnnouncement}>Post</Button>
                     </Col>
                 </Row>

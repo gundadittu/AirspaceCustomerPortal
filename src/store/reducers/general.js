@@ -10,6 +10,8 @@ const initialState = {
     currentOfficeAdmin: null,
     isLoadingSignIn: false,
     notifications: [],
+    create_password_url: null,
+    redirect_create_password: false,
     checkIn: false,
     checking_user_in: false
 };
@@ -62,6 +64,14 @@ const reducer = ( state = initialState, action ) => {
             return updateObject(state, {checkedIn: true, checking_user_in: false})
         case actionTypes.GUEST_SELF_CHECK_IN_STATUS_ERROR:
             return updateObject(state, {checkedIn: true, checking_user_in: false})
+        case actionTypes.GUEST_CREATE_PASSWORD:
+            return updateObject(state, {redirect_create_password: false})
+        case actionTypes.GUEST_CREATE_PASSWORD_SUCCESS:
+            const createPasswordPayload = action.payload;
+            console.log("SUCCESS", action.payload)
+            return updateObject(state, {create_password_url: createPasswordPayload.create_password_url})
+        case actionTypes.GUEST_CREATE_PASSWORD_ERROR:
+            return updateObject(state, {redirect_create_password: false})
         default:
             return state;
     }

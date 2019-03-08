@@ -17,6 +17,7 @@ import EventsPage from './components/EventsPage/eventspage';
 import SpaceInfoPage from './components/SpaceInfoPage/spaceInfoPage';
 import ServiceRequestsPage from './components/ServiceRequestsPage/serviceRequestsPage';
 import ExperienceManagerPage from './components/ExperienceManagerPage/experienceManagerPage';
+import CreatePasswordPage from './components/CreatePasswordPage/createPasswordPage';
 
 import Firebase from './components/Firebase';
 
@@ -151,6 +152,7 @@ class App extends Component {
            <Switch>
             <Route exact path='/arrivedGuest/:UID' component={ConfirmationPage}></Route>
             <Route exact path='/updateServiceRequestStatus/:uid/:status' component={UpdateServiceRequestStatusPage}></Route>
+            <Route exact path='/createPassword/:userUID' component={CreatePasswordPage}></Route>
             <Route path="/" component={Login}/>
             <Route path="/login" component={Login}/>
           </ Switch>

@@ -30,3 +30,12 @@ export const guestSelfCheckIn = (payload) => {
     }
   }
 }
+
+export const guestCreatePassword = (payload) => {
+  return {
+    type: actionTypes.GUEST_CREATE_PASSWORD,
+    payload: {
+      userUID: payload.userUID
+    }
+  }
+}

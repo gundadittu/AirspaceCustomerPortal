@@ -140,6 +140,12 @@ class SideNavBar extends React.Component {
         iconType: "info-circle",
         pageSubtitle: 'spaceInfo',
         linkTitle: "Space Info"
+      },
+      experienceManager: {
+        keyVal: pageTitles.experienceManagerPageOfficeAdmin,
+        iconType: "team",
+        pageSubtitle: 'experienceManager',
+        linkTitle: "Experience Manager"
       }
     }
 

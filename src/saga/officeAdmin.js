@@ -9,6 +9,7 @@ import AirEvent from '../models/AirEvent'
 import AirServiceRequest from '../models/AirServiceRequest'
 import AirAnnouncement from '../models/AirAnnouncement'
 import { notification } from 'antd';
+//const //sentry = require('@//sentry/node');
 require("firebase/functions");
 require("firebase/storage");
 
@@ -165,7 +166,7 @@ function* createUserWorkerSaga(action) {
         yield put({ type: actionTypes.CREATE_USER_FOR_OFFICEADMIN_FINISHED, payload: { ...newPayload } })
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to add user.',
@@ -209,7 +210,7 @@ function* loadOfficeUsersWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_OFFICE_USERS_SUCCESS, payload: { userList: response } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to load Users for this office.',
@@ -230,15 +231,14 @@ function loadAdminAnnouncements(payload, firebase) {
     console.log(dict)
     return apiCall({ selectedOfficeUID: selectedOfficeUID })
         .then(result => {
-            console.log("WHAT IS DATA ", result)
             var announcements = []
             result.data.map(announcement => {
               var newAnnouncement = new AirAnnouncement(announcement) || null
-              if (newAnnouncement !== null) {
+              if (newAnnouncement !== null && newAnnouncement.uid) {
                   announcements.push(newAnnouncement);
               }
             })
-            return result;
+            return announcements;
         })
 }
 
@@ -251,10 +251,10 @@ function* loadAdminAnnouncementsWorkerSaga(action) {
         validatePermission(selectedOfficeUID, userAdminOfficeList);
         let firebase = yield select(selectors.firebase);
         const response = yield call(loadAdminAnnouncements, action.payload, firebase);
-        yield put({ type: actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_SUCCESS, payload: { announcements: response.data } });
+        yield put({ type: actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_SUCCESS, payload: { announcements: response } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to load Announcements for this office.',
@@ -298,7 +298,7 @@ function* postAdminAnnouncementWorkerSaga(action) {
         yield put({ type: actionTypes.POST_ADMIN_ANNOUNCEMENT_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to post announcement for this office.',
@@ -352,7 +352,7 @@ function* loadConferenceRoomsWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS, payload: { activeRoomsList: response.active, inactiveRoomsList: response.inactive } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to load Conference Rooms for this office.',
@@ -404,7 +404,7 @@ function* loadHotDesksWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_HOT_DESKS_SUCCESS, payload: { activeDesksList: response.active, inactiveDesksList: response.inactive } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to load Hot Desks for this office.',
@@ -444,7 +444,7 @@ function* loadServiceRequestsWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_SUCCESS, payload: { serviceRequestsList: response.serviceRequests} });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to load Service Requests for this office.',
@@ -479,7 +479,7 @@ function* loadServiceRequestsEmailsWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { serviceEmailsList: response.serviceRequestsEmails} });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to load Service Requests Emails for this office.',
@@ -525,7 +525,7 @@ function* editServiceRequestsEmailsWorkerSaga(action) {
         yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to edit emails for this office.',
@@ -574,7 +574,7 @@ function* editServiceRequestsStatusWorkerSaga(action) {
     } catch (error) {
       console.log("THERE HAS BEEN AN ERROR")
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to edit status for this office.',
@@ -626,7 +626,7 @@ function* loadRegisteredGuestsWorkerSaga(action) {
 
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to load Registered Guests for this office.',
@@ -669,7 +669,7 @@ function* editRegisteredGuestStatusForOfficeAdminWorkerSaga(action) {
         yield put({ type: actionTypes.EDIT_REGISTERED_GUESTS_STATUS_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to change the arrival status of your guest.',
@@ -710,7 +710,7 @@ function* guestSelfCheckInWorkerSaga(action) {
         yield put({ type: actionTypes.GUEST_SELF_CHECK_IN_STATUS_SUCCESS, payload: {} });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to check you in.',
@@ -762,7 +762,7 @@ function* loadEventsWorkerSaga(action) {
         });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to load Events for this office.',
@@ -816,7 +816,7 @@ function* createEventWorkerSaga(action) {
         yield put({ type: actionTypes.CREATE_EVENT_FINISHED, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to create event for this office.',
@@ -873,7 +873,7 @@ function* editEventWorkerSaga(action) {
         yield put({ type: actionTypes.EDIT_EVENT_FINISHED, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to edit event for this office.',
@@ -917,7 +917,7 @@ function* removeUserWorkerSaga(action) {
         yield put({ type: actionTypes.REMOVE_OFFICE_USER_FINISHED, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to remove user from this office.',
@@ -957,7 +957,7 @@ function* editUserWorkerSaga(action) {
         yield put({ type: actionTypes.EDIT_OFFICE_USER_FINISHED, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
         notification['error']({
             message: 'Unable to update user info.',
             description: error.message
@@ -1004,7 +1004,7 @@ function* addRoomWorkerSaga(action) {
         yield put({ type: actionTypes.ADD_CONF_ROOM_FINISHED, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to add conference room.',
@@ -1052,7 +1052,7 @@ function* editRoomWorkerSaga(action) {
 
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
         notification['error']({
             message: 'Unable to edit conference room.',
             description: error.message
@@ -1101,7 +1101,7 @@ function* addDeskWorkerSaga(action) {
     } catch (error) {
         console.error(error);
 
-        Sentry.captureException(error);
+        //sentry.captureException(error);
         notification['error']({
             message: 'Unable to add hot desk.',
             description: error.message
@@ -1147,7 +1147,7 @@ function* editDeskWorkerSaga(action) {
         yield put({ type: actionTypes.EDIT_HOT_DESK_FINISHED, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
         notification['error']({
             message: 'Unable to edit hot desk.',
             description: error.message
@@ -1181,7 +1181,7 @@ function* getSpaceInfoWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_SPACE_INFO_FINISHED, payload: { onboardingURL: response.onboardingURL, floorplanURL: response.floorplanURL, buildingDetailsURL: response.buildingDetailsURL } });
     } catch (error) {
         console.error(error);
-        Sentry.captureException(error);
+        //sentry.captureException(error);
 
         notification['error']({
             message: 'Unable to load space info for this office.',

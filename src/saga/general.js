@@ -5,6 +5,7 @@ import "firebase/functions";
 import { notification } from 'antd';
 import 'react';
 import AirNotification from "../models/AirNotification";
+//const Sentry = require('@sentry/node');
 
 export function* loadNotificationsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_NOTIFICATIONS, loadNotificationsWorkerSaga);
@@ -17,6 +18,7 @@ export function* guestCreatePasswordWatchSaga() {
 export function* editServiceRequestsStatusEmailWatchSaga() {
     yield takeLatest(actionTypes.EDIT_SERVICE_REQUESTS_STATUS_EMAIL, editServiceRequestsStatusEmailWorkerSaga);
 }
+
 
 function loadNotifications(firebase) {
     const apiCall = firebase.functions.httpsCallable('getUsersNotifications')
@@ -41,7 +43,7 @@ function* loadNotificationsWorkerSaga(action) {
         const response = yield call(loadNotifications, firebase);
         yield put({ type: actionTypes.LOAD_NOTIFICATIONS_SUCCESS, payload: { notifications: response } });
     } catch (error) {
-        Sentry.captureException(error);
+        //Sentry.captureException(error);
         notification['error']({
             message: 'Unable to load notifications.',
             description: error.message
@@ -73,7 +75,7 @@ function* guestCreatePasswordWorkerSaga(action) {
         const response = yield call(guestCreatePassword, action.payload, firebase);
         yield put({ type: actionTypes.GUEST_CREATE_PASSWORD_SUCCESS, payload: { create_password_url: response } });
     } catch (error) {
-        Sentry.captureException(error);
+        //Sentry.captureException(error);
         notification['error']({
             message: 'Unable to verify create password.',
             description: error.message

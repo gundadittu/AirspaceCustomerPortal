@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import * as actionTypes from '../../store/actions/actionTypes';
 
-import { Divider, Comment, Avatar, Row, Col, Button, Input } from 'antd';
+import { Spin, Divider, Comment, Avatar, Row, Col, Button, Input } from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
 import '../../App.css';
@@ -58,7 +58,6 @@ class AnnouncementsPage extends React.Component {
     }
 
     postAnnouncement = () => {
-      console.log("Post Announcement")
       const selectedOfficeUID = this.props.match.params.officeUID;
       this.props.postAdminAnnouncement(selectedOfficeUID, this.state.announcement)
     }
@@ -80,6 +79,9 @@ class AnnouncementsPage extends React.Component {
                     <Col className="wide-table" span={24}>
                         <Row>
                           <h1>Annoucements</h1>
+                          <IconButton className="inlineDisplay" onClick={() => this.props.loadAdminAnnouncements(this.props.match.params.officeUID)}>
+                              <RefreshIcon />
+                          </IconButton>
                         </Row>
                         <Row>
                           <TextArea value={this.state.announcement} rows={4} onChange={(e) => this.handleInputChange(e)} placeholder={announcementsDescription}/>
@@ -87,20 +89,24 @@ class AnnouncementsPage extends React.Component {
                         <Row>
                           <Button className='inlineDisplay rightAlign' type="primary" loading={this.props.postingAnnouncement} onClick={this.postAnnouncement}>Post</Button>
                         </Row>
-                        {Object.keys(this.props.announcementsList).map(key => (
-                          <div>
-                          {console.log(this.props.announcementsList[key])}
-                            <Row>
-                              <Comment
-                                actions={[<span>Reply to</span>]}
-                                datetime={<a>{this.formatDate(this.props.announcementsList[key].timestamp)}</a>}
-                                content={<h3>{this.props.announcementsList[key].message}</h3>}
-                              >
-                              </Comment>
-                            </Row>
-                            <Divider />
-                          </div>
-                        ))}
+                        {this.props.isLoadingAnnouncementsData ? (
+                          <Row type="flex" justify="space-around" align="middle">
+                            <Spin size="large"/>
+                          </Row>
+                        ) : (
+                          this.props.announcementsList.map(announcement => (
+                            <div>
+                              <Row>
+                                <Comment
+                                  datetime={<a>{this.formatDate(announcement.timestamp)}</a>}
+                                  content={<h3>{announcement.message}</h3>}
+                                >
+                                </Comment>
+                              </Row>
+                              <Divider />
+                            </div>
+                          ))
+                        )}
                     </Col>
                 </Row>
             </div>

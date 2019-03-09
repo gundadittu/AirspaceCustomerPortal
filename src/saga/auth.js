@@ -5,6 +5,7 @@ import AirOffice from "../models/AirOffice";
 import "firebase/functions";
 import "firebase/auth";
 import { notification } from 'antd';
+//const Sentry = require('@sentry/node');
 
 // Watchers
 
@@ -28,7 +29,7 @@ function signInUser(payload, firebase) {
     const rememberMe = payload.rememberMe || false;
     // firebase.auth.Auth.Persistence.SESSION
     let persistMode = 'session';
-    if (rememberMe === true) { 
+    if (rememberMe === true) {
         // firebase.auth.Auth.Persistence.LOCAL
         persistMode = 'local';
     }
@@ -50,7 +51,7 @@ function* userSignInWorkerSaga(action) {
         yield call(signInUser, action.payload, firebase);
         yield put({ type: actionTypes.SIGN_IN_USER_SUCCESS });
     } catch (error) {
-        Sentry.captureException(error);
+        //Sentry.captureException(error);
         notification['error']({
             message: 'Unable to sign in user.',
             description: error.message
@@ -78,7 +79,7 @@ function* userSignInWorkerSaga(action) {
           yield put({ type: actionTypes.SIGN_OUT_USER_SUCCESS });
       } catch (error) {
           console.error(error);
-          Sentry.captureException(error);
+          //Sentry.captureException(error);
 
           notification['error']({
             message: 'Unable to sign out user.',
@@ -93,7 +94,7 @@ function* userSignInWorkerSaga(action) {
 
 function setUpUser(payload, firebase) {
     const uid = payload.uid || null;
-    if (uid == null) { 
+    if (uid == null) {
         return null;
     }
     const apiCall = firebase.functions.httpsCallable('getUserInfo')
@@ -102,20 +103,20 @@ function setUpUser(payload, firebase) {
         const data = result.data;
 
         let adminOffices = [];
-        for (let key in data.officeAdmin) { 
+        for (let key in data.officeAdmin) {
             const officeDict = data.officeAdmin[key];
             const office = new AirOffice(officeDict);
-            if (office) { 
+            if (office) {
                 adminOffices.push(office);
             }
         }
         data.officeAdmin = adminOffices;
 
         let userOffices = [];
-        for (let key in data.offices) { 
+        for (let key in data.offices) {
             const officeDict = data.offices[key];
             const office = new AirOffice(officeDict);
-            if (office) { 
+            if (office) {
                 userOffices.push(office);
             }
         }

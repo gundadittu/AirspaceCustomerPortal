@@ -10,16 +10,16 @@ export default class AirAnnouncement {
         const message = dict.message || null;
         const officeUID = dict.officeUID || null;
         const userUID = dict.userUID || null;
-        const stamp = dict.timestamp || null;
+        const timestamp = dict.timestamp || null;
 
-        if (stamp) {
-            const seconds = stamp._seconds;
-            const nanoseconds = stamp._nanoseconds;
-            const ts =  new firebase.firestore.Timestamp(seconds, nanoseconds);
-            this.stamp = ts.toDate();
+        if (timestamp) {
+            const seconds = timestamp._seconds;
+            const nanoseconds = timestamp._nanoseconds;
+            const firestamp =  new firebase.firestore.Timestamp(seconds, nanoseconds);
+            this.timestamp = firestamp.toDate();
         }
 
-        this.messsage = message;
+        this.message = message;
         this.userUID = userUID;
         this.officeUID = officeUID;
         this.uid = uid;

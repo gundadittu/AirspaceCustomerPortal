@@ -6,6 +6,7 @@ export default class AirRegisteredGuest {
         if (uid === null) {
             return null
         }
+        
         const name = dict.guestName || null;
         const email = dict.guestEmail || null;
         const arrived = dict.arrived ? dict.arrived : false;

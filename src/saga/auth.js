@@ -50,7 +50,7 @@ function* userSignInWorkerSaga(action) {
         yield call(signInUser, action.payload, firebase);
         yield put({ type: actionTypes.SIGN_IN_USER_SUCCESS });
     } catch (error) {
-        
+        Sentry.captureException(error);
         notification['error']({
             message: 'Unable to sign in user.',
             description: error.message
@@ -78,6 +78,7 @@ function* userSignInWorkerSaga(action) {
           yield put({ type: actionTypes.SIGN_OUT_USER_SUCCESS });
       } catch (error) {
           console.error(error);
+          Sentry.captureException(error);
 
           notification['error']({
             message: 'Unable to sign out user.',

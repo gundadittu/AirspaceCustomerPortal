@@ -1,6 +1,5 @@
 export default class AirAnnouncement {
     constructor(dict) {
-        console.log("This is AirAnnouncement: ", dict)
         const uid = dict.uid || null;
         if (uid === null) {
             return null
@@ -18,9 +17,8 @@ export default class AirAnnouncement {
         }
 
         this.messsage = message;
-        this.userUID = userUid;
+        this.userUID = userUID;
         this.officeUID = officeUID;
         this.uid = uid;
-        this.timestamp = stamp;
     }
 }

@@ -7,6 +7,7 @@ import AirHotDesk from '../models/AirHotDesk'
 import AirRegisteredGuest from '../models/AirRegisteredGuest'
 import AirEvent from '../models/AirEvent'
 import AirServiceRequest from '../models/AirServiceRequest'
+import AirAnnouncement from '../models/AirAnnouncement'
 import { notification } from 'antd';
 require("firebase/functions");
 require("firebase/storage");
@@ -228,7 +229,13 @@ function loadAdminAnnouncements(payload, firebase) {
     return apiCall({ selectedOfficeUID: selectedOfficeUID })
         .then(result => {
             console.log("WHAT IS DATA ", result)
-            var userList = []
+            var announcements = []
+            result.data.map(announcement => {
+              var newAnnouncement = new AirAnnouncement(announcement) || null
+              if (newAnnouncement !== null) {
+                  announcements.push(newAnnouncement);
+              }
+            })
             return result;
         })
 }
@@ -242,7 +249,6 @@ function* loadAdminAnnouncementsWorkerSaga(action) {
         validatePermission(selectedOfficeUID, userAdminOfficeList);
         let firebase = yield select(selectors.firebase);
         const response = yield call(loadAdminAnnouncements, action.payload, firebase);
-        console.log("THIS IS THE RESPONSE OF LOAD ANNOUNCEMENTS ", response)
         yield put({ type: actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_SUCCESS, payload: { announcements: response.data } });
     } catch (error) {
         console.error(error);

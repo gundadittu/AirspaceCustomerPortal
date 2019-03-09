@@ -36,6 +36,8 @@ const initialState = {
     createDeskFormLoading: false,
     editDeskFormLoading: false,
     isLoadingSpaceInfo: false,
+    postingAnnouncement: false,
+    successfulPost: false,
     onboardingURL: null,
     floorplanURL: null,
     buildingDetailsURL: null
@@ -89,7 +91,6 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { userList: userList, isLoadingUserData: false });
         case actionTypes.LOAD_OFFICE_USERS_ERROR:
             return updateObject(state, { isLoadingUserData: false });
-        //
         case actionTypes.LOAD_ADMIN_ANNOUNCEMENTS:
             return updateObject(state, { isLoadingAnnouncementsData: true });
         case actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_SUCCESS:
@@ -97,14 +98,12 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { announcementsList: announcements, isLoadingAnnouncementsData: false });
         case actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_ERROR:
             return updateObject(state, { isLoadingAnnouncementsData: false });
-
         case actionTypes.POST_ADMIN_ANNOUNCEMENT:
-            return updateObject(state, {});
+            return updateObject(state, {postingAnnouncement: true, successfulPost: false});
         case actionTypes.POST_ADMIN_ANNOUNCEMENT_SUCCESS:
-            return updateObject(state, {});
+            return updateObject(state, {postingAnnouncement: false, successfulPost: true});
         case actionTypes.POST_ADMIN_ANNOUNCEMENT_ERROR:
-            return updateObject(state, {});
-        //
+            return updateObject(state, {postingAnnouncement: false, successfulPost: false});
         case actionTypes.LOAD_CONFERENCE_ROOMS:
             return updateObject(state, { isLoadingRoomsData: true });
         case actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS:
@@ -128,7 +127,6 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { serviceRequestsList: serviceRequestsList, isLoadingServiceRequestsData: false});
         case actionTypes.LOAD_SERVICE_REQUESTS_ERROR:
             return updateObject(state, {isLoadingServiceRequestsData: false});
-            //
         case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS:
             return updateObject(state, {isLoadingServiceRequestsEmailsData: true});
         case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_SUCCESS:
@@ -136,8 +134,6 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { serviceRequestsEmailsList: serviceRequestsEmailsList, isLoadingServiceRequestsEmailsData: false});
         case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_ERROR:
             return updateObject(state, {isLoadingServiceRequestsEmailsData: false});
-            //
-            //
         case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS:
             return updateObject(state, {finishedUpdatingEmails: false, isLoadingServiceRequestsEmailsData: true});
         case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS:
@@ -161,14 +157,12 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { guestsList: guestList, isLoadingGuestsData: false});
         case actionTypes.LOAD_REGISTERED_GUESTS_ERROR:
             return updateObject(state, {isLoadingGuestsData: false});
-            //
         case actionTypes.EDIT_REGISTERED_GUESTS_STATUS:
             return updateObject(state, {isEditingGuestsData: true, checkedIn: false});
         case actionTypes.EDIT_REGISTERED_GUESTS_STATUS_SUCCESS:
             return updateObject(state, { isEditingGuestsData: false, checkedIn: true});
         case actionTypes.EDIT_REGISTERED_GUESTS_STATUS_ERROR:
             return updateObject(state, {isEditingGuestsData: false, checkedIn: false});
-            //
         case actionTypes.LOAD_EVENTS:
             return updateObject(state, {isLoadingEventsData: true});
         case actionTypes.LOAD_EVENTS_SUCCESS:

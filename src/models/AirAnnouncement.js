@@ -1,6 +1,7 @@
+import firebase from 'firebase';
+
 export default class AirAnnouncement {
     constructor(dict) {
-        console.log("This is AirAnnouncement: ", dict)
         const uid = dict.uid || null;
         if (uid === null) {
             return null
@@ -10,6 +11,7 @@ export default class AirAnnouncement {
         const officeUID = dict.officeUID || null;
         const userUID = dict.userUID || null;
         const stamp = dict.timestamp || null;
+
         if (stamp) {
             const seconds = stamp._seconds;
             const nanoseconds = stamp._nanoseconds;
@@ -18,9 +20,8 @@ export default class AirAnnouncement {
         }
 
         this.messsage = message;
-        this.userUID = userUid;
+        this.userUID = userUID;
         this.officeUID = officeUID;
         this.uid = uid;
-        this.timestamp = stamp;
     }
 }

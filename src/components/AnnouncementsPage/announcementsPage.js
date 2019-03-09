@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import * as actionTypes from '../../store/actions/actionTypes';
 
-import { Row, Col, Button, Input } from 'antd';
+import { Divider, Comment, Avatar, Row, Col, Button, Input } from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
 import '../../App.css';
@@ -15,6 +15,7 @@ import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 const { TextArea } = Input;
+const moment = require('moment');
 
 class AnnouncementsPage extends React.Component {
 
@@ -45,6 +46,7 @@ class AnnouncementsPage extends React.Component {
             const secondPagePayload = getPagePayload(pageTitles.announcementsPageOfficeAdmin);
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
+                this.props.loadAdminAnnouncements(selectedOfficeUID)
             }
         }
     }
@@ -56,8 +58,15 @@ class AnnouncementsPage extends React.Component {
     }
 
     postAnnouncement = () => {
+      console.log("Post Announcement")
       const selectedOfficeUID = this.props.match.params.officeUID;
       this.props.postAdminAnnouncement(selectedOfficeUID, this.state.announcement)
+    }
+
+    formatDate(date){
+      var description = moment(date).format('ddd MMM DD, YYYY') + ': ';
+      description += (moment(date).format('hh:mm a'));
+      return description;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -69,9 +78,29 @@ class AnnouncementsPage extends React.Component {
             <div style={{ backgroundColor: '#FFFFFF' }}>
               <Row>
                     <Col className="wide-table" span={24}>
-                        <h1>Annoucements</h1>
-                        <TextArea rows={4} onChange={(e) => this.handleInputChange(e)} placeholder={announcementsDescription}/>
-                        <Button className='inlineDisplay rightAlign' type="primary" onClick={this.postAnnouncement}>Post</Button>
+                        <Row>
+                          <h1>Annoucements</h1>
+                        </Row>
+                        <Row>
+                          <TextArea value={this.state.announcement} rows={4} onChange={(e) => this.handleInputChange(e)} placeholder={announcementsDescription}/>
+                        </Row>
+                        <Row>
+                          <Button className='inlineDisplay rightAlign' type="primary" loading={this.props.postingAnnouncement} onClick={this.postAnnouncement}>Post</Button>
+                        </Row>
+                        {Object.keys(this.props.announcementsList).map(key => (
+                          <div>
+                          {console.log(this.props.announcementsList[key])}
+                            <Row>
+                              <Comment
+                                actions={[<span>Reply to</span>]}
+                                datetime={<a>{this.formatDate(this.props.announcementsList[key].timestamp)}</a>}
+                                content={<h3>{this.props.announcementsList[key].message}</h3>}
+                              >
+                              </Comment>
+                            </Row>
+                            <Divider />
+                          </div>
+                        ))}
                     </Col>
                 </Row>
             </div>
@@ -82,7 +111,9 @@ class AnnouncementsPage extends React.Component {
 const mapStateToProps = state => {
     return {
       isLoadingAnnouncementsData: state.officeAdmin.isLoadingAnnouncementsData,
-      announcementsList: state.officeAdmin.announcementsList
+      announcementsList: state.officeAdmin.announcementsList,
+      postingAnnouncement: state.officeAdmin.postingAnnouncement,
+      successfulPost: state.officeAdmin.successfulPost
     }
 };
 

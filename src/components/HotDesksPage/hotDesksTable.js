@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, Menu, Table, Tag } from 'antd';
 import IconButton from '@material-ui/core/IconButton';
-import MoreIcon from '@material-ui/icons/MoreHoriz';
+import EditIcon from '@material-ui/icons/Edit';
 import * as actionCreator from '../../store/actions/officeAdmin';
 import EditDeskForm from './editDeskForm';
 
@@ -53,32 +53,16 @@ class HotDesksTable extends React.Component {
   },
   {
     title: '',
-    dataIndex: '',
+    dataIndex: 'uid',
     key: 'more',
     render: (deskUID) => (
-      <Dropdown overlay={() => this.editMenu(deskUID)} trigger={['click']}>
-        <IconButton>
-          <MoreIcon />
-        </IconButton>
-      </Dropdown>
+      <IconButton onClick={() => this.handleEditDesk(deskUID)}>
+        <EditIcon />
+      </IconButton>
     ),
   }];
 
-  editMenu = (deskUID) => {
-    return (
-      <Menu
-        onClick={(e) => this.handleEditMenuClick(e, deskUID.uid)}
-        style={{ textAlign: 'left', border: 0 }}
-      >
-        <Menu.Item key="edit">
-          Edit Desk Info
-        </Menu.Item>
-      </Menu>
-    );
-  }
-
-  handleEditMenuClick = (e, deskUID) => {
-    const key = e.key;
+  handleEditDesk = (deskUID) => {
     const desksList = this.props.dataSource;
      // Get selected desk object
      let selectedDesk = null;
@@ -91,36 +75,31 @@ class HotDesksTable extends React.Component {
          this.setState({
            selectedDesk: selectedDesk
          });
-         console.log(selectedDesk)
-         console.log(this.state.selectedDesk)
          break;
        }
      }
-     console.log(selectedDesk)
 
      if (selectedDesk == null) {
        return
      }
 
-    if (key === 'edit') {
-      const editDeskForm = this.editDeskFormRef.props.form;
-      editDeskForm.setFields({
-        deskName: {
-          value: selectedDesk.name
-        },
-        reserveable: {
-          value: (selectedDesk.reserveable === true) ? ['reserveable'] : []
-        },
-        activeStatus: {
-          value: (selectedDesk.active === true) ? 'active' : 'inactive'
-        }
-      })
-      this.setState({
-        selectedDesk: selectedDesk
-      })
-      console.log(this.state.selectedDesk)
-      this.setState({editDeskFormVisible: true });
-    }
+    const editDeskForm = this.editDeskFormRef.props.form;
+    editDeskForm.setFields({
+      deskName: {
+        value: selectedDesk.name
+      },
+      reserveable: {
+        value: (selectedDesk.reserveable === true) ? ['reserveable'] : []
+      },
+      activeStatus: {
+        value: (selectedDesk.active === true) ? 'active' : 'inactive'
+      }
+    })
+    this.setState({
+      selectedDesk: selectedDesk
+    })
+    console.log(this.state.selectedDesk)
+    this.setState({editDeskFormVisible: true });
   }
 
   handleCreateEditDesk = () => {

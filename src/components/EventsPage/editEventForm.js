@@ -20,7 +20,7 @@ class EditEventForm extends React.Component {
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
+      message.error(`${info.file.name} file upload failed. Please try a smaller file.`);
     }
   }
 
@@ -96,7 +96,7 @@ class EditEventForm extends React.Component {
           label="Event Timeframe"
         >
           {getFieldDecorator('eventTimeRange', rangeConfig)(
-            <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" disabled={confirmLoading} />
+            <RangePicker showTime={{use12Hours: true}} format="YYYY-MM-DD HH:mm:ss" disabled={confirmLoading} />
           )}
         </Form.Item>
         <Form.Item label="Event Address">
@@ -104,7 +104,7 @@ class EditEventForm extends React.Component {
             initialValue: event.address || null,
             rules: [{ required: true, whitespace: true, message: 'Please input the event\'s address.' }],
           })(
-            <Input defaultValue="26888888" />
+            <Input defaultValue="26888888" disabled={confirmLoading}/>
           )}
         </Form.Item>
         <Form.Item label="Description">

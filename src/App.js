@@ -123,7 +123,7 @@ class App extends Component {
 
     if (this.props.user) { // logged in
       return (
-        <div>
+        <div style={{ background: '#FFFFFF'}}>
           <Row>
               <MediaQuery minDeviceWidth={1224}>
                 <Col span={4}>

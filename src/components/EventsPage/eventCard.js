@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, Modal, Spin} from 'antd';
+import { Icon, Row, Col, Card, Modal, Spin} from 'antd';
+import Button from '@material-ui/core/Button';
 import EditEventForm from './editEventForm.js'
 import '../../App.css'
 import * as actionCreator from '../../store/actions/officeAdmin';
@@ -143,6 +144,7 @@ class EventCard extends React.Component {
             okText={(this.state.showInfo) ? "Edit" : "Save"}
             onCancel={this.handleCancel}
             className={"page-nav-menu"}
+            okButtonProps={{loading: this.props.editEventFormLoading}}
             bordered={true}
           >
             {(this.state.showInfo === true) ?
@@ -186,13 +188,15 @@ class EventCard extends React.Component {
             <Card
               bordered={false}
               visible={false}
-              style={{height:200, width:"100%"}}
+              headStyle={{borderBottom:0}}
+              style={{height:250, width:"100%"}}
+              extra={<Button color="secondary" onClick={(e)=>console.log(e)}>Cancel</Button>}
               hoverable
               cover={
-                <div style={{height:"100%", width:"100%"}}>
+                <div style={{height:"125%", width:"100%"}}>
                   <Row type="flex" justify="space-around" align="middle">
                     <img
-                      style={{height:"50%", width:"50%"}}
+                      style={{height:"70%", width:"70%"}}
                       alt="Event Photo" src={event.imageURL}
                       onLoad={this.completeLoad}
                     />
@@ -202,6 +206,7 @@ class EventCard extends React.Component {
               onClick={this.handleCardSelection}
             >
               <Meta
+                style={{height:"50%"}}
                 title={event.title}
                 description={this.formatDate(event)}
               />

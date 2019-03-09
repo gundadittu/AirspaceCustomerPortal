@@ -93,12 +93,6 @@ class SideNavBar extends React.Component {
         pageSubtitle: "home",
         linkTitle: "Home"
       },
-      announcements: {
-        keyVal: pageTitles.announcementsPageOfficeAdmin,
-        iconType: "notification",
-        pageSubtitle: 'announcements',
-        linkTitle: "Announcements"
-      },
       users: {
         keyVal: pageTitles.userPageOfficeAdmin,
         iconType: "user",
@@ -134,6 +128,12 @@ class SideNavBar extends React.Component {
         iconType: "calendar",
         pageSubtitle: 'events',
         linkTitle: "Events"
+      },
+      announcements: {
+        keyVal: pageTitles.announcementsPageOfficeAdmin,
+        iconType: "notification",
+        pageSubtitle: 'announcements',
+        linkTitle: "Announcements"
       },
       spaceInfo: {
         keyVal: pageTitles.spaceInfoPageOfficeAdmin,

@@ -103,10 +103,12 @@ class EmailModal extends React.Component {
               <Form.Item>
               {Object.keys(dic).map((key) => {
                 return <Col span={24}>
-                  <Col align={'center'}span={8}>
+                  <Col align={'start'}span={8}>
                     <b>{key}</b>
                   </Col>
-                  <Col align={'left'} span={16}>
+                  <Col span={1}>
+                  </Col>
+                  <Col align={'left'} span={15}>
                     <ServiceEmails emails={emails[key]} rawType={key} updateEmails={this.updateEmails}/>
                   </Col>
                 </Col>

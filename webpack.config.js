@@ -7,10 +7,6 @@ module.exports = function(webpackConfig) {
     libraryName: 'antd',
     style: 'css',
   }]);
-  webpackConfig.babel.plugins.push(['import', {
-    libraryName: 'antd-mobile',
-    style: 'css',
-  }]);
 
   return webpackConfig;
 };

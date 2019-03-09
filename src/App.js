@@ -118,8 +118,6 @@ class App extends Component {
   render() {
 
     if (this.props.user) { // logged in
-      //this.props.signInRedirect();
-      console.log(this.props.match.path)
       return (
         <div>
           <Row>

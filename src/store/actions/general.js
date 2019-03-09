@@ -39,3 +39,13 @@ export const guestCreatePassword = (payload) => {
     }
   }
 }
+
+export const editServiceRequestStatusForEmail = (payload) => {
+  return {
+    type: actionTypes.EDIT_SERVICE_REQUESTS_STATUS_EMAIL,
+    payload: {
+        selectedServiceRequestUID: payload.selectedServiceRequestUID,
+        newStatus: payload.newStatus
+    }
+  }
+}

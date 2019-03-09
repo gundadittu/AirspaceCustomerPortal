@@ -12,6 +12,8 @@ const initialState = {
     notifications: [],
     create_password_url: null,
     redirect_create_password: false,
+    updatingServiceStatusEmail: false,
+    successfulServiceRequestUpdate: false,
     checkIn: false,
     checking_user_in: false
 };
@@ -72,10 +74,15 @@ const reducer = ( state = initialState, action ) => {
             return updateObject(state, {create_password_url: createPasswordPayload.create_password_url})
         case actionTypes.GUEST_CREATE_PASSWORD_ERROR:
             return updateObject(state, {redirect_create_password: false})
+        case actionTypes.EDIT_SERVICE_REQUESTS_STATUS_EMAIL:
+            return updateObject(state, {updatingServiceStatusEmail: true, successfulServiceRequestUpdate: false});
+        case actionTypes.EDIT_SERVICE_REQUESTS_STATUS_EMAIL_SUCCESS:
+            return updateObject(state, {updatingServiceStatusEmail: false, successfulServiceRequestUpdate: true });
+        case actionTypes.EDIT_SERVICE_REQUESTS_STATUS_EMAIL_ERROR:
+            return updateObject(state, {updatingServiceStatusEmail: false});
         default:
             return state;
     }
-    // return state;
 };
 
 export default reducer;

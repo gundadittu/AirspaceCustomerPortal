@@ -153,6 +153,7 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, {updatingServiceStatus: false, successfulServiceRequestUpdate: true });
         case actionTypes.EDIT_SERVICE_REQUESTS_STATUS_ERROR:
             return updateObject(state, {updatingServiceStatus: false});
+
         case actionTypes.LOAD_REGISTERED_GUESTS:
             return updateObject(state, {isLoadingGuestsData: true});
         case actionTypes.LOAD_REGISTERED_GUESTS_SUCCESS:

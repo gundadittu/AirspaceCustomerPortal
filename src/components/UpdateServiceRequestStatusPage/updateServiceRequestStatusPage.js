@@ -4,7 +4,7 @@ import LoginNavBar from '../Login/LoginNavBar';
 import ConfirmationImage from "../../assets/images/confirm_registered_guest.png";
 import ConfirmationErrorImage from "../../assets/images/confirmation_error.png";
 //import * as actionCreator from '../../store/actions/general';
-import * as actionCreator from '../../store/actions/officeAdmin';
+import * as actionCreator from '../../store/actions/general';
 import { Row, Col, Card, Spin } from 'antd';
 import '../Login/Login.css'
 
@@ -24,7 +24,7 @@ class UpdateServiceRequestStatusPage extends React.Component {
       newStatus: newStatus
     }
     console.log("Payload", payload)
-    this.props.editServiceRequestStatusForOfficeAdmin(payload)
+    this.props.editServiceRequestStatusForEmail(payload)
   }
 
   render() {
@@ -36,7 +36,7 @@ class UpdateServiceRequestStatusPage extends React.Component {
         </Row>
         <br />
         <Row type="flex" justify="space-around" align="middle">
-          {this.props.checkingUserIn ? <Spin /> : (
+          {this.props.updatingServiceStatusEmail ? <Spin /> : (
             <div>
               <Col span={7}>
               </Col>
@@ -61,16 +61,14 @@ class UpdateServiceRequestStatusPage extends React.Component {
 const mapStateToProps = state => {
   return {
     currentOfficeUID: state.general.currentOfficeAdminUID,
-    isLoadingServiceRequestsData: state.officeAdmin.isLoadingServiceRequestsData,
-    successfulServiceRequestUpdate: state.officeAdmin.successfulServiceRequestUpdate,
-    checkedIn: state.general.checkedIn,
-    checkingUserIn: state.general.checking_user_in
+    updatingServiceStatusEmail: state.general.updatingServiceStatusEmail,
+    successfulServiceRequestUpdate: state.general.successfulServiceRequestUpdate
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    editServiceRequestStatusForOfficeAdmin: (payload) => dispatch(actionCreator.editServiceRequestStatusForOfficeAdmin(payload))
+    editServiceRequestStatusForEmail: (payload) => dispatch(actionCreator.editServiceRequestStatusForEmail(payload))
   }
 };
 

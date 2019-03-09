@@ -14,6 +14,10 @@ export function* guestCreatePasswordWatchSaga() {
     yield takeLatest(actionTypes.GUEST_CREATE_PASSWORD, guestCreatePasswordWorkerSaga);
 }
 
+export function* editServiceRequestsStatusEmailWatchSaga() {
+    yield takeLatest(actionTypes.EDIT_SERVICE_REQUESTS_STATUS_EMAIL, editServiceRequestsStatusEmailWorkerSaga);
+}
+
 function loadNotifications(firebase) {
     const apiCall = firebase.functions.httpsCallable('getUsersNotifications')
     return apiCall({})
@@ -75,5 +79,50 @@ function* guestCreatePasswordWorkerSaga(action) {
             description: error.message
         });
         yield put({ type: actionTypes.GUEST_CREATE_PASSWORD_ERROR , payload: { error: error } });
+    }
+}
+
+function editStatusFromEmail(payload, firebase) {
+    console.log("Here", payload)
+    const selectedServiceRequestUID = payload.selectedServiceRequestUID;
+    const newStatus = payload.newStatus;
+    const dict = {
+      selectedServiceRequestUID: selectedServiceRequestUID,
+      newStatus: newStatus
+    }
+    console.log(dict)
+    const apiCall = firebase.functions.httpsCallable('updateServiceRequestStatusFromEmailLink');
+    return apiCall(dict)
+    .then( response => {
+        console.log("Update Status Response ", response)
+    })
+}
+
+function* editServiceRequestsStatusEmailWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        console.log("Payload for edit", payload)
+        let firebase = yield select(selectors.firebase);
+
+        const response = yield call(editStatusFromEmail, action.payload, firebase);
+
+        notification['success']({
+            message: 'Successfully edited service request status.',
+            description: null
+        });
+
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_STATUS_EMAIL_SUCCESS, payload: { ...newPayload } });
+    } catch (error) {
+        console.error(error);
+
+        notification['error']({
+            message: 'Unable to edit status for this office.',
+            description: error.message
+        });
+
+        const payload = action.payload;
+        const newPayload = { hideForm: payload.hideForm }
+        yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_STATUS_EMAIL_ERROR, payload: { ...newPayload } });
     }
 }

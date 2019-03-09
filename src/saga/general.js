@@ -41,6 +41,7 @@ function* loadNotificationsWorkerSaga(action) {
         const response = yield call(loadNotifications, firebase);
         yield put({ type: actionTypes.LOAD_NOTIFICATIONS_SUCCESS, payload: { notifications: response } });
     } catch (error) {
+        Sentry.captureException(error);
         notification['error']({
             message: 'Unable to load notifications.',
             description: error.message
@@ -72,6 +73,7 @@ function* guestCreatePasswordWorkerSaga(action) {
         const response = yield call(guestCreatePassword, action.payload, firebase);
         yield put({ type: actionTypes.GUEST_CREATE_PASSWORD_SUCCESS, payload: { create_password_url: response } });
     } catch (error) {
+        Sentry.captureException(error);
         notification['error']({
             message: 'Unable to verify create password.',
             description: error.message

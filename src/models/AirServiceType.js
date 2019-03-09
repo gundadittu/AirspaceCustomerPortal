@@ -44,6 +44,9 @@ var AirServiceRequestType = {
 export default class AirServiceType {
 
     constructor(type) {
+      if (type === null) { 
+        return null
+      }
         this.type = type;
         this.title = AirServiceRequestType[type];
         return

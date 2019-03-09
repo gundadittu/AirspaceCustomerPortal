@@ -13,7 +13,6 @@ var AirAmenityType = {
     projector: 'Projector',
     smartTV: 'Smart TV',
     largeMonitor: 'Large Monitor'
-
 }
 
 export default class AirAmenity {

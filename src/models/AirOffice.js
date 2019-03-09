@@ -17,8 +17,3 @@ export default class AirOffice {
         this.roomNo = roomNo;
     }
 }
-//  var uid: String?
-//  var name: String?
-//  var building: AirBuilding?
-//  var floor: Int?
-//  var roomNo: Int?

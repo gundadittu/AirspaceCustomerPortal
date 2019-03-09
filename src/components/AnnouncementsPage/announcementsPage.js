@@ -89,24 +89,20 @@ class AnnouncementsPage extends React.Component {
                         <Row>
                           <Button className='inlineDisplay rightAlign' type="primary" loading={this.props.postingAnnouncement} onClick={this.postAnnouncement}>Post</Button>
                         </Row>
-                        {this.props.isLoadingAnnouncementsData ? (
-                          <Row type="flex" justify="space-around" align="middle">
-                            <Spin size="large"/>
-                          </Row>
-                        ) : (
-                          this.props.announcementsList.map(announcement => (
+                        <Spin tip="Loading..." spinning={this.props.isLoadingAnnouncementsData}>
+                          {this.props.announcementsList.map(announcement => (
                             <div>
-                              <Row>
-                                <Comment
-                                  datetime={<a>{this.formatDate(announcement.timestamp)}</a>}
-                                  content={<h3>{announcement.message}</h3>}
-                                >
-                                </Comment>
-                              </Row>
-                              <Divider />
-                            </div>
-                          ))
-                        )}
+                                <Row>
+                                  <Comment
+                                    datetime={<a>{this.formatDate(announcement.timestamp)}</a>}
+                                    content={<h3>{announcement.message}</h3>}
+                                  >
+                                  </Comment>
+                                </Row>
+                                <Divider />
+                              </div>
+                            ))}
+                        </Spin>
                     </Col>
                 </Row>
             </div>

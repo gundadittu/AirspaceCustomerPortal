@@ -63,7 +63,9 @@ class AntEventCards extends React.Component {
       <div style={{ padding: '30px' }}>
         <Row gutter={16}>
           {selectedEventsList? selectedEventsList.map((event) => (
-            <EventCard event={event}/>
+            <Col span={8}>
+              <EventCard event={event}/>
+            </Col>
           )) : <div></div>}
         </Row>
       </div>

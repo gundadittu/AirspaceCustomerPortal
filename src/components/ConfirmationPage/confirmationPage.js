@@ -13,8 +13,6 @@ class ConfirmationPage extends React.Component {
   })
 
   componentDidMount() {
-    console.log("Confirmation Page")
-    console.log(this)
     const rgUID = this.props.match.params.UID
     var payload = {
       registeredGuestUID: rgUID

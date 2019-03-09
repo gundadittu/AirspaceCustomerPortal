@@ -53,11 +53,12 @@ class HomeAdminPage extends React.Component {
             <div>
                 <Row>
                     <Col className="wide-table" span={24}>
-                        <h1>Home Page</h1>
-                        <Card
-                          cover={<img alt="Request Photo" src={StaticImage} />}
-                          bordered={false}
-                        />
+                      <Row>
+                        <h1>Home</h1>
+                      </Row>
+                      <Row  type="flex" justify="space-around" align="middle">
+                        <img style={{width:'70%', height:'70%'}}alt="Request Photo" src={StaticImage} />
+                      </Row>
                     </Col>
                 </Row>
             </div>

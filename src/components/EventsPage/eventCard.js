@@ -137,7 +137,6 @@ class EventCard extends React.Component {
     const showEditForm = (this.state.showInfo === false) ? true : false;
     return (
       <div>
-        <Col span={8}>
           <Modal
             visible={this.state.showModal}
             onOk={this.handleEditEvent}
@@ -187,11 +186,19 @@ class EventCard extends React.Component {
             <Card
               bordered={false}
               visible={false}
+              style={{height:200, width:"100%"}}
               hoverable
-              cover={<img
-                alt="Event Photo" src={event.imageURL}
-                onLoad={this.completeLoad}
-                />}
+              cover={
+                <div style={{height:"100%", width:"100%"}}>
+                  <Row type="flex" justify="space-around" align="middle">
+                    <img
+                      style={{height:"50%", width:"50%"}}
+                      alt="Event Photo" src={event.imageURL}
+                      onLoad={this.completeLoad}
+                    />
+                  </Row>
+                </div>
+                }
               onClick={this.handleCardSelection}
             >
               <Meta
@@ -200,7 +207,6 @@ class EventCard extends React.Component {
               />
             </Card>
           </Spin>
-        </Col>
       </div>
     )
   }

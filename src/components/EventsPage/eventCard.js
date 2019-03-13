@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Icon, Row, Col, Card, Modal, Spin} from 'antd';
+import { Icon, Row, Col, Card, Modal, Spin, Popconfirm, message} from 'antd';
 import Button from '@material-ui/core/Button';
 import EditEventForm from './editEventForm.js'
 import '../../App.css'
@@ -15,7 +15,9 @@ class EventCard extends React.Component {
     showModal: false,
     showInfo: true,
     loadingImage: true,
-    loadingModalImage: true
+    loadingModalImage: true,
+    showDeleteConfirmation: false,
+    condition: false
   };
 
   calcDate(date) {
@@ -105,6 +107,7 @@ class EventCard extends React.Component {
     this.setState({
       showInfo: false,
       showModal: false,
+      showDeleteConfirmation: false
     });
   }
 
@@ -113,6 +116,7 @@ class EventCard extends React.Component {
       this.setState({
         showInfo: false,
         showModal: false,
+        showDeleteConfirmation: false
       });
     } else {
       // if currently editing, switch back to info mode
@@ -133,6 +137,33 @@ class EventCard extends React.Component {
     this.editEventFormRef = form
   }
 
+  handleVisibleChange = (showDeleteConfirmation) => {
+    this.setState({ showDeleteConfirmation: true });
+  }
+
+  confirmCancelEvent = () => {
+    this.setState({ showDeleteConfirmation: false });
+    const currentOfficeUID = this.props.currentOfficeAdminUID;
+    const selectedEventUID = this.props.event.uid;
+    if (selectedEventUID === null) {
+      return
+    }
+
+    const payload = {
+      selectedEventUID: selectedEventUID,
+      selectedOfficeUID: currentOfficeUID,
+      canceled: true,
+      hideForm: this.handleFinishedEditEventRequest,
+    }
+    this.props.editEvent(payload);
+
+  }
+
+  cancelEvent = () => {
+    this.setState({ showDeleteConfirmation: false });
+    message.error('Did not cancel event.');
+  }
+
   render() {
     const event = this.props.event;
     const showEditForm = (this.state.showInfo === false) ? true : false;
@@ -141,25 +172,41 @@ class EventCard extends React.Component {
           <Modal
             visible={this.state.showModal}
             onOk={this.handleEditEvent}
-            okText={(this.state.showInfo) ? "Edit" : "Save"}
             onCancel={this.handleCancel}
             className={"page-nav-menu"}
             okButtonProps={{loading: this.props.editEventFormLoading}}
             bordered={true}
+            footer={[
+              <Popconfirm
+                title="Are you sure you want to cancel this event?"
+                visible={this.state.showDeleteConfirmation}
+                onVisibleChange={this.handleVisibleChange}
+                onConfirm={this.confirmCancelEvent}
+                onCancel={this.cancelEvent}
+                placement="topRight"
+                okText="Yes"
+                cancelText="No"
+                icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+              >
+                <Button style={{color: "#f5222d"}} type="danger" key="cancel" onClick={this.handleVisibleChange}>Cancel</Button>
+              </Popconfirm>,
+              <Button style={{color: "#0050b3"}} key="edit" type="primary" loading={this.props.editFormLoading} onClick={this.handleEditEvent}>
+                {(this.state.showInfo) ? "Edit" : "Save"}
+              </Button>,
+            ]}
           >
             {(this.state.showInfo === true) ?
-
               (<Row gutter={16}>
                 <Col span={8}>
                 <Spin tip="Loading..." spinning={this.state.loadModalImage}>
                   <Card
-                    cover={<img alt="Event Photo" src={event.imageURL}
-                    onLoad={this.completeLoadExpanded}
-                    />}
-                    onClick={this.handleCardSelection}
-                    bordered={false}
-                  >
-                  </Card>
+                      cover={<img alt="Event Photo" src={event.imageURL}
+                      onLoad={this.completeLoadExpanded}
+                      />}
+                      onClick={this.handleCardSelection}
+                      bordered={false}
+                    >
+                    </Card>
                 </Spin>
                 </Col>
                 <Col span={16}>
@@ -173,16 +220,16 @@ class EventCard extends React.Component {
                 </Col>
               </Row>)
 
-              : null
+              :
+
+                <EditEventForm
+                  wrappedComponentRef={(form) => this.saveEditEventFormRef(form)}
+                  visible={showEditForm}
+
+                  event={event}
+                  confirmLoading={this.props.editEventFormLoading}
+                />
             }
-
-            <EditEventForm
-              wrappedComponentRef={(form) => this.saveEditEventFormRef(form)}
-              visible={showEditForm}
-
-              event={event}
-              confirmLoading={this.props.editEventFormLoading}
-            />
           </Modal>
           <Spin tip="Loading..." spinning={this.state.loadingImage}>
             <Card
@@ -190,7 +237,6 @@ class EventCard extends React.Component {
               visible={false}
               headStyle={{borderBottom:0}}
               style={{height:250, width:"100%"}}
-              extra={<Button color="secondary" onClick={(e)=>console.log(e)}>Cancel</Button>}
               hoverable
               cover={
                 <div style={{height:"125%", width:"100%"}}>

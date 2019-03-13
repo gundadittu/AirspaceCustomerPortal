@@ -204,7 +204,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.EDIT_EVENT_FINISHED:
             const editEventPayload = action.payload;
             editEventPayload.hideForm();
-            return updateObject(state, { editEventFormLoading: false });
+            return updateObject(state, { editEventFormLoading: false , });
         default:
             return state
     }

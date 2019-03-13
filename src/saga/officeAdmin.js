@@ -833,8 +833,14 @@ function editEvent(payload, firebase) {
     const selectedEventUID = payload.selectedEventUID;
     const title = payload.eventTitle;
     const description = payload.description;
-    const startDate = payload.startDate.toUTCString();
-    const endDate = payload.endDate.toUTCString();
+    const startDate = payload.startDate;
+    if (startDate){
+      startDate = startDate.toUTCString();
+    }
+    const endDate = payload.endDate
+    if (endDate){
+      endDate = endDate.toUTCString();
+    }
     const canceled = payload.canceled;
     const dict = { selectedEventUID: selectedEventUID, title: title, description: description, startDate: startDate, endDate: endDate, canceled: canceled };
 
@@ -858,14 +864,19 @@ function* editEventWorkerSaga(action) {
         const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;
         const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
+        const requestCancel = payload.requestCancel;
         validatePermission(selectedOfficeUID, userAdminOfficeList);
 
         let firebase = yield select(selectors.firebase);
 
         const response = yield call(editEvent, action.payload, firebase);
 
+        const notificationMessage = 'Successfully edited event.';
+        if (requestCancel) {
+          notificationMessage = 'Successfully canceled event.'
+        }
         notification['success']({
-            message: 'Successfully edited event.',
+            message: notificationMessage,
             description: null
         });
 

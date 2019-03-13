@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, List, Card, Button, notification } from 'antd';
+import { Row, Col, List, Card, Button, Spin, notification } from 'antd';
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
@@ -175,20 +175,27 @@ class SpaceInfoPage extends React.Component {
                         <p>These files will be available to everyone in your office space.</p>
                         <List
                             grid={{
-                                gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3,
+                                gutter: 32, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4,
                             }}
                             dataSource={data}
                             renderItem={item => (
+                              <Spin tip="Loading..." spinning={this.props.isLoadingSpaceInfo}>
                                 <List.Item>
                                     <Card title={item.title}>
                                         <div>
-                                            {(item.url !== null) ? <Button type="primary" style={{ marginRight: 15 }} onClick={() => window.open(item.url)} size='large'>Open File</Button> : null}
+                                            {(item.url !== null) ?
+                                              <div>
+                                                <Button type="primary" style={{ marginRight: 15 }} onClick={() => window.open(item.url)} size='large'>Open File</Button>
+                                                <br/>
+                                                <br/>
+                                              </div> : null}
                                             <Button type="primary" onClick={() => this.showUploadFormRef(item.type)} size='large' ghost>
                                                 {(item.url !== null ? 'Replace File' : 'Upload File')}
                                             </Button>
                                         </div>
                                     </Card>
                                 </List.Item>
+                              </Spin>
                             )}
                         />
                     </Col>

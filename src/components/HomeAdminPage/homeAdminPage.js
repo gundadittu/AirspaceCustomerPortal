@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import * as actionTypes from '../../store/actions/actionTypes';
 
-import { Row, Col, Button, Menu, Card} from 'antd';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import IconButton from '@material-ui/core/IconButton';
+import { Row, Col} from 'antd';
+// import RefreshIcon from '@material-ui/icons/Refresh';
+// import IconButton from '@material-ui/core/IconButton';
 import StaticImage from "../../assets/images/home_empty_state.png";
 import '../../App.css';
 
-import * as actionCreator from '../../store/actions/officeAdmin';
+// import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
 // import * as officeActionCreator from '../../store/actions/officeAdmin';
 
@@ -26,8 +26,9 @@ class HomeAdminPage extends React.Component {
     }
 
     componentDidMount() {
+        console.log(1);
       if (this.props.match.isExact) {
-
+        console.log(2);
           const selectedOfficeUID = this.props.match.params.officeUID;
           const list = this.props.userAdminOfficeList;
           let officeObj = null;

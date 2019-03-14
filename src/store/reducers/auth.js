@@ -9,6 +9,8 @@ const initialState = {
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
+        case actionTypes.CLEAR_REDUX_STATE: 
+            return initialState;
         case actionTypes.SIGN_OUT_USER_SUCCESS:
             return initialState;
         case actionTypes.SIGN_IN_USER:

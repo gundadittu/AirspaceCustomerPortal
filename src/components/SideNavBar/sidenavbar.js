@@ -50,6 +50,7 @@ class SideNavBar extends React.Component {
 
   renderSubNavInnerContent() {
     let currentPage = [this.props.currentPage];
+
     const officeAdminPortalDiv = () => {
 
       if (this.props.adminOfficeList == null) {
@@ -67,9 +68,11 @@ class SideNavBar extends React.Component {
         ))
       );
     }
+
     const sideBarLogo = (
       <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
     );
+
     const switchPortalSubMenu = (
       <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
         <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
@@ -246,12 +249,13 @@ class SideNavBar extends React.Component {
 
     const drawerWidth = 240;
 
-    const styles = theme => ({
+    const styles = () => ({
       drawerPaper: {
         width: drawerWidth,
       },
     })
-    if(this.props.device == "mobile"){
+
+    if(this.props.device == "mobile") {
       return <div>
         <Button icon="bars" style={{fontSize: 40, height:80, width:80}} bordered={false} shape="circle" onClick={this.toggleDrawer}>
         </Button>
@@ -269,7 +273,6 @@ class SideNavBar extends React.Component {
     } else {
       return this.renderSubNavBar()
     }
-
   }
 }
 

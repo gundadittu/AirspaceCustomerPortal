@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import { connect } from 'react-redux';
 import ConfirmationPage from './components/ConfirmationPage/confirmationPage'
@@ -18,14 +18,14 @@ import SpaceInfoPage from './components/SpaceInfoPage/spaceInfoPage';
 import ServiceRequestsPage from './components/ServiceRequestsPage/serviceRequestsPage';
 import ExperienceManagerPage from './components/ExperienceManagerPage/experienceManagerPage';
 import CreatePasswordPage from './components/CreatePasswordPage/createPasswordPage';
-
+import InitialRoutingComp from './components/InitialRoutingComp/InitialRoutingComp';
 import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
 import * as authActionCreators from './store/actions/auth';
-import {Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 import * as pageTitles from './pages/pageTitles';
-//const Sentry = require('@sentry/node');
+import * as Sentry from '@sentry/browser';
 
 class App extends Component {
   state = {
@@ -35,7 +35,7 @@ class App extends Component {
   componentWillMount() {
     console.log("COmponent will mount ", this.props)
 
-    //Sentry.init({ dsn: 'https://8825e624e2594f1d8ca77d056c8b56dd@sentry.io/1395312' });
+    Sentry.init({ dsn: 'https://8825e624e2594f1d8ca77d056c8b56dd@sentry.io/1395312' });
 
     if (this.props.firebase === null) {
       this.firebase = new Firebase()
@@ -48,12 +48,12 @@ class App extends Component {
     if (firebase) {
       const weakProps = this.props;
       //console.log("Weak props ", weakProps)
-      this.listener = firebase.auth.onAuthStateChanged(function(user) {
+      this.listener = firebase.auth.onAuthStateChanged(function (user) {
         //console.log("user ", user)
         if (user) {
-          //console.log("USER")
+          console.log("USER set up")
           weakProps.setUpUser(user.uid);
-          if (weakProps.currentOfficeAdminUID){
+          if (weakProps.currentOfficeAdminUID) {
             if (weakProps.currentPage == null) {
               //console.log("Here")
               weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/home');
@@ -89,8 +89,7 @@ class App extends Component {
           }
           */
         } else {
-          console.log("LOGIN")
-          weakProps.setUpUser(null);
+          weakProps.clearRedux();
           weakProps.history.push('/login');
         }
       });
@@ -114,8 +113,8 @@ class App extends Component {
           <UsersPage />
         );
       default:
-          // return 404 page?
-          return null
+        // return 404 page?
+        return null
     }
   }
 
@@ -123,40 +122,43 @@ class App extends Component {
 
     if (this.props.user) { // logged in
       return (
-        <div style={{ background: '#FFFFFF'}}>
+        <div style={{ background: '#FFFFFF' }}>
           <Row>
-              <MediaQuery minDeviceWidth={1224}>
-                <Col span={4}>
-                  <SideNavbar device={"desktop"}/>
-                </Col>
-                <Col span={20}>
-                  <NavBar/>
-                  <Switch>
-                    <Route path="/officeAdmin" component={officeAdminRoutingComp}/>
-                  </Switch>
-                </Col>
-              </MediaQuery>
-              <MediaQuery maxDeviceWidth={1224}>
-                <Col span={24}>
-                  <NavBar device={"mobile"}/>
-                  <Switch>
-                    <Route path="/officeAdmin" component={officeAdminRoutingComp}/>
-                  </Switch>
-                </Col>
-              </MediaQuery>
+            <MediaQuery minDeviceWidth={1224}>
+              <Col span={4}>
+                <SideNavbar device={"desktop"} />
+              </Col>
+              <Col span={20}>
+                <NavBar />
+                <Switch>
+                  <Route exact path="/" component={InitialRoutingComp} />
+                  <Route exact path="/login" component={InitialRoutingComp} />
+                  <Route path="/general" component={generalRoutingComp} />
+                  <Route path="/officeAdmin" component={officeAdminRoutingComp} />
+                </Switch>
+              </Col>
+            </MediaQuery>
+            <MediaQuery maxDeviceWidth={1224}>
+              <Col span={24}>
+                <NavBar device={"mobile"} />
+                <Switch>
+                  <Route path="/" component={InitialRoutingComp} />
+                  <Route path="/general" component={generalRoutingComp} />
+                  <Route path="/officeAdmin" component={officeAdminRoutingComp} />
+                </Switch>
+              </Col>
+            </MediaQuery>
           </Row>
         </div>
       );
     } else {
-       // logged out
+      // logged out
       return (
         <div>
-           <Switch>
-            <Route exact path='/arrivedGuest/:UID' component={ConfirmationPage}></Route>
-            <Route exact path='/updateServiceRequestStatus/:uid/:status' component={UpdateServiceRequestStatusPage}></Route>
-            <Route exact path='/createPassword/:userUID' component={CreatePasswordPage}></Route>
-            <Route path="/" component={Login}/>
-            <Route path="/login" component={Login}/>
+          <Switch>
+            <Route path="/general" component={generalRoutingComp} />
+            <Route path="/" component={Login} />
+            <Route path="/login" component={Login} />
           </ Switch>
         </div>
       );
@@ -168,6 +170,7 @@ const mapStateToProps = state => {
   return {
     user: state.auth.user,
     currentOfficeAdminUID: state.general.currentOfficeAdminUID,
+    currentOfficeAdmin: state.general.currentOfficeAdmin, 
     isLoading: state.general.isLoading,
     error: state.general.error,
     firebase: state.firebase.firebase,
@@ -177,6 +180,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    clearRedux: () => dispatch(generalActionCreators.clearReduxState()),
     setUpFirebase: (firebaseInstance) => dispatch(generalActionCreators.setUpFirebaseInstanceAction(firebaseInstance)),
     setUpUser: (uid) => dispatch(authActionCreators.setUpUserAction(uid)),
     signInRedirect: () => dispatch(authActionCreators.signInRedirect())
@@ -185,18 +189,26 @@ const mapDispatchToProps = dispatch => {
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
 
+const generalRoutingComp = () => (
+  <Switch>
+    <Route exact path='/general/arrivedGuest/:UID' component={ConfirmationPage}></Route>
+    <Route exact path='/general/updateServiceRequestStatus/:uid/:status' component={UpdateServiceRequestStatusPage}></Route>
+    <Route exact path='/general/createPassword/:userUID' component={CreatePasswordPage}></Route>
+  </Switch>
+)
+
 const officeAdminRoutingComp = () => (
-    <Switch>
-      <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route>
-      <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route>
-      <Route exact path='/officeAdmin/:officeUID/announcements' component={AnnouncementsPage}></Route>
-      <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
-      <Route exact path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
-      <Route exact path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>
-      <Route exact path='/officeAdmin/:officeUID/serviceRequests' component={ServiceRequestsPage}></Route>
-      <Route exact path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
-      <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
-      <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>
-      <Route exact path='/officeAdmin/:officeUID/experienceManager' component={ExperienceManagerPage}></Route>
-    </Switch>
+  <Switch>
+    <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/announcements' component={AnnouncementsPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/serviceRequests' component={ServiceRequestsPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/experienceManager' component={ExperienceManagerPage}></Route>
+  </Switch>
 )

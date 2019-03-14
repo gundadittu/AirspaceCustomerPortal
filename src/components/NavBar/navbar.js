@@ -2,7 +2,6 @@ import React from 'react';
 import MediaQuery from 'react-responsive';
 import { Avatar, Menu, Dropdown, Icon, Row, Col, List, Affix, Card } from 'antd';
 import SideNavBar from '../SideNavBar/sidenavbar';
-import Sample from './sample.js'
 import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
 import * as genActionCreators from '../../store/actions/general';

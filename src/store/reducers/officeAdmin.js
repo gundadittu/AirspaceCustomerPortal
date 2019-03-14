@@ -45,6 +45,8 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.CLEAR_REDUX_STATE: 
+            return initialState;
         case actionTypes.EDIT_CONF_ROOM:
             return updateObject(state, { editRoomFormLoading: true });
         case actionTypes.EDIT_CONF_ROOM_FINISHED:

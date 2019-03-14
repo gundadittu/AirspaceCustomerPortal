@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import LoginNavBar from '../Login/LoginNavBar';
-import ConfirmationImage from "../../assets/images/confirm_registered_guest.png";
-import ConfirmationErrorImage from "../../assets/images/confirmation_error.png";
+import ConfirmationImage from "../../assets/images/requestUpdateConf.png";
+import ConfirmationErrorImage from "../../assets/images/error.png";
 //import * as actionCreator from '../../store/actions/general';
 import * as actionCreator from '../../store/actions/general';
 import { Row, Col, Card, Spin } from 'antd';
@@ -14,7 +14,6 @@ class UpdateServiceRequestStatusPage extends React.Component {
   })
 
   componentDidMount() {
-    console.log("UpdateSerivceRequestPage")
     console.log(this)
     const serviceRequestUID = this.props.match.params.uid
     const newStatus = this.props.match.params.status

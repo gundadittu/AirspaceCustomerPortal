@@ -1,5 +1,11 @@
 import * as actionTypes from './actionTypes';
 
+export const clearReduxState = () => { 
+  return { 
+    type: actionTypes.CLEAR_REDUX_STATE, 
+  }
+}
+
 export const setUpFirebaseInstanceAction = (firebaseInstance) => {
     return {
         type: actionTypes.SET_UP_FIREBASE,

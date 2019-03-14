@@ -3,8 +3,8 @@ import { Route, Redirect } from 'react-router'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import LoginNavBar from '../Login/LoginNavBar';
-import ConfirmationImage from "../../assets/images/confirm_registered_guest.png";
-import ConfirmationErrorImage from "../../assets/images/confirmation_error.png";
+import ConfirmationImage from "../../assets/images/createPWConf.png";
+import ConfirmationErrorImage from "../../assets/images/error.png";
 import * as actionCreator from '../../store/actions/general';
 import { Row, Col, Card, Spin } from 'antd';
 import '../Login/Login.css'
@@ -27,21 +27,50 @@ class CreatePasswordPage extends React.Component {
   render() {
 
     if (this.props.create_password_url) {
-      window.location.assign(this.props.create_password_url);
+      window.location.assign(this.props.create_password_url); 
     }
+
+    if (this.props.createPasswordLoading === true) { 
+      return (
+        <div>
+          <Row>
+            <LoginNavBar/>
+          </Row>
+          <Row type="flex" justify="space-around" align="middle">
+            <h2>Creating password</h2>
+          </Row>
+          <Row type="flex" justify="space-around" align="middle">
+            <Spin size="large" />
+          </Row>
+          <br />
+  
+        </div>
+      );
+    }
+
     return (
       <div>
         <Row>
           <LoginNavBar/>
         </Row>
-        <Row type="flex" justify="space-around" align="middle">
-          <h2>Creating password</h2>
-        </Row>
-        <Row type="flex" justify="space-around" align="middle">
-          <Spin size="large" />
-        </Row>
         <br />
+        <Row type="flex" justify="space-around" align="middle">
+          {this.props.updatingServiceStatusEmail ? <Spin /> : (
+            <div>
+              <Col span={7}>
+              </Col>
+              <Col span={10}>
+                <Card
+                cover={<img alt="Request Photo" src={this.props.createPasswordError === null ? ConfirmationImage : ConfirmationErrorImage} />}
+                bordered={false}
+                />
+              </Col>
+              <Col span={7}>
+              </Col>
+            </div>
+          )}
 
+        </Row>
       </div>
 
     );
@@ -51,7 +80,9 @@ class CreatePasswordPage extends React.Component {
 const mapStateToProps = state => {
   return {
     redirect_create_password: state.general.redirect_create_password,
-    create_password_url: state.general.create_password_url
+    create_password_url: state.general.create_password_url, 
+    createPasswordError: state.general.createPasswordError, 
+    createPasswordLoading: state.general.createPasswordLoading
   }
 };
 

@@ -5,7 +5,7 @@ import AirOffice from "../models/AirOffice";
 import "firebase/functions";
 import "firebase/auth";
 import { notification } from 'antd';
-//const Sentry = require('@sentry/node');
+import * as sentry from '@sentry/browser';
 
 // Watchers
 
@@ -51,7 +51,7 @@ function* userSignInWorkerSaga(action) {
         yield call(signInUser, action.payload, firebase);
         yield put({ type: actionTypes.SIGN_IN_USER_SUCCESS });
     } catch (error) {
-        //Sentry.captureException(error);
+        sentry.captureException(error);
         notification['error']({
             message: 'Unable to sign in user.',
             description: error.message
@@ -76,10 +76,11 @@ function* userSignInWorkerSaga(action) {
           yield call(signOutUser, firebase);
           // Need to properly parse call here
           console.log("SIGN OUT CALL SUCCESSFUL");
+          yield put ({ type: actionTypes.CLEAR_REDUX_STATE });
           yield put({ type: actionTypes.SIGN_OUT_USER_SUCCESS });
       } catch (error) {
           console.error(error);
-          //Sentry.captureException(error);
+          sentry.captureException(error);
 
           notification['error']({
             message: 'Unable to sign out user.',
@@ -95,7 +96,7 @@ function* userSignInWorkerSaga(action) {
 function setUpUser(payload, firebase) {
     const uid = payload.uid || null;
     if (uid == null) {
-        return null;
+        throw Error("User is not logged in. Can not set up user.")
     }
     const apiCall = firebase.functions.httpsCallable('getUserInfo')
     return apiCall({uid: uid})
@@ -133,11 +134,12 @@ function* workerSetUpUserSaga(action) {
         yield put({ type: actionTypes.SET_UP_USER_SUCCESS, payload: {data: response}});
     } catch (error) {
         console.error(error);
+        // sentry.captureException(error);
 
-        notification['error']({
-            message: 'Unable to set up portal for user',
-            description: error.message
-        });
+        // notification['error']({
+        //     message: 'Unable to set up portal for user',
+        //     description: error.message
+        // });
 
         yield put({ type: actionTypes.SET_UP_USER_ERROR, payload: {error: error} });
     }

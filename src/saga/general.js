@@ -5,7 +5,7 @@ import "firebase/functions";
 import { notification } from 'antd';
 import 'react';
 import AirNotification from "../models/AirNotification";
-//const Sentry = require('@sentry/node');
+import * as sentry from '@sentry/browser';
 
 export function* loadNotificationsWatchSaga() {
     yield takeLatest(actionTypes.LOAD_NOTIFICATIONS, loadNotificationsWorkerSaga);
@@ -43,7 +43,7 @@ function* loadNotificationsWorkerSaga(action) {
         const response = yield call(loadNotifications, firebase);
         yield put({ type: actionTypes.LOAD_NOTIFICATIONS_SUCCESS, payload: { notifications: response } });
     } catch (error) {
-        //Sentry.captureException(error);
+        sentry.captureException(error);
         notification['error']({
             message: 'Unable to load notifications.',
             description: error.message
@@ -75,7 +75,7 @@ function* guestCreatePasswordWorkerSaga(action) {
         const response = yield call(guestCreatePassword, action.payload, firebase);
         yield put({ type: actionTypes.GUEST_CREATE_PASSWORD_SUCCESS, payload: { create_password_url: response } });
     } catch (error) {
-        //Sentry.captureException(error);
+        sentry.captureException(error);
         notification['error']({
             message: 'Unable to verify create password.',
             description: error.message
@@ -117,7 +117,7 @@ function* editServiceRequestsStatusEmailWorkerSaga(action) {
         yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_STATUS_EMAIL_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
         console.error(error);
-
+        sentry.captureException(error);
         notification['error']({
             message: 'Unable to edit status for this office.',
             description: error.message

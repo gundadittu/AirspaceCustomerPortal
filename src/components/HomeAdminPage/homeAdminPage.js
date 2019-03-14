@@ -27,7 +27,6 @@ class HomeAdminPage extends React.Component {
 
     componentDidMount() {
       if (this.props.match.isExact) {
-
           const selectedOfficeUID = this.props.match.params.officeUID;
           const list = this.props.userAdminOfficeList;
           let officeObj = null;

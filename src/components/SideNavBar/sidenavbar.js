@@ -150,7 +150,7 @@ class SideNavBar extends React.Component {
     }
 
     const currentOfficeAdminUID = this.props.currentOfficeAdminUID
-    console.log(currentOfficeAdminUID, '\n')
+
     return (
       <div>
         {this.props.device == "mobile" ? <div></div> : sideBarLogo}
@@ -242,6 +242,10 @@ class SideNavBar extends React.Component {
         }
   }
 
+  componentDidMount() {
+    console.log(this.props.currentPage)
+  }
+
   render() {
 
     const drawerWidth = 240;
@@ -251,6 +255,7 @@ class SideNavBar extends React.Component {
         width: drawerWidth,
       },
     })
+
     if(this.props.device == "mobile"){
       return <div>
         <Button icon="bars" style={{fontSize: 40, height:80, width:80}} bordered={false} shape="circle" onClick={this.toggleDrawer}>

@@ -54,7 +54,7 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.CHANGE_PAGE:
             const payload = action.payload || null;
             const newPage = payload.currentPage
-            console.log("Change Page", payload)
+            console.log("Change Page\n\n\n\n\n", payload)
             return updateObject(state, {...payload})
         case actionTypes.LOAD_NOTIFICATIONS_SUCCESS:
         case actionTypes.LOAD_NOTIFICATIONS_ERROR:

@@ -33,10 +33,6 @@ class App extends Component {
   }
 
   componentWillMount() {
-    console.log("COmponent will mount ", this.props)
-
-    //Sentry.init({ dsn: 'https://8825e624e2594f1d8ca77d056c8b56dd@sentry.io/1395312' });
-
     if (this.props.firebase === null) {
       this.firebase = new Firebase()
       this.props.setUpFirebase(this.firebase);

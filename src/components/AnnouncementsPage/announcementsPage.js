@@ -79,9 +79,15 @@ class AnnouncementsPage extends React.Component {
                     <Col className="wide-table" span={24}>
                         <Row>
                           <h1>Annoucements</h1>
-                          <IconButton className="inlineDisplay" onClick={() => this.props.loadAdminAnnouncements(this.props.match.params.officeUID)}>
-                              <RefreshIcon />
-                          </IconButton>
+                        </Row>
+                        <Row type="flex">
+                            <Col span={24}>
+                              <Row type="flex" style={{height:87}} align="middle" justify="start">
+                                <IconButton className="inlineDisplay" onClick={() => this.props.loadAdminAnnouncements(this.props.match.params.officeUID)}>
+                                    <RefreshIcon />
+                                </IconButton>
+                              </Row>
+                            </Col>
                         </Row>
                         <Row>
                           <TextArea value={this.state.announcement} rows={4} onChange={(e) => this.handleInputChange(e)} placeholder={announcementsDescription}/>

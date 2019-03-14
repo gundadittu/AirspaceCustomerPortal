@@ -239,12 +239,13 @@ class EventCard extends React.Component {
               style={{height:250, width:"100%"}}
               hoverable
               cover={
-                <div style={{height:"125%", width:"100%"}}>
+                <div>
                   <Row type="flex" justify="space-around" align="middle">
                     <img
-                      style={{height:"70%", width:"70%"}}
                       alt="Event Photo" src={event.imageURL}
                       onLoad={this.completeLoad}
+                      style={{maxWidth:"100%",
+                      maxHeight:125}}
                     />
                   </Row>
                 </div>

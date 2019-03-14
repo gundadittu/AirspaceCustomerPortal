@@ -139,7 +139,7 @@ class UsersPage extends React.Component {
                         <h1>Users</h1>
                         <Row type="flex">
                             <Col span={12}>
-                              <Row type="flex" style={{height:'100%'}} align="middle" justify="start">
+                              <Row type="flex" style={{height:87}} align="middle" justify="start">
                                 <IconButton className="inlineDisplay" onClick={() => this.props.loadUserList(this.props.currentOfficeUID)}>
                                     <RefreshIcon />
                                 </IconButton>

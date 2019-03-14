@@ -100,9 +100,15 @@ class RegisteredGuestsPage extends React.Component {
                 <Row>
                     <Col className="wide-table" span={24}>
                         <h1>Registered Guests</h1>
-                        <IconButton className="inlineDisplay" onClick={() => this.props.loadRegisteredGuests(this.props.currentOfficeUID)}>
-                            <RefreshIcon />
-                        </IconButton>
+                        <Row type="flex">
+                            <Col span={24}>
+                              <Row type="flex" style={{height:87}} align="middle" justify="start">
+                                <IconButton className="inlineDisplay" onClick={() => this.props.loadRegisteredGuests(this.props.currentOfficeUID)}>
+                                    <RefreshIcon />
+                                </IconButton>
+                              </Row>
+                            </Col>
+                        </Row>
                         <RegisteredGuestsTable dataSource={this.props.guestsList} />
                     </Col>
                 </Row>

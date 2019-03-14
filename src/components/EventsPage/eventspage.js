@@ -145,34 +145,42 @@ class EventsPage extends React.Component {
         <Row>
             <Col className="wide-table" span={24}>
                 <h1>Events</h1>
-                <div>
-                  <CreateEventForm
-                      wrappedComponentRef={(form) => this.saveCreateEventFormRef(form)}
-                      visible={this.state.createEventFormVisible}
-                      onCancel={this.handleCancelCreateEvent}
-                      onCreate={this.handleCreateEvent}
-                      confirmLoading={this.props.addEventFormLoading}
-                      address={this.state.officeObj ? this.state.officeObj.building.address : 'invalid'}
-                  />
-                  <Menu
-                      onClick={(e) => this.handleClick(e)}
-                      selectedKeys={[this.state.currentList]}
-                      defaultSelectedKeys={[this.state.currentList]}
-                      className="page-nav-menu"
-                      mode="horizontal"
-                    >
-                      <IconButton className="inlineDisplay" onClick={this.handleRefresh}>
-                          <RefreshIcon />
-                      </IconButton>
-                      <Menu.Item key="upcoming">
-                        Upcoming
-                      </Menu.Item>
-                      <Menu.Item key="past" >
-                        Past
-                      </Menu.Item>
-                      <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showCreateEventFormModal}>Add Event</Button>
-                  </Menu>
-                </div>
+                <Row type="flex">
+                    <Col span={12}>
+                      <Row type="flex" style={{height:87}} align="middle" justify="start">
+                        <IconButton className="inlineDisplay" onClick={this.handleRefresh}>
+                            <RefreshIcon />
+                        </IconButton>
+                        <CreateEventForm
+                            wrappedComponentRef={(form) => this.saveCreateEventFormRef(form)}
+                            visible={this.state.createEventFormVisible}
+                            onCancel={this.handleCancelCreateEvent}
+                            onCreate={this.handleCreateEvent}
+                            confirmLoading={this.props.addEventFormLoading}
+                            address={this.state.officeObj ? this.state.officeObj.building.address : 'invalid'}
+                        />
+                        <Menu
+                            onClick={(e) => this.handleClick(e)}
+                            selectedKeys={[this.state.currentList]}
+                            defaultSelectedKeys={[this.state.currentList]}
+                            className="page-nav-menu"
+                            mode="horizontal"
+                          >
+                            <Menu.Item key="upcoming">
+                              Upcoming
+                            </Menu.Item>
+                            <Menu.Item key="past" >
+                              Past
+                            </Menu.Item>
+                        </Menu>
+                      </Row>
+                    </Col>
+                    <Col span={12}>
+                      <Row type="flex" align="middle" justify="end">
+                        <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showCreateEventFormModal}>Add Event</Button>
+                      </Row>
+                    </Col>
+                </Row>
                 <AntEventCards currentList={this.state.currentList}/>
                 <br />
             </Col>

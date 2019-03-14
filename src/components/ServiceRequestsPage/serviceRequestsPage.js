@@ -161,12 +161,20 @@ class ServiceRequestsPage extends React.Component {
                 <Row>
                     <Col className="wide-table" span={24}>
                         <h1>Service Requests</h1>
-                        <div>
-                            <IconButton onClick={() => this.props.loadServiceRequests(this.props.currentOfficeUID)} className="inlineDisplay">
-                                <RefreshIcon />
-                            </IconButton>
-                            <Button className="inlineDisplay rightAlign" type="primary" onClick={() => this.showEmailModal()}>Auto Routing</Button>
-                        </div>
+                        <Row type="flex">
+                            <Col span={12}>
+                              <Row type="flex" style={{height:87}} align="middle" justify="start">
+                                <IconButton className="inlineDisplay" onClick={() => this.props.loadServiceRequests(this.props.currentOfficeUID)} className="inlineDisplay">
+                                    <RefreshIcon />
+                                </IconButton>
+                              </Row>
+                            </Col>
+                            <Col span={12}>
+                              <Row type="flex" align="middle" justify="end">
+                                <Button className="inlineDisplay rightAlign" type="primary" onClick={() => this.showEmailModal()}>Auto Routing</Button>
+                              </Row>
+                            </Col>
+                        </Row>
                         <EmailModal
                           wrappedComponentRef={(form) => this.saveUpdateEmailsFormRef(form)}
                           onCancel={() => this.closeEmailModal()}

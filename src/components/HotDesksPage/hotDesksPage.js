@@ -163,25 +163,36 @@ class HotDesksPage extends React.Component {
                             confirmLoading={this.props.createDeskFormLoading}
                         />
                         <div>
-                            <IconButton className="inlineDisplay" onClick={() => this.props.loadHotDesks(this.props.currentOfficeUID)}>
-                                <RefreshIcon />
-                            </IconButton>
-                            <Menu
-                                className="inlineDisplay"
-                                style={{ border: 0 }}
-                                onClick={this.handleClick}
-                                selectedKeys={[this.state.currentList]}
-                                mode="horizontal"
-                            >
-                                <Menu.Item key="active">
-                                    Active
-                            </Menu.Item>
-                                <Menu.Item key="inactive" >
-                                    Inactive
-                            </Menu.Item>
-                            </Menu>
-                            <Button className="inlineDisplay rightAlign" type="primary" onClick={this.showCreateDeskFormModal}>Add Hot Desk</Button>
-                        </div>
+
+                          <Row type="flex">
+                              <Col span={12}>
+                                <Row type="flex" style={{height:87}} align="middle" justify="start">
+                                  <IconButton className="inlineDisplay" onClick={() => this.props.loadHotDesks(this.props.currentOfficeUID)}>
+                                      <RefreshIcon />
+                                  </IconButton>
+                                  <Menu
+                                      className="inlineDisplay"
+                                      style={{ border: 0 }}
+                                      onClick={this.handleClick}
+                                      selectedKeys={[this.state.currentList]}
+                                      mode="horizontal"
+                                  >
+                                      <Menu.Item key="active">
+                                          Active
+                                    </Menu.Item>
+                                        <Menu.Item key="inactive" >
+                                            Inactive
+                                    </Menu.Item>
+                                  </Menu>
+                                </Row>
+                              </Col>
+                              <Col span={12}>
+                                <Row type="flex" align="middle" justify="end">
+                                <Button className="inlineDisplay rightAlign" type="primary" onClick={this.showCreateDeskFormModal}>Add Hot Desk</Button>
+                                </Row>
+                              </Col>
+                          </Row>
+                          </div>
                         <HotDesksTable dataSource={dataSource} />
                     </Col>
                 </Row>

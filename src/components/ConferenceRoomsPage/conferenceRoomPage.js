@@ -175,24 +175,36 @@ class ConferenceRoomsPage extends React.Component {
                     <Col className="wide-table" span={24}>
                         <h1>Conference Rooms</h1>
                         <div>
-                            <IconButton onClick={() => this.props.loadConferenceRooms(this.props.currentOfficeUID)}>
-                                <RefreshIcon />
-                            </IconButton>
-                            <Menu
-                                className="inlineDisplay"
-                                style={{ border: 0 }}
-                                onClick={this.handleClick}
-                                defaultSelectedKeys={[this.state.currentList]}
-                                mode="horizontal"
-                            >
-                                <Menu.Item key="active">
-                                    Active
+
+
+                        <Row type="flex">
+                            <Col span={12}>
+                              <Row type="flex" style={{height:87}} align="middle" justify="start">
+                                <IconButton className="inlineDisplay" onClick={() => this.props.loadConferenceRooms(this.props.currentOfficeUID)}>
+                                    <RefreshIcon />
+                                </IconButton>
+                                <Menu
+                                    className="inlineDisplay"
+                                    style={{ border: 0 }}
+                                    onClick={this.handleClick}
+                                    defaultSelectedKeys={[this.state.currentList]}
+                                    mode="horizontal"
+                                >
+                                    <Menu.Item key="active">
+                                        Active
+                                    </Menu.Item>
+                                    <Menu.Item key="inactive" >
+                                        Inactive
                                 </Menu.Item>
-                                <Menu.Item key="inactive" >
-                                    Inactive
-                            </Menu.Item>
-                            </Menu>
-                            <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showCreateRoomFormModal}>Add Room</Button>
+                                </Menu>
+                              </Row>
+                            </Col>
+                            <Col span={12}>
+                              <Row type="flex" align="middle" justify="end">
+                                <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showCreateRoomFormModal}>Add Room</Button>
+                              </Row>
+                            </Col>
+                        </Row>
                         </div>
                         <ConferenceRoomsTable dataSource={dataSource} />
                     </Col>

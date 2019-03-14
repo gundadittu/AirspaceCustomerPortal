@@ -173,31 +173,33 @@ class SpaceInfoPage extends React.Component {
                     <Col className="wide-table" span={24}>
                         <h1>Space Info</h1>
                         <p>These files will be available to everyone in your office space.</p>
-                        <List
-                            grid={{
-                                gutter: 32, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4,
-                            }}
-                            dataSource={data}
-                            renderItem={item => (
-                              <Spin tip="Loading..." spinning={this.props.isLoadingSpaceInfo}>
-                                <List.Item>
-                                    <Card title={item.title}>
-                                        <div>
-                                            {(item.url !== null) ?
-                                              <div>
-                                                <Button type="primary" style={{ marginRight: 15 }} onClick={() => window.open(item.url)} size='large'>Open File</Button>
-                                                <br/>
-                                                <br/>
-                                              </div> : null}
-                                            <Button type="primary" onClick={() => this.showUploadFormRef(item.type)} size='large' ghost>
-                                                {(item.url !== null ? 'Replace File' : 'Upload File')}
-                                            </Button>
-                                        </div>
-                                    </Card>
-                                </List.Item>
-                              </Spin>
-                            )}
-                        />
+                        <Row>
+                          <List
+                              grid={{
+                                  gutter: 32, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4,
+                              }}
+                              dataSource={data}
+                              renderItem={item => (
+                                <Spin tip="Loading..." spinning={this.props.isLoadingSpaceInfo}>
+                                  <List.Item>
+                                      <Card title={item.title}>
+                                          <div>
+                                              {(item.url !== null) ?
+                                                <div>
+                                                  <Button type="primary" style={{ marginRight: 15 }} onClick={() => window.open(item.url)} size='large'>Open File</Button>
+                                                  <br/>
+                                                  <br/>
+                                                </div> : null}
+                                              <Button type="primary" onClick={() => this.showUploadFormRef(item.type)} size='large' ghost>
+                                                  {(item.url !== null ? 'Replace File' : 'Upload File')}
+                                              </Button>
+                                          </div>
+                                      </Card>
+                                  </List.Item>
+                                </Spin>
+                              )}
+                          />
+                        </Row>
                     </Col>
                 </Row>
             </div>

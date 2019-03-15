@@ -201,7 +201,7 @@ class EventCard extends React.Component {
                 <Col span={8}>
                 <Spin tip="Loading..." spinning={this.state.loadModalImage}>
                   <Card
-                      cover={<img alt="Event Photo" src={event.imageURL}
+                      cover={<img alt="No Event Photo Provided" src={event.imageURL}
                       onLoad={this.completeLoadExpanded}
                       onError={this.completeLoadExpanded}
                       />}
@@ -244,7 +244,7 @@ class EventCard extends React.Component {
                 <div>
                   <Row type="flex" justify="space-around" align="middle">
                     <img
-                      alt="Event Photo" src={event.imageURL}
+                      alt="No Event Photo Provided" src={event.imageURL}
                       onLoad={this.completeLoad}
                       onError={this.completeLoad}
                       style={{maxWidth:"100%",

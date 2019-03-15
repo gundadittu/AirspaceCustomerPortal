@@ -26,25 +26,18 @@ class HomeAdminPage extends React.Component {
     }
 
     componentDidMount() {
-        console.log(1)
       if (this.props.match.isExact) {
-          const selectedOfficeUID = this.props.match.params.officeUID;
-          const list = this.props.userAdminOfficeList;
-          let officeObj = null;
-          for (let key in list) {
-              const value = list[key];
-
-              if (value.uid === selectedOfficeUID) {
-                  officeObj = value;
-              }
+          let officeObj = this.props.currentOfficeAdmin;
+          console.log("home officeObj:"+officeObj);
+          if (officeObj === null) { 
+              return 
           }
-
-          const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
+          
+          const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: officeObj.uid, officeObj: officeObj });
           if (pagePayload) {
               this.props.changePage(pagePayload);
           }
       }
-
     }
 
     render() {
@@ -69,6 +62,7 @@ class HomeAdminPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        currentOfficeAdmin: state.general.currentOfficeAdmin 
     }
 };
 

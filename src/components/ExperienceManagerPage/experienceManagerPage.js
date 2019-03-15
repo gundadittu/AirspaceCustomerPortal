@@ -31,23 +31,16 @@ class ExperienceManagerPage extends React.Component {
     componentDidMount() {
       if (this.props.match.isExact) {
 
-          const selectedOfficeUID = this.props.match.params.officeUID;
-          const list = this.props.userAdminOfficeList;
-          let officeObj = null;
-          for (let key in list) {
-              const value = list[key];
-
-              if (value.uid === selectedOfficeUID) {
-                  officeObj = value;
-              }
-          }
-
-          const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
-          if (pagePayload) {
-              this.props.changePage(pagePayload);
-          }
+        let officeObj = this.props.currentOfficeAdmin || null;
+        if (officeObj === null) { 
+            return 
+        }
+        
+        const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: officeObj.uid, officeObj: officeObj });
+        if (pagePayload) {
+            this.props.changePage(pagePayload);
+        }
       }
-
     }
 
     render() {

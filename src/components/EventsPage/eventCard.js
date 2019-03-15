@@ -167,6 +167,7 @@ class EventCard extends React.Component {
   render() {
     const event = this.props.event;
     const showEditForm = (this.state.showInfo === false) ? true : false;
+
     return (
       <div>
           <Modal
@@ -202,6 +203,7 @@ class EventCard extends React.Component {
                   <Card
                       cover={<img alt="Event Photo" src={event.imageURL}
                       onLoad={this.completeLoadExpanded}
+                      onError={this.completeLoadExpanded}
                       />}
                       onClick={this.handleCardSelection}
                       bordered={false}
@@ -244,6 +246,7 @@ class EventCard extends React.Component {
                     <img
                       alt="Event Photo" src={event.imageURL}
                       onLoad={this.completeLoad}
+                      onError={this.completeLoad}
                       style={{maxWidth:"100%",
                       maxHeight:125}}
                     />

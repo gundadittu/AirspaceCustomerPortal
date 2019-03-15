@@ -27,26 +27,21 @@ class AnnouncementsPage extends React.Component {
         // Routing stuff
         if (this.props.match.isExact) {
 
-            const selectedOfficeUID = this.props.match.params.officeUID;
-
-            const list = this.props.userAdminOfficeList;
-            let officeObj = null;
-            for (let key in list) {
-                const value = list[key];
-
-                if (value.uid === selectedOfficeUID) {
-                    officeObj = value;
-                }
-            }
-            //
-            const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: selectedOfficeUID, officeObj: officeObj });
-            if (pagePayload) {
-                this.props.changePage(pagePayload);
-            }
+          let officeObj = this.props.currentOfficeAdmin || null;
+          console.log("home officeObj:"+officeObj);
+          if (officeObj === null) { 
+              return 
+          }
+          
+          const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: officeObj.uid, officeObj: officeObj });
+          if (pagePayload) {
+              this.props.changePage(pagePayload);
+          }
+      
             const secondPagePayload = getPagePayload(pageTitles.announcementsPageOfficeAdmin);
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
-                this.props.loadAdminAnnouncements(selectedOfficeUID)
+                this.props.loadAdminAnnouncements(officeObj.uid)
             }
         }
     }
@@ -121,7 +116,8 @@ const mapStateToProps = state => {
       isLoadingAnnouncementsData: state.officeAdmin.isLoadingAnnouncementsData,
       announcementsList: state.officeAdmin.announcementsList,
       postingAnnouncement: state.officeAdmin.postingAnnouncement,
-      successfulPost: state.officeAdmin.successfulPost
+      successfulPost: state.officeAdmin.successfulPost, 
+      currentOfficeAdmin: state.general.currentOfficeAdmin
     }
 };
 

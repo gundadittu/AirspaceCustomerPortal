@@ -76,7 +76,8 @@ class NavBar extends React.Component {
       </Menu>
     );
 
-    const notificationMenu = (
+    const notificationMenu = () => { 
+      return (
       <List
         className='navBarNotificationMenu'
         itemLayout="horizontal"
@@ -97,6 +98,8 @@ class NavBar extends React.Component {
         }
       />
     )
+
+      }
     const navBarLogo = (
       <Card
       cover={<img

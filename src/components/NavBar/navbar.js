@@ -141,8 +141,10 @@ class NavBar extends React.Component {
                       <Menu.Item key="profile">
                         <Dropdown overlay={profileMenu} trigger={['click']}>
                           <a className="ant-dropdown-link" href="#">
-                          /*Change this Avatar to include the user's profile picture*/
-                            <Avatar style={{ color: '#ffffff', backgroundColor: '#f07c94' }} style={{height: 45, width:45}}>{this.props.user.firstName[0]}</Avatar>
+                            {this.props.user.profileImageURL ?
+                                <Avatar src={this.props.user.profileImageURL}></Avatar> :
+                                <Avatar style={{ color: '#ffffff', backgroundColor: '#f07c94' }}>{this.props.user.firstName[0]}</Avatar>
+                            }
                           </a>
                         </Dropdown>
                       </Menu.Item>
@@ -172,11 +174,9 @@ class NavBar extends React.Component {
                         <a className="ant-dropdown-link" href="#">
                         {console.log(this.props.user.profileImageURL)}
                           {this.props.user.profileImageURL ?
-                              /*Change this Avatar to include the user's profile picture*/
-                              <Avatar style={{ color: '#ffffff', backgroundColor: '#f07c94' }}>{this.props.user.firstName[0]}</Avatar> :
+                              <Avatar src={this.props.user.profileImageURL}></Avatar> :
                               <Avatar style={{ color: '#ffffff', backgroundColor: '#f07c94' }}>{this.props.user.firstName[0]}</Avatar>
                           }
-
                         </a>
                       </Dropdown>
                     </Menu.Item>

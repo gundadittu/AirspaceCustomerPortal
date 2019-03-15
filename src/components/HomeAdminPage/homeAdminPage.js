@@ -20,12 +20,30 @@ class HomeAdminPage extends React.Component {
 
     componentDidMount() {
       if (this.props.match.isExact) {
-          let officeObj = this.props.currentOfficeAdmin;
-          if (officeObj === null) {
-              return
+          const officeUID = this.props.match.params.officeUID;
+          if (officeUID === null) { 
+              return 
           }
 
-          const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: officeObj.uid, officeObj: officeObj });
+          let officeObj = null; 
+          const allAdminOffices = this.props.allAdminOffices || null;
+          if (allAdminOffices === null) { 
+            return
+          } 
+
+          for (let key in allAdminOffices) { 
+              const value = allAdminOffices[key];
+              if (value.uid === officeUID) { 
+                  officeObj = value;
+                  break;
+              }
+          }
+
+          if (officeObj === null) { 
+              return 
+          }
+
+          const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: officeUID, officeObj: officeObj });
           if (pagePayload) {
               this.props.changePage(pagePayload);
           }
@@ -42,7 +60,7 @@ class HomeAdminPage extends React.Component {
                         <h1>Home</h1>
                       </Row>
                       <Row  type="flex" justify="space-around" align="middle">
-                        <img style={{width:'70%', height:'70%'}}alt="Request Photo" src={StaticImage} />
+                        <img style={{width:'70%', height:'70%'}} alt="Request Photo" src={StaticImage} />
                       </Row>
                     </Col>
                 </Row>
@@ -54,7 +72,8 @@ class HomeAdminPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        currentOfficeAdmin: state.general.currentOfficeAdmin
+        currentOfficeAdmin: state.general.currentOfficeAdmin, 
+        allAdminOffices: state.auth.adminOfficeList
     }
 };
 

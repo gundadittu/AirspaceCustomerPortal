@@ -21,7 +21,9 @@ const initialState = {
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
-        case actionTypes.CLEAR_REDUX_STATE:
+        case actionTypes.SIGN_OUT_USER_SUCCESS:
+            return initialState;
+        case actionTypes.CLEAR_REDUX_STATE: 
             return initialState;
         case actionTypes.START_HOME:
             if (!state.currentPage){

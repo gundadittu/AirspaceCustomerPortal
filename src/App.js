@@ -26,6 +26,8 @@ import * as authActionCreators from './store/actions/auth';
 import { Row, Col } from 'antd';
 import * as pageTitles from './pages/pageTitles';
 import * as Sentry from '@sentry/browser';
+const Mixpanel = require('mixpanel');
+var mixpanel = Mixpanel.init('4b6f21dc6886a40bf4900783da31064a');
 
 class App extends Component {
   state = {
@@ -34,6 +36,7 @@ class App extends Component {
 
   componentWillMount() {
     Sentry.init({ dsn: 'https://8825e624e2594f1d8ca77d056c8b56dd@sentry.io/1395312' });
+
 
     if (this.props.firebase === null) {
       this.firebase = new Firebase()

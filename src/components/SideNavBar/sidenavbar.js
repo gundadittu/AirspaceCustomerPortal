@@ -20,7 +20,7 @@ const MenuItemGroup = Menu.ItemGroup;
 class SideNavBar extends React.Component {
 
   state = {
-    showDrawer : false 
+    showDrawer : false
   }
 
   getSwitchPortalSubMenuTitle = () => {
@@ -141,13 +141,13 @@ class SideNavBar extends React.Component {
         iconType: "info-circle",
         pageSubtitle: 'spaceInfo',
         linkTitle: "Space Info"
-      },
+      }/*,
       experienceManager: {
         keyVal: pageTitles.experienceManagerPageOfficeAdmin,
         iconType: "team",
         pageSubtitle: 'experienceManager',
         linkTitle: "Experience Manager"
-      }
+      }*/
     }
 
     const currentOfficeAdminUID = this.props.currentOfficeAdminUID
@@ -243,7 +243,7 @@ class SideNavBar extends React.Component {
   }
 
   render() {
-    let currentPages = [this.props.currentPage]; 
+    let currentPages = [this.props.currentPage];
 
     const drawerWidth = 240;
 

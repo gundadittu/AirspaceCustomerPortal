@@ -16,7 +16,7 @@ import RegisteredGuestsPage from './components/RegisteredGuestsPage/registeredGu
 import EventsPage from './components/EventsPage/eventspage';
 import SpaceInfoPage from './components/SpaceInfoPage/spaceInfoPage';
 import ServiceRequestsPage from './components/ServiceRequestsPage/serviceRequestsPage';
-import ExperienceManagerPage from './components/ExperienceManagerPage/experienceManagerPage';
+//import ExperienceManagerPage from './components/ExperienceManagerPage/experienceManagerPage';
 import CreatePasswordPage from './components/CreatePasswordPage/createPasswordPage';
 import InitialRoutingComp from './components/InitialRoutingComp/InitialRoutingComp';
 import Firebase from './components/Firebase';
@@ -154,6 +154,6 @@ const officeAdminRoutingComp = () => (
     <Route exact path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>
-    <Route exact path='/officeAdmin/:officeUID/experienceManager' component={ExperienceManagerPage}></Route>
+    {/*<Route exact path='/officeAdmin/:officeUID/experienceManager' component={ExperienceManagerPage}></Route>*/}
   </Switch>
 )

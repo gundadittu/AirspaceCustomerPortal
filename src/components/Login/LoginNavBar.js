@@ -1,10 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { Menu, Dropdown, Icon } from 'antd';
 import AppBar from '@material-ui/core/AppBar';
-// import Toolbar from '@material-ui/core/Toolbar';
-// import Typography from '@material-ui/core/Typography';
-// import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import '../../App.css'
 

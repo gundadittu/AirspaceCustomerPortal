@@ -76,7 +76,7 @@ class ServiceEmails extends React.Component {
   saveInputRef = input => this.input = input
 
   render() {
-    const { /*tags, */inputVisible, inputValue } = this.state;
+    const { inputVisible, inputValue } = this.state;
     var tags = this.props.emails
     return (
       <div>

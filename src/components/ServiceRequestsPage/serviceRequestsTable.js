@@ -186,9 +186,6 @@ formatDate(date){
     });
     this.setState({ editRoomFormVisible: false, selectedRoom: null });
   }
-  componentDidMount() {
-    console.log(this.props.serviceRequestsList)
-  }
 
   render() {
     return (

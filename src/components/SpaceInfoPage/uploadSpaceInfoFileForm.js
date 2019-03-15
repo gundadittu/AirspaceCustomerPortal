@@ -12,7 +12,6 @@ class UploadSpaceInfoFileForm extends React.Component {
 
     uploadChange(info) {
         if (info.file.status !== 'uploading') {
-            console.log(info.file, info.fileList);
         }
         if (info.file.status === 'done') {
             message.success(`${info.file.name} file uploaded successfully`);
@@ -56,12 +55,12 @@ class UploadSpaceInfoFileForm extends React.Component {
         } = this.props;
         const { getFieldDecorator } = form;
 
-        let formTypeTitle = ""; 
-        if (uploadFormType === 'onboarding') { 
+        let formTypeTitle = "";
+        if (uploadFormType === 'onboarding') {
             formTypeTitle = 'Onboarding ';
-        } else if (uploadFormType === 'floorplan') { 
+        } else if (uploadFormType === 'floorplan') {
             formTypeTitle = 'Floor Plan ';
-        } else if  (uploadFormType === 'buildingdetails') { 
+        } else if  (uploadFormType === 'buildingdetails') {
             formTypeTitle = 'Building Details ';
         }
         const formTitle = "Upload "+formTypeTitle+"File"
@@ -86,7 +85,7 @@ class UploadSpaceInfoFileForm extends React.Component {
                         label="Upload File"
                     >
                         {getFieldDecorator('uploadFile', {
-                            getValueFromEvent: this.spaceInfoFile 
+                            getValueFromEvent: this.spaceInfoFile
                         })(
                             <Upload {...uploadProps} disabled={uploadDisabled || confirmLoading} fileList={this.state.fileList} accept='.pdf' onChange={(info) => this.uploadChange(info)}>
                                 <Button>

@@ -22,10 +22,8 @@ class NavBar extends React.Component {
   handleProfileClick = (e) => {
     switch (e.key) {
       case 'Edit Profile':
-        console.log("Implement Edit Profile")
         break;
       case 'SignOut':
-        console.log("Made it here");
         break;
       default:
         break;
@@ -33,7 +31,6 @@ class NavBar extends React.Component {
   }
 
   handleClick = (e) => {
-    console.log('click ', e);
     if (e.key === "signOut") {
       this.handleSignOut(e);
     } else if (e.key === "notifications") {
@@ -76,7 +73,7 @@ class NavBar extends React.Component {
       </Menu>
     );
 
-    const notificationMenu = () => { 
+    const notificationMenu = () => {
       return (
       <List
         className='navBarNotificationMenu'

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import * as actionTypes from '../../store/actions/actionTypes';
 
 import { Row, Col, Button, Menu, Spin} from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
@@ -9,14 +8,12 @@ import '../../App.css';
 
 import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
-// import * as officeActionCreator from '../../store/actions/officeAdmin';
 
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 
 import AntEventCards from './antEventCards.js'
-// import MaterialUIEventCards from './materialUIEventCards.js'
 import CreateEventForm from './createEventForm.js'
 
 class EventsPage extends React.Component {
@@ -141,7 +138,7 @@ class EventsPage extends React.Component {
 
   render() {
 
-  
+
 
     return (
       <div>
@@ -184,7 +181,7 @@ class EventsPage extends React.Component {
                       </Row>
                     </Col>
                 </Row>
-                 {this.props.isLoadingEventsData ? <div style={{textAlign: "center"}}><Spin style={{marginTop: "20"}}/> </div>: 
+                 {this.props.isLoadingEventsData ? <div style={{textAlign: "center"}}><Spin style={{marginTop: "20"}}/> </div>:
                  <AntEventCards currentList={this.state.currentList}/>
                 }
                 <br />

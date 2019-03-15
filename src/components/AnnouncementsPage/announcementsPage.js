@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import * as actionTypes from '../../store/actions/actionTypes';
 
 import { Spin, Divider, Comment, Avatar, Row, Col, Button, Input } from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
@@ -28,16 +27,15 @@ class AnnouncementsPage extends React.Component {
         if (this.props.match.isExact) {
 
           let officeObj = this.props.currentOfficeAdmin || null;
-          console.log("home officeObj:"+officeObj);
-          if (officeObj === null) { 
-              return 
+          if (officeObj === null) {
+              return
           }
-          
+
           const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: officeObj.uid, officeObj: officeObj });
           if (pagePayload) {
               this.props.changePage(pagePayload);
           }
-      
+
             const secondPagePayload = getPagePayload(pageTitles.announcementsPageOfficeAdmin);
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
@@ -116,7 +114,7 @@ const mapStateToProps = state => {
       isLoadingAnnouncementsData: state.officeAdmin.isLoadingAnnouncementsData,
       announcementsList: state.officeAdmin.announcementsList,
       postingAnnouncement: state.officeAdmin.postingAnnouncement,
-      successfulPost: state.officeAdmin.successfulPost, 
+      successfulPost: state.officeAdmin.successfulPost,
       currentOfficeAdmin: state.general.currentOfficeAdmin
     }
 };

@@ -15,8 +15,6 @@ class CreatePasswordPage extends React.Component {
   })
 
   componentDidMount() {
-    console.log("Create Password Page")
-    console.log(this)
     const userUID = this.props.match.params.userUID
     var payload = {
       userUID: userUID
@@ -27,10 +25,10 @@ class CreatePasswordPage extends React.Component {
   render() {
 
     if (this.props.create_password_url) {
-      window.location.assign(this.props.create_password_url); 
+      window.location.assign(this.props.create_password_url);
     }
 
-    if (this.props.createPasswordLoading === true) { 
+    if (this.props.createPasswordLoading === true) {
       return (
         <div>
           <Row>
@@ -43,7 +41,7 @@ class CreatePasswordPage extends React.Component {
             <Spin size="large" />
           </Row>
           <br />
-  
+
         </div>
       );
     }
@@ -80,8 +78,8 @@ class CreatePasswordPage extends React.Component {
 const mapStateToProps = state => {
   return {
     redirect_create_password: state.general.redirect_create_password,
-    create_password_url: state.general.create_password_url, 
-    createPasswordError: state.general.createPasswordError, 
+    create_password_url: state.general.create_password_url,
+    createPasswordError: state.general.createPasswordError,
     createPasswordLoading: state.general.createPasswordLoading
   }
 };

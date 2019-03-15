@@ -93,7 +93,7 @@ class ReqestInfoModal extends React.Component {
                 <Col span={22}>
                   <Row>
                     <h3>Request Type:</h3>
-                    <Tag color="blue" style={{/*fontSize: 20, height:"40%", width:"60%"*/}}>{request.issueType.title.title}</Tag>
+                    <Tag color="blue" >{request.issueType.title.title}</Tag>
                   </Row>
                   <br />
                   <Row>
@@ -131,51 +131,6 @@ class ReqestInfoModal extends React.Component {
     }
   }
 }
-
-/*
-
-
-            <Row>
-              <Col span={7}>
-                <img alt="Request Photo" style={{
-                  maxWidth:"100%",
-                  maxHeight:"100%"
-                }} src={StaticRequestPhoto} />
-              </Col>
-              <Col span={1}/>
-              <Col span={11} >
-                <h3>ID: {request.uid.slice(0,6)}</h3>
-                <span>{moment(request.timestamp).format('ddd MMM DD, YYYY')} at {moment(request.timestamp).format('hh:mm a')}</span>
-                <h3>Request Type:</h3>
-                <Tag color="blue">{request.issueType.title.title}</Tag>
-              </Col>
-              <Col span={1} />
-              <Col span={4}>
-                {request.status=='open' ? <Tag color={'green'} key={request.status}>Open</Tag> :
-                request.status=='pending' ? <Tag color={'volcano'} key={request.status}>In Progress</Tag> :
-                <Tag color={'red'} key={request.status}>Closed</Tag>}
-              </Col>
-            </Row>
-            <Row>
-              <Col span={4}>
-              </Col>
-              <Col span={16} justify="space-around" align="middle">
-                <h3>Note: {request.note}</h3>
-              </Col>
-              <Col span={4}>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={16}>
-                <h3>Notified:</h3>
-                <ServiceEmails emails={this.state.emails[key]} rawType={key} updateEmails={this.updateEmails}/>
-              </Col>
-              <Col span={8} align="middle">
-                <Button type="primary" onClick={() => this.handleResend(key)}>Resend</Button>
-              </Col>
-            </Row>
-
-*/
 
 const mapStateToProps = state => {
   return {

@@ -1,8 +1,6 @@
 import app from 'firebase';
 import 'firebase/auth';
 import 'firebase/functions';
-// const app = require("firebase");
-// require("firebase/functions");
 
 const prodConfig = {
     apiKey: "AIzaSyBPUBLiY-FCuqpJLVibdr-RoiUt4wzbaLE",
@@ -12,7 +10,7 @@ const prodConfig = {
     storageBucket: "airspace-management-app.appspot.com",
     messagingSenderId: "927508779333"
   };
-  
+
 // User this when I want to set up a dev version
 //   const devConfig = {
 //     apiKey: process.env.REACT_APP_DEV_API_KEY,
@@ -32,10 +30,10 @@ class Firebase {
 
     if (!app.apps.length) {
       app.initializeApp(config);
-    } 
+    }
     this.auth = app.auth();
     this.functions = app.functions();
-    this.storage = app.storage();     
+    this.storage = app.storage();
   }
 }
 

@@ -176,7 +176,6 @@ const mapDispatchToProps = dispatch => {
         loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID)),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
         createUserForOfficeAdmin: (payload) => dispatch(officeActionCreator.createUserForOfficeAdmin(payload))
-        // finishedCreatingUser: (payload) => dispatch({type: 'CREATE_USER_FOR_OFFICEADMIN_FINISHED', payload: { ...payload }})
     }
 };
 

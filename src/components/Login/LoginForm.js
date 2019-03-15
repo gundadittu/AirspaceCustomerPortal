@@ -7,11 +7,6 @@ import * as authActionCreators from '../../store/actions/auth';
 import '../../App.css'
 import './Login.css'
 
-// To do:
-// handle forgot password
-// handle remember me
-// responsive card size
-
 class LoginForm extends React.Component {
 
   handleSubmit = (e) => {

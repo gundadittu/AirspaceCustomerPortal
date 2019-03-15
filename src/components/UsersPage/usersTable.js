@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Table, Tag, Dropdown, Menu } from 'antd';
-// import Highlighter from 'react-highlight-words';
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
 import EditUserForm from './editUserForm';
 import RemoveUserForm from './removeUserForm';
 import * as actionCreator from '../../store/actions/officeAdmin';
-// import { stat } from 'fs';
 
 class UsersTable extends React.Component {
 
@@ -53,7 +51,6 @@ class UsersTable extends React.Component {
     dataIndex: 'offices',
     render: (offices => (
       <span>
-        {/* closable onClose={log} */}
         {offices.map(office => <Tag color="blue" key={office.uid}>{office.name}</Tag>)}
       </span>
     ))
@@ -63,7 +60,6 @@ class UsersTable extends React.Component {
     dataIndex: 'officeAdmins',
     render: (offices => (
       <span>
-        {/* closable onClose={log} */}
         {offices.map(office => <Tag color="blue" key={office.uid}>{office.name}</Tag>)}
       </span>
     ))
@@ -234,7 +230,6 @@ class UsersTable extends React.Component {
             selectedUser={this.state.selectedUser}
             confirmLoading={this.props.removeUserFormLoading}
         />
-        {/* // customize empty state locale={{ emptyText: 'No Users'}} */}
         <Table rowKey={record => record.uid.toString()} columns={this.columns} dataSource={this.props.userList} pagination={false} loading={this.props.isLoadingUserData} />
       </div>
     );

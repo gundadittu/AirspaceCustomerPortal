@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import LoginNavBar from '../Login/LoginNavBar';
 import ConfirmationImage from "../../assets/images/requestUpdateConf.png";
 import ConfirmationErrorImage from "../../assets/images/error.png";
-//import * as actionCreator from '../../store/actions/general';
 import * as actionCreator from '../../store/actions/general';
 import { Row, Col, Card, Spin } from 'antd';
 import '../Login/Login.css'
@@ -14,7 +13,6 @@ class UpdateServiceRequestStatusPage extends React.Component {
   })
 
   componentDidMount() {
-    console.log(this)
     const serviceRequestUID = this.props.match.params.uid
     const newStatus = this.props.match.params.status
 
@@ -22,7 +20,6 @@ class UpdateServiceRequestStatusPage extends React.Component {
       selectedServiceRequestUID: serviceRequestUID,
       newStatus: newStatus
     }
-    console.log("Payload", payload)
     this.props.editServiceRequestStatusForEmail(payload)
   }
 

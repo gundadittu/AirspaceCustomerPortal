@@ -98,7 +98,6 @@ class HotDesksTable extends React.Component {
     this.setState({
       selectedDesk: selectedDesk
     })
-    console.log(this.state.selectedDesk)
     this.setState({editDeskFormVisible: true });
   }
 

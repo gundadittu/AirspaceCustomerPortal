@@ -81,7 +81,6 @@ class SpaceInfoPage extends React.Component {
                     });
                 })
                 .catch(error => {
-                    console.error(error);
                     this.setState({uploadFormLoading: false});
                     notification['error']({
                         message: 'Unable to upload file.',
@@ -100,7 +99,6 @@ class SpaceInfoPage extends React.Component {
                     });
                 })
                 .catch(error => {
-                    console.error(error);
                     this.setState({uploadFormLoading: false});
                     notification['error']({
                         message: 'Unable to upload file.',
@@ -119,7 +117,6 @@ class SpaceInfoPage extends React.Component {
                     });
                 })
                 .catch(error => {
-                    console.error(error);
                     this.setState({uploadFormLoading: false});
                     notification['error']({
                         message: 'Unable to upload file.',

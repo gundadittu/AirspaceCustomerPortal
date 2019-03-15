@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import * as actionTypes from '../../store/actions/actionTypes';
 
 import { Row, Col, Button, Menu } from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
@@ -9,7 +8,6 @@ import '../../App.css';
 
 import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
-// import * as officeActionCreator from '../../store/actions/officeAdmin';
 
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
@@ -75,14 +73,16 @@ class ConferenceRoomsPage extends React.Component {
             const roomName = values.roomName;
             const standardAmenities = values.standardAmenities;
             let reserveable = false;
+
             if (values.reserveable.includes('reserveable') === true) {
                 reserveable = true;
             }
+
             let activeStatus = false;
             if (values.activeStatus === 'active') {
                 activeStatus = true;
             }
-            // const customAmenities = values.customAmenities;
+
             const capacity = values.capacity;
             const currentOfficeUID = this.props.currentOfficeUID;
             let photoFileObj = null;
@@ -97,7 +97,6 @@ class ConferenceRoomsPage extends React.Component {
                 roomName: roomName,
                 capacity: capacity,
                 standardAmenities: standardAmenities,
-                // customAmenities: customAmenities,
                 selectedOfficeUID: currentOfficeUID,
                 reserveable: reserveable,
                 activeStatus: activeStatus,

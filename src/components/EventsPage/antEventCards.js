@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, Icon, Menu, Table, Tag, message, notification,
    Popconfirm, Row, Col, Card, Avatar, Modal} from 'antd';
-// import Highlighter from 'react-highlight-words';
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
 import * as actionCreator from '../../store/actions/officeAdmin';
@@ -33,14 +32,12 @@ class AntEventCards extends React.Component {
   }
 
   handleOk = (e) => {
-    console.log(e);
     this.setState({
       visible: false,
     });
   }
 
   handleCancel = (e) => {
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -57,7 +54,7 @@ class AntEventCards extends React.Component {
     if (this.props.currentList == 'past'){
       selectedEventsList = this.props.pastEventsList;
     }
-    console.log(selectedEventsList)
+
     return (
       <div>
       <div style={{ padding: '30px' }}>

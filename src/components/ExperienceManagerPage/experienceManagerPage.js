@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import * as actionTypes from '../../store/actions/actionTypes';
 
 import { Statistic, Row, Col, Button, Menu, Card, Tag, Mention, Input} from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
@@ -12,7 +11,6 @@ import '../../App.css';
 
 import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
-// import * as officeActionCreator from '../../store/actions/officeAdmin';
 
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
@@ -32,10 +30,10 @@ class ExperienceManagerPage extends React.Component {
       if (this.props.match.isExact) {
 
         let officeObj = this.props.currentOfficeAdmin || null;
-        if (officeObj === null) { 
-            return 
+        if (officeObj === null) {
+            return
         }
-        
+
         const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: officeObj.uid, officeObj: officeObj });
         if (pagePayload) {
             this.props.changePage(pagePayload);

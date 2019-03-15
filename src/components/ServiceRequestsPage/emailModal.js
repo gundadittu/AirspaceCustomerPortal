@@ -1,5 +1,4 @@
 import React from 'react';
-// import { connect } from 'react-redux';
 import {
     Button, Modal, Form, Input, Radio, Upload, Icon, message, Checkbox, Row, Col,
     Tag

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, Menu, Table, Tag } from 'antd';
-// import Highlighter from 'react-highlight-words';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import EditRoomForm from './editRoomForm.js'
@@ -72,23 +71,6 @@ class ConferenceRoomsTable extends React.Component {
     ),
   }];
 
-  /*
-  got rid of edit room menu
-
-  editMenu = (roomUID) => {
-    return (
-      <Menu
-        onClick={(e) => this.handleEditMenuClick(e, roomUID)}
-        style={{ textAlign: 'left', border: 0 }}
-      >
-        <Menu.Item key="edit">
-          Edit Room Info
-        </Menu.Item>
-      </Menu>
-    );
-  }
-  */
-
   handleEditMenuClick = (roomUID) => {
     const roomsList = this.props.dataSource;
 
@@ -114,7 +96,6 @@ class ConferenceRoomsTable extends React.Component {
     if (roomUID) {
       const editRoomForm = this.editRoomFormRef.props.form;
       const imgUrl = selectedRoom.imageURL
-      //this.editRoomFormRef.setState({ fileList: [imgUrl] });
 
       editRoomForm.setFields({
         roomName: {
@@ -133,10 +114,10 @@ class ConferenceRoomsTable extends React.Component {
           value: (selectedRoom.active) ? 'active' : 'inactive'
         },
         uploadPhoto: {
-          fileList: [imgUrl] // populate?
+          fileList: [imgUrl]
         },
         keys: {
-          value: null // populate?
+          value: null
         }
       });
 
@@ -191,7 +172,7 @@ class ConferenceRoomsTable extends React.Component {
       if (values.activeStatus === 'active') {
         activeStatus = true;
       }
-      // const customAmenities = values.customAmenities;
+
       const capacity = values.capacity;
       let photoFileObj = null;
       const uploadPhotoDict = values.uploadPhoto || null;
@@ -206,7 +187,6 @@ class ConferenceRoomsTable extends React.Component {
         roomName: roomName,
         capacity: capacity,
         standardAmenities: standardAmenities,
-        // customAmenities: customAmenities,
         reserveable: reserveable,
         activeStatus: activeStatus,
         photoFileObj: photoFileObj,

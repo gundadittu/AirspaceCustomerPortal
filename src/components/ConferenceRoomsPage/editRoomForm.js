@@ -12,29 +12,8 @@ class EditRoomForm extends React.Component {
     fileList: []
   }
 
-  // removeAmenity = (k) => {
-  //   const { form } = this.props;
-  //   const keys = form.getFieldValue('keys');
-
-  //   form.setFieldsValue({
-  //     keys: keys.filter(key => key !== k),
-  //   });
-  // }
-
-  // id = 0;
-
-  // addAmenity = () => {
-  //   const { form } = this.props;
-  //   const keys = form.getFieldValue('keys');
-  //   const nextKeys = keys.concat(++this.id);
-  //   form.setFieldsValue({
-  //     keys: nextKeys
-  //   });
-  // }
-
   uploadChange(info) {
     if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
@@ -44,17 +23,12 @@ class EditRoomForm extends React.Component {
   }
 
   roomPhotoFile = (e) => {
-    console.log("Here ", e)
     if (Array.isArray(e)) {
       this.setState({fileList: e});
       return e;
     }
     this.setState({fileList: (e.fileList || e)});
     return e && e.fileList;
-  }
-
-  componentDidMount() {
-    console.log("Props: ", this.props.uploadedFileProp)
   }
 
   render() {

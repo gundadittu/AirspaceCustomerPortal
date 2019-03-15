@@ -1,5 +1,4 @@
 import React from 'react';
-// import { connect } from 'react-redux';
 import {
     Button, Modal, Form, Input, Radio, Upload, Icon, message, Checkbox, Row, Col
 } from 'antd';
@@ -13,7 +12,6 @@ class CreateDeskForm extends React.Component {
 
     uploadChange(info) {
         if (info.file.status !== 'uploading') {
-            console.log(info.file, info.fileList);
         }
         if (info.file.status === 'done') {
             message.success(`${info.file.name} file uploaded successfully`);

@@ -21,16 +21,13 @@ export function* watchSetUpUserSaga() {
     yield takeLatest(actionTypes.SET_UP_USER, workerSetUpUserSaga);
 }
 
-/* -------------------------------------------------------------------------- */
-
 function signInUser(payload, firebase) {
     const email = payload.email || null;
     const password = payload.password || null;
     const rememberMe = payload.rememberMe || false;
-    // firebase.auth.Auth.Persistence.SESSION
     let persistMode = 'session';
+
     if (rememberMe === true) {
-        // firebase.auth.Auth.Persistence.LOCAL
         persistMode = 'local';
     }
 
@@ -39,59 +36,51 @@ function signInUser(payload, firebase) {
       return firebase.auth.signInWithEmailAndPassword(email, password);
     })
     .catch(function(error) {
-        console.log('sign in error reached');
-    //   console.error(error);
       throw error;
     });
   }
 
 function* userSignInWorkerSaga(action) {
-    try {
-        let firebase = yield select(selectors.firebase);
-        yield call(signInUser, action.payload, firebase);
-        yield put({ type: actionTypes.SIGN_IN_USER_SUCCESS });
-    } catch (error) {
-        sentry.captureException(error);
-        notification['error']({
-            message: 'Unable to sign in user.',
-            description: error.message
-        });
+  try {
+      let firebase = yield select(selectors.firebase);
+      yield call(signInUser, action.payload, firebase);
+      yield put({ type: actionTypes.SIGN_IN_USER_SUCCESS });
+  } catch (error) {
+      sentry.captureException(error);
+      notification['error']({
+          message: 'Unable to sign in user.',
+          description: error.message
+      });
 
-        yield put({ type: actionTypes.SIGN_IN_USER_ERROR, payload: {error: error} });
-    }
+      yield put({ type: actionTypes.SIGN_IN_USER_ERROR, payload: {error: error} });
+  }
+}
+
+function signOutUser(firebase) {
+    return firebase.auth.signOut()
+    .catch(error => {
+        throw error;
+    })
   }
 
-  /* -------------------------------------------------------------------------- */
+function* userSignOutWorkerSaga(action) {
+    try {
+        let firebase = yield select(selectors.firebase);
+        yield call(signOutUser, firebase);
+        yield put ({ type: actionTypes.CLEAR_REDUX_STATE });
+        yield put({ type: actionTypes.SIGN_OUT_USER_SUCCESS });
+    } catch (error) {
+        console.error(error);
+        sentry.captureException(error);
 
-  function signOutUser(firebase) {
-      return firebase.auth.signOut()
-      .catch(error => {
-          throw error;
-      })
+        notification['error']({
+          message: 'Unable to sign out user.',
+          description: error.message
+      });
+
+        yield put({ type: actionTypes.SIGN_OUT_USER_ERROR, payload: {error: error} });
     }
-
-  function* userSignOutWorkerSaga(action) {
-      try {
-          let firebase = yield select(selectors.firebase);
-          yield call(signOutUser, firebase);
-          // Need to properly parse call here
-          console.log("SIGN OUT CALL SUCCESSFUL");
-          yield put ({ type: actionTypes.CLEAR_REDUX_STATE });
-          yield put({ type: actionTypes.SIGN_OUT_USER_SUCCESS });
-      } catch (error) {
-          console.error(error);
-          sentry.captureException(error);
-
-          notification['error']({
-            message: 'Unable to sign out user.',
-            description: error.message
-        });
-
-          yield put({ type: actionTypes.SIGN_OUT_USER_ERROR, payload: {error: error} });
-      }
-    }
-
-    /* -------------------------------------------------------------------------- */
+  }
 
 function setUpUser(payload, firebase) {
     const uid = payload.uid || null;
@@ -133,14 +122,6 @@ function* workerSetUpUserSaga(action) {
         const response = yield call(setUpUser, action.payload, firebase);
         yield put({ type: actionTypes.SET_UP_USER_SUCCESS, payload: {data: response}});
     } catch (error) {
-        console.error(error);
-        // sentry.captureException(error);
-
-        // notification['error']({
-        //     message: 'Unable to set up portal for user',
-        //     description: error.message
-        // });
-
-        yield put({ type: actionTypes.SET_UP_USER_ERROR, payload: {error: error} });
+      yield put({ type: actionTypes.SET_UP_USER_ERROR, payload: {error: error} });
     }
   }

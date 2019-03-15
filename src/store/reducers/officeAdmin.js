@@ -22,10 +22,10 @@ const initialState = {
     isLoadingHotDesksData: false,
     isLoadingServiceRequestsData: false,
     isLoadingServiceRequestsEmailsData: false,
-    successfulServiceRequestUpdate: false,
-    isEditingGuestsData: false,
-    updatingServiceStatus: false,
     isLoadingEventsData: false,
+    isLoadingSpaceInfo: false,
+    isEditingGuestsData: false,
+    successfulServiceRequestUpdate: false,
     createUserFormLoading: false,
     editUserFormLoading: false,
     removeUserFormLoading: false,
@@ -35,7 +35,7 @@ const initialState = {
     editEventFormLoading: false,
     createDeskFormLoading: false,
     editDeskFormLoading: false,
-    isLoadingSpaceInfo: false,
+    updatingServiceStatus: false,
     postingAnnouncement: false,
     successfulPost: false,
     onboardingURL: null,
@@ -45,7 +45,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.CLEAR_REDUX_STATE: 
+        case actionTypes.CLEAR_REDUX_STATE:
             return initialState;
         case actionTypes.EDIT_CONF_ROOM:
             return updateObject(state, { editRoomFormLoading: true });

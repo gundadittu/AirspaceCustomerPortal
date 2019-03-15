@@ -6,33 +6,12 @@ import './createRoomForm.css';
 
 class CreateRoomForm extends React.Component {
 
-  state = { 
+  state = {
     fileList: []
   };
 
-  // removeAmenity = (k) => {
-  //   const { form } = this.props;
-  //   const keys = form.getFieldValue('keys');
-
-  //   form.setFieldsValue({
-  //     keys: keys.filter(key => key !== k),
-  //   });
-  // }
-
-  // id = 0;
-
-  // addAmenity = () => {
-  //   const { form } = this.props;
-  //   const keys = form.getFieldValue('keys');
-  //   const nextKeys = keys.concat(++this.id);
-  //   form.setFieldsValue({
-  //     keys: nextKeys
-  //   });
-  // }
-
   uploadChange(info) {
     if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
@@ -84,38 +63,8 @@ class CreateRoomForm extends React.Component {
     };
 
     const formTitle = "Add a Conference Room";
-
-    // getFieldDecorator('keys', { initialValue: [] });
-    // const keys = getFieldValue('keys') || [];
-    // const formItems = keys.map((k, index) => (
-    //   <Form.Item
-    //     {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-    //     required={false}
-    //     key={k}
-    //   >
-    //     {getFieldDecorator(`customAmenities[${k}]`, {
-    //       validateTrigger: ['onChange', 'onBlur'],
-    //       rules: [{
-    //         required: false,
-    //         whitespace: true,
-    //         message: "Please input an amenity or delete this field.",
-    //       }],
-    //     })(
-    //       <Input placeholder="Amenity" disabled={confirmLoading} value={this.state.customAmenities[k]} style={{ width: '60%', marginRight: 8 }} />
-    //     )}
-    //     {keys.length > 1 ? (
-    //       <Icon
-    //         className="dynamic-delete-button"
-    //         type="minus-circle-o"
-    //         disabled={keys.length === 1 || confirmLoading}
-    //         onClick={() => this.removeAmenity(k)}
-    //       />
-    //     ) : null}
-    //   </Form.Item>
-    // ));
-        
-    let uploadDisabled = false; 
-    if (this.state.fileList.length >= 1) { 
+    let uploadDisabled = false;
+    if (this.state.fileList.length >= 1) {
       uploadDisabled = true;
     }
 
@@ -155,12 +104,6 @@ class CreateRoomForm extends React.Component {
                 </Row>
               </Checkbox.Group>
             )}
-            {/* <Form.Item {...formItemLayoutWithOutLabel}>
-               {formItems}
-              <Button disabled={confirmLoading} type="dashed" onClick={this.addAmenity} style={{ width: '60%' }}>
-                <Icon type="plus" /> Add Amenity
-                        </Button>
-            </Form.Item> */}
           </Form.Item>
           <Form.Item
             {...formItemLayout}

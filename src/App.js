@@ -45,47 +45,14 @@ class App extends Component {
     const firebase = this.firebase || null;
     if (firebase) {
       const weakProps = this.props;
-      //console.log("Weak props ", weakProps)
       this.listener = firebase.auth.onAuthStateChanged(function (user) {
-        //console.log("user ", user)
         if (user) {
-          console.log("USER set up")
           weakProps.setUpUser(user.uid);
           if (weakProps.currentOfficeAdminUID) {
             if (weakProps.currentPage == null) {
-              //console.log("Here")
-              weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/home');
-              /*var toggle = this.state.toggle_render
-              this.setState({
-                toggle_render: !toggle
-              }) */
-            }
-          }
-          //
-          /*const simplifiedPageTitles = {
-            announcementsPageOfficeAdmin: "announcements",
-            homePageOfficeAdmin: "home",
-            conferenceRoomsPageOfficeAdmin: "conferenceRooms",
-            userPageOfficeAdmin: "users",
-            hotDesksPageOfficeAdmin: "hotDesks",
-            serviceRequestsPageOfficeAdmin: "serviceRequests",
-            registeredGuestsPageOfficeAdmin: "registeredGuests",
-            eventsPageOfficeAdmin: "events",
-            spaceInfoPageOfficeAdmin: "spaceInfo"
-          }
-          weakProps.setUpUser(user.uid);
-          console.log(weakProps)
-          //
-          if (weakProps.currentOfficeAdminUID){
-            if (weakProps.currentPage) {
-              weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/' + simplifiedPageTitles[weakProps.currentPage]);
-            } else {
               weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/home');
             }
-          } else {
-            weakProps.history.push('/');
           }
-          */
         } else {
           weakProps.clearRedux();
           weakProps.history.push('/login');
@@ -101,28 +68,13 @@ class App extends Component {
     this.listener();
   }
 
-  renderPageContent(pageName) {
-
-    switch (pageName) {
-      case pageTitles.homePageRegularUser:
-        return null
-      case pageTitles.userPageOfficeAdmin:
-        return (
-          <UsersPage />
-        );
-      default:
-        // return 404 page?
-        return null
-    }
-  }
-
   render() {
 
     if (this.props.user) { // logged in
       return (
         <div style={{ background: '#FFFFFF' }}>
           <Row>
-            <MediaQuery minDeviceWidth={1224}>
+            <MediaQuery minDeviceWidth={1224}> {/* for desktop devices*/}
               <Col span={4}>
                 <SideNavbar device={"desktop"} />
               </Col>
@@ -136,7 +88,7 @@ class App extends Component {
                 </Switch>
               </Col>
             </MediaQuery>
-            <MediaQuery maxDeviceWidth={1224}>
+            <MediaQuery maxDeviceWidth={1224}> {/* for mobile devices*/}
               <Col span={24}>
                 <NavBar device={"mobile"} />
                 <Switch>
@@ -149,8 +101,7 @@ class App extends Component {
           </Row>
         </div>
       );
-    } else {
-      // logged out
+    } else { // logged out
       return (
         <div>
           <Switch>
@@ -168,9 +119,6 @@ const mapStateToProps = state => {
   return {
     user: state.auth.user,
     currentOfficeAdminUID: state.general.currentOfficeAdminUID,
-    currentOfficeAdmin: state.general.currentOfficeAdmin,
-    isLoading: state.general.isLoading,
-    error: state.general.error,
     firebase: state.firebase.firebase,
     currentPage: state.general.currentPage
   }
@@ -180,8 +128,7 @@ const mapDispatchToProps = dispatch => {
   return {
     clearRedux: () => dispatch(generalActionCreators.clearReduxState()),
     setUpFirebase: (firebaseInstance) => dispatch(generalActionCreators.setUpFirebaseInstanceAction(firebaseInstance)),
-    setUpUser: (uid) => dispatch(authActionCreators.setUpUserAction(uid)),
-    signInRedirect: () => dispatch(authActionCreators.signInRedirect())
+    setUpUser: (uid) => dispatch(authActionCreators.setUpUserAction(uid))
   }
 };
 

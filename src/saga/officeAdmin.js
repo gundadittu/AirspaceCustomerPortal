@@ -13,7 +13,6 @@ import * as sentry from '@sentry/browser';
 require("firebase/functions");
 require("firebase/storage");
 
-
 // Watchers
 
 export function* loadOfficeUsersWatchSaga() {
@@ -111,7 +110,6 @@ export function* getSpaceInfoForOfficeAdmin() {
 // Workers
 
 function validatePermission(selectedOfficeUID, userAdminOfficeList) {
-    console.log("Validate ", selectedOfficeUID, " vs ", userAdminOfficeList )
     if (userAdminOfficeList == null) {
         notification['error']({
             message: 'Permission denied.',
@@ -165,7 +163,6 @@ function* createUserWorkerSaga(action) {
         const newPayload = { hideFormRef: payload.hideFormRef }
         yield put({ type: actionTypes.CREATE_USER_FOR_OFFICEADMIN_FINISHED, payload: { ...newPayload } })
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -209,7 +206,6 @@ function* loadOfficeUsersWorkerSaga(action) {
         const response = yield call(loadOfficeUsers, action.payload, firebase);
         yield put({ type: actionTypes.LOAD_OFFICE_USERS_SUCCESS, payload: { userList: response } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -221,14 +217,12 @@ function* loadOfficeUsersWorkerSaga(action) {
     }
 }
 
-//
 function loadAdminAnnouncements(payload, firebase) {
     const selectedOfficeUID = payload.selectedOfficeUID;
     const apiCall = firebase.functions.httpsCallable('getAnnouncementsForOfficeAdmin')
     const dict = {
       selectedOfficeUID: selectedOfficeUID
     }
-    console.log(dict)
     return apiCall({ selectedOfficeUID: selectedOfficeUID })
         .then(result => {
             var announcements = []
@@ -253,7 +247,6 @@ function* loadAdminAnnouncementsWorkerSaga(action) {
         const response = yield call(loadAdminAnnouncements, action.payload, firebase);
         yield put({ type: actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_SUCCESS, payload: { announcements: response } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -274,7 +267,6 @@ function postAnnouncement(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('postAnnouncementForOfficeAdmin');
     return apiCall(dict)
     .then( response => {
-        console.log("Response for post announcement")
     })
 }
 
@@ -297,7 +289,6 @@ function* postAdminAnnouncementWorkerSaga(action) {
         const newPayload = {}
         yield put({ type: actionTypes.POST_ADMIN_ANNOUNCEMENT_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -310,7 +301,6 @@ function* postAdminAnnouncementWorkerSaga(action) {
         yield put({ type: actionTypes.POST_ADMIN_ANNOUNCEMENT_ERROR, payload: { ...newPayload } });
     }
 }
-//
 
 function loadConferenceRooms(payload, firebase) {
     const officeUID = payload.officeUID || null;
@@ -351,7 +341,6 @@ function* loadConferenceRoomsWorkerSaga(action) {
         const response = yield call(loadConferenceRooms, action.payload, firebase);
         yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS, payload: { activeRoomsList: response.active, inactiveRoomsList: response.inactive } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -403,7 +392,6 @@ function* loadHotDesksWorkerSaga(action) {
         const response = yield call(loadHotDesks, action.payload, firebase);
         yield put({ type: actionTypes.LOAD_HOT_DESKS_SUCCESS, payload: { activeDesksList: response.active, inactiveDesksList: response.inactive } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -443,7 +431,6 @@ function* loadServiceRequestsWorkerSaga(action) {
         const response = yield call(loadServiceRequests, action.payload, firebase);
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_SUCCESS, payload: { serviceRequestsList: response.serviceRequests} });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -455,7 +442,6 @@ function* loadServiceRequestsWorkerSaga(action) {
     }
 }
 
-//--------------
 function loadServiceRequestEmails(payload, firebase) {
     const officeUID = payload.officeUID || null;
     const apiCall = firebase.functions.httpsCallable('getServiceRequestAutoRoutingForOfficeAdmin');
@@ -478,7 +464,6 @@ function* loadServiceRequestsEmailsWorkerSaga(action) {
         const response = yield call(loadServiceRequestEmails, action.payload, firebase);
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { serviceEmailsList: response.serviceRequestsEmails} });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -489,7 +474,6 @@ function* loadServiceRequestsEmailsWorkerSaga(action) {
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_ERROR, payload: { error: error } });
     }
 }
-//--------------
 
 function editEmails(payload, firebase) {
     const selectedOfficeUID = payload.selectedOfficeUID;
@@ -502,7 +486,6 @@ function editEmails(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('updateServiceRequestAutoRoutingForOfficeAdmin');
     return apiCall(dict)
     .then( response => {
-        console.log("RESPONSE ", response)
     })
 }
 
@@ -524,7 +507,6 @@ function* editServiceRequestsEmailsWorkerSaga(action) {
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -538,28 +520,22 @@ function* editServiceRequestsEmailsWorkerSaga(action) {
     }
 }
 
-//--------------
-
 function editStatus(payload, firebase) {
-    console.log("Here", payload)
     const selectedServiceRequestUID = payload.selectedServiceRequestUID;
     const newStatus = payload.newStatus;
     const dict = {
       selectedServiceRequestUID: selectedServiceRequestUID,
       newStatus: newStatus
     }
-    console.log(dict)
     const apiCall = firebase.functions.httpsCallable('updateServiceRequestStatusForOfficeAdmin');
     return apiCall(dict)
     .then( response => {
-        console.log("Update Status Response ", response)
     })
 }
 
 function* editServiceRequestsStatusWorkerSaga(action) {
     try {
         const payload = action.payload;
-        console.log("Payload for edit", payload)
         let firebase = yield select(selectors.firebase);
 
         const response = yield call(editStatus, action.payload, firebase);
@@ -572,8 +548,6 @@ function* editServiceRequestsStatusWorkerSaga(action) {
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_STATUS_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
-      console.log("THERE HAS BEEN AN ERROR")
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -586,9 +560,6 @@ function* editServiceRequestsStatusWorkerSaga(action) {
         yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_STATUS_ERROR, payload: { ...newPayload } });
     }
 }
-
-
-//--------------
 
 function loadRegisteredGuests(payload, firebase) {
     const officeUID = payload.officeUID || null;
@@ -625,7 +596,6 @@ function* loadRegisteredGuestsWorkerSaga(action) {
         });
 
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -646,11 +616,9 @@ function changeRegisteredGuestsStatus(payload, firebase) {
       registeredGuestUID: registeredGuestUID,
       newArrivalStatus: newStatus
     }
-    console.log("Payload ", dict)
     const apiCall = firebase.functions.httpsCallable('changeRegisteredGuestStatusForOfficeAdmin');
     return apiCall(dict)
     .then( response => {
-        console.log("Update Registered Guest Response ", response)
     })
 }
 
@@ -668,7 +636,6 @@ function* editRegisteredGuestStatusForOfficeAdminWorkerSaga(action) {
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.EDIT_REGISTERED_GUESTS_STATUS_SUCCESS, payload: { ...newPayload } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -688,11 +655,9 @@ function guestSelfCheckIn(payload, firebase) {
     const dict = {
       registeredGuestUID: registeredGuestUID,
     }
-    console.log("Payload ", dict)
     const apiCall = firebase.functions.httpsCallable('guestSelfCheckIn');
     return apiCall(dict)
     .then( response => {
-        console.log("Update Registered Guest Self Check-in ", response)
     })
 }
 
@@ -709,7 +674,6 @@ function* guestSelfCheckInWorkerSaga(action) {
 
         yield put({ type: actionTypes.GUEST_SELF_CHECK_IN_STATUS_SUCCESS, payload: {} });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -761,7 +725,6 @@ function* loadEventsWorkerSaga(action) {
             payload: { upcomingEventsList: response.upcoming, pastEventsList: response.past }
         });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -815,7 +778,6 @@ function* createEventWorkerSaga(action) {
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.CREATE_EVENT_FINISHED, payload: { ...newPayload } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -883,7 +845,6 @@ function* editEventWorkerSaga(action) {
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.EDIT_EVENT_FINISHED, payload: { ...newPayload } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -927,7 +888,6 @@ function* removeUserWorkerSaga(action) {
         const newPayload = { componentRef: payload.componentRef }
         yield put({ type: actionTypes.REMOVE_OFFICE_USER_FINISHED, payload: { ...newPayload } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -967,7 +927,6 @@ function* editUserWorkerSaga(action) {
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.EDIT_OFFICE_USER_FINISHED, payload: { ...newPayload } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
         notification['error']({
             message: 'Unable to update user info.',
@@ -1014,7 +973,6 @@ function* addRoomWorkerSaga(action) {
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.ADD_CONF_ROOM_FINISHED, payload: { ...newPayload } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({
@@ -1062,7 +1020,6 @@ function* editRoomWorkerSaga(action) {
         yield put({ type: actionTypes.EDIT_CONF_ROOM_FINISHED, payload: { ...newPayload } });
 
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
         notification['error']({
             message: 'Unable to edit conference room.',
@@ -1110,8 +1067,6 @@ function* addDeskWorkerSaga(action) {
         yield put({ type: actionTypes.ADD_HOT_DESK_FINISHED, payload: { ...newPayload } });
 
     } catch (error) {
-        console.error(error);
-
         sentry.captureException(error);
         notification['error']({
             message: 'Unable to add hot desk.',
@@ -1157,7 +1112,6 @@ function* editDeskWorkerSaga(action) {
         const newPayload = { hideForm: payload.hideForm };
         yield put({ type: actionTypes.EDIT_HOT_DESK_FINISHED, payload: { ...newPayload } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
         notification['error']({
             message: 'Unable to edit hot desk.',
@@ -1191,7 +1145,6 @@ function* getSpaceInfoWorkerSaga(action) {
 
         yield put({ type: actionTypes.LOAD_SPACE_INFO_FINISHED, payload: { onboardingURL: response.onboardingURL, floorplanURL: response.floorplanURL, buildingDetailsURL: response.buildingDetailsURL } });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({

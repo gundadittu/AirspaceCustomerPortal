@@ -1,5 +1,4 @@
 import React from 'react';
-// import { connect } from 'react-redux';
 import {
    Modal, Form, Input, Radio,
 } from 'antd';
@@ -7,12 +6,12 @@ import {
 
 class EditUserForm extends React.Component {
 
-    emailValidator = (rule, value, callback) => { 
-        const first = this.props.form.getFieldValue('emailAddress'); 
+    emailValidator = (rule, value, callback) => {
+        const first = this.props.form.getFieldValue('emailAddress');
         const second = this.props.form.getFieldValue('emailAddress2');
-        if (first !== second) { 
+        if (first !== second) {
             callback(new Error('The email addresses do not match.'));
-            return 
+            return
         }
         callback();
     }
@@ -38,10 +37,10 @@ class EditUserForm extends React.Component {
                     <Form.Item label="First Name">
                         {getFieldDecorator('firstName', {
                             initialValue: null,
-                            rules: [{ 
+                            rules: [{
                                 required: true,
-                                 whitespace: true, 
-                                 message: 'Please input the user\'s first name.' 
+                                 whitespace: true,
+                                 message: 'Please input the user\'s first name.'
                                 }],
                         }
                         )(
@@ -70,12 +69,12 @@ class EditUserForm extends React.Component {
                         {getFieldDecorator('emailAddress2', {
                             initialValue: null,
                             validateTrigger: 'onBlur',
-                            rules: [{ 
+                            rules: [{
                                 required: true,
-                                whitespace: true, 
+                                whitespace: true,
                                 message: 'Please input the user\'s email address.'
-                             }, 
-                            { 
+                             },
+                            {
                                 validator: this.emailValidator.bind(this)
                             }],
                         })(
@@ -99,4 +98,4 @@ class EditUserForm extends React.Component {
 
 }
 
-export default Form.create({ name: 'editUserForm' })(EditUserForm); 
+export default Form.create({ name: 'editUserForm' })(EditUserForm);

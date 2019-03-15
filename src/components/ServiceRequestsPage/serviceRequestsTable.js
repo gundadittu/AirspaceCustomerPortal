@@ -194,6 +194,7 @@ formatDate(date){
           cancelInfoModal={this.cancelInfoModal} emailsToPass={this.props.emailsToPass}
         />
         <Table
+          rowKey={record => record.uid.toString()}
           columns={this.columns}
           dataSource={this.props.serviceRequestsList}
           pagination={false}

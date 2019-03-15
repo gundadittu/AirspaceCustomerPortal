@@ -101,7 +101,7 @@ class EditEventForm extends React.Component {
             initialValue: event.address || null,
             rules: [{ required: true, whitespace: true, message: 'Please input the event\'s address.' }],
           })(
-            <Input defaultValue="26888888" disabled={confirmLoading}/>
+            <Input disabled={confirmLoading}/>
           )}
         </Form.Item>
         <Form.Item label="Description">

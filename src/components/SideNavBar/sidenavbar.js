@@ -48,8 +48,6 @@ class SideNavBar extends React.Component {
   };
 
   renderSubNavInnerContent(currentPages) {
-    // let currentPage = [this.props.currentPage];
-
     const officeAdminPortalDiv = () => {
 
       if (this.props.adminOfficeList == null) {
@@ -113,7 +111,7 @@ class SideNavBar extends React.Component {
         linkTitle: "Hot Desks"
       },
       serviceRequests: {
-        key: pageTitles.serviceRequestsPageOfficeAdmin,
+        keyVal: pageTitles.serviceRequestsPageOfficeAdmin,
         iconType: "tool",
         pageSubtitle: 'serviceRequests',
         linkTitle: "Service Requests"

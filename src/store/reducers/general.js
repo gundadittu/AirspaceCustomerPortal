@@ -11,7 +11,7 @@ const initialState = {
     isLoadingSignIn: false,
     notifications: [],
     create_password_url: null,
-    createPasswordError: null, 
+    createPasswordError: null,
     createPasswordLoading: false,
     updatingServiceStatusEmail: false,
     successfulServiceRequestUpdate: false,
@@ -21,7 +21,7 @@ const initialState = {
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
-        case actionTypes.CLEAR_REDUX_STATE: 
+        case actionTypes.CLEAR_REDUX_STATE:
             return initialState;
         case actionTypes.START_HOME:
             if (!state.currentPage){
@@ -57,7 +57,6 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.CHANGE_PAGE:
             const payload = action.payload || null;
             const newPage = payload.currentPage
-            console.log("Change Page\n\n\n\n\n", payload)
             return updateObject(state, {...payload})
         case actionTypes.LOAD_NOTIFICATIONS_SUCCESS:
         case actionTypes.LOAD_NOTIFICATIONS_ERROR:

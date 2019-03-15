@@ -216,6 +216,7 @@ class ConferenceRoomsTable extends React.Component {
           confirmLoading={this.props.editRoomFormLoading}
         />
         <Table
+          rowKey={record => record.uid.toString()}
           columns={this.columns}
           dataSource={this.props.dataSource}
           pagination={false}

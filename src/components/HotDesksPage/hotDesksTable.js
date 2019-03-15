@@ -178,6 +178,7 @@ class HotDesksTable extends React.Component {
            confirmLoading={this.props.editDeskFormLoading}
         />
         <Table
+               rowKey={record => record.uid.toString()}
                columns={this.columns}
                dataSource={this.props.dataSource}
                pagination={false}

@@ -179,6 +179,7 @@ class EventCard extends React.Component {
             bordered={true}
             footer={[
               <Popconfirm
+                key={event.uid}
                 title="Are you sure you want to cancel this event?"
                 visible={this.state.showDeleteConfirmation}
                 onVisibleChange={this.handleVisibleChange}
@@ -236,7 +237,6 @@ class EventCard extends React.Component {
           <Spin tip="Loading..." spinning={this.state.loadingImage}>
             <Card
               bordered={false}
-              visible={false}
               headStyle={{borderBottom:0}}
               style={{height:250, width:"100%"}}
               hoverable

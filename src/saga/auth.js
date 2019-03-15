@@ -70,7 +70,6 @@ function* userSignOutWorkerSaga(action) {
         yield put ({ type: actionTypes.CLEAR_REDUX_STATE });
         yield put({ type: actionTypes.SIGN_OUT_USER_SUCCESS });
     } catch (error) {
-        console.error(error);
         sentry.captureException(error);
 
         notification['error']({

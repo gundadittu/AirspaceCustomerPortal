@@ -103,7 +103,7 @@ class CreateEventForm extends React.Component {
             {getFieldDecorator('eventAddress', {
               rules: [{ required: false, whitespace: true, message: 'Please input the event\'s address.' }],
             })(
-              <Input defaultValue="26888888" disabled={confirmLoading}/>
+              <Input disabled={confirmLoading}/>
             )}
           </Form.Item>
           <Form.Item label="Description">

@@ -99,6 +99,7 @@ handleEditArrival = (e, guest) => {
   render() {
     return (
         <Table
+               rowKey={record => record.uid.toString()}
                columns={this.columns}
                dataSource={this.props.dataSource}
                loading={this.props.isLoadingGuestsData}
@@ -110,7 +111,7 @@ handleEditArrival = (e, guest) => {
 
 const mapStateToProps = state => {
   return {
-    isLoadingGuestsData: state.officeAdmin.isLoadingGuestsData 
+    isLoadingGuestsData: state.officeAdmin.isLoadingGuestsData
   }
 };
 

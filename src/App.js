@@ -77,7 +77,7 @@ class App extends Component {
       return (
         <div style={{ background: '#FFFFFF' }}>
           <Row>
-            <MediaQuery minDeviceWidth={1224}> {/* for desktop devices*/}
+            {/* <MediaQuery minDeviceWidth={1224}> for desktop devices */}
               <Col span={4}>
                 <SideNavbar device={"desktop"} />
               </Col>
@@ -90,17 +90,20 @@ class App extends Component {
                   <Route path="/officeAdmin" component={officeAdminRoutingComp} />
                 </Switch>
               </Col>
-            </MediaQuery>
-            <MediaQuery maxDeviceWidth={1224}> {/* for mobile devices*/}
+            {/* </MediaQuery> */}
+            
+            {/* <MediaQuery maxDeviceWidth={1224}> for mobile devices
               <Col span={24}>
                 <NavBar device={"mobile"} />
                 <Switch>
                   <Route path="/" component={InitialRoutingComp} />
+                  <Route exact path="/login" component={InitialRoutingComp} />
                   <Route path="/general" component={generalRoutingComp} />
                   <Route path="/officeAdmin" component={officeAdminRoutingComp} />
                 </Switch>
               </Col>
-            </MediaQuery>
+            </MediaQuery>  */}
+            
           </Row>
         </div>
       );

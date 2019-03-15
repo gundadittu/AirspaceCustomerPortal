@@ -97,7 +97,8 @@ class ReqestInfoModal extends React.Component {
                   </Row>
                   <br />
                   <Row>
-                    <h2>Note: {request.note}</h2>
+                    <h2>Note: </h2>
+                    <h2>{request.note}</h2>
                   </Row>
                 </Col>
               </Row>

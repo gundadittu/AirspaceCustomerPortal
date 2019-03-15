@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import * as actionTypes from '../../store/actions/actionTypes';
 
-import { Row, Col, Button, Menu} from 'antd';
+import { Row, Col, Button, Menu, Spin} from 'antd';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
 import '../../App.css';
@@ -140,6 +140,9 @@ class EventsPage extends React.Component {
   }
 
   render() {
+
+  
+
     return (
       <div>
         <Row>
@@ -181,7 +184,9 @@ class EventsPage extends React.Component {
                       </Row>
                     </Col>
                 </Row>
-                <AntEventCards currentList={this.state.currentList}/>
+                 {this.props.isLoadingEventsData ? <div style={{textAlign: "center"}}><Spin style={{marginTop: "20"}}/> </div>: 
+                 <AntEventCards currentList={this.state.currentList}/>
+                }
                 <br />
             </Col>
         </Row>
@@ -195,7 +200,7 @@ const mapStateToProps = state => {
         userAdminOfficeList: state.auth.adminOfficeList,
         upcomingEventsList: state.officeAdmin.upcomingEventsList,
         pastEventsList: state.officeAdmin.pastEventsList,
-        isLoadingEventsData: state.officeAdmin.isLoadingUserData,
+        isLoadingEventsData: state.officeAdmin.isLoadingEventsData,
         currentOfficeUID: state.general.currentOfficeAdminUID,
         currentOfficeAdminUID: state.general.currentOfficeAdminUID,
         addEventFormLoading: state.officeAdmin.addEventFormLoading

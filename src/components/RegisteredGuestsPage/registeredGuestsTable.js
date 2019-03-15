@@ -110,6 +110,7 @@ handleEditArrival = (e, guest) => {
 
 const mapStateToProps = state => {
   return {
+    isLoadingGuestsData: state.officeAdmin.isLoadingGuestsData 
   }
 };
 

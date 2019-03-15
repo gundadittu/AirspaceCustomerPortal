@@ -20,7 +20,7 @@ const MenuItemGroup = Menu.ItemGroup;
 class SideNavBar extends React.Component {
 
   state = {
-    showDrawer : false
+    showDrawer : false 
   }
 
   getSwitchPortalSubMenuTitle = () => {
@@ -41,22 +41,20 @@ class SideNavBar extends React.Component {
   }
 
   toggleDrawer = () => {
-    console.log("Here")
     const newStatus = this.state.showDrawer
     this.setState({
       showDrawer: !newStatus,
     });
   };
 
-  renderSubNavInnerContent() {
-    let currentPage = [this.props.currentPage];
+  renderSubNavInnerContent(currentPages) {
+    // let currentPage = [this.props.currentPage];
 
     const officeAdminPortalDiv = () => {
 
       if (this.props.adminOfficeList == null) {
         return null;
       }
-
 
       return (
         this.props.adminOfficeList.map((office) => (
@@ -159,7 +157,7 @@ class SideNavBar extends React.Component {
         {this.props.device == "mobile" ? <div></div> : sideBarLogo}
         <Menu
           style={{ border: 0}}
-          defaultSelectedKeys={currentPage}
+          defaultSelectedKeys={currentPages}
           mode="inline"
           className="airspace-side-nav-bar"
         >
@@ -178,7 +176,7 @@ class SideNavBar extends React.Component {
     )
   }
 
-  renderSubNavBar() {
+  renderSubNavBar(currentPages) {
     const officeAdminPortalDiv = () => {
 
       if (this.props.adminOfficeList == null) {
@@ -209,19 +207,18 @@ class SideNavBar extends React.Component {
           </SubMenu>
         );
 
-        let currentPage = [this.props.currentPage];
         if (this.props.userType === "regular") {
           if (this.props.regularUserPortalMode === "officeAdmin") {
             if(this.props.device == "mobile"){
               return (
                 <div>
-                  {this.renderSubNavInnerContent()}
+                  {this.renderSubNavInnerContent(currentPages)}
                 </div>
               )
             } else {
               return (
                 <Affix className="airspace-side-nav-bar-group" >
-                  {this.renderSubNavInnerContent()}
+                  {this.renderSubNavInnerContent(currentPages)}
                 </Affix>
               )
             }
@@ -245,11 +242,8 @@ class SideNavBar extends React.Component {
         }
   }
 
-  componentDidMount() {
-    console.log(this.props.currentPage)
-  }
-
   render() {
+    let currentPages = [this.props.currentPage]; 
 
     const drawerWidth = 240;
 
@@ -271,11 +265,11 @@ class SideNavBar extends React.Component {
             width={520}
             closable={false}
           >
-              {this.renderSubNavBar()}
+              {this.renderSubNavBar(currentPages)}
           </Drawer>
         </div>
     } else {
-      return this.renderSubNavBar()
+      return this.renderSubNavBar(currentPages)
     }
   }
 }

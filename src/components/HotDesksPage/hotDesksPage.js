@@ -60,10 +60,12 @@ class HotDesksPage extends React.Component {
     }
 
     showCreateDeskFormModal = () => {
+        this.props.mixpanel.track("Clicked Add Desk in hot desk page.");
         this.setState({ createDeskFormVisible: true });
     }
 
     handleConfirmCreateDesk = () => {
+        this.props.mixpanel.track("Confirmed Add Desk in hot desk page.");
         const createDeskForm = this.createDeskFormRef.props.form;
         createDeskForm.validateFields((err, values) => {
             if (err) {
@@ -104,6 +106,7 @@ class HotDesksPage extends React.Component {
     }
 
     handleCancelCreateDesk = () => {
+        this.props.mixpanel.track("Cancelled Add Desk in hot desk page.");
         this.hideCreateDeskForm();
     }
 
@@ -136,6 +139,7 @@ class HotDesksPage extends React.Component {
     handleClick = (e) => {
         var key = e.key;
         if ((key === 'active') || (key === 'inactive')) {
+            this.props.mixpanel.track("Did switch tabs in hot desk page.", {"newTab": key});
             this.setState({ currentList: key });
         }
     }
@@ -209,6 +213,7 @@ const mapStateToProps = state => {
         currentOfficeUID: state.general.currentOfficeAdminUID,
         user: state.auth.user,
         userAdminOfficeList: state.auth.adminOfficeList,
+        mixpanel: state.firebase.mixpanel
     }
 };
 

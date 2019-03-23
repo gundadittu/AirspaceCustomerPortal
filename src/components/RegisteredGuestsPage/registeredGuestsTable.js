@@ -93,6 +93,7 @@ handleEditArrival = (e, guest) => {
     registeredGuestUID: guest.uid,
     newArrivalStatus: newStatus
   }
+  this.props.mixpanel.track('Marked guest as arrived in registered guest table.');
   this.props.editRegisteredGuestStatusForOfficeAdmin(payload)
 }
 
@@ -111,7 +112,8 @@ handleEditArrival = (e, guest) => {
 
 const mapStateToProps = state => {
   return {
-    isLoadingGuestsData: state.officeAdmin.isLoadingGuestsData
+    isLoadingGuestsData: state.officeAdmin.isLoadingGuestsData, 
+    mixpanel: state.firebase.mixpanel
   }
 };
 

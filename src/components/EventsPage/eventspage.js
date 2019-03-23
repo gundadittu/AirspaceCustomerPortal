@@ -66,6 +66,7 @@ class EventsPage extends React.Component {
   }
 
   handleCreateEvent = () => {
+    this.props.mixpanel.track('Confirmed Add Event in events page.');
       const createEventForm = this.createEventFormRef.props.form;
       createEventForm.validateFields((err, values) => {
           if (err) {
@@ -114,16 +115,19 @@ class EventsPage extends React.Component {
   }
 
   handleCancelCreateEvent = () => {
+    this.props.mixpanel.track('Cancelled Add Event in events page.');
       this.hideCreateEventFormModal();
   }
 
   showCreateEventFormModal = () => {
+      this.props.mixpanel.track('Did click on Add Event in events page.');
       this.setState({ createEventFormVisible: true });
   }
 
   handleClick = (e) => {
       var key = e.key;
       if ((key == 'upcoming') || (key == 'past')) {
+          this.props.mixpanel.track('Did switch tabs in events page.', {'newTab': key});
           this.setState({ currentList: key });
       }
   }
@@ -200,7 +204,8 @@ const mapStateToProps = state => {
         isLoadingEventsData: state.officeAdmin.isLoadingEventsData,
         currentOfficeUID: state.general.currentOfficeAdminUID,
         currentOfficeAdminUID: state.general.currentOfficeAdminUID,
-        addEventFormLoading: state.officeAdmin.addEventFormLoading
+        addEventFormLoading: state.officeAdmin.addEventFormLoading, 
+        mixpanel: state.firebase.mixpanel 
     }
 };
 

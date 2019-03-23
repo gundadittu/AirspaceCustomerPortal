@@ -63,6 +63,8 @@ class HotDesksTable extends React.Component {
   }];
 
   handleEditDesk = (deskUID) => {
+    this.props.mixpanel.track("Clicked Edit Desk in hot desk table.");
+
     const desksList = this.props.dataSource;
      // Get selected desk object
      let selectedDesk = null;
@@ -102,6 +104,7 @@ class HotDesksTable extends React.Component {
   }
 
   handleCreateEditDesk = () => {
+    this.props.mixpanel.track("Confirmed Edit Desk in hot desk table.");
     const editDeskForm = this.editDeskFormRef.props.form;
     editDeskForm.validateFields((err, values) => {
       if (err) {
@@ -142,6 +145,7 @@ class HotDesksTable extends React.Component {
   }
 
   handleCancelEditDesk = () => {
+    this.props.mixpanel.track("Cancelled Edit Desk in hot desk table.");
     this.hideEditDeskForm();
   }
 

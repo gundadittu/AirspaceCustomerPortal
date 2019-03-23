@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-    Button, Modal, Form, Input, Radio, Upload, Icon, message, Checkbox, Row, Col,
-    Tag
-} from 'antd';
+import { Modal, Form, Row, Col } from 'antd';
 import ServiceEmails from './serviceEmails.js';
-
+import { connect } from 'react-redux';
 
 class EmailModal extends React.Component {
 
@@ -34,6 +31,7 @@ class EmailModal extends React.Component {
     }
 
     updateEmails = (serviceType, emails) => {
+      this.props.mixpanel.track('Did update auto-routing emails for service requests.');
       var updatedEmails = this.state.emails;
       updatedEmails[serviceType] = emails;
       this.setState({
@@ -42,19 +40,6 @@ class EmailModal extends React.Component {
     }
 
     componentDidMount() {
-      var dic = {
-        'IT': ['polsky_IT@gmail.com'],
-        'Plumbing': ['polsky_Plumb@gmail.com'],
-        'Lighting': ['polsky_Light@gmail.com'],
-        'General Maintenance': ['polsky_GM@gmail.com'],
-        'Furniture': ['polsky_Fur@gmail.com'],
-        'Door': ['polsky_Door@gmail.com'],
-        'Heating/Cooling': ['polsky_Temp@gmail.com'],
-        'Cleaning': ['polsky_Clean@gmail.com'],
-        'Supplies': ['polsky_Sup@gmail.com'],
-        'Other': ['polsky_Other@gmail.com'],
-      }
-
       this.setState({
         emails: this.props.dataSource
       })
@@ -62,7 +47,16 @@ class EmailModal extends React.Component {
 
     cancelModal() {
       this.props.closeEmailModal();
-      var dic = {
+
+      this.setState({
+        emails: this.props.dataSource
+      })
+    }
+
+    saveInputRef = input => this.input = input
+    render() {
+      const { emails, inputVisible, inputValue } = this.state;
+      let dic = {
         'IT': ['polsky_IT@gmail.com'],
         'Plumbing': ['polsky_Plumb@gmail.com'],
         'Lighting': ['polsky_Light@gmail.com'],
@@ -74,18 +68,7 @@ class EmailModal extends React.Component {
         'Supplies': ['polsky_Sup@gmail.com'],
         'Other': ['polsky_Other@gmail.com'],
       }
-
-      this.setState({
-        emails: this.props.dataSource
-      })
-    }
-
-    saveInputRef = input => this.input = input
-
-    render() {
-      const { emails, inputVisible, inputValue } = this.state;
-      var dic = this.state.emails
-
+  
       return (
         <Modal
           visible={this.props.showModal}
@@ -122,4 +105,10 @@ class EmailModal extends React.Component {
     }
 }
 
-export default Form.create({ name: 'emailsForm' })(EmailModal);
+const mapStateToProps = state => {
+  return {
+      mixpanel: state.firebase.mixpanel
+  }
+};
+
+export default Form.create({ name: 'emailsForm' })(connect(mapStateToProps, null)(EmailModal));

@@ -52,6 +52,7 @@ class AnnouncementsPage extends React.Component {
 
     postAnnouncement = () => {
       const selectedOfficeUID = this.props.match.params.officeUID;
+      this.props.mixpanel.track("Posted announcement",{"officeUID":selectedOfficeUID, "message": this.state.announcement});
       this.props.postAdminAnnouncement(selectedOfficeUID, this.state.announcement)
     }
 
@@ -59,9 +60,6 @@ class AnnouncementsPage extends React.Component {
       var description = moment(date).format('ddd MMM DD, YYYY') + ': ';
       description += (moment(date).format('hh:mm a'));
       return description;
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
     }
 
     render() {
@@ -115,7 +113,8 @@ const mapStateToProps = state => {
       announcementsList: state.officeAdmin.announcementsList,
       postingAnnouncement: state.officeAdmin.postingAnnouncement,
       successfulPost: state.officeAdmin.successfulPost,
-      currentOfficeAdmin: state.general.currentOfficeAdmin
+      currentOfficeAdmin: state.general.currentOfficeAdmin, 
+      mixpanel: state.firebase.mixpanel
     }
 };
 

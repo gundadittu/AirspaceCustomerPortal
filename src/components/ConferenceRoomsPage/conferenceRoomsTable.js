@@ -72,6 +72,7 @@ class ConferenceRoomsTable extends React.Component {
   }];
 
   handleEditMenuClick = (roomUID) => {
+    this.props.mixpanel.track("Clicked Edit Room in conference room table.");
     const roomsList = this.props.dataSource;
 
     // Get selected room object
@@ -156,6 +157,7 @@ class ConferenceRoomsTable extends React.Component {
   }
 
   handleCreateEditRoom = () => {
+    this.props.mixpanel.track("Confirmed Edit Room in conference room table.");
     const editRoomForm = this.editRoomFormRef.props.form;
     editRoomForm.validateFields((err, values) => {
       if (err) {
@@ -198,6 +200,7 @@ class ConferenceRoomsTable extends React.Component {
   }
 
   handleCancelEditRoom = () => {
+    this.props.mixpanel.track("Cancelled Edit Room in conference room table.");
     this.hideEditRoomForm()
   }
 
@@ -231,7 +234,8 @@ const mapStateToProps = state => {
   return {
     editRoomFormLoading: state.officeAdmin.editRoomFormLoading,
     currentOfficeUID: state.general.currentOfficeAdminUID,
-    isLoadingRoomsData: state.officeAdmin.isLoadingRoomsData
+    isLoadingRoomsData: state.officeAdmin.isLoadingRoomsData, 
+    mixpanel: state.firebase.mixpanel
   }
 };
 

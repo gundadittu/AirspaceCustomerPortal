@@ -45,6 +45,7 @@ class SpaceInfoPage extends React.Component {
     }
 
     showUploadFormRef = (type) => {
+        this.props.mixpanel.track('Did click upload file on space info page', {'fileType': type});
         this.setState({ uploadFileFormVisible: true, uploadFormType: type });
     }
 
@@ -55,6 +56,7 @@ class SpaceInfoPage extends React.Component {
     handleCreateUploadForm = () => {
         const formType = this.state.uploadFormType;
         const form = this.uploadFormRef.props.form;
+        this.props.mixpanel.track('Did confirm upload file on space info page', {'fileType': formType});
         form.validateFields((err, values) => {
             if (err) {
                 return;
@@ -128,12 +130,18 @@ class SpaceInfoPage extends React.Component {
     }
 
     handleCancelUploadForm = () => {
+        this.props.mixpanel.track('Did cancel upload file on space info page', {'fileType': this.state.uploadFormType});
         this.hideUploadForm();
     }
 
     hideUploadForm = () => {
         this.setState({ uploadFileFormVisible: false, uploadFormType: null });
         this.uploadFormRef.setState({fileList: [] });
+    }
+
+    openFile = (url, type) => { 
+        this.props.mixpanel.track('Did open file on space info page', {'fileType': type});
+        window.open(url);
     }
 
     render() {
@@ -183,7 +191,7 @@ class SpaceInfoPage extends React.Component {
                                           <div>
                                               {(item.url !== null) ?
                                                 <div>
-                                                  <Button type="primary" style={{ marginRight: 15 }} onClick={() => window.open(item.url)} size='large'>Open File</Button>
+                                                  <Button type="primary" style={{ marginRight: 15 }} onClick={() => this.openFile(item.url, item.type)} size='large'>Open File</Button>
                                                   <br/>
                                                   <br/>
                                                 </div> : null}
@@ -213,7 +221,8 @@ const mapStateToProps = state => {
         floorplanURL: state.officeAdmin.floorplanURL,
         buildingDetailsURL: state.officeAdmin.buildingDetailsURL,
         userAdminOfficeList: state.auth.adminOfficeList,
-        currentOfficeUID: state.general.currentOfficeAdminUID
+        currentOfficeUID: state.general.currentOfficeAdminUID, 
+        mixpanel: state.firebase.mixpanel
     }
 };
 

@@ -26,8 +26,6 @@ import * as authActionCreators from './store/actions/auth';
 import { Row, Col } from 'antd';
 import * as pageTitles from './pages/pageTitles';
 import * as Sentry from '@sentry/browser';
-const Mixpanel = require('mixpanel');
-var mixpanel = Mixpanel.init('4b6f21dc6886a40bf4900783da31064a');
 
 class App extends Component {
   state = {
@@ -62,8 +60,8 @@ class App extends Component {
         }
       });
     } else {
-      console.log("firebase NOT set up in App.js render()");
-      // this.props.setUpFirebase();
+      const error = Error("Firebase NOT set up in App.js render()");
+      Sentry.captureException(error);
     }
   }
 
@@ -126,6 +124,7 @@ const mapStateToProps = state => {
     user: state.auth.user,
     currentOfficeAdminUID: state.general.currentOfficeAdminUID,
     firebase: state.firebase.firebase,
+    mixpanel: state.firebase.mixpanel, 
     currentPage: state.general.currentPage
   }
 };

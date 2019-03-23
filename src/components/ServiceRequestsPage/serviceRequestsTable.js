@@ -135,19 +135,18 @@ formatDate(date){
   handleEditMenuClick = (e, request) => {
     const key = e.key;
     if (key == 'showInfo'){
-
+      this.props.mixpanel.track('Did click Show Info for service request in table.');
       this.setState({
         showInfoModal: true,
         selectedRequest: request
       })
 
     } else {
-      const roomsList = this.props.emailsToPass;
       var payload = {
         selectedServiceRequestUID: request.uid,
         newStatus: e.key
       }
-
+      this.props.mixpanel.track('Did click Change Status for service request in table.', {'newStatus': payload.newStatus });
       this.props.editServiceRequestStatusForOfficeAdmin(payload)
     }
   }
@@ -210,7 +209,8 @@ const mapStateToProps = state => {
     editRoomFormLoading: state.officeAdmin.editRoomFormLoading,
     serviceRequestsList: state.officeAdmin.serviceRequestsList,
     currentOfficeUID: state.general.currentOfficeAdminUID,
-    isLoadingServiceRequestsData: state.officeAdmin.isLoadingServiceRequestsData
+    isLoadingServiceRequestsData: state.officeAdmin.isLoadingServiceRequestsData, 
+    mixpanel: state.firebase.mixpanel
   }
 };
 

@@ -46,12 +46,13 @@ class EventCard extends React.Component {
 
     if (this.state.showInfo === true) {
       // show edit form
+      this.props.mixpanel.track('Clicked Edit on Event Card.');
       this.setState({
         showInfo: false
       });
     } else if (this.state.showInfo === false) {
       // submit edit changes
-
+      this.props.mixpanel.track('Confirm Edit on Event Card.');
       const editEventForm = this.editEventFormRef.props.form;
       editEventForm.validateFields((err, values) => {
         if (err) {
@@ -113,6 +114,7 @@ class EventCard extends React.Component {
 
   handleCancel = (e) => {
     if (this.state.showInfo === true) {
+      this.props.mixpanel.track('Closed Event Modal.');
       this.setState({
         showInfo: false,
         showModal: false,
@@ -127,6 +129,7 @@ class EventCard extends React.Component {
   }
 
   handleCardSelection = () => {
+    this.props.mixpanel.track('Clicked on Event Card in events page.');
     this.setState({
       showModal: true,
       showInfo: true,
@@ -138,10 +141,12 @@ class EventCard extends React.Component {
   }
 
   handleVisibleChange = (showDeleteConfirmation) => {
+    this.props.mixpanel.track('Showing cancel event confirmation dialog.');
     this.setState({ showDeleteConfirmation: true });
   }
 
   confirmCancelEvent = () => {
+    this.props.mixpanel.track('Confirmed Cancel Event from Event Card in events page.');
     this.setState({ showDeleteConfirmation: false });
     const currentOfficeUID = this.props.currentOfficeAdminUID;
     const selectedEventUID = this.props.event.uid;
@@ -159,7 +164,9 @@ class EventCard extends React.Component {
 
   }
 
+  // This function is when the user decides to no longer cancel a event from the confirm dialog 
   cancelEvent = () => {
+    this.props.mixpanel.track("Did not cancel Event from Event Card.");
     this.setState({ showDeleteConfirmation: false });
     message.error('Did not cancel event.');
   }
@@ -190,7 +197,7 @@ class EventCard extends React.Component {
                 cancelText="No"
                 icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
               >
-                <Button style={{color: "#f5222d"}} type="danger" key="cancel" onClick={this.handleVisibleChange}>Cancel</Button>
+                <Button style={{color: "#f5222d"}} type="danger" key="cancel" onClick={this.handleVisibleChange}>Cancel Event</Button>
               </Popconfirm>,
               <Button style={{color: "#0050b3"}} key="edit" type="primary" loading={this.props.editFormLoading} onClick={this.handleEditEvent}>
                 {(this.state.showInfo) ? "Edit" : "Save"}
@@ -270,7 +277,8 @@ class EventCard extends React.Component {
 const mapStateToProps = state => {
   return {
     currentOfficeAdminUID: state.general.currentOfficeAdminUID,
-    editEventFormLoading: state.officeAdmin.editEventFormLoading
+    editEventFormLoading: state.officeAdmin.editEventFormLoading, 
+    mixpanel: state.firebase.mixpanel
   }
 };
 

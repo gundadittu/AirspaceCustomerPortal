@@ -32,8 +32,10 @@ class NavBar extends React.Component {
 
   handleClick = (e) => {
     if (e.key === "signOut") {
+      this.props.mixpanel.track('User did click sign out.');
       this.handleSignOut(e);
     } else if (e.key === "notifications") {
+      this.props.mixpanel.track('User did click notifications.');
       this.props.loadNotifications()
     }
   }
@@ -193,7 +195,8 @@ class NavBar extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.auth.user,
-    notifications: state.general.notifications
+    notifications: state.general.notifications, 
+    mixpanel: state.firebase.mixpanel
   }
 };
 

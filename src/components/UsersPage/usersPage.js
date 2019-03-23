@@ -26,10 +26,12 @@ class UsersPage extends React.Component {
     }
 
     showCreateUserFormModal = () => {
+        this.props.mixpanel.track("Clicked Add User to Office Button");
         this.setState({ createUserFormVisible: true });
     }
 
     handleCancelCreateUser = () => {
+        this.props.mixpanel.track("Cancelled Add User to Office");
         this.hideCreateUserForm();
     }
 
@@ -73,6 +75,7 @@ class UsersPage extends React.Component {
             const makeUserOfficeAdmin = (values.userType === 'regular') ? false : true;
             const officeUID = this.props.currentOfficeUID;
             const payload = { firstName: firstName, lastName: lastName, emailAddress: emailAddress, makeUserOfficeAdmin: makeUserOfficeAdmin, officeUID: officeUID, hideFormRef: this.hideCreateUserForm }
+            this.props.mixpanel.track("Creating new user",{"officeUID": officeUID, "admin": makeUserOfficeAdmin});
             this.props.createUserForOfficeAdmin(payload);
         });
     }
@@ -117,13 +120,6 @@ class UsersPage extends React.Component {
     }
 
     render() {
-
-        if (this.props.user == null) {
-            return (
-                <Login />
-            );
-        }
-
         return (
             <div style={{ backgroundColor: '#FFFFFF' }}>
                 <CreateUserForm
@@ -167,7 +163,8 @@ const mapStateToProps = state => {
         user: state.auth.user,
         userAdminOfficeList: state.auth.adminOfficeList,
         isLoadingUserData: state.officeAdmin.isLoadingUserData,
-        createUserFormLoading: state.officeAdmin.createUserFormLoading
+        createUserFormLoading: state.officeAdmin.createUserFormLoading, 
+        mixpanel: state.firebase.mixpanel
     }
 };
 

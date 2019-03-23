@@ -146,8 +146,10 @@ class UsersTable extends React.Component {
         }
       });
 
+      this.props.mixpanel.track("Clicked edit user in office", {"userUID": userUID });
       this.setState({editUserFormVisible: true, removeUserFormVisible: false });
     } else if (key === 'remove') {
+      this.props.mixpanel.track("Clicked remove user in office", {"userUID": userUID });
       this.setState({ removeUserFormVisible: true, editUserFormVisible: false });
     }
   }
@@ -169,6 +171,7 @@ class UsersTable extends React.Component {
   }
 
   handleCancelEditUser = () => {
+    this.props.mixpanel.track("Cancelled edit user in office");
     this.hideEditUserForm();
   }
 
@@ -185,6 +188,8 @@ class UsersTable extends React.Component {
       const makeUserOfficeAdmin = (values.userType === 'regular') ? false : true;
       const officeUID = this.props.currentOfficeUID;
       const payload = { hideForm: this.hideEditUserForm, userUID: userUID, firstName: firstName, lastName: lastName, email: email, makeUserOfficeAdmin: makeUserOfficeAdmin, officeUID: officeUID, componentRef: this, formRef: editUserForm, }
+      
+      this.props.mixpanel.track("Confirmed edit user in office", {"oldUserInfo": this.state.selectedUser, "newUserInfo": payload});
       this.props.editUserForOfficeAdmin(payload);
   });
   }
@@ -198,6 +203,7 @@ class UsersTable extends React.Component {
   }
 
   handleCancelRemoveUser = () => {
+    this.props.mixpanel.track("Cancelled remove user in office");
     this.setState({ removeUserFormVisible: false, selectedUser: null });
   }
 
@@ -205,6 +211,7 @@ class UsersTable extends React.Component {
     const userUID = selectedUser.uid;
     const officeUID = selectedOffice;
     this.setState({ selectedUser: null });
+    this.props.mixpanel.track("Confirmed remove user in office");
     this.props.removeUserFromOffice(userUID, officeUID, this)
   }
 
@@ -242,7 +249,8 @@ const mapStateToProps = state => {
     currentOfficeUID: state.general.currentOfficeAdminUID,
     isLoadingUserData: state.officeAdmin.isLoadingUserData,
     editUserFormLoading: state.officeAdmin.editUserFormLoading,
-    removeUserFormLoading: state.officeAdmin.removeUserFormLoading
+    removeUserFormLoading: state.officeAdmin.removeUserFormLoading,
+    mixpanel: state.firebase.mixpanel
   }
 };
 

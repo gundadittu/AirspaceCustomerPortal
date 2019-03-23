@@ -64,12 +64,14 @@ class ServiceRequestsPage extends React.Component {
     }
 
     showEmailModal() {
+      this.props.mixpanel.track('Clicked on Auto Routing button on service requests page.');
       this.setState({
         showModal: true
       })
     }
 
     closeEmailModal() {
+      this.props.mixpanel.track('Closed Auto Routing modal on service requests page.');
       this.setState({
         showModal: false
       })
@@ -197,7 +199,8 @@ const mapStateToProps = state => {
         userAdminOfficeList: state.auth.adminOfficeList,
         serviceRequestsList: state.officeAdmin.serviceRequestsList,
         serviceRequestsEmailsList: state.officeAdmin.serviceRequestsEmailsList,
-        currentOfficeUID: state.general.currentOfficeAdminUID
+        currentOfficeUID: state.general.currentOfficeAdminUID, 
+        mixpanel: state.firebase.mixpanel
     }
 };
 

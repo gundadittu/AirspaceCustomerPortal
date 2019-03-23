@@ -27,11 +27,13 @@ class ConferenceRoomsPage extends React.Component {
     handleClick = (e) => {
         var key = e.key;
         if ((key === 'active') || (key === 'inactive')) {
+            this.props.mixpanel.track("Did switch tabs in conference room page.", {"newTab": key});
             this.setState({ currentList: key });
         }
     }
 
     showCreateRoomFormModal = () => {
+        this.props.mixpanel.track("Clicked Add Room in conference room page.");
         this.setState({ createRoomFormVisible: true });
     }
 
@@ -104,11 +106,13 @@ class ConferenceRoomsPage extends React.Component {
                 hideForm: this.hideCreateRoomFormModal
             }
 
+            this.props.mixpanel.track("Confirmed Add Room in conference room page.");
             this.props.createConferenceRoom(payload);
         })
     }
 
     handleCancelCreateRoom = () => {
+        this.props.mixpanel.track("Cancelled Add Room in conference room page.");
         this.hideCreateRoomFormModal();
     }
 
@@ -221,7 +225,8 @@ const mapStateToProps = state => {
         inactiveRoomsList: state.officeAdmin.inactiveRoomsList,
         isLoadingRoomsData: state.officeAdmin.isLoadingUserData,
         currentOfficeUID: state.general.currentOfficeAdminUID,
-        addRoomFormLoading: state.officeAdmin.addRoomFormLoading
+        addRoomFormLoading: state.officeAdmin.addRoomFormLoading, 
+        mixpanel: state.firebase.mixpanel
     }
 };
 

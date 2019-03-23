@@ -91,17 +91,20 @@ function setUpUser(payload, firebase, mixpanel) {
     .then(result => {
       const data = result.data;
 
-      const adminOfficeList = data.officeAdmin || null;
+      const adminOfficeList = data.officeAdmin.map( x => x.uid);
       const companyList = data.companies || null;
-      const officeList = data.offices || null;
+      const officeList = data.offices.map( x => x.uid);
+      const email = data.email || null; 
+      const firstName = data.firstName || null; 
+      const lastName = data.lastName || null; 
 
-      mixpanel.set_group("adminOfficeList", adminOfficeList);
-      mixpanel.set_group("officeList", officeList);
+      // mixpanel.set_group("adminOfficeList", adminOfficeList);
+      // mixpanel.set_group("officeList", officeList);
       mixpanel.set_group("companyList", companyList);
       mixpanel.identify(uid);
       let env_check = process.env.NODE_ENV === 'production';
       mixpanel.register({ "source": "webApp", "production": env_check});
-      // mixpanel.people.set({ "Plan": "Premium" });
+      mixpanel.people.set({ "Email": email, 'First Name': firstName, "Last Name": lastName});
 
       let adminOffices = [];
       for (let key in data.officeAdmin) {

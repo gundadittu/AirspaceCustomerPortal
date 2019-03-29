@@ -44,7 +44,7 @@ class GetStartedComp extends React.Component {
             email: this.props.emailAddress,
             phone: this.props.phoneNo,
             newServices: this.props.newServices,
-            otherServicesDetails: this.props.otherServicesDetails, 
+            otherServicesDetails: this.props.otherServicesDetails,
             companyURL: this.props.companyURL,
             streetAddr1: this.props.streetAddr1,
             streetAddr2: this.props.streetAddr2,
@@ -124,7 +124,7 @@ class GetStartedComp extends React.Component {
         let bodyPhoto = null;
         let bodyTitle = null;
         let bodyMessage = null;
-        let firstMessage = null; 
+        let firstMessage = null;
         if (this.props.step === 0) {
             body = (<CreateAccount updateData={(value, key) => this.updateData(value, key)} nextAction={this.nextStep} />);
             bodyPhoto = getStarted1Photo;
@@ -147,7 +147,7 @@ class GetStartedComp extends React.Component {
             <div>
                 <MuiThemeProvider theme={theme}>
                     <div>
-                        <MediaQuery minDeviceWidth={1224}>
+                        <MediaQuery minDeviceWidth={1225}>
                             <Row>
                                 <Col span={24}>
                                     <Steps style={{ paddingTop: 30, paddingLeft: 100, paddingRight: 100 }} current={this.props.step}>
@@ -159,7 +159,7 @@ class GetStartedComp extends React.Component {
                             </Row>
                             <Row style={{ paddingTop: 20 }}>
                                 <Col span={6} />
-                                <Col style={{paddingRight: 20}} span={6}>
+                                <Col style={{ paddingRight: 20 }} span={6}>
                                     <img style={{ width: "30%", textAlign: "start" }} alt="Get Started" src={bodyPhoto} />
                                     <h1>{bodyTitle}</h1>
                                     <h3 style={{ fontSize: 19 }}>{firstMessage}</h3>
@@ -189,25 +189,27 @@ class GetStartedComp extends React.Component {
                                     </Steps>
                                 </Col>
                             </Row> */}
-                            {/* <Row style={{ paddingTop: 50 }}>
-                                <Col span={24}>
-                                    <img style={{ width: "30%", textAlign: "start" }} alt="Get Started" src={bodyPhoto} />
-                                    <h1>{bodyTitle}</h1>
-                                    <h3>Need Help? <a onClick={this.openDrift}>Live chat with us.</a></h3>
-                                    <p style={{ fontSize: 20 }}>{bodyMessage}</p>
-                                </Col>
-                            </Row> */}
-                            <Row>
-                                <Col style={{ paddingBottom: 50 }} span={24}>
-                                    {body}
-                                    {this.props.step !== 0 ?
-                                        (
-                                            <div style={{ paddingTop: 10, textAlign: "center" }}>
-                                                <a style={{ color: "#FC588F" }} onClick={this.prevStep}>Go Back</a>
-                                            </div>
-                                        ) : null}
-                                </Col>
-                            </Row>
+                            <div style={{ paddingLeft: 15, paddingRight: 15 }}>
+                                <Row style={{ paddingTop: 10 }}>
+                                    <Col span={24}>
+                                        <img style={{ width: "30%", textAlign: "start" }} alt="Get Started" src={bodyPhoto} />
+                                        <h1>{bodyTitle}</h1>
+                                        <h3>Need Help? <a style={{ color: "#FC588F" }} onClick={this.openDrift}>Live chat with us.</a></h3>
+                                        <p style={{ fontSize: 15 }}>{bodyMessage}</p>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col style={{ paddingBottom: 50 }} span={24}>
+                                        {body}
+                                        {this.props.step !== 0 ?
+                                            (
+                                                <div style={{ paddingTop: 10, textAlign: "center" }}>
+                                                    <a style={{ color: "#FC588F" }} onClick={this.prevStep}>Go Back</a>
+                                                </div>
+                                            ) : null}
+                                    </Col>
+                                </Row>
+                            </div>
                         </MediaQuery>
                     </div>
                 </MuiThemeProvider>
@@ -242,7 +244,7 @@ const mapStateToProps = state => {
         buildingContactRole: state.getStarted.buildingContactRole,
         buildingContactEmail: state.getStarted.buildingContactEmail,
         buildingContactPhone: state.getStarted.buildingContactPhone,
-        newServices: state.getStarted.newServices, 
+        newServices: state.getStarted.newServices,
         otherServicesDetails: state.getStarted.otherServicesDetails
     }
 };

@@ -4,14 +4,15 @@ import { withRouter } from 'react-router-dom';
 import { Steps, Row, Col } from 'antd';
 import CreateAccount from './CreateAccount';
 import OfficeDetails from './OfficeDetails';
-import BuildingDetails from './BuildingDetails';
+// import BuildingDetails from './BuildingDetails';
 import NewServiceDetails from './NewServiceDetails';
 import getStarted1Photo from "../../assets/images/get-started/get-started-1.png";
 import getStarted2Photo from "../../assets/images/get-started/get-started-2.png"
-import getStarted3Photo from "../../assets/images/get-started/get-started-3.png"
+// import getStarted3Photo from "../../assets/images/get-started/get-started-3.png"
 import getStarted4Photo from "../../assets/images/get-started/get-started-4.png"
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import * as generalActionCreators from '../../store/actions/general';
+import MediaQuery from 'react-responsive';
 
 import mixpanel from 'mixpanel-browser';
 mixpanel.init('4b6f21dc6886a40bf4900783da31064a');
@@ -138,35 +139,67 @@ class GetStartedComp extends React.Component {
             <div>
                 <MuiThemeProvider theme={theme}>
                     <div>
-                        <Row>
-                            <Col span={24}>
-                                <Steps style={{ paddingTop: 50, paddingLeft: 100, paddingRight: 100 }} current={this.props.step}>
-                                    <Step title={stepTitles[0]} description="Tell us about yourself and your company." />
-                                    <Step title={stepTitles[1]} description="Tell us about your office." />
-                                    <Step title={stepTitles[2]} description="Tell us what services your office needs." />
-                                </Steps>
-                            </Col>
-                        </Row>
-                        <Row style={{ paddingTop: 50 }}>
-                            <Col span={7} />
-                            <Col span={5}>
-                                <img style={{ width: "30%", textAlign: "start" }} alt="Get Started" src={bodyPhoto} />
-                                <h1>{bodyTitle}</h1>
-                                <h3>Need Help? <a onClick={this.openDrift}>Live chat with us.</a></h3>
-                                <p style={{ fontSize: 20 }}>{bodyMessage}</p>
-                            </Col>
-                            <Col span={1} />
-                            <Col style={{ paddingBottom: 50 }} span={5}>
-                                {body}
-                                {this.props.step !== 0 ?
-                                    (
-                                        <div style={{ paddingTop: 10, textAlign: "center" }}>
-                                            <a style={{ color: "#FC588F" }} onClick={this.prevStep}>Go Back</a>
-                                        </div>
-                                    ) : null}
-                            </Col>
-                            <Col span={6} />
-                        </Row>
+                        <MediaQuery minDeviceWidth={1224}>
+                            <Row>
+                                <Col span={24}>
+                                    <Steps style={{ paddingTop: 50, paddingLeft: 100, paddingRight: 100 }} current={this.props.step}>
+                                        <Step title={stepTitles[0]} description="Tell us about yourself and your company." />
+                                        <Step title={stepTitles[1]} description="Tell us about your office." />
+                                        <Step title={stepTitles[2]} description="Tell us what services your office needs." />
+                                    </Steps>
+                                </Col>
+                            </Row>
+                            <Row style={{ paddingTop: 50 }}>
+                                <Col span={7} />
+                                <Col span={5}>
+                                    <img style={{ width: "30%", textAlign: "start" }} alt="Get Started" src={bodyPhoto} />
+                                    <h1>{bodyTitle}</h1>
+                                    <h3>Need Help? <a onClick={this.openDrift}>Live chat with us.</a></h3>
+                                    <p style={{ fontSize: 20 }}>{bodyMessage}</p>
+                                </Col>
+                                <Col span={1} />
+                                <Col style={{ paddingBottom: 50 }} span={5}>
+                                    {body}
+                                    {this.props.step !== 0 ?
+                                        (
+                                            <div style={{ paddingTop: 10, textAlign: "center" }}>
+                                                <a style={{ color: "#FC588F" }} onClick={this.prevStep}>Go Back</a>
+                                            </div>
+                                        ) : null}
+                                </Col>
+                                <Col span={6} />
+                            </Row>
+                        </MediaQuery>
+                        <MediaQuery maxDeviceWidth={1224}>
+                            <Row>
+                                <Col span={24}>
+                                    <Steps style={{ paddingTop: 50, paddingLeft: 100, paddingRight: 100 }} current={this.props.step}>
+                                        <Step title={stepTitles[0]} description="Tell us about yourself and your company." />
+                                        <Step title={stepTitles[1]} description="Tell us about your office." />
+                                        <Step title={stepTitles[2]} description="Tell us what services your office needs." />
+                                    </Steps>
+                                </Col>
+                            </Row>
+                            <Row style={{ paddingTop: 50 }}>
+                                <Col span={24}>
+                                    <img style={{ width: "30%", textAlign: "start" }} alt="Get Started" src={bodyPhoto} />
+                                    <h1>{bodyTitle}</h1>
+                                    <h3>Need Help? <a onClick={this.openDrift}>Live chat with us.</a></h3>
+                                    <p style={{ fontSize: 20 }}>{bodyMessage}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col style={{ paddingBottom: 50 }} span={24}>
+                                    {body}
+                                    {this.props.step !== 0 ?
+                                        (
+                                            <div style={{ paddingTop: 10, textAlign: "center" }}>
+                                                <a style={{ color: "#FC588F" }} onClick={this.prevStep}>Go Back</a>
+                                            </div>
+                                        ) : null}
+                                </Col>
+                            </Row>
+                        </MediaQuery>
                     </div>
                 </MuiThemeProvider>
             </div>

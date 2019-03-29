@@ -27,6 +27,9 @@ import { Row, Col } from 'antd';
 import * as pageTitles from './pages/pageTitles';
 import * as Sentry from '@sentry/browser';
 
+import GetStartedComp from './components/GetStartedComp/GetStarted';
+import LoginNavBar from './components/Login/LoginNavBar';
+
 class App extends Component {
   state = {
     toggle_render: false
@@ -54,10 +57,11 @@ class App extends Component {
               weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/home');
             }
           }
-        } else {
-          weakProps.clearRedux();
-          weakProps.history.push('/login');
         }
+        // else {
+        //   weakProps.clearRedux();
+        //   weakProps.history.push('/login');
+        // }
       });
     } else {
       const error = Error("Firebase NOT set up in App.js render()");
@@ -76,20 +80,20 @@ class App extends Component {
         <div style={{ background: '#FFFFFF' }}>
           <Row>
             {/* <MediaQuery minDeviceWidth={1224}> for desktop devices */}
-              <Col span={4}>
-                <SideNavbar device={"desktop"} />
-              </Col>
-              <Col span={20}>
-                <NavBar />
-                <Switch>
-                  <Route exact path="/" component={InitialRoutingComp} />
-                  <Route exact path="/login" component={InitialRoutingComp} />
-                  <Route path="/general" component={generalRoutingComp} />
-                  <Route path="/officeAdmin" component={officeAdminRoutingComp} />
-                </Switch>
-              </Col>
+            <Col span={4}>
+              <SideNavbar device={"desktop"} />
+            </Col>
+            <Col span={20}>
+              <NavBar />
+              <Switch>
+                <Route exact path="/" component={InitialRoutingComp} />
+                <Route exact path="/login" component={InitialRoutingComp} />
+                <Route path="/general" component={generalRoutingComp} />
+                <Route path="/officeAdmin" component={officeAdminRoutingComp} />
+              </Switch>
+            </Col>
             {/* </MediaQuery> */}
-            
+
             {/* <MediaQuery maxDeviceWidth={1224}> for mobile devices
               <Col span={24}>
                 <NavBar device={"mobile"} />
@@ -101,17 +105,19 @@ class App extends Component {
                 </Switch>
               </Col>
             </MediaQuery>  */}
-            
+
           </Row>
         </div>
       );
     } else { // logged out
       return (
         <div>
+          <LoginNavBar />
           <Switch>
+            <Route exact path='/get-started' component={GetStartedComp}></Route>
             <Route path="/general" component={generalRoutingComp} />
-            <Route path="/" component={Login} />
-            <Route path="/login" component={Login} />
+            <Route exact path="/" component={Login} />
+            <Route exact path="/login" component={Login} />
           </ Switch>
         </div>
       );
@@ -124,7 +130,7 @@ const mapStateToProps = state => {
     user: state.auth.user,
     currentOfficeAdminUID: state.general.currentOfficeAdminUID,
     firebase: state.firebase.firebase,
-    mixpanel: state.firebase.mixpanel, 
+    mixpanel: state.firebase.mixpanel,
     currentPage: state.general.currentPage
   }
 };

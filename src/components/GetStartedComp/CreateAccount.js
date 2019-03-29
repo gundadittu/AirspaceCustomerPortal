@@ -35,11 +35,11 @@ class CreateAccount extends React.Component {
         roleErr: null,
     }
 
-    componentWillMount() { 
+    componentWillMount() {
         mixpanel.time_event('Get-Started: Create Account Page'); // starts timer 
     }
 
-    componentWillUnmount() { 
+    componentWillUnmount() {
         mixpanel.track('Get-Started: Create Account Page'); // end timer 
     }
 
@@ -129,6 +129,7 @@ class CreateAccount extends React.Component {
                         <div>
                             <TextField
                                 required
+                                fullWidth={true}
                                 id="outlined-name"
                                 label="First Name"
                                 className={classes.textField}
@@ -143,6 +144,7 @@ class CreateAccount extends React.Component {
                             />
                             <TextField
                                 required
+                                fullWidth={true}
                                 id="outlined-name"
                                 label="Last Name"
                                 type="text"
@@ -158,6 +160,7 @@ class CreateAccount extends React.Component {
                         </div>
                         <TextField
                             required
+                            fullWidth={true}
                             id="outlined-name"
                             label="Email Address"
                             className={classes.textField}
@@ -188,6 +191,7 @@ class CreateAccount extends React.Component {
                         {/* <div style={{ paddingTop: 20 }}/> */}
                         <TextField
                             required
+                            fullWidth={true}
                             id="outlined-name"
                             label="Phone Number"
                             className={classes.textField}
@@ -200,9 +204,10 @@ class CreateAccount extends React.Component {
                             error={(this.state.phoneNoErr !== null)}
                             helperText={this.state.phoneNoErr}
                         />
-                        <div style={{ paddingTop: 20, paddingBottom: 20 }}>
+                        <div style={{ paddingTop: 10, paddingBottom: 10 }}>
                             <TextField
                                 required
+                                fullWidth={true}
                                 id="outlined-name"
                                 label="Company Name"
                                 className={classes.textField}
@@ -217,6 +222,7 @@ class CreateAccount extends React.Component {
                             />
                             <TextField
                                 required
+                                fullWidth={true}
                                 id="outlined-name"
                                 label="Company URL"
                                 className={classes.textField}
@@ -231,6 +237,7 @@ class CreateAccount extends React.Component {
                             />
                             <TextField
                                 required
+                                fullWidth={true}
                                 id="outlined-select-currency-native"
                                 select
                                 label="What is your role in the company?"

@@ -202,7 +202,7 @@ class OfficeDetails extends React.Component {
                                 type="number"
                             />
                         </div>
-                        <div style={{ paddingTop: 20 }}></div>
+                        <div style={{ paddingTop: 10 }}></div>
                         <TextField
                             required
                             id="outlined-name"
@@ -231,7 +231,7 @@ class OfficeDetails extends React.Component {
                             error={this.state.employeeNoErr}
                             helperText={this.state.employeeNoErr}
                         />
-                        <div style={{ paddingTop: 20 }}></div>
+                        <div style={{ paddingTop: 10 }}></div>
                         <TextField
                             id="date"
                             label="Move-in Date (if this is not your existing office)"

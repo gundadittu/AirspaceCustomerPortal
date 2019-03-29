@@ -27,7 +27,8 @@ const initialState = {
     // buildingContactRole: null,
     // buildingContactEmail: null,
     // buildingContactPhone: null,
-    newServices: []
+    newServices: [], 
+    otherServicesDetails: null 
 }
 
 const reducer = (state = initialState, action) => {

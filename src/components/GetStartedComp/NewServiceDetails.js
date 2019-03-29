@@ -2,9 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Checkbox } from 'antd';
 import NextButton from './NextButton';
+import TextField from '@material-ui/core/TextField';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
 import mixpanel from 'mixpanel-browser';
 mixpanel.init('4b6f21dc6886a40bf4900783da31064a');
+
+const styles = theme => ({
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 200,
+    }
+});
 
 class NewServiceDetails extends React.Component {
 
@@ -26,6 +37,7 @@ class NewServiceDetails extends React.Component {
 
     render() {
         const CheckboxGroup = Checkbox.Group;
+        const { classes } = this.props;
 
         return (
             <div>
@@ -53,7 +65,7 @@ class NewServiceDetails extends React.Component {
                             <Checkbox value="airspace-office-app">Airspace Office App</Checkbox>
                         </Col>
                         <Col style={{ paddingTop: 10 }} span={12}>
-                            <Checkbox value="repairs-maintenance">Repairs + Maintenance</Checkbox>
+                            <Checkbox value="repairs-maintenance">Repairs/Maintenance</Checkbox>
                         </Col>
                         <Col style={{ paddingTop: 10 }} span={12}>
                             <Checkbox value="printing">Printing</Checkbox>
@@ -96,6 +108,20 @@ class NewServiceDetails extends React.Component {
                         </Col>
                     </Row>
                 </CheckboxGroup>
+                <TextField
+                    fullWidth={true}
+                    id="outlined-multiline-flexible"
+                    label="Other Services or Details"
+                    multiline
+                    rows="4"
+                    value={this.props.otherServicesDetails}
+                    onChange={(e) => this.props.updateData(e.target.value, 'otherServicesDetails')}
+                    className={classes.textField}
+                    style={{ width: "100%" }}
+                    margin="normal"
+                    variant="outlined"
+                />
+
                 < NextButton validate={this.validateEntries} nextAction={this.props.nextAction} />
             </div>
         )
@@ -104,8 +130,13 @@ class NewServiceDetails extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        newServices: state.getStarted.newServices
+        newServices: state.getStarted.newServices, 
+        otherServicesDetails: state.getStarted.otherServicesDetails
     }
 };
 
-export default connect(mapStateToProps, null)(NewServiceDetails);
+NewServiceDetails.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(connect(mapStateToProps, null)(NewServiceDetails));

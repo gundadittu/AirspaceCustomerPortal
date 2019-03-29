@@ -44,6 +44,7 @@ class GetStartedComp extends React.Component {
             email: this.props.emailAddress,
             phone: this.props.phoneNo,
             newServices: this.props.newServices,
+            otherServicesDetails: this.props.otherServicesDetails, 
             companyURL: this.props.companyURL,
             streetAddr1: this.props.streetAddr1,
             streetAddr2: this.props.streetAddr2,
@@ -123,11 +124,13 @@ class GetStartedComp extends React.Component {
         let bodyPhoto = null;
         let bodyTitle = null;
         let bodyMessage = null;
+        let firstMessage = null; 
         if (this.props.step === 0) {
             body = (<CreateAccount updateData={(value, key) => this.updateData(value, key)} nextAction={this.nextStep} />);
             bodyPhoto = getStarted1Photo;
             bodyTitle = stepTitles[0];
-            bodyMessage = "This will take around 5 minutes. Let's start with some contact and company info. Next, you'll need your office square footage, employee count, office address, and an idea of what services your looking for."; //and selecting a password
+            firstMessage = "This will take around 5 minutes.";
+            bodyMessage = "Let's start with some contact and company info. Next, you'll need your office square footage, employee count, address, and the services you need.";
         } else if (this.props.step === 1) {
             body = (<OfficeDetails updateData={this.updateData} nextAction={this.nextStep} />);
             bodyPhoto = getStarted2Photo;
@@ -147,23 +150,24 @@ class GetStartedComp extends React.Component {
                         <MediaQuery minDeviceWidth={1224}>
                             <Row>
                                 <Col span={24}>
-                                    <Steps style={{ paddingTop: 50, paddingLeft: 100, paddingRight: 100 }} current={this.props.step}>
+                                    <Steps style={{ paddingTop: 30, paddingLeft: 100, paddingRight: 100 }} current={this.props.step}>
                                         <Step title={stepTitles[0]} description="Tell us about yourself and your company." />
                                         <Step title={stepTitles[1]} description="Tell us about your office." />
                                         <Step title={stepTitles[2]} description="Tell us what services your office needs." />
                                     </Steps>
                                 </Col>
                             </Row>
-                            <Row style={{ paddingTop: 50 }}>
-                                <Col span={7} />
-                                <Col span={5}>
+                            <Row style={{ paddingTop: 20 }}>
+                                <Col span={6} />
+                                <Col style={{paddingRight: 20}} span={6}>
                                     <img style={{ width: "30%", textAlign: "start" }} alt="Get Started" src={bodyPhoto} />
                                     <h1>{bodyTitle}</h1>
+                                    <h3 style={{ fontSize: 19 }}>{firstMessage}</h3>
                                     <h3>Need Help? <a style={{ color: "#FC588F" }} onClick={this.openDrift}>Live chat with us.</a></h3>
-                                    <p style={{ fontSize: 20 }}>{bodyMessage}</p>
+                                    <p style={{ fontSize: 16 }}>{bodyMessage}</p>
                                 </Col>
-                                <Col span={1} />
-                                <Col style={{ paddingBottom: 50 }} span={5}>
+                                {/* <Col span={1} /> */}
+                                <Col style={{ paddingBottom: 50 }} span={6}>
                                     {body}
                                     {this.props.step !== 0 ?
                                         (
@@ -176,7 +180,7 @@ class GetStartedComp extends React.Component {
                             </Row>
                         </MediaQuery>
                         <MediaQuery maxDeviceWidth={1224}>
-                            <Row>
+                            {/* <Row>
                                 <Col span={24}>
                                     <Steps style={{ paddingTop: 50, paddingLeft: 100, paddingRight: 100 }} current={this.props.step}>
                                         <Step title={stepTitles[0]} description="Tell us about yourself and your company." />
@@ -184,15 +188,15 @@ class GetStartedComp extends React.Component {
                                         <Step title={stepTitles[2]} description="Tell us what services your office needs." />
                                     </Steps>
                                 </Col>
-                            </Row>
-                            <Row style={{ paddingTop: 50 }}>
+                            </Row> */}
+                            {/* <Row style={{ paddingTop: 50 }}>
                                 <Col span={24}>
                                     <img style={{ width: "30%", textAlign: "start" }} alt="Get Started" src={bodyPhoto} />
                                     <h1>{bodyTitle}</h1>
                                     <h3>Need Help? <a onClick={this.openDrift}>Live chat with us.</a></h3>
                                     <p style={{ fontSize: 20 }}>{bodyMessage}</p>
                                 </Col>
-                            </Row>
+                            </Row> */}
                             <Row>
                                 <Col style={{ paddingBottom: 50 }} span={24}>
                                     {body}
@@ -238,7 +242,8 @@ const mapStateToProps = state => {
         buildingContactRole: state.getStarted.buildingContactRole,
         buildingContactEmail: state.getStarted.buildingContactEmail,
         buildingContactPhone: state.getStarted.buildingContactPhone,
-        newServices: state.getStarted.newServices
+        newServices: state.getStarted.newServices, 
+        otherServicesDetails: state.getStarted.otherServicesDetails
     }
 };
 

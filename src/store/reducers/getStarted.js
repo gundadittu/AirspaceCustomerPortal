@@ -4,6 +4,7 @@ import { updateObject } from '../utility';
 const initialState = {
     step: 0,
     isLoading: false,
+    isFinished: false,
     firstName: null,
     lastName: null,
     emailAddress: null,
@@ -39,8 +40,10 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, payload);
         case actionTypes.SUBMIT_GET_STARTED_DATA:
             return updateObject(state, { isLoading: true });
-        case actionTypes.SUBMIT_GET_STARTED_DATA_FINISHED:
-            return updateObject(state, { isLoading: false });
+        case actionTypes.SUBMIT_GET_STARTED_DATA_FINISHED_SUCCESS:
+            return updateObject(state, { isLoading: false, isFinished: true });
+        case actionTypes.SUBMIT_GET_STARTED_DATA_FINISHED_ERROR:
+            return updateObject(state, { isLoading: false, isFinished: false });
         default:
             return initialState;
     }

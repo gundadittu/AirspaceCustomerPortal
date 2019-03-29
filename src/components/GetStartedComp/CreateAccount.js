@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
-// import { Steps, Row, Col } from 'antd';
 import NextButtom from './NextButton';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -35,7 +33,6 @@ class CreateAccount extends React.Component {
         compNameErr: null,
         compURLErr: null,
         roleErr: null,
-
     }
 
     componentWillMount() { 
@@ -290,13 +287,13 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-    }
-};
+// const mapDispatchToProps = dispatch => {
+//     return {
+//     }
+// };
 
 CreateAccount.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(CreateAccount));
+export default withStyles(styles)(connect(mapStateToProps, null)(CreateAccount));

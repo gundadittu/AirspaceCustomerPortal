@@ -2,26 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Steps, Row, Col } from 'antd';
-
 import CreateAccount from './CreateAccount';
-// import CompanyDetails from './CompanyDetails';
 import OfficeDetails from './OfficeDetails';
 import BuildingDetails from './BuildingDetails';
-// import ServiceDetails from './ServiceDetails';
 import NewServiceDetails from './NewServiceDetails';
-
-// import TextField from '@material-ui/core/TextField';
-// import Fab from '@material-ui/core/Fab';
 import getStarted1Photo from "../../assets/images/get-started/get-started-1.png";
 import getStarted2Photo from "../../assets/images/get-started/get-started-2.png"
 import getStarted3Photo from "../../assets/images/get-started/get-started-3.png"
 import getStarted4Photo from "../../assets/images/get-started/get-started-4.png"
-// import getStarted5Photo from "../../assets/images/get-started/get-started-5.png"
-// import clipboardPhoto from "../../assets/images/get-started/clipboard.png"
-
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-// import ArrowForward from '@material-ui/icons/ArrowForward';
-
 import * as generalActionCreators from '../../store/actions/general';
 
 import mixpanel from 'mixpanel-browser';
@@ -36,45 +25,45 @@ const theme = createMuiTheme({
 });
 
 const stepTitles = ["Get Started", "Office Details", "Services"];
-const stepCount = stepTitles.length - 1; 
+const stepCount = stepTitles.length - 1;
 
 class GetStartedComp extends React.Component {
 
-    getStartedPayload = () => { 
+    getStartedPayload = () => {
         let dict = {
-            companyName: this.props.companyName, 
-            firstName: this.props.firstName, 
-            lastName: this.props.lastName,  
-            companyRole: this.props.userRole, 
-            email: this.props.emailAddress, 
-            phone: this.props.phoneNo, 
-            newServices: this.props.newServices, 
-            companyURL: this.props.companyURL, 
-            streetAddr1: this.props.streetAddr1, 
-            streetAddr2: this.props.streetAddr2, 
-            city: this.props.city, 
-            stateAddr: this.props.stateAddr, 
-            zipCode: this.props.zipCode, 
-            floorNo: this.props.floorNo, 
-            suiteNo: this.props.suiteNo, 
-            squareFT: this.props.squareFT, 
-            employeeNo: this.props.employeeNo, 
+            companyName: this.props.companyName,
+            firstName: this.props.firstName,
+            lastName: this.props.lastName,
+            companyRole: this.props.userRole,
+            email: this.props.emailAddress,
+            phone: this.props.phoneNo,
+            newServices: this.props.newServices,
+            companyURL: this.props.companyURL,
+            streetAddr1: this.props.streetAddr1,
+            streetAddr2: this.props.streetAddr2,
+            city: this.props.city,
+            stateAddr: this.props.stateAddr,
+            zipCode: this.props.zipCode,
+            floorNo: this.props.floorNo,
+            suiteNo: this.props.suiteNo,
+            squareFT: this.props.squareFT,
+            employeeNo: this.props.employeeNo,
             moveDate: this.props.moveInDate,
-            buildingContName: this.props.buildingContactName, 
-            buildingContRole: this.props.buildingContactRole, 
-            buildingContEmail: this.props.buildingContactEmail, 
+            buildingContName: this.props.buildingContactName,
+            buildingContRole: this.props.buildingContactRole,
+            buildingContEmail: this.props.buildingContactEmail,
             buildingContPhone: this.props.buildingContactPhone
         }
         return dict
     }
 
     nextStep = () => {
-        if (this.props.step === stepCount) { 
-            const data = this.getStartedPayload(); 
-            this.props.submitGSData(data); 
+        if (this.props.step === stepCount) {
+            const data = this.getStartedPayload();
+            this.props.submitGSData(data);
             mixpanel.track("Get-Started"); // ends timer 
             mixpanel.track("Finished Get Started.");
-            return 
+            return
         }
         if (this.props.step < 0) {
             this.props.changeStep(0);
@@ -106,17 +95,22 @@ class GetStartedComp extends React.Component {
         this.props.updateGetStartedData(obj);
     }
 
-    openDrift = () => { 
-        mixpanel.track("Get-Started: Clicked Get Help"); 
-        window.open('https://drift.me/airspaceoffice','_blank');
+    openDrift = () => {
+        mixpanel.track("Get-Started: Clicked Get Help");
+        window.open('https://drift.me/airspaceoffice', '_blank');
     }
-    
-    componentDidMount() { 
+
+    componentDidMount() {
         mixpanel.time_event('Get-Started'); // starts timer 
         mixpanel.track("Entered Get Started.");
     }
 
     render() {
+
+        if (this.props.isFinished) {
+            this.props.history.push('/get-started/finished');
+        }
+
         const Step = Steps.Step;
 
         let body = null;
@@ -138,38 +132,18 @@ class GetStartedComp extends React.Component {
             bodyPhoto = getStarted4Photo;
             bodyTitle = stepTitles[2];
             bodyMessage = "Let us know which services your office is looking for."
-            // body = (<BuildingDetails updateData={this.updateData} nextAction={this.nextStep} />);
-            // bodyPhoto = getStarted3Photo;
-            // bodyTitle = stepTitles[2];
-            // bodyMessage = "Now, we just need your building contact, like your landlord or property manager. We'll work with them to streamline deliveries and other fun stuff. If needed, you can add this information later."
-        } 
-        // else if (this.props.step === 3) {
-        //     body = (<NewServiceDetails updateData={this.updateData} nextAction={this.nextStep} />);
-        //     bodyPhoto = getStarted4Photo;
-        //     bodyTitle = stepTitles[3];
-        //     bodyMessage = "Let us know which services your office is looking for."
-        // }
+        }
 
         return (
             <div>
-                {/* <div>
-                    <Alert
-                        message="Heads up! Getting started with Airspace will take about 5 minutes."
-                        description="You'll need your contact info, company website, office square footage, employee count, office address, and an idea of what services your looking for."
-                        type="info"
-                        closeText="Got it"
-                    />
-                </div> */}
                 <MuiThemeProvider theme={theme}>
                     <div>
                         <Row>
                             <Col span={24}>
                                 <Steps style={{ paddingTop: 50, paddingLeft: 100, paddingRight: 100 }} current={this.props.step}>
-                                    <Step title={stepTitles[0]} description="Tell us about yourself and your company."/>
-                                    <Step title={stepTitles[1]} description="Tell us about your office."/>
-                                    {/* <Step title={stepTitles[2]} description="We'll work with your landlord behind the scenes."/> */}
-                                    <Step title={stepTitles[2]} description="Tell us what services your office needs."/>
-                                    {/* <Step title={stepTitles[4]} /> */}
+                                    <Step title={stepTitles[0]} description="Tell us about yourself and your company." />
+                                    <Step title={stepTitles[1]} description="Tell us about your office." />
+                                    <Step title={stepTitles[2]} description="Tell us what services your office needs." />
                                 </Steps>
                             </Col>
                         </Row>
@@ -202,29 +176,30 @@ class GetStartedComp extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        step: state.getStarted.step, 
-        firstName: state.getStarted.firstName, 
-        lastName: state.getStarted.lastName, 
-        emailAddress: state.getStarted.emailAddress, 
-        password: state.getStarted.password, 
-        phoneNo: state.getStarted.phoneNo, 
-        companyName: state.getStarted.companyName, 
-        companyURL: state.getStarted.companyURL, 
-        userRole: state.getStarted.userRole, 
-        streetAddr1: state.getStarted.streetAddr1, 
-        streetAddr2: state.getStarted.streetAddr2, 
-        zipCode: state.getStarted.zipCode, 
-        city: state.getStarted.city, 
-        stateAddr: state.getStarted.stateAddr, 
+        isFinished: state.getStarted.isFinished,
+        step: state.getStarted.step,
+        firstName: state.getStarted.firstName,
+        lastName: state.getStarted.lastName,
+        emailAddress: state.getStarted.emailAddress,
+        password: state.getStarted.password,
+        phoneNo: state.getStarted.phoneNo,
+        companyName: state.getStarted.companyName,
+        companyURL: state.getStarted.companyURL,
+        userRole: state.getStarted.userRole,
+        streetAddr1: state.getStarted.streetAddr1,
+        streetAddr2: state.getStarted.streetAddr2,
+        zipCode: state.getStarted.zipCode,
+        city: state.getStarted.city,
+        stateAddr: state.getStarted.stateAddr,
         floorNo: state.getStarted.floorNo,
-        suiteNo: state.getStarted.suiteNo, 
-        squareFT: state.getStarted.squareFT, 
-        employeeNo: state.getStarted.employeeNo, 
-        moveInDate: state.getStarted.moveInDate, 
-        buildingContactName: state.getStarted.buildingContactName, 
-        buildingContactRole: state.getStarted.buildingContactRole, 
+        suiteNo: state.getStarted.suiteNo,
+        squareFT: state.getStarted.squareFT,
+        employeeNo: state.getStarted.employeeNo,
+        moveInDate: state.getStarted.moveInDate,
+        buildingContactName: state.getStarted.buildingContactName,
+        buildingContactRole: state.getStarted.buildingContactRole,
         buildingContactEmail: state.getStarted.buildingContactEmail,
-        buildingContactPhone: state.getStarted.buildingContactPhone, 
+        buildingContactPhone: state.getStarted.buildingContactPhone,
         newServices: state.getStarted.newServices
     }
 };
@@ -232,7 +207,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         updateGetStartedData: (data) => dispatch(generalActionCreators.updateGetStartedData(data)),
-        changeStep: (newStep) => dispatch(generalActionCreators.changeGetStartedStep(newStep)), 
+        changeStep: (newStep) => dispatch(generalActionCreators.changeGetStartedStep(newStep)),
         submitGSData: (payload) => dispatch(generalActionCreators.submitGetStartedData(payload)),
     }
 };

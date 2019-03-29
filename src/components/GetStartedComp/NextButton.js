@@ -18,8 +18,6 @@ class NextButton extends React.Component {
     nextAction = this.props.nextAction;
 
     trigger = () => {
-        // this.nextAction();
-        // return
         if (this.validate() === false) {
             return
         } else {

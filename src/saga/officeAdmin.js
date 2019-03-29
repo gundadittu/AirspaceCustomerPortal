@@ -1178,7 +1178,7 @@ function* submitGetStartedDataWorkerSaga(action) {
         let firebase = yield select(selectors.firebase);
         const response = yield call(submitGSData, payload, firebase);
 
-        yield put({ type: actionTypes.SUBMIT_GET_STARTED_DATA_FINISHED });
+        yield put({ type: actionTypes.SUBMIT_GET_STARTED_DATA_FINISHED_SUCCESS });
     } catch (error) {
         sentry.captureException(error);
 
@@ -1187,6 +1187,6 @@ function* submitGetStartedDataWorkerSaga(action) {
             description: error.message
         });
 
-        yield put({ type: actionTypes.SUBMIT_GET_STARTED_DATA_FINISHED });
+        yield put({ type: actionTypes.SUBMIT_GET_STARTED_DATA_FINISHED_ERROR });
     }
 }

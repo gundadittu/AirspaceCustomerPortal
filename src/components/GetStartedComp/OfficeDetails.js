@@ -1,13 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import classNames from 'classnames';
-// import InputAdornment from '@material-ui/core/InputAdornment';
 import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
-// import { Steps, Row, Col } from 'antd';
-// import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import NextButtom from './NextButton';
 
 import mixpanel from 'mixpanel-browser';
@@ -22,13 +18,7 @@ const styles = theme => ({
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
         width: 200,
-    },
-    dense: {
-        marginTop: 19,
-    },
-    menu: {
-        width: 200,
-    },
+    }
 });
 
 
@@ -108,7 +98,6 @@ class OfficeDetails extends React.Component {
     componentWillUnmount() {
         mixpanel.track('Get-Started: Office Details Page'); // end timer 
     }
-
 
     render() {
         const { classes, updateData } = this.props;
@@ -279,13 +268,13 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-    }
-};
+// const mapDispatchToProps = dispatch => {
+//     return {
+//     }
+// };
 
 OfficeDetails.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(OfficeDetails));
+export default withStyles(styles)(connect(mapStateToProps, null)(OfficeDetails));

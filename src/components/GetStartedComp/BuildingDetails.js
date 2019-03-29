@@ -1,13 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import classNames from 'classnames';
-// import InputAdornment from '@material-ui/core/InputAdornment';
 import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
-// import { Checkbox } from 'antd';
-// import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import NextButton from './NextButton';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -21,9 +17,6 @@ const styles = theme => ({
         marginRight: theme.spacing.unit,
         width: 200,
     },
-    dense: {
-        marginTop: 19,
-    },
     menu: {
         width: 200,
     },
@@ -31,10 +24,6 @@ const styles = theme => ({
 
 
 class BuildingDetails extends React.Component {
-
-    state = {
-        name: 'Textfield'
-    }
 
     validateEntries = () => {
         return true
@@ -130,13 +119,8 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-    }
-};
-
 BuildingDetails.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(BuildingDetails));
+export default withStyles(styles)(connect(mapStateToProps, null)(BuildingDetails));

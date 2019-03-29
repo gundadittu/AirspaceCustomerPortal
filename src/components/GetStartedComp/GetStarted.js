@@ -22,8 +22,8 @@ const theme = createMuiTheme({
         primary: { main: '#FC588F' },
         secondary: { main: '#000000' },
     },
-    typography: { 
-        useNextVariants: true, 
+    typography: {
+        useNextVariants: true,
         fontFamily: [
             'Avenir Next'
         ]
@@ -159,7 +159,7 @@ class GetStartedComp extends React.Component {
                                 <Col span={5}>
                                     <img style={{ width: "30%", textAlign: "start" }} alt="Get Started" src={bodyPhoto} />
                                     <h1>{bodyTitle}</h1>
-                                    <h3>Need Help? <a onClick={this.openDrift}>Live chat with us.</a></h3>
+                                    <h3>Need Help? <a style={{ color: "#FC588F" }} onClick={this.openDrift}>Live chat with us.</a></h3>
                                     <p style={{ fontSize: 20 }}>{bodyMessage}</p>
                                 </Col>
                                 <Col span={1} />

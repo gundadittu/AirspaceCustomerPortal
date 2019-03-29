@@ -140,7 +140,7 @@ class OfficeDetails extends React.Component {
                                 onChange={(e) => updateData(e.target.value, "city")}
                                 margin="normal"
                                 variant="outlined"
-                                style={{ width: "70%" }}
+                                style={{ width: "50%" }}
                                 type="text"
                                 error={this.state.cityErr}
                                 helperText={this.state.cityErr}
@@ -154,7 +154,7 @@ class OfficeDetails extends React.Component {
                                 onChange={(e) => updateData(e.target.value, "stateAddr")}
                                 margin="normal"
                                 variant="outlined"
-                                style={{ width: "20%" }}
+                                style={{ width: "30%" }}
                                 type="text"
                                 error={this.state.stateAddrErr}
                                 helperText={this.state.stateAddrErr}
@@ -184,7 +184,7 @@ class OfficeDetails extends React.Component {
                                 onChange={(e) => updateData(e.target.value, "floorNo")}
                                 margin="normal"
                                 variant="outlined"
-                                style={{ width: "45%" }}
+                                style={{ width: "40%" }}
                                 type="number"
                                 error={this.state.floorNoErr}
                                 helperText={this.state.floorNoErr}
@@ -197,7 +197,7 @@ class OfficeDetails extends React.Component {
                                 onChange={(e) => updateData(e.target.value, "suiteNo")}
                                 margin="normal"
                                 variant="outlined"
-                                style={{ width: "45%" }}
+                                style={{ width: "40%" }}
                                 type="number"
                             />
                         </div>

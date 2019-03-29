@@ -127,7 +127,7 @@ class CreateAccount extends React.Component {
                                 type="text"
                                 defaultValue={this.props.firstName}
                                 onChange={(e) => updateData(e.target.value, 'firstName')}
-                                style={{ width: "45%" }}
+                                style={{ width: "40%" }}
                                 margin="normal"
                                 variant="outlined"
                                 error={(this.state.firstNameErr !== null)}
@@ -141,7 +141,7 @@ class CreateAccount extends React.Component {
                                 className={classes.textField}
                                 defaultValue={this.props.lastName}
                                 onChange={(e) => updateData(e.target.value, 'lastName')}
-                                style={{ width: "45%" }}
+                                style={{ width: "40%" }}
                                 margin="normal"
                                 variant="outlined"
                                 error={(this.state.lastNameErr !== null)}

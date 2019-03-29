@@ -1,26 +1,45 @@
 import React from 'react';
 import Fab from '@material-ui/core/Fab';
 import ArrowForward from '@material-ui/icons/ArrowForward';
+import { connect } from 'react-redux';
 
-const NextButton = (props) => {
-    const validate = props.validate; 
-    const nextAction = props.nextAction; 
 
-    const trigger = () => { 
-        if (validate() === false) { 
-            return 
-        } else { 
-            nextAction();
+class NextButton extends React.Component {
+
+    validate = this.props.validate;
+    nextAction = this.props.nextAction;
+
+    trigger = () => {
+        this.nextAction();
+        return
+        if (this.validate() === false) {
+            return
+        } else {
+            this.nextAction();
         }
     }
 
-    return (
-        <div style={{ paddingTop: 25, paddingBottom: 25 }}>
-            <Fab onClick={trigger} style={{ width: "100%", fontSize: 19 }} variant="extended" color="primary" aria-label="Add">
-                NEXT < ArrowForward />
-            </Fab>
-        </div>
-    )
+    render() {
+
+        let text = "NEXT";
+        if (this.props.step === 3) { 
+            text = "FINISH";
+        }
+
+        return (
+            <div style={{ paddingTop: 25 }}>
+                <Fab onClick={this.trigger} style={{ width: "100%", fontSize: 19 }} variant="extended" color="primary" aria-label="Add">
+                    {text} < ArrowForward />
+                </Fab>
+            </div>
+        )
+    }
 }
 
-export default NextButton; 
+const mapStateToProps = state => {
+    return {
+        step: state.getStarted.step
+    }
+}
+
+export default connect(mapStateToProps, null)(NextButton)

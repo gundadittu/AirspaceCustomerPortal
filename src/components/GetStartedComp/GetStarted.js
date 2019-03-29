@@ -32,8 +32,7 @@ const theme = createMuiTheme({
     typography: { useNextVariants: true },
 });
 
-const stepTitles = ["Get Started", "Office Details", "Building Contact", "Services"];
-// const stepPhotos = ["Create Account", "Company Info", "Office Details", "Building Details", "Service Plan"]
+const stepTitles = ["Get Started", "Office Details", "Building Contact (Optional)", "Services"];
 
 class GetStartedComp extends React.Component {
 
@@ -94,10 +93,6 @@ class GetStartedComp extends React.Component {
         this.props.changeStep(this.props.step - 1);
     }
 
-    openDrift = () => {
-        window.open("https://drift.me/airspaceoffice", "_blank");
-    }
-
     updateData = (value, key) => {
         let obj = {};
         obj[key] = value;
@@ -125,12 +120,12 @@ class GetStartedComp extends React.Component {
             body = (<BuildingDetails updateData={this.updateData} nextAction={this.nextStep} />);
             bodyPhoto = getStarted3Photo;
             bodyTitle = stepTitles[2];
-            bodyMessage = "Now, we just need your building contact, like your landlord or property manager. We'll work with them to streamline deliveries and other fun stuff."
+            bodyMessage = "Now, we just need your building contact, like your landlord or property manager. We'll work with them to streamline deliveries and other fun stuff. If needed, you can add this information later."
         } else if (this.props.step === 3) {
             body = (<NewServiceDetails updateData={this.updateData} nextAction={this.nextStep} />);
             bodyPhoto = getStarted4Photo;
             bodyTitle = stepTitles[3];
-            bodyMessage = "Let us know which service your office is looking for. This information will help your experience manager create your service plan before your first consultation."
+            bodyMessage = "Let us know which services your office is looking for."
         }
 
         return (
@@ -149,10 +144,10 @@ class GetStartedComp extends React.Component {
                         <Row>
                             <Col span={24}>
                                 <Steps style={{ paddingTop: 50, paddingLeft: 100, paddingRight: 100 }} current={this.props.step}>
-                                    <Step title={stepTitles[0]} />
-                                    <Step title={stepTitles[1]} />
-                                    <Step title={stepTitles[2]} />
-                                    <Step title={stepTitles[3]} />
+                                    <Step title={stepTitles[0]} description="Your contact and company info"/>
+                                    <Step title={stepTitles[1]} description="Your office info"/>
+                                    <Step title={stepTitles[2]} description="Your building contact"/>
+                                    <Step title={stepTitles[3]} description="Services your office needs"/>
                                     {/* <Step title={stepTitles[4]} /> */}
                                 </Steps>
                             </Col>
@@ -166,7 +161,7 @@ class GetStartedComp extends React.Component {
                                 <p style={{ fontSize: 20 }}>{bodyMessage}</p>
                             </Col>
                             <Col span={1} />
-                            <Col span={5}>
+                            <Col style={{ paddingBottom: 50 }} span={5}>
                                 {body}
                                 {this.props.step !== 0 ?
                                     (

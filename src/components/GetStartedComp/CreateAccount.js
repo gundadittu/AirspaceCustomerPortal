@@ -9,6 +9,9 @@ import TextField from '@material-ui/core/TextField';
 import NextButtom from './NextButton';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import mixpanel from 'mixpanel-browser';
+mixpanel.init('4b6f21dc6886a40bf4900783da31064a');
+
 const styles = theme => ({
     container: {
         display: 'flex',
@@ -33,6 +36,14 @@ class CreateAccount extends React.Component {
         compURLErr: null,
         roleErr: null,
 
+    }
+
+    componentWillMount() { 
+        mixpanel.time_event('Get-Started: Create Account Page'); // starts timer 
+    }
+
+    componentWillUnmount() { 
+        mixpanel.track('Get-Started: Create Account Page'); // end timer 
     }
 
     validateEmail = (email) => {

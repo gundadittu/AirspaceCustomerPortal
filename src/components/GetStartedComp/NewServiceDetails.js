@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { Row, Col, Checkbox } from 'antd';
 import NextButton from './NextButton';
 
+import mixpanel from 'mixpanel-browser';
+mixpanel.init('4b6f21dc6886a40bf4900783da31064a');
+
 class NewServiceDetails extends React.Component {
 
     onChange = (checkedValues) => {
@@ -11,6 +14,14 @@ class NewServiceDetails extends React.Component {
 
     validateEntries = () => {
         return true
+    }
+
+    componentWillMount() {
+        mixpanel.time_event('Get-Started: New Service Details Page'); // starts timer 
+    }
+
+    componentWillUnmount() {
+        mixpanel.track('Get-Started: New Service Details Page'); // end timer 
     }
 
     render() {
@@ -97,4 +108,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, null)(NewServiceDetails)
+export default connect(mapStateToProps, null)(NewServiceDetails);

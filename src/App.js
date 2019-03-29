@@ -28,6 +28,8 @@ import * as pageTitles from './pages/pageTitles';
 import * as Sentry from '@sentry/browser';
 
 import GetStartedComp from './components/GetStartedComp/GetStarted';
+import GetStartedFinishedComp from './components/GetStartedComp/GetStartedFinished';
+
 import LoginNavBar from './components/Login/LoginNavBar';
 
 class App extends Component {
@@ -114,6 +116,7 @@ class App extends Component {
         <div>
           <LoginNavBar />
           <Switch>
+            <Route exact path='/get-started/finished' component={GetStartedFinishedComp}></Route>
             <Route exact path='/get-started' component={GetStartedComp}></Route>
             <Route path="/general" component={generalRoutingComp} />
             <Route exact path="/" component={Login} />

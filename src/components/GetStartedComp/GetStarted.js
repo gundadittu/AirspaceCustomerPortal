@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Steps, Row, Col, Alert, Spin } from 'antd';
+import { Steps, Row, Col } from 'antd';
 
 import CreateAccount from './CreateAccount';
 // import CompanyDetails from './CompanyDetails';
@@ -24,6 +24,9 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import * as generalActionCreators from '../../store/actions/general';
 
+import mixpanel from 'mixpanel-browser';
+mixpanel.init('4b6f21dc6886a40bf4900783da31064a');
+
 const theme = createMuiTheme({
     palette: {
         primary: { main: '#FC588F' },
@@ -32,14 +35,15 @@ const theme = createMuiTheme({
     typography: { useNextVariants: true },
 });
 
-const stepTitles = ["Get Started", "Office Details", "Building Contact (Optional)", "Services"];
+const stepTitles = ["Get Started", "Office Details", "Services"];
+const stepCount = stepTitles.length - 1; 
 
 class GetStartedComp extends React.Component {
 
     getStartedPayload = () => { 
         let dict = {
             companyName: this.props.companyName, 
-            firstName: this.props.companyURL, 
+            firstName: this.props.firstName, 
             lastName: this.props.lastName,  
             companyRole: this.props.userRole, 
             email: this.props.emailAddress, 
@@ -65,29 +69,32 @@ class GetStartedComp extends React.Component {
     }
 
     nextStep = () => {
-        if (this.props.step === 3) { 
+        if (this.props.step === stepCount) { 
             const data = this.getStartedPayload(); 
             this.props.submitGSData(data); 
+            mixpanel.track("Get-Started"); // ends timer 
+            mixpanel.track("Finished Get Started.");
             return 
         }
         if (this.props.step < 0) {
             this.props.changeStep(0);
             return
         }
-        if (this.props.step >= 3) {
-            this.props.changeStep(3);
+        if (this.props.step >= stepCount) {
+            this.props.changeStep(stepCount);
             return
         }
         this.props.changeStep(this.props.step + 1);
     }
 
     prevStep = () => {
+        mixpanel.track("Get-Started: Clicked Go Back"); // ends timer 
         if (this.props.step <= 0) {
             this.props.changeStep(0);
             return
         }
-        if (this.props.step > 3) {
-            this.props.changeStep(3);
+        if (this.props.step > stepCount) {
+            this.props.changeStep(stepCount);
             return
         }
         this.props.changeStep(this.props.step - 1);
@@ -97,6 +104,16 @@ class GetStartedComp extends React.Component {
         let obj = {};
         obj[key] = value;
         this.props.updateGetStartedData(obj);
+    }
+
+    openDrift = () => { 
+        mixpanel.track("Get-Started: Clicked Get Help"); 
+        window.open('https://drift.me/airspaceoffice','_blank');
+    }
+    
+    componentDidMount() { 
+        mixpanel.time_event('Get-Started'); // starts timer 
+        mixpanel.track("Entered Get Started.");
     }
 
     render() {
@@ -110,44 +127,48 @@ class GetStartedComp extends React.Component {
             body = (<CreateAccount updateData={(value, key) => this.updateData(value, key)} nextAction={this.nextStep} />);
             bodyPhoto = getStarted1Photo;
             bodyTitle = stepTitles[0];
-            bodyMessage = "Let’s start with some contact & company information."; //and selecting a password
+            bodyMessage = "This will take around 5 minutes. Let's start with some contact and company info. Next, you'll need your office square footage, employee count, office address, and an idea of what services your looking for."; //and selecting a password
         } else if (this.props.step === 1) {
             body = (<OfficeDetails updateData={this.updateData} nextAction={this.nextStep} />);
             bodyPhoto = getStarted2Photo;
             bodyTitle = stepTitles[1];
-            bodyMessage = "Now, we just need a couple details about your office. This will help us give you more accurate prices."
+            bodyMessage = "Now, we just need a couple details about your office. This will help us give you accurate prices."
         } else if (this.props.step === 2) {
-            body = (<BuildingDetails updateData={this.updateData} nextAction={this.nextStep} />);
-            bodyPhoto = getStarted3Photo;
-            bodyTitle = stepTitles[2];
-            bodyMessage = "Now, we just need your building contact, like your landlord or property manager. We'll work with them to streamline deliveries and other fun stuff. If needed, you can add this information later."
-        } else if (this.props.step === 3) {
             body = (<NewServiceDetails updateData={this.updateData} nextAction={this.nextStep} />);
             bodyPhoto = getStarted4Photo;
-            bodyTitle = stepTitles[3];
+            bodyTitle = stepTitles[2];
             bodyMessage = "Let us know which services your office is looking for."
-        }
+            // body = (<BuildingDetails updateData={this.updateData} nextAction={this.nextStep} />);
+            // bodyPhoto = getStarted3Photo;
+            // bodyTitle = stepTitles[2];
+            // bodyMessage = "Now, we just need your building contact, like your landlord or property manager. We'll work with them to streamline deliveries and other fun stuff. If needed, you can add this information later."
+        } 
+        // else if (this.props.step === 3) {
+        //     body = (<NewServiceDetails updateData={this.updateData} nextAction={this.nextStep} />);
+        //     bodyPhoto = getStarted4Photo;
+        //     bodyTitle = stepTitles[3];
+        //     bodyMessage = "Let us know which services your office is looking for."
+        // }
 
         return (
             <div>
-                <div>
+                {/* <div>
                     <Alert
                         message="Heads up! Getting started with Airspace will take about 5 minutes."
-                        description="You'll need your contact info, company website, office square footage and employee count, building address, property manager's contact info, and an idea of what services your looking for. You can always update your information."
+                        description="You'll need your contact info, company website, office square footage, employee count, office address, and an idea of what services your looking for."
                         type="info"
                         closeText="Got it"
                     />
-                </div>
-                <Spin spinning={this.props.isLoading}/>
+                </div> */}
                 <MuiThemeProvider theme={theme}>
                     <div>
                         <Row>
                             <Col span={24}>
                                 <Steps style={{ paddingTop: 50, paddingLeft: 100, paddingRight: 100 }} current={this.props.step}>
-                                    <Step title={stepTitles[0]} description="Your contact and company info"/>
-                                    <Step title={stepTitles[1]} description="Your office info"/>
-                                    <Step title={stepTitles[2]} description="Your building contact"/>
-                                    <Step title={stepTitles[3]} description="Services your office needs"/>
+                                    <Step title={stepTitles[0]} description="Tell us about yourself and your company."/>
+                                    <Step title={stepTitles[1]} description="Tell us about your office."/>
+                                    {/* <Step title={stepTitles[2]} description="We'll work with your landlord behind the scenes."/> */}
+                                    <Step title={stepTitles[2]} description="Tell us what services your office needs."/>
                                     {/* <Step title={stepTitles[4]} /> */}
                                 </Steps>
                             </Col>
@@ -181,7 +202,6 @@ class GetStartedComp extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        isLoading: state.getStarted.isLoading, 
         step: state.getStarted.step, 
         firstName: state.getStarted.firstName, 
         lastName: state.getStarted.lastName, 
@@ -213,7 +233,7 @@ const mapDispatchToProps = dispatch => {
     return {
         updateGetStartedData: (data) => dispatch(generalActionCreators.updateGetStartedData(data)),
         changeStep: (newStep) => dispatch(generalActionCreators.changeGetStartedStep(newStep)), 
-        submitGSData: (payload) => dispatch(generalActionCreators.submitGetStartedData(payload))
+        submitGSData: (payload) => dispatch(generalActionCreators.submitGetStartedData(payload)),
     }
 };
 

@@ -10,6 +10,9 @@ import TextField from '@material-ui/core/TextField';
 // import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import NextButtom from './NextButton';
 
+import mixpanel from 'mixpanel-browser';
+mixpanel.init('4b6f21dc6886a40bf4900783da31064a');
+
 const styles = theme => ({
     container: {
         display: 'flex',
@@ -97,6 +100,15 @@ class OfficeDetails extends React.Component {
 
         return !error // false if there are errors 
     }
+
+    componentWillMount() {
+        mixpanel.time_event('Get-Started: Office Details Page'); // starts timer 
+    }
+
+    componentWillUnmount() {
+        mixpanel.track('Get-Started: Office Details Page'); // end timer 
+    }
+
 
     render() {
         const { classes, updateData } = this.props;

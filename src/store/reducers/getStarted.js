@@ -22,10 +22,10 @@ const initialState = {
     squareFT: null,
     employeeNo: null,
     moveInDate: null,
-    buildingContactName: null,
-    buildingContactRole: null,
-    buildingContactEmail: null,
-    buildingContactPhone: null,
+    // buildingContactName: null,
+    // buildingContactRole: null,
+    // buildingContactEmail: null,
+    // buildingContactPhone: null,
     newServices: []
 }
 

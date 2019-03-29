@@ -22,7 +22,12 @@ const theme = createMuiTheme({
         primary: { main: '#FC588F' },
         secondary: { main: '#000000' },
     },
-    typography: { useNextVariants: true },
+    typography: { 
+        useNextVariants: true, 
+        fontFamily: [
+            'Avenir Next'
+        ]
+    },
 });
 
 const stepTitles = ["Get Started", "Office Details", "Services"];

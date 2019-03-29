@@ -28,9 +28,9 @@ class NextButton extends React.Component {
     render() {
         const { classes } = this.props;
 
-        let text = "NEXT";
+        let text = "Next";
         if (this.props.step === 2) {
-            text = "FINISH";
+            text = "Finish";
         }
 
         if (this.props.isLoading) {

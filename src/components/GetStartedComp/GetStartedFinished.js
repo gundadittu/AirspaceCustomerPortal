@@ -19,7 +19,7 @@ class GetStartedFinishedComp extends React.Component {
                         />
                         <h1>CHEERS!</h1>
                         <h1>You're on your way to a new office experience.</h1>
-                        <h3>Your experience manager will be reaching out soon to schedule your first service plan consultation. Be on the lookout for an email from hello@airspaceoffice.co.</h3>
+                        <h2>Your experience manager will be reaching out soon to schedule your first service plan consultation.</h2>
                     </Col>
                     <Col span={6}>
                     </Col>

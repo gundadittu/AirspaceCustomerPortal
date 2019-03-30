@@ -130,7 +130,7 @@ class GetStartedComp extends React.Component {
             bodyPhoto = getStarted1Photo;
             bodyTitle = stepTitles[0];
             firstMessage = "This will take around 5 minutes.";
-            bodyMessage = "Let's start with some contact and company info. Next, you'll need your office square footage, employee count, address, and the services you need.";
+            bodyMessage = "Let's start with some contact and company info. Next, you'll need your office square footage, employee count, address, and a list of services your office is looking for.";
         } else if (this.props.step === 1) {
             body = (<OfficeDetails updateData={this.updateData} nextAction={this.nextStep} />);
             bodyPhoto = getStarted2Photo;

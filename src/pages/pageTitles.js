@@ -9,4 +9,10 @@ export const eventsPageOfficeAdmin = "eventsPageOfficeAdmin";
 export const spaceInfoPageOfficeAdmin = "spaceInfoPageOfficeAdmin";
 export const experienceManagerPageOfficeAdmin = "experienceManagerPageOfficeAdmin";
 
+export const billingPageOfficeAdmin = "billingPageOfficeAdmin";
+export const servicePlanPageOfficeAdmin = "servicePlanPageOfficeAdmin";
+export const findServicesPageOfficeAdmin = "findServicesPageOfficeAdmin";
+export const officeProfilePageOfficeAdmin = "officeProfilePageOfficeAdmin";
+export const supportPageOfficeAdmin = "supportPageOfficeAdmin";
+
 export const homePageRegularUser = "homePageRegularUser";

@@ -15,6 +15,10 @@ require("firebase/storage");
 
 // Watchers
 
+export function* getServicePlanForOffice() {
+    yield takeLatest(actionTypes.GET_SERVICE_PLAN_FOR_OFFICE, getServicePlanForOfficeWorkerSaga);
+}
+
 export function* submitGetStartedData() {
     yield takeLatest(actionTypes.SUBMIT_GET_STARTED_DATA, submitGetStartedDataWorkerSaga);
 }
@@ -111,6 +115,10 @@ export function* getSpaceInfoForOfficeAdmin() {
     yield takeLatest(actionTypes.LOAD_SPACE_INFO, getSpaceInfoWorkerSaga);
 }
 
+export function* getAllInvoicesForOffice() {
+    yield takeLatest(actionTypes.GET_ALL_INVOICES_FOR_OFFICE, getAllInvoicesForOfficeWorkerSaga);
+
+}
 // Workers
 
 function validatePermission(selectedOfficeUID, userAdminOfficeList) {
@@ -225,23 +233,23 @@ function loadAdminAnnouncements(payload, firebase) {
     const selectedOfficeUID = payload.selectedOfficeUID;
     const apiCall = firebase.functions.httpsCallable('getAnnouncementsForOfficeAdmin')
     const dict = {
-      selectedOfficeUID: selectedOfficeUID
+        selectedOfficeUID: selectedOfficeUID
     }
     return apiCall({ selectedOfficeUID: selectedOfficeUID })
         .then(result => {
             var announcements = []
             result.data.map(announcement => {
-              var newAnnouncement = new AirAnnouncement(announcement) || null
-              if (newAnnouncement !== null && newAnnouncement.uid) {
-                  announcements.push(newAnnouncement);
-              }
+                var newAnnouncement = new AirAnnouncement(announcement) || null
+                if (newAnnouncement !== null && newAnnouncement.uid) {
+                    announcements.push(newAnnouncement);
+                }
             })
             return announcements;
         })
 }
 
 function* loadAdminAnnouncementsWorkerSaga(action) {
-  try {
+    try {
         const payload = action.payload;
         const selectedOfficeUID = payload.selectedOfficeUID;
         const userAdminOfficeList = yield select(selectors.userAdminOfficeList)
@@ -266,12 +274,12 @@ function* loadAdminAnnouncementsWorkerSaga(action) {
 function postAnnouncement(payload, firebase) {
     const selectedOfficeUID = payload.selectedOfficeUID;
     const message = payload.message;
-    const dict = { selectedOfficeUID: selectedOfficeUID, message: message};
+    const dict = { selectedOfficeUID: selectedOfficeUID, message: message };
 
     const apiCall = firebase.functions.httpsCallable('postAnnouncementForOfficeAdmin');
     return apiCall(dict)
-    .then( response => {
-    })
+        .then(response => {
+        })
 }
 
 function* postAdminAnnouncementWorkerSaga(action) {
@@ -414,12 +422,12 @@ function loadServiceRequests(payload, firebase) {
         .then(result => {
             const data = result.data;
             var requests = [];
-            for (var i = 0; i<data.length; i++){
-              var newData = new AirServiceRequest(data[i])
-              requests.push(newData)
+            for (var i = 0; i < data.length; i++) {
+                var newData = new AirServiceRequest(data[i])
+                requests.push(newData)
             }
 
-            const dict = { 'serviceRequests': requests};
+            const dict = { 'serviceRequests': requests };
             return dict
         })
 }
@@ -433,7 +441,7 @@ function* loadServiceRequestsWorkerSaga(action) {
         let firebase = yield select(selectors.firebase);
 
         const response = yield call(loadServiceRequests, action.payload, firebase);
-        yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_SUCCESS, payload: { serviceRequestsList: response.serviceRequests} });
+        yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_SUCCESS, payload: { serviceRequestsList: response.serviceRequests } });
     } catch (error) {
         sentry.captureException(error);
 
@@ -452,7 +460,7 @@ function loadServiceRequestEmails(payload, firebase) {
     return apiCall({ selectedOfficeUID: officeUID })
         .then(result => {
             const data = result.data;
-            const dict = { 'serviceRequestsEmails': data};
+            const dict = { 'serviceRequestsEmails': data };
             return dict
         })
 }
@@ -466,7 +474,7 @@ function* loadServiceRequestsEmailsWorkerSaga(action) {
         let firebase = yield select(selectors.firebase);
 
         const response = yield call(loadServiceRequestEmails, action.payload, firebase);
-        yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { serviceEmailsList: response.serviceRequestsEmails} });
+        yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { serviceEmailsList: response.serviceRequestsEmails } });
     } catch (error) {
         sentry.captureException(error);
 
@@ -483,14 +491,14 @@ function editEmails(payload, firebase) {
     const selectedOfficeUID = payload.selectedOfficeUID;
     const updatedEmails = payload.updatedEmails;
     const dict = {
-      selectedOfficeUID: selectedOfficeUID,
-      updatedEmails: updatedEmails
+        selectedOfficeUID: selectedOfficeUID,
+        updatedEmails: updatedEmails
     }
 
     const apiCall = firebase.functions.httpsCallable('updateServiceRequestAutoRoutingForOfficeAdmin');
     return apiCall(dict)
-    .then( response => {
-    })
+        .then(response => {
+        })
 }
 
 function* editServiceRequestsEmailsWorkerSaga(action) {
@@ -528,13 +536,13 @@ function editStatus(payload, firebase) {
     const selectedServiceRequestUID = payload.selectedServiceRequestUID;
     const newStatus = payload.newStatus;
     const dict = {
-      selectedServiceRequestUID: selectedServiceRequestUID,
-      newStatus: newStatus
+        selectedServiceRequestUID: selectedServiceRequestUID,
+        newStatus: newStatus
     }
     const apiCall = firebase.functions.httpsCallable('updateServiceRequestStatusForOfficeAdmin');
     return apiCall(dict)
-    .then( response => {
-    })
+        .then(response => {
+        })
 }
 
 function* editServiceRequestsStatusWorkerSaga(action) {
@@ -617,13 +625,13 @@ function changeRegisteredGuestsStatus(payload, firebase) {
     const newStatus = payload.newArrivalStatus;
 
     const dict = {
-      registeredGuestUID: registeredGuestUID,
-      newArrivalStatus: newStatus
+        registeredGuestUID: registeredGuestUID,
+        newArrivalStatus: newStatus
     }
     const apiCall = firebase.functions.httpsCallable('changeRegisteredGuestStatusForOfficeAdmin');
     return apiCall(dict)
-    .then( response => {
-    })
+        .then(response => {
+        })
 }
 
 function* editRegisteredGuestStatusForOfficeAdminWorkerSaga(action) {
@@ -657,12 +665,12 @@ function guestSelfCheckIn(payload, firebase) {
     const registeredGuestUID = payload.registeredGuestUID;
 
     const dict = {
-      registeredGuestUID: registeredGuestUID,
+        registeredGuestUID: registeredGuestUID,
     }
     const apiCall = firebase.functions.httpsCallable('guestSelfCheckIn');
     return apiCall(dict)
-    .then( response => {
-    })
+        .then(response => {
+        })
 }
 
 function* guestSelfCheckInWorkerSaga(action) {
@@ -704,12 +712,12 @@ function loadEvents(payload, firebase) {
             let pastAirEvents = [];
 
             upcomingEvents.map((value) => {
-              const airEvent = new AirEvent(value) || null;
-              upcomingAirEvents.push(airEvent);
+                const airEvent = new AirEvent(value) || null;
+                upcomingAirEvents.push(airEvent);
             })
             pastEvents.map((value) => {
-              const airEvent = new AirEvent(value) || null;
-              pastAirEvents.push(airEvent);
+                const airEvent = new AirEvent(value) || null;
+                pastAirEvents.push(airEvent);
             })
             return { 'upcoming': upcomingAirEvents, 'past': pastAirEvents };
         })
@@ -750,17 +758,17 @@ function createEvent(payload, firebase) {
 
     const apiCall = firebase.functions.httpsCallable('createEventForOfficeAdmin');
     return apiCall(dict)
-    .then( response => {
-        const eventUID = response.data;
-        const file = payload.photoFileObj;
-        if (file && eventUID) {
-            const storageRef = firebase.storage.ref();
-            const photoRef = storageRef.child('eventPhotos/' + eventUID + '.jpg');
-            return photoRef.put(file);
-        } else {
-            return
-        }
-    })
+        .then(response => {
+            const eventUID = response.data;
+            const file = payload.photoFileObj;
+            if (file && eventUID) {
+                const storageRef = firebase.storage.ref();
+                const photoRef = storageRef.child('eventPhotos/' + eventUID + '.jpg');
+                return photoRef.put(file);
+            } else {
+                return
+            }
+        })
 }
 
 function* createEventWorkerSaga(action) {
@@ -800,29 +808,29 @@ function editEvent(payload, firebase) {
     const title = payload.eventTitle;
     const description = payload.description;
     const startDate = payload.startDate;
-    if (startDate){
-      startDate = startDate.toUTCString();
+    if (startDate) {
+        startDate = startDate.toUTCString();
     }
     const endDate = payload.endDate
-    if (endDate){
-      endDate = endDate.toUTCString();
+    if (endDate) {
+        endDate = endDate.toUTCString();
     }
     const canceled = payload.canceled;
     const dict = { selectedEventUID: selectedEventUID, title: title, description: description, startDate: startDate, endDate: endDate, canceled: canceled };
 
     const apiCall = firebase.functions.httpsCallable('editEventsForOfficeAdmin');
     return apiCall(dict)
-    .then( response => {
-        const eventUID = selectedEventUID;
-        const file = payload.photoFileObj;
-        if (file && eventUID) {
-            const storageRef = firebase.storage.ref();
-            const photoRef = storageRef.child('eventPhotos/' + eventUID + '.jpg');
-            return photoRef.put(file);
-        } else {
-            return
-        }
-    })
+        .then(response => {
+            const eventUID = selectedEventUID;
+            const file = payload.photoFileObj;
+            if (file && eventUID) {
+                const storageRef = firebase.storage.ref();
+                const photoRef = storageRef.child('eventPhotos/' + eventUID + '.jpg');
+                return photoRef.put(file);
+            } else {
+                return
+            }
+        })
 }
 
 function* editEventWorkerSaga(action) {
@@ -839,7 +847,7 @@ function* editEventWorkerSaga(action) {
 
         const notificationMessage = 'Successfully edited event.';
         if (requestCancel) {
-          notificationMessage = 'Successfully canceled event.'
+            notificationMessage = 'Successfully canceled event.'
         }
         notification['success']({
             message: notificationMessage,
@@ -1131,10 +1139,10 @@ function* editDeskWorkerSaga(action) {
 function getSpaceInfo(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('getSpaceInfoForOfficeAdmin');
     return apiCall({ ...payload })
-    .then( response => {
-        const data = response.data;
-        return data
-    })
+        .then(response => {
+            const data = response.data;
+            return data
+        })
 }
 
 function* getSpaceInfoWorkerSaga(action) {
@@ -1161,12 +1169,12 @@ function* getSpaceInfoWorkerSaga(action) {
 }
 
 function submitGSData(payload, firebase) {
-    const apiCall = firebase.functions.httpsCallable('getStartedForm');
+    const apiCall = firebase.functions.httpsCallable('getStartedFormNew');
     return apiCall({ ...payload })
         .then(response => {
             const data = response.data;
-            console.log(data);
-            return 
+            // console.log(data);
+            return
         })
 }
 
@@ -1188,5 +1196,67 @@ function* submitGetStartedDataWorkerSaga(action) {
         });
 
         yield put({ type: actionTypes.SUBMIT_GET_STARTED_DATA_FINISHED_ERROR });
+    }
+}
+
+function getInvoices(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('getAllInvoicesForOffice');
+    return apiCall({ ...payload })
+        .then(response => {
+            const data = response.data;
+            // console.log(response);
+            // console.log(data);
+            return data;
+        })
+}
+
+function* getAllInvoicesForOfficeWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(getInvoices, payload, firebase);
+
+        yield put({ type: actionTypes.GET_ALL_INVOICES_FOR_OFFICE_FINISHED, payload: { invoices: response.all, outstanding: response.outstanding, paid: response.paid } });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to get invoices.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.GET_ALL_INVOICES_FOR_OFFICE_FINISHED, payload: { invoices: null, outstanding: null, paid: null } });
+    }
+}
+
+function getServicePlan(payload, firebase) {
+    console.log("splan 4");
+    console.log(payload);
+    const apiCall = firebase.functions.httpsCallable('getServicePlanForOffice');
+    return apiCall({ ...payload })
+        .then(response => {
+            const data = response.data;
+            return data;
+        })
+}
+
+function* getServicePlanForOfficeWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        console.log("splan 3");
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(getServicePlan, payload, firebase);
+
+        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: response.active, inactive: response.inactive } });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to get service plan.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload:  {active: null, inactive: null } });
     }
 }

@@ -24,11 +24,51 @@ const getPagePayload = (pageName, payload) => {
             return regularUserHomePagePayload()
         case pageTitles.spaceInfoPageOfficeAdmin:
             return officeAdminSpaceInfoPagePayload()
+        case pageTitles.billingPageOfficeAdmin:
+            return officeAdminBillingPagePayload()
+        case pageTitles.servicePlanPageOfficeAdmin:
+            return officeAdminServicePlanPagePayload()
+        case pageTitles.findServicesPageOfficeAdmin:
+            return officeAdminFindServicePagePayload()
+        case pageTitles.officeProfilePageOfficeAdmin:
+            return officeAdminOfficeProfilePagePayload()
+        case pageTitles.supportPageOfficeAdmin:
+            return officeAdminSupportPagePayload()
         default:
             return {}
     }
 }
 export default getPagePayload;
+
+const officeAdminBillingPagePayload = () => {
+    return {
+        currentPage: pageTitles.billingPageOfficeAdmin,
+    }
+}
+
+const officeAdminServicePlanPagePayload = () => {
+    return {
+        currentPage: pageTitles.servicePlanPageOfficeAdmin,
+    }
+}
+
+const officeAdminFindServicePagePayload = () => {
+    return {
+        currentPage: pageTitles.findServicesPageOfficeAdmin,
+    }
+}
+
+const officeAdminOfficeProfilePagePayload = () => {
+    return {
+        currentPage: pageTitles.officeProfilePageOfficeAdmin,
+    }
+}
+
+const officeAdminSupportPagePayload = () => {
+    return {
+        currentPage: pageTitles.supportPageOfficeAdmin,
+    }
+}
 
 const regularUserHomePagePayload = () => {
     return {
@@ -53,7 +93,7 @@ const officeAdminAnnouncementsPagePayload = () => {
     }
 }
 
- const officeAdminUsersPagePayload = () => {
+const officeAdminUsersPagePayload = () => {
     return {
         currentPage: pageTitles.userPageOfficeAdmin,
     }
@@ -66,31 +106,31 @@ const officeAdminSpaceInfoPagePayload = () => {
 }
 
 const officeAdminConferenceRoomsPagePayload = () => {
-  return {
-    currentPage: pageTitles.conferenceRoomsPageOfficeAdmin,
-  }
+    return {
+        currentPage: pageTitles.conferenceRoomsPageOfficeAdmin,
+    }
 }
 
 const officeAdminHotDesksPagePayload = () => {
     return {
-      currentPage: pageTitles.hotDesksPageOfficeAdmin,
+        currentPage: pageTitles.hotDesksPageOfficeAdmin,
     }
-  }
+}
 
-  const officeAdminServiceRequestsPagePayload = () => {
-      return {
+const officeAdminServiceRequestsPagePayload = () => {
+    return {
         currentPage: pageTitles.serviceRequestsPageOfficeAdmin,
-      }
     }
+}
 
-  const officeAdminEventsPagePayload = () => {
+const officeAdminEventsPagePayload = () => {
     return {
-      currentPage: pageTitles.eventsPageOfficeAdmin,
+        currentPage: pageTitles.eventsPageOfficeAdmin,
     }
-  }
+}
 
-  const officeAdminRegGuestsPagePayload = () => {
+const officeAdminRegGuestsPagePayload = () => {
     return {
-      currentPage: pageTitles.registeredGuestsPageOfficeAdmin,
+        currentPage: pageTitles.registeredGuestsPageOfficeAdmin,
     }
-  }
+}

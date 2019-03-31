@@ -22,6 +22,11 @@ import OfficeList from './components/AlexaLogin/OfficeList';
 
 import CreatePasswordPage from './components/CreatePasswordPage/createPasswordPage';
 import InitialRoutingComp from './components/InitialRoutingComp/InitialRoutingComp';
+import BillingPage from './components/BillingPage/BillingPage';
+import ServicePlanPage from './components/ServicePlan/ServicePlanPage';
+import SupportPage from './components/SupportComp/SupportPage';
+import FindServicesPage from './components/FindServicesPage/FindServicesPage';
+
 import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
@@ -163,7 +168,8 @@ const generalRoutingComp = () => (
 
 const officeAdminRoutingComp = () => (
   <Switch>
-    <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID' component={FindServicesPage}></Route>
+    {/* <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route> */}
     <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/announcements' component={AnnouncementsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
@@ -173,6 +179,11 @@ const officeAdminRoutingComp = () => (
     <Route exact path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/billing' component={BillingPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/service-plan' component={ServicePlanPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/support' component={SupportPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/find-services' component={FindServicesPage}></Route>
+
     {/*<Route exact path='/officeAdmin/:officeUID/experienceManager' component={ExperienceManagerPage}></Route>*/}
   </Switch>
 )

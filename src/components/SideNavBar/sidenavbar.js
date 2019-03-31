@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Menu, Icon, Affix, Tag, Drawer} from 'antd';
+import { Button, Menu, Icon, Affix, Tag, Drawer } from 'antd';
 //import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,7 +20,7 @@ const MenuItemGroup = Menu.ItemGroup;
 class SideNavBar extends React.Component {
 
   state = {
-    showDrawer : false
+    showDrawer: false
   }
 
   getSwitchPortalSubMenuTitle = () => {
@@ -47,6 +47,7 @@ class SideNavBar extends React.Component {
     });
   };
 
+
   renderSubNavInnerContent(currentPages) {
     const officeAdminPortalDiv = () => {
 
@@ -69,29 +70,23 @@ class SideNavBar extends React.Component {
       <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
     );
 
+    // office switching portal 
     const switchPortalSubMenu = (
       <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
-        <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
-        <MenuItemGroup key="g1" title="Office Admin Portals">
+        {/* <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item> */}
+        {/* <MenuItemGroup key="g1" title="Office Admin Portals"> */}
           {officeAdminPortalDiv()}
-        </MenuItemGroup>
+        {/* </MenuItemGroup> */}
       </SubMenu>
     );
 
-    var fontSize = 14;
-    var iconSize = 14;
-    if (this.props.device == "mobile"){
-      fontSize = 35;
-      iconSize = 25
-    }
-
-    const sideMenuLinks = {
-      home: {
-        keyVal: pageTitles.homePageOfficeAdmin,
-        iconType: "home",
-        pageSubtitle: "home",
-        linkTitle: "Home"
-      },
+    const officeAppSubMenuLinks = {
+      // home: {
+      //   keyVal: pageTitles.homePageOfficeAdmin,
+      //   iconType: "home",
+      //   pageSubtitle: "home",
+      //   linkTitle: "Home"
+      // },
       users: {
         keyVal: pageTitles.userPageOfficeAdmin,
         iconType: "user",
@@ -141,36 +136,94 @@ class SideNavBar extends React.Component {
         linkTitle: "Space Info"
       }/*,
       experienceManager: {
-        keyVal: pageTitles.experienceManagerPageOfficeAdmin,
+          keyVal: pageTitles.experienceManagerPageOfficeAdmin,
         iconType: "team",
         pageSubtitle: 'experienceManager',
         linkTitle: "Experience Manager"
       }*/
     }
 
+    const officeAppSubMenu = (
+      <SubMenu className='sideBarPortalSwitcher' key="sub2" title={"Office App"}>
+        {Object.keys(officeAppSubMenuLinks).map((key) => (
+          < Menu.Item key={officeAppSubMenuLinks[key].keyVal} >
+            <Link to={'/officeAdmin/' + currentOfficeAdminUID + '/' + officeAppSubMenuLinks[key].pageSubtitle}>
+              {<span style={{ fontSize: fontSize }}><Icon type={officeAppSubMenuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{officeAppSubMenuLinks[key].linkTitle}</span></span>}
+            </Link>
+          </Menu.Item>
+        ))}
+      </SubMenu>
+    );
+
+    var fontSize = 14;
+    var iconSize = 14;
+    if (this.props.device == "mobile") {
+      fontSize = 35;
+      iconSize = 25
+    }
+
     const currentOfficeAdminUID = this.props.currentOfficeAdminUID
+
+
+    const menuLinks = {
+      // home: {
+      //   keyVal: pageTitles.homePageOfficeAdmin,
+      //   iconType: "home",
+      //   pageSubtitle: "home",
+      //   linkTitle: "Home"
+      // },
+      findServices: {
+        keyVal: pageTitles.findServicesPageOfficeAdmin,
+        iconType: "search",
+        pageSubtitle: "find-services",
+        linkTitle: "Find Services"
+      },
+      servicePlan: {
+        keyVal: pageTitles.servicePlanPageOfficeAdmin,
+        iconType: "bars",
+        pageSubtitle: "service-plan",
+        linkTitle: "Service Plan"
+      },
+      billing: {
+        keyVal: pageTitles.billingPageOfficeAdmin,
+        iconType: "dollar",
+        pageSubtitle: "billing",
+        linkTitle: "Billing"
+      },
+      officeProfile: {
+        keyVal: pageTitles.officeProfilePageOfficeAdmin,
+        iconType: "gateway",
+        pageSubtitle: "office-profile",
+        linkTitle: "Office Profile"
+      },
+      support: {
+        keyVal: pageTitles.supportPageOfficeAdmin,
+        iconType: "solution",
+        pageSubtitle: "support",
+        linkTitle: "Support"
+      }
+    };
 
     return (
       <div>
         {this.props.device == "mobile" ? <div></div> : sideBarLogo}
         <Menu
-          style={{ border: 0}}
+          style={{ border: 0 }}
           defaultSelectedKeys={currentPages}
           mode="inline"
           className="airspace-side-nav-bar"
         >
-          <MenuItemGroup key="g2" title="">
-            {Object.keys(sideMenuLinks).map((key) => (
-              <Menu.Item key={sideMenuLinks[key].keyVal}>
-                <Link to={'/officeAdmin/' + currentOfficeAdminUID + '/' + sideMenuLinks[key].pageSubtitle}>
-                  {<span style={{fontSize: fontSize}}><Icon type={sideMenuLinks[key].iconType} style={{ fontSize: iconSize }}/><span>{sideMenuLinks[key].linkTitle}</span></span>}
-                </Link>
-              </Menu.Item>
-            ))}
-          </MenuItemGroup>
+          {Object.keys(menuLinks).map((key) => (
+            < Menu.Item key={menuLinks[key].keyVal} >
+              <Link to={'/officeAdmin/' + currentOfficeAdminUID + '/' + menuLinks[key].pageSubtitle}>
+                {<span style={{ fontSize: fontSize }}><Icon type={menuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{menuLinks[key].linkTitle}</span></span>}
+              </Link>
+            </Menu.Item>
+          ))}
+          {/* {officeAppSubMenu} OFFICE APP SUBMENU */}
           {switchPortalSubMenu}
-        </Menu>
-      </div>
+        </Menu >
+      </div >
     )
   }
 
@@ -196,48 +249,48 @@ class SideNavBar extends React.Component {
     const sideBarLogo = (
       <img style={{ height: 30, width: 200, paddingLeft: 30 }} className="logo-nav-image" src={require('../../assets/images/nav-logo.png')} />
     );
-        const switchPortalSubMenu = (
-          <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
-            <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item>
-            <MenuItemGroup key="g1" title="Office Admin Portals">
-              {officeAdminPortalDiv()}
-            </MenuItemGroup>
-          </SubMenu>
-        );
+    const switchPortalSubMenu = (
+      <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
+        {/* <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item> */}
+        {/* <MenuItemGroup key="g1" title="Office Admin Portals"> */}
+          {officeAdminPortalDiv()}
+        {/* </MenuItemGroup> */}
+      </SubMenu>
+    );
 
-        if (this.props.userType === "regular") {
-          if (this.props.regularUserPortalMode === "officeAdmin") {
-            if(this.props.device == "mobile"){
-              return (
-                <div>
-                  {this.renderSubNavInnerContent(currentPages)}
-                </div>
-              )
-            } else {
-              return (
-                <Affix className="airspace-side-nav-bar-group" >
-                  {this.renderSubNavInnerContent(currentPages)}
-                </Affix>
-              )
-            }
-          } else if (this.props.regularUserPortalMode === "regular") {
-            return (
-              <Menu
-                onClick={this.handleClick}
-                style={{ width: 256, height: 100, border: 0 }}
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
-                mode="inline"
-              >
-                {sideBarLogo}
-                {switchPortalSubMenu}
-              </Menu>
-            )
-          }
+    if (this.props.userType === "regular") {
+      if (this.props.regularUserPortalMode === "officeAdmin") {
+        if (this.props.device == "mobile") {
+          return (
+            <div>
+              {this.renderSubNavInnerContent(currentPages)}
+            </div>
+          )
         } else {
-          // if not a regular user
-          return null;
+          return (
+            <Affix className="airspace-side-nav-bar-group" >
+              {this.renderSubNavInnerContent(currentPages)}
+            </Affix>
+          )
         }
+      } else if (this.props.regularUserPortalMode === "regular") {
+        return (
+          <Menu
+            onClick={this.handleClick}
+            style={{ width: 256, height: 100, border: 0 }}
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
+            mode="inline"
+          >
+            {sideBarLogo}
+            {switchPortalSubMenu}
+          </Menu>
+        )
+      }
+    } else {
+      // if not a regular user
+      return null;
+    }
   }
 
   render() {
@@ -251,21 +304,21 @@ class SideNavBar extends React.Component {
       },
     })
 
-    if(this.props.device == "mobile"){
+    if (this.props.device == "mobile") {
       return <div>
-        <Button icon="bars" style={{fontSize: 40, height:80, width:80}} bordered={false} shape="circle" onClick={this.toggleDrawer}>
+        <Button icon="bars" style={{ fontSize: 40, height: 80, width: 80 }} bordered={false} shape="circle" onClick={this.toggleDrawer}>
         </Button>
         <Drawer
-            visible={this.state.showDrawer}
-            placement='left'
-            onClose={this.toggleDrawer}
-            classes={styles.drawerPaper}
-            width={520}
-            closable={false}
-          >
-              {this.renderSubNavBar(currentPages)}
-          </Drawer>
-        </div>
+          visible={this.state.showDrawer}
+          placement='left'
+          onClose={this.toggleDrawer}
+          classes={styles.drawerPaper}
+          width={520}
+          closable={false}
+        >
+          {this.renderSubNavBar(currentPages)}
+        </Drawer>
+      </div>
     } else {
       return this.renderSubNavBar(currentPages)
     }

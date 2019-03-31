@@ -42,6 +42,13 @@ const initialState = {
     floorplanURL: null,
     buildingDetailsURL: null,
     alexaRedirect: null
+    isLoadingInvoices: false,
+    allInvoiceData: null,
+    paidInvoiceData: null,
+    outstandingInvoiceData: null,
+    isLoadingServicePlan: false,
+    activeServicePlan: null,
+    inactiveServicePlan: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -49,6 +56,19 @@ const reducer = (state = initialState, action) => {
         case actionTypes.STORE_ALEXA_REDIRECT:
             const url = action.payload.redirect;
             return updateObject(state, { alexaRedirect: url });
+        case actionTypes.GET_SERVICE_PLAN_FOR_OFFICE:
+            return updateObject(state, { isLoadingServicePlan: true });
+        case actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED:
+            const activePlan = action.payload.active || null;
+            const inactivePlan = action.payload.inactive || null;
+            return updateObject(state, { isLoadingServicePlan: false, activeServicePlan: activePlan, inactiveServicePlan: inactivePlan });
+        case actionTypes.GET_ALL_INVOICES_FOR_OFFICE:
+            return updateObject(state, { isLoadingInvoices: true });
+        case actionTypes.GET_ALL_INVOICES_FOR_OFFICE_FINISHED:
+            const invoices = action.payload.invoices;
+            const outstanding = action.payload.outstanding;
+            const paid = action.payload.paid;
+            return updateObject(state, { isLoadingInvoices: false, allInvoiceData: invoices, paidInvoiceData: paid, outstandingInvoiceData: outstanding });
         case actionTypes.SIGN_OUT_USER_SUCCESS:
             return initialState;
         case actionTypes.CLEAR_REDUX_STATE:

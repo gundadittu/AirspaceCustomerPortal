@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
 
-<<<<<<< HEAD
 export const storeAlexaRedirect = (payload) => {
   return {
     type: actionTypes.STORE_ALEXA_REDIRECT,
@@ -23,13 +22,6 @@ export const getServicePlan = (payload) => {
   return {
     type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE,
     payload: {
-=======
-export const getServicePlan = (payload) => { 
-  console.log(payload);
-  return { 
-    type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE, 
-    payload: { 
->>>>>>> Revert "broken"
       selectedOfficeUID: payload.selectedOfficeUID
     }
   }

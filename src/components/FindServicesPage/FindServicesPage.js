@@ -8,7 +8,7 @@ import * as generalActionCreator from '../../store/actions/general';
 // import RefreshIcon from '@material-ui/icons/Refresh';
 // import IconButton from '@material-ui/core/IconButton';
 import { withRouter } from 'react-router-dom';
-import { Row, Col, Menu, List, Card, Icon, Avatar } from 'antd';
+import { Row, Col, Menu, List, Card, Button, Tooltip } from 'antd';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 const { Meta } = Card;
@@ -55,7 +55,7 @@ class FindServicesPage extends React.Component {
         // const paidInvoices = this.props.paidInvoiceData || null;
         // const outInvoices = this.props.outstandingInvoiceData || null;
 
-        let data = [{}, {}, {}];
+        let data = [{}];
         // if (this.state.dataSource === "paid") {
         //     dataSource = paidInvoices
         // } else if (this.state.dataSource === "outstanding") {
@@ -115,9 +115,9 @@ class FindServicesPage extends React.Component {
                                 renderItem={item => (
                                     <List.Item>
                                         <Card
-                                            style={{ width: "90%" }}
+                                            style={{ width: "60%" }}
                                             cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
-                                            actions={[<Icon type="plus" />,]}
+                                            actions={[( <Tooltip title="We'll let you know what the service would cost for your office. No charges or contracts involved."> <Button type="secondary">I'm Interested</Button></Tooltip> ) , ( <Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button type="primary">Add to My Service Plan</Button> </Tooltip>)]}
                                         >
                                             <Meta
                                                 // avatar={}

@@ -61,12 +61,6 @@ class NavBar extends React.Component {
 
   render() {
 
-    // const supportMenu = ( 
-    //   <div>
-
-    //   </div>
-    // )
-
     const profileMenu = (
       <Menu
         className="navBarProfileMenu"
@@ -144,13 +138,7 @@ class NavBar extends React.Component {
                             <Icon type="bell" style={{ fontSize: 45 }} />
                           </a>
                         </Dropdown>
-                      </Menu.Item> */}
-
-                  {/* <Menu.item key="support">
-                    <Dropdown overlay={supportMenu} trigger={['click']}>
-                      <Button type="primary" icon="info-circle" size={'large'}>Need Help?</Button>
-                    </Dropdown>
-                  </Menu.item> */}
+        </Menu.Item> */}
 
                   <Menu.Item key="profile">
                     <Dropdown overlay={profileMenu} trigger={['click']}>
@@ -182,7 +170,7 @@ class NavBar extends React.Component {
                       </a>
                     </Dropdown>
                   </Menu.Item> */}
-{/* 
+                  {/* 
                   <Menu.item key="support">
                     <Dropdown overlay={supportMenu} trigger={['click']}>
                       <Button type="primary" icon="info-circle" size={'large'}>Need Help?</Button>

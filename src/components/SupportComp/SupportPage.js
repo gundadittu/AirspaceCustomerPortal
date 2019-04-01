@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import * as generalActionCreator from '../../store/actions/general';
-
+import { Link } from 'react-router-dom';
 import { Row, Col, Collapse, Icon, Menu } from 'antd';
 const Panel = Collapse.Panel;
 
@@ -25,9 +25,8 @@ const customPanelStyle = {
 
 class SupportPage extends React.Component {
 
-
     state = {
-        dataSource: "delivery" 
+        dataSource: "delivery"
     }
 
     componentDidMount() {
@@ -103,12 +102,16 @@ class SupportPage extends React.Component {
     }
 
     render() {
-        let body = null; 
-        body = this.delivery; 
+        let body = null;
+        body = this.delivery;
 
         return (
             <Col className="wide-table" span={24}>
                 <h1>Support</h1>
+                <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + "/experience-manager"}>
+                    <h3>For immediate support, click here to contact your experience manager.</h3>
+                </Link>
+
                 <div>
                     <Row type="flex">
                         <Col span={12}>
@@ -143,7 +146,8 @@ class SupportPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        userAdminOfficeList: state.auth.adminOfficeList
+        userAdminOfficeList: state.auth.adminOfficeList, 
+        currentOfficeAdminUID: state.general.currentOfficeAdminUID
     }
 };
 

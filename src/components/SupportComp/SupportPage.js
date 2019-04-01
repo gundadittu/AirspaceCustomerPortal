@@ -6,7 +6,7 @@ import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import * as generalActionCreator from '../../store/actions/general';
 
-import { Row, Col, Collapse, Icon } from 'antd';
+import { Row, Col, Collapse, Icon, Menu } from 'antd';
 const Panel = Collapse.Panel;
 
 const text = `
@@ -24,6 +24,11 @@ const customPanelStyle = {
 };
 
 class SupportPage extends React.Component {
+
+
+    state = {
+        dataSource: "delivery" 
+    }
 
     componentDidMount() {
         if (this.props.match.isExact) {
@@ -52,7 +57,7 @@ class SupportPage extends React.Component {
 
     delivery = (
         <div>
-            <h2 style={{ paddingTop: "3%" }}>Delivery Issues</h2>
+            {/* <h2 style={{ paddingTop: "3%" }}>Delivery Issues</h2> */}
             <Collapse
                 bordered={false}
                 defaultActiveKey={[]}
@@ -73,8 +78,7 @@ class SupportPage extends React.Component {
 
 
     billing = (
-        <div style={{ paddingTop: "3%" }}>
-            <h2>Billing Issues</h2>
+        <div style={{ paddingTop: "0%" }}>
             <Collapse
                 bordered={false}
                 defaultActiveKey={[]}
@@ -93,12 +97,44 @@ class SupportPage extends React.Component {
         </div>
     );
 
+    handleClick(e) {
+        var key = e.key;
+        this.setState({ dataSource: key });
+    }
+
     render() {
+        let body = null; 
+        body = this.delivery; 
+
         return (
             <Col className="wide-table" span={24}>
                 <h1>Support</h1>
-                {this.delivery}
-                {this.billing}
+                <div>
+                    <Row type="flex">
+                        <Col span={12}>
+                            <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
+                                <Menu
+                                    className="inlineDisplay"
+                                    style={{ border: 0 }}
+                                    onClick={this.handleClick.bind(this)}
+                                    defaultSelectedKeys={[this.state.dataSource]}
+                                    mode="horizontal"
+                                >
+                                    <Menu.Item key="delivery">
+                                        Delivery
+                                    </Menu.Item>
+                                    <Menu.Item key="billing">
+                                        Billing
+                                    </Menu.Item>
+                                    <Menu.Item key="exp-manager">
+                                        Experience Manager
+                                    </Menu.Item>
+                                </Menu>
+                            </Row>
+                        </Col>
+                    </Row>
+                    {body}
+                </div>
             </Col>
         );
     }

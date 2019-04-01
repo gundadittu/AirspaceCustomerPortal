@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Button } from 'antd';
+import { Card, Button, Row, Col } from 'antd';
+const moment = require('moment');
 
 function openUrl(url) {
     if (url === null) {
@@ -19,19 +20,47 @@ const invoiceCard = (props) => {
     const remaining = invoice.amount_remaining || null;
     const total = invoice.amount_due || null;
     const paid = invoice.amount_paid || null;
-    const dueDate = invoice.due_date || null;
+    const dueDateTimeStamp = invoice.due_date || null;
+    const dueDateObj = new Date(dueDateTimeStamp * 1000).toString();
+    const dueDate = moment(dueDateObj).calendar();
+    const identifier = invoice.id || null;
+    const createdTimestamp = invoice.created || null;
+    const createdObj = new Date(createdTimestamp * 1000).toString();
+    const created = moment(createdObj).calendar();
 
     return (
         <Card
             title={description}
-            extra={<a target="_blank" href={invoiceURL}>See Full Invoice</a>}
+            extra={<p style={{ textAlign: "right" }}>ID: {identifier}</p>}
             style={{ width: "100%" }}
         >
-            <h3>Due Date: {dueDate}</h3>
-            <h3>Outstanding Balance: ${remaining}</h3>
-            <br></br>
-            <p>Total: ${total}</p>
-            <p>Paid: ${paid}</p>
+            <Row>
+                <Col span={8}>
+                    <h3>Due Date:</h3>
+                    {dueDate}
+                </Col>
+                <Col span={8}>
+                    <h3>Outstanding Balance:</h3>
+                    ${remaining}
+                </Col>
+                <Col span={8}>
+                    <div style={{ textAlign: "end" }}>
+                        <a target="_blank" href={invoiceURL}>Download Invoice</a>
+                    </div>
+                </Col>
+            </Row>
+            <br />
+            <Row >
+                <Col span={8}>
+                    <p><strong>Total Balance:</strong> ${total}</p>
+                </Col>
+                <Col span={8}>
+                    <p><strong>Paid:</strong> ${paid}</p>
+                </Col>
+                <Col span={8}>
+                </Col>
+            </Row>
+            <p><strong>Created at:</strong> {created}</p>
             <Button className="inlineDisplay rightAlign" type="primary" onClick={() => openUrl(payURL)}>Pay</Button>
         </Card>
     );

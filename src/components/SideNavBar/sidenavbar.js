@@ -190,12 +190,12 @@ class SideNavBar extends React.Component {
         pageSubtitle: "billing",
         linkTitle: "Billing"
       },
-      officeProfile: {
-        keyVal: pageTitles.officeProfilePageOfficeAdmin,
-        iconType: "gateway",
-        pageSubtitle: "office-profile",
-        linkTitle: "Office Profile"
-      },
+      // officeProfile: {
+      //   keyVal: pageTitles.officeProfilePageOfficeAdmin,
+      //   iconType: "gateway",
+      //   pageSubtitle: "office-profile",
+      //   linkTitle: "Office Profile"
+      // },
       support: {
         keyVal: pageTitles.supportPageOfficeAdmin,
         iconType: "solution",

@@ -1231,7 +1231,6 @@ function* getAllInvoicesForOfficeWorkerSaga(action) {
 }
 
 function getServicePlan(payload, firebase) {
-    console.log("splan 4");
     console.log(payload);
     const apiCall = firebase.functions.httpsCallable('getServicePlanForOffice');
     return apiCall({ ...payload })
@@ -1244,7 +1243,7 @@ function getServicePlan(payload, firebase) {
 function* getServicePlanForOfficeWorkerSaga(action) {
     try {
         const payload = action.payload;
-        console.log("splan 3");
+        console.log(payload);
         let firebase = yield select(selectors.firebase);
         const response = yield call(getServicePlan, payload, firebase);
 

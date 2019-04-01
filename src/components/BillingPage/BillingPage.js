@@ -8,10 +8,13 @@ import InvoiceCard from './InvoiceCard';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
 import { withRouter } from 'react-router-dom';
-import { Row, Col, Menu } from 'antd';
+import { Row, Col, Menu, Empty, Button, Spin } from 'antd';
 
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
+
+import { Link } from 'react-router-dom';
+import emptyState from "../../assets/images/empty/empty-2.png";
 
 class BillingPage extends React.Component {
 
@@ -52,15 +55,58 @@ class BillingPage extends React.Component {
         }
     }
 
+    getBody(dataSource) {
+        if (this.props.isLoadingInvoices) {
+            return (
+                <div style={{ textAlign: "center" }} className="example">
+                    <Spin />
+                </div>
+            )
+        } else if ((dataSource != null) && (dataSource.length > 0)) {
+            return (dataSource.map(x => (
+                <Row>
+                    <Col style={{ paddingLeft: "1%", paddingRight: "15%", paddingBottom: "30px" }} span={24}>
+                        <InvoiceCard invoice={x} />
+                    </Col>
+                </Row>)
+            ))
+        } else {
+            let description = null;
+            if (this.state.dataSource === "paid") {
+                description = "All invoices that have been paid off will show up here .";
+            } else if (this.state.dataSource === "outstanding") {
+                description = "All invoices with an outstanding balance will show up here.";
+            }
+
+            return (
+                <Empty
+                    image={emptyState}
+                    imageStyle={{
+                        height: 400,
+                    }}
+                    description={
+                        <span>
+                            {description}
+                        </span>
+                    }
+                >
+                    <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + "/find-services"}>
+                        <Button type="primary">Find Services</Button>
+                    </Link>
+                </ Empty>
+            )
+        }
+    }
+
     render() {
 
-        const allInvoices = this.props.invoiceData || null;
+        // const allInvoices = this.props.invoiceData || null;
         const paidInvoices = this.props.paidInvoiceData || null;
         const outInvoices = this.props.outstandingInvoiceData || null;
 
         let dataSource = null;
         if (this.state.dataSource === "paid") {
-            dataSource = paidInvoices
+            dataSource = paidInvoices;
         } else if (this.state.dataSource === "outstanding") {
             dataSource = outInvoices;
         }
@@ -92,15 +138,7 @@ class BillingPage extends React.Component {
                             </Row>
                         </Col>
                     </Row>
-                    {dataSource != null ?
-                        (dataSource.map(x => (
-                            <Row>
-                                <Col style={{ paddingLeft: "1%", paddingRight: "15%", paddingBottom: "30px" }} span={24}>
-                                    <InvoiceCard invoice={x} />
-                                </Col>
-                            </Row>)
-                        ))
-                        : null}
+                    {this.getBody(dataSource)}
                 </div>
             </Col>
         );
@@ -113,7 +151,7 @@ const mapStateToProps = state => {
         paidInvoiceData: state.officeAdmin.paidInvoiceData,
         outstandingInvoiceData: state.officeAdmin.outstandingInvoiceData,
         isLoadingInvoices: state.officeAdmin.isLoadingInvoices,
-        currentOfficeAdminUID: state.general.currentOfficeAdminUID, 
+        currentOfficeAdminUID: state.general.currentOfficeAdminUID,
         userAdminOfficeList: state.auth.adminOfficeList,
     }
 };

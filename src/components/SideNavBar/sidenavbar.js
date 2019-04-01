@@ -178,6 +178,12 @@ class SideNavBar extends React.Component {
         pageSubtitle: "find-services",
         linkTitle: "Find Services"
       },
+      experienceManager: {
+        keyVal: pageTitles.experienceManagerPageOfficeAdmin,
+        iconType: "user",
+        pageSubtitle: "experience-manager",
+        linkTitle: "Experience Manager"
+      },
       servicePlan: {
         keyVal: pageTitles.servicePlanPageOfficeAdmin,
         iconType: "bars",

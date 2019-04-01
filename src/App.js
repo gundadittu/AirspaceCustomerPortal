@@ -20,6 +20,7 @@ import ServiceRequestsPage from './components/ServiceRequestsPage/serviceRequest
 import AlexaLoginForm from './components/AlexaLogin/AlexaLoginForm';
 import OfficeList from './components/AlexaLogin/OfficeList';
 
+import ExperienceManagerPage from './components/ExperienceManagerPage/experienceManagerPage';
 import CreatePasswordPage from './components/CreatePasswordPage/createPasswordPage';
 import InitialRoutingComp from './components/InitialRoutingComp/InitialRoutingComp';
 import BillingPage from './components/BillingPage/BillingPage';
@@ -168,7 +169,6 @@ const generalRoutingComp = () => (
 
 const officeAdminRoutingComp = () => (
   <Switch>
-    <Route exact path='/officeAdmin/:officeUID' component={FindServicesPage}></Route>
     {/* <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route> */}
     <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/announcements' component={AnnouncementsPage}></Route>
@@ -179,11 +179,12 @@ const officeAdminRoutingComp = () => (
     <Route exact path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>
+    
+    <Route exact path='/officeAdmin/:officeUID' component={FindServicesPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/billing' component={BillingPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/service-plan' component={ServicePlanPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/support' component={SupportPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/find-services' component={FindServicesPage}></Route>
-
-    {/*<Route exact path='/officeAdmin/:officeUID/experienceManager' component={ExperienceManagerPage}></Route>*/}
+    <Route exact path='/officeAdmin/:officeUID/experience-manager' component={ExperienceManagerPage}></Route>
   </Switch>
 )

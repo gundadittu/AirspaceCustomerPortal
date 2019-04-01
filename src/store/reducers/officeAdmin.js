@@ -48,7 +48,9 @@ const initialState = {
     outstandingInvoiceData: null,
     isLoadingServicePlan: false,
     activeServicePlan: null,
-    inactiveServicePlan: null
+    inactiveServicePlan: null,
+    isLoadingEMInfo: false,
+    emInfo: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -56,6 +58,11 @@ const reducer = (state = initialState, action) => {
         case actionTypes.STORE_ALEXA_REDIRECT:
             const url = action.payload.redirect;
             return updateObject(state, { alexaRedirect: url });
+        case actionTypes.LOAD_EM_INFO:
+            return updateObject(state, { isLoadingEMInfo: true });
+        case actionTypes.LOAD_EM_INFO_FINISHED:
+            const info = action.payload.info; 
+            return updateObject(state, { isLoadingEMInfo: false, emInfo: info });
         case actionTypes.GET_SERVICE_PLAN_FOR_OFFICE:
             return updateObject(state, { isLoadingServicePlan: true });
         case actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED:

@@ -34,11 +34,19 @@ const getPagePayload = (pageName, payload) => {
             return officeAdminOfficeProfilePagePayload()
         case pageTitles.supportPageOfficeAdmin:
             return officeAdminSupportPagePayload()
+        case pageTitles.experienceManagerPageOfficeAdmin: 
+            return officeAdminEMPagePayload()
         default:
             return {}
     }
 }
 export default getPagePayload;
+
+const officeAdminEMPagePayload = () => {
+    return {
+        currentPage: pageTitles.experienceManagerPageOfficeAdmin,
+    }
+}
 
 const officeAdminBillingPagePayload = () => {
     return {

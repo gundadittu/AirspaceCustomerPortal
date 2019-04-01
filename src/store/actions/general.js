@@ -9,6 +9,15 @@ export const storeAlexaRedirect = (payload) => {
   }
 }
 
+export const getEMInfo = (payload) => { 
+  return { 
+    type: actionTypes.LOAD_EM_INFO, 
+    payload: { 
+      selectedOfficeUID: payload.selectedOfficeUID
+    }
+  }
+}
+
 export const getServicePlan = (payload) => {
   return {
     type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE,

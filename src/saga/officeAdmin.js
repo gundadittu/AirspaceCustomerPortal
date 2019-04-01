@@ -15,6 +15,10 @@ require("firebase/storage");
 
 // Watchers
 
+export function* getEMInfo() {
+    yield takeLatest(actionTypes.LOAD_EM_INFO, getEmInfoForOfficeWorkerSaga);
+}
+
 export function* getServicePlanForOffice() {
     yield takeLatest(actionTypes.GET_SERVICE_PLAN_FOR_OFFICE, getServicePlanForOfficeWorkerSaga);
 }
@@ -1231,7 +1235,6 @@ function* getAllInvoicesForOfficeWorkerSaga(action) {
 }
 
 function getServicePlan(payload, firebase) {
-    console.log(payload);
     const apiCall = firebase.functions.httpsCallable('getServicePlanForOffice');
     return apiCall({ ...payload })
         .then(response => {
@@ -1243,7 +1246,6 @@ function getServicePlan(payload, firebase) {
 function* getServicePlanForOfficeWorkerSaga(action) {
     try {
         const payload = action.payload;
-        console.log(payload);
         let firebase = yield select(selectors.firebase);
         const response = yield call(getServicePlan, payload, firebase);
 
@@ -1256,6 +1258,34 @@ function* getServicePlanForOfficeWorkerSaga(action) {
             description: error.message
         });
 
-        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload:  {active: null, inactive: null } });
+        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: null, inactive: null } });
+    }
+}
+
+function getEmInfo(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('getExperienceManagerInfoForOffice');
+    return apiCall({ ...payload })
+        .then(response => {
+            const data = response.data;
+            return data;
+        })
+}
+
+function* getEmInfoForOfficeWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(getEmInfo, payload, firebase);
+
+        yield put({ type: actionTypes.LOAD_EM_INFO_FINISHED, payload: { info: response } });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to load experience manager info.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.LOAD_EM_INFO_FINISHED, payload: { info: null } });
     }
 }

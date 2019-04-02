@@ -117,7 +117,7 @@ class FindServicesPage extends React.Component {
                                         <Card
                                             style={{ width: "60%" }}
                                             cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
-                                            actions={[( <Tooltip title="We'll let you know what the service would cost for your office. No charges or contracts involved."> <Button type="secondary">I'm Interested</Button></Tooltip> ) , ( <Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button type="primary">Add to My Service Plan</Button> </Tooltip>)]}
+                                            actions={[( <Tooltip title="We'll let you know what the service would cost for your office. No charges or contracts involved."> <Button type="secondary">I'm Interested</Button></Tooltip> ) , ( <Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button type="primary">Request</Button> </Tooltip>)]}
                                         >
                                             <Meta
                                                 // avatar={}

@@ -9,6 +9,15 @@ export const storeAlexaRedirect = (payload) => {
   }
 }
 
+export const loadOfficeProfile = (payload) => { 
+  return { 
+    type: actionTypes.LOAD_OFFICE_PROFILE, 
+    payload: { 
+      selectedOfficeUID: payload.selectedOfficeUID
+    }
+  }
+}
+
 export const getEMInfo = (payload) => { 
   return { 
     type: actionTypes.LOAD_EM_INFO, 

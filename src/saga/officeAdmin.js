@@ -15,6 +15,10 @@ require("firebase/storage");
 
 // Watchers
 
+export function* loadOfficeProfile() {
+    yield takeLatest(actionTypes.LOAD_OFFICE_PROFILE, loadOfficeProfileWorkerSaga);
+}
+
 export function* getEMInfo() {
     yield takeLatest(actionTypes.LOAD_EM_INFO, getEmInfoForOfficeWorkerSaga);
 }
@@ -1258,7 +1262,7 @@ function* getServicePlanForOfficeWorkerSaga(action) {
             description: error.message
         });
 
-        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload:  {active: null, inactive: null } });
+        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: null, inactive: null } });
     }
 }
 
@@ -1287,5 +1291,35 @@ function* getEmInfoForOfficeWorkerSaga(action) {
         });
 
         yield put({ type: actionTypes.LOAD_EM_INFO_FINISHED, payload: { info: null } });
+    }
+}
+
+function loadOfficeProfileForAdmin(payload, firebase) {
+    console.log("loadOfficeProfileForAdmin");
+    const apiCall = firebase.functions.httpsCallable('getOfficeProfileForAdmin');
+    return apiCall({ ...payload })
+        .then(response => {
+            const data = response.data;
+            console.log(data);
+            return data;
+        })
+}
+
+function* loadOfficeProfileWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(loadOfficeProfileForAdmin, payload, firebase);
+
+        yield put({ type: actionTypes.LOAD_OFFICE_PROFILE_FINISHED, payload: { info: response } });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to load office profile info.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.LOAD_OFFICE_PROFILE_FINISHED, payload: { info: null } });
     }
 }

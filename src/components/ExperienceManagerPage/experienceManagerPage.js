@@ -192,6 +192,7 @@ class ExperienceManagerPage extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    userAdminOfficeList: state.auth.adminOfficeList,
     isLoadingEMInfo: state.officeAdmin.isLoadingEMInfo,
     emInfo: state.officeAdmin.emInfo
   }

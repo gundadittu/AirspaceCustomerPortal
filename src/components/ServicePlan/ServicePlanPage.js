@@ -13,11 +13,13 @@ import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import { Link } from 'react-router-dom';
 import emptyState from "../../assets/images/empty/empty-1.png";
+import OfficeProfileModal from './OfficeProfileModal';
 
 class ServicePlanPage extends React.Component {
 
     state = {
-        dataSource: "active" // or "inactive"
+        dataSource: "active", // or "inactive"
+        visible: false
     }
 
     handleClick(e) {
@@ -62,7 +64,7 @@ class ServicePlanPage extends React.Component {
                     <Spin />
                 </div>
             )
-        }else if ((dataSource != null) && (dataSource.length > 0)) {
+        } else if ((dataSource != null) && (dataSource.length > 0)) {
             return (dataSource.map(x => (
                 <Row>
                     <Col style={{ paddingLeft: "1%", paddingRight: "15%", paddingBottom: "30px" }} span={24}>
@@ -71,13 +73,13 @@ class ServicePlanPage extends React.Component {
                 </Row>)
             ))
         } else {
-            let description = null; 
+            let description = null;
             if (this.state.dataSource === "active") {
                 description = "All services you are currently subscribed to will show up here.";
             } else if (this.state.dataSource === "inactive") {
                 description = "All services you previously subscribed to will show up here.";
             }
-            
+
             return (
                 <Empty
                     image={emptyState}
@@ -98,6 +100,14 @@ class ServicePlanPage extends React.Component {
         }
     }
 
+    showOfficeProfile = () => {
+        this.setState({ visible: true });
+    }
+
+    hideOfficeProfile = () => {
+        this.setState({ visible: false });
+    }
+
     render() {
         const active = this.props.activeList || null;
         const inactive = this.props.inactiveList || null;
@@ -111,35 +121,43 @@ class ServicePlanPage extends React.Component {
         }
 
         return (
-            <Col className="wide-table" span={24}>
-                <h1>Service Plan</h1>
-                <div>
-                    <Row type="flex">
-                        <Col span={12}>
-                            <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
-                                <IconButton className="inlineDisplay" onClick={() => this.props.getServicePlan(this.props.currentOfficeAdminUID)}>
-                                    <RefreshIcon />
-                                </IconButton>
-                                <Menu
-                                    className="inlineDisplay"
-                                    style={{ border: 0 }}
-                                    onClick={this.handleClick.bind(this)}
-                                    defaultSelectedKeys={[this.state.dataSource]}
-                                    mode="horizontal"
-                                >
-                                    <Menu.Item key="active">
-                                        Current
+            <div>
+                <OfficeProfileModal visible={this.state.visible} hideModal={this.hideOfficeProfile}/>
+                <Col className="wide-table" span={24}>
+                    <h1>Service Plan</h1>
+                    <div>
+                        <Row type="flex" style={{ paddingLeft: "1%", paddingRight: "15%" }}>
+                            <Col span={12}>
+                                <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
+                                    <IconButton className="inlineDisplay" onClick={() => this.props.getServicePlan(this.props.currentOfficeAdminUID)}>
+                                        <RefreshIcon />
+                                    </IconButton>
+                                    <Menu
+                                        className="inlineDisplay"
+                                        style={{ border: 0 }}
+                                        onClick={this.handleClick.bind(this)}
+                                        defaultSelectedKeys={[this.state.dataSource]}
+                                        mode="horizontal"
+                                    >
+                                        <Menu.Item key="active">
+                                            Current
                                     </Menu.Item>
-                                    <Menu.Item key="inactive" >
-                                        Past
+                                        <Menu.Item key="inactive" >
+                                            Past
                                     </Menu.Item>
-                                </Menu>
-                            </Row>
-                        </Col>
-                    </Row>
-                    {this.getBody(dataSource)}
-                </div>
-            </Col>
+                                    </Menu>
+                                </Row>
+                            </Col>
+                            <Col span={12}>
+                                <Row type="flex" align="middle" justify="end">
+                                    <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showOfficeProfile}>View Office Profile</Button>
+                                </Row>
+                            </Col>
+                        </Row>
+                        {this.getBody(dataSource)}
+                    </div>
+                </Col>
+            </div>
         );
     }
 }

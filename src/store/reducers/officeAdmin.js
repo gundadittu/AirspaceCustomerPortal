@@ -51,7 +51,9 @@ const initialState = {
     inactiveServicePlan: null,
     inactiveServicePlan: null,
     isLoadingEMInfo: false,
-    emInfo: null
+    emInfo: null,
+    isLoadingOfficeProfile: false,
+    officeProfile: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -64,6 +66,11 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOAD_EM_INFO_FINISHED:
             const info = action.payload.info; 
             return updateObject(state, { isLoadingEMInfo: false, emInfo: info });
+        case actionTypes.LOAD_OFFICE_PROFILE:
+            return updateObject(state, { isLoadingOfficeProfile: true });
+        case actionTypes.LOAD_OFFICE_PROFILE_FINISHED:
+            const profile = action.payload.info;
+            return updateObject(state, { isLoadingOfficeProfile: false, officeProfile: profile });
         case actionTypes.LOAD_EM_INFO:
             return updateObject(state, { isLoadingEMInfo: true });
         case actionTypes.LOAD_EM_INFO_FINISHED:

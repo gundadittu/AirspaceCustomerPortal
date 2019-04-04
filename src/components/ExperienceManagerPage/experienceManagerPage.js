@@ -63,7 +63,7 @@ class ExperienceManagerPage extends React.Component {
         <Empty
           image={emptyState}
           imageStyle={{
-            height: 400,
+            height: 250,
           }}
           description={
             <span>
@@ -78,7 +78,6 @@ class ExperienceManagerPage extends React.Component {
       const info = this.props.emInfo;
       const name = "Hi, I'm " + info["Name"];
       const bio = info["Bio"];
-      // const helpDescription = "This is where a description of what we can help with would go"
       const photoDict = info["Photo"][0];
       const imageURL = photoDict.thumbnails.large.url;
 
@@ -87,8 +86,6 @@ class ExperienceManagerPage extends React.Component {
       const email = info["Email"];
       const emailHref = "mailto:"+email; 
 
-      // console.log(photoDict)
-      // console.log(imageURL);
       return (
         <div>
           <Row>
@@ -96,13 +93,9 @@ class ExperienceManagerPage extends React.Component {
               <Card style={{ textAlign: "center", width: "80%" }}>
                 <Row>
                   <Col span={24}>
-                    <Avatar shape="circle" size={200} src={imageURL} />
+                    <Avatar shape="circle" size={350} src={imageURL} />
                   </Col>
                 </Row>
-                {/* <Row>
-                  <Col span={24}>
-                  </Col>
-                </Row> */}
               </Card>
               <br />
             </Col>

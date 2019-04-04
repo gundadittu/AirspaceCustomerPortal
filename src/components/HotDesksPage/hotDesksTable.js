@@ -82,6 +82,7 @@ class HotDesksTable extends React.Component {
      }
 
      if (selectedDesk == null) {
+       console.log("return null");
        return
      }
 
@@ -198,7 +199,8 @@ const mapStateToProps = state => {
     editDeskFormLoading: state.officeAdmin.editDeskFormLoading,
     desksList: state.officeAdmin.desksList,
     currentOfficeUID: state.general.currentOfficeAdminUID,
-    isLoadingHotDesksData: state.officeAdmin.isLoadingHotDesksData
+    isLoadingHotDesksData: state.officeAdmin.isLoadingHotDesksData, 
+    mixpanel: state.firebase.mixpanel
   }
 };
 

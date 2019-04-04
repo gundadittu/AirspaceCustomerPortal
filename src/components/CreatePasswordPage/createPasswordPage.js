@@ -48,9 +48,9 @@ class CreatePasswordPage extends React.Component {
 
     return (
       <div>
-        <Row>
+        {/* <Row>
           <LoginNavBar/>
-        </Row>
+        </Row> */}
         <br />
         <Row type="flex" justify="space-around" align="middle">
           {this.props.updatingServiceStatusEmail ? <Spin /> : (

@@ -17,9 +17,9 @@ const invoiceCard = (props) => {
     const description = invoice.description || "Invoice";
     const invoiceURL = invoice.invoice_pdf || null;
     const payURL = invoice.hosted_invoice_url || null;
-    const remaining = invoice.amount_remaining || null;
-    const total = invoice.amount_due || null;
-    const paid = invoice.amount_paid || null;
+    const remaining = invoice.amount_remaining || 0;
+    const total = invoice.amount_due || 0;
+    const paid = invoice.amount_paid || 0;
     const dueDateTimeStamp = invoice.due_date || null;
     const dueDateObj = new Date(dueDateTimeStamp * 1000).toString();
     const dueDate = moment(dueDateObj).calendar();

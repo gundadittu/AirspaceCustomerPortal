@@ -27,10 +27,10 @@ class UpdateServiceRequestStatusPage extends React.Component {
 
     return (
       <div>
-        <Row>
+        {/* <Row>
           <LoginNavBar/>
         </Row>
-        <br />
+        <br /> */}
         <Row type="flex" justify="space-around" align="middle">
           {this.props.updatingServiceStatusEmail ? <Spin /> : (
             <div>

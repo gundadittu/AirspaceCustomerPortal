@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col, Card, Button, Tooltip } from 'antd';
+const moment = require('moment');
 
 const openURL = (url) => {
     return
@@ -14,6 +15,9 @@ const servicePlanCard = (props) => {
     const deliveryInstructions = servicePackage["Delivery Instructions"];
     const buildingAccess = servicePackage["Building Access Details"];
 
+
+    const startDateObj = servicePackage["Start Date"] || "TBD";
+    const startDate = moment(startDateObj).calendar();
     const price = servicePackage["Price"];
     const notes = servicePackage["Notes"];
     const schedule = servicePackage["Schedule"];
@@ -42,14 +46,16 @@ const servicePlanCard = (props) => {
             <br />
             <Row>
                 <Col span={8}>
+                    <h4>Start Date</h4>
+                    {startDate}
+                </Col>
+                <Col span={8}>
                     <h4>Building Access Details:</h4>
                     {buildingAccess}
                 </Col>
                 <Col span={8}>
                     <h4>Delivery Instructions:</h4>
                     {deliveryInstructions}
-                </Col>
-                <Col span={8}>
                 </Col>
             </Row>
             <Tooltip title="Want to change some details? Something went wrong with the service? We can help you here.">

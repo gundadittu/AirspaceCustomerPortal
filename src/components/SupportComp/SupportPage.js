@@ -108,9 +108,6 @@ class SupportPage extends React.Component {
         return (
             <Col className="wide-table" span={24}>
                 <h1>Support</h1>
-                <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + "/experience-manager"}>
-                    <h3>For immediate support or to contact us, reach out to your experience manager.</h3>
-                </Link>
 
                 <div>
                     <Row type="flex">

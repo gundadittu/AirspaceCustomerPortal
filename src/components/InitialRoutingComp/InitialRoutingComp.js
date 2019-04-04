@@ -20,7 +20,7 @@ class InitialRoutingComp extends Component {
             } else if (this.props.officeAdminList.length > 0) {
                 const officeObj = this.props.officeAdminList[0]; 
                 const officeUID = officeObj.uid; 
-                return <Redirect to={'/officeAdmin/' + officeUID+'/home'}></Redirect>
+                return <Redirect to={'/officeAdmin/' + officeUID }></Redirect>
             } else {
                 return this.nonAdminComp()
             }

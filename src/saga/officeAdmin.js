@@ -1295,12 +1295,10 @@ function* getEmInfoForOfficeWorkerSaga(action) {
 }
 
 function loadOfficeProfileForAdmin(payload, firebase) {
-    console.log("loadOfficeProfileForAdmin");
     const apiCall = firebase.functions.httpsCallable('getOfficeProfileForAdmin');
     return apiCall({ ...payload })
         .then(response => {
             const data = response.data;
-            console.log(data);
             return data;
         })
 }

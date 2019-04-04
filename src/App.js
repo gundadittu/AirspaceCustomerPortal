@@ -129,7 +129,7 @@ class App extends Component {
             <Route exact path='/get-started/finished' component={GetStartedFinishedComp}></Route>
             <Route exact path='/get-started' component={GetStartedComp}></Route>
             <Route path="/general" component={generalRoutingComp} />
-            <Route exact path="/" component={Login} />
+            <Route path="/" component={Login} />
             <Route exact path="/login" component={Login} />
           </ Switch>
         </div>
@@ -172,7 +172,7 @@ const officeAdminRoutingComp = () => (
   <Switch>
     <Route exact path='/officeAdmin/:officeUID' component={FindServicesPage}></Route>
     {/* <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route> */}
-    <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route>
+    {/* <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route> */}
     <Route exact path='/officeAdmin/:officeUID/announcements' component={AnnouncementsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>

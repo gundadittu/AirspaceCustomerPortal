@@ -72,11 +72,8 @@ class SideNavBar extends React.Component {
 
     // office switching portal 
     const switchPortalSubMenu = (
-      <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
-        {/* <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item> */}
-        {/* <MenuItemGroup key="g1" title="Office Admin Portals"> */}
-          {officeAdminPortalDiv()}
-        {/* </MenuItemGroup> */}
+      <SubMenu key={"sub1"} title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
+        {officeAdminPortalDiv()}
       </SubMenu>
     );
 
@@ -97,7 +94,7 @@ class SideNavBar extends React.Component {
         keyVal: pageTitles.conferenceRoomsPageOfficeAdmin,
         iconType: "schedule",
         pageSubtitle: 'conferenceRooms',
-        linkTitle: "ConferenceRooms"
+        linkTitle: "Conference Rooms"
       },
       hotDesks: {
         keyVal: pageTitles.hotDesksPageOfficeAdmin,
@@ -115,7 +112,7 @@ class SideNavBar extends React.Component {
         keyVal: pageTitles.registeredGuestsPageOfficeAdmin,
         iconType: "idcard",
         pageSubtitle: 'registeredGuests',
-        linkTitle: "RegisteredGuests"
+        linkTitle: "Registered Guests"
       },
       eventsPage: {
         keyVal: pageTitles.eventsPageOfficeAdmin,
@@ -134,25 +131,24 @@ class SideNavBar extends React.Component {
         iconType: "info-circle",
         pageSubtitle: 'spaceInfo',
         linkTitle: "Space Info"
-      }/*,
-      experienceManager: {
-          keyVal: pageTitles.experienceManagerPageOfficeAdmin,
-        iconType: "team",
-        pageSubtitle: 'experienceManager',
-        linkTitle: "Experience Manager"
-      }*/
+      }
     }
+    const currentOfficeAdminUID = this.props.currentOfficeAdminUID
+
+    const officeAppSubMenuContent = () => (
+      Object.keys(officeAppSubMenuLinks).map((key) => (
+        < Menu.Item key={officeAppSubMenuLinks[key].keyVal} >
+          <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/' + officeAppSubMenuLinks[key].pageSubtitle}>
+            {<span style={{ fontSize: fontSize }}><Icon type={officeAppSubMenuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{officeAppSubMenuLinks[key].linkTitle}</span></span>}
+          </Link>
+        </Menu.Item>
+      ))
+    );
 
     const officeAppSubMenu = (
-      <SubMenu className='sideBarPortalSwitcher' key="sub2" title={"Office App"}>
-        {Object.keys(officeAppSubMenuLinks).map((key) => (
-          < Menu.Item key={officeAppSubMenuLinks[key].keyVal} >
-            <Link to={'/officeAdmin/' + currentOfficeAdminUID + '/' + officeAppSubMenuLinks[key].pageSubtitle}>
-              {<span style={{ fontSize: fontSize }}><Icon type={officeAppSubMenuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{officeAppSubMenuLinks[key].linkTitle}</span></span>}
-            </Link>
-          </Menu.Item>
-        ))}
-      </SubMenu>
+      <SubMenu key={"sub2"} title={<span><Icon type="mobile" /><span>Office App</span></span>} style={{ fontSize: iconSize }}>
+        {officeAppSubMenuContent()}
+      </SubMenu >
     );
 
     var fontSize = 14;
@@ -162,16 +158,7 @@ class SideNavBar extends React.Component {
       iconSize = 25
     }
 
-    const currentOfficeAdminUID = this.props.currentOfficeAdminUID
-
-
     const menuLinks = {
-      // home: {
-      //   keyVal: pageTitles.homePageOfficeAdmin,
-      //   iconType: "home",
-      //   pageSubtitle: "home",
-      //   linkTitle: "Home"
-      // },
       findServices: {
         keyVal: pageTitles.findServicesPageOfficeAdmin,
         iconType: "search",
@@ -226,7 +213,8 @@ class SideNavBar extends React.Component {
               </Link>
             </Menu.Item>
           ))}
-          {/* {officeAppSubMenu} OFFICE APP SUBMENU */}
+
+          {officeAppSubMenu}
           {switchPortalSubMenu}
         </Menu >
       </div >
@@ -257,10 +245,7 @@ class SideNavBar extends React.Component {
     );
     const switchPortalSubMenu = (
       <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
-        {/* <Menu.Item key={pageTitles.homePageRegularUser}>{<span><Icon type="user" /><span>Regular Portal</span></span>}</Menu.Item> */}
-        {/* <MenuItemGroup key="g1" title="Office Admin Portals"> */}
-          {officeAdminPortalDiv()}
-        {/* </MenuItemGroup> */}
+        {officeAdminPortalDiv()}
       </SubMenu>
     );
 

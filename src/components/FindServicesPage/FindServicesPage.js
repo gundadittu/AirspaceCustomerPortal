@@ -55,7 +55,7 @@ class FindServicesPage extends React.Component {
         // const paidInvoices = this.props.paidInvoiceData || null;
         // const outInvoices = this.props.outstandingInvoiceData || null;
 
-        let data = [{}];
+        let data = [{}, {}, {}, {}];
         // if (this.state.dataSource === "paid") {
         //     dataSource = paidInvoices
         // } else if (this.state.dataSource === "outstanding") {
@@ -103,9 +103,14 @@ class FindServicesPage extends React.Component {
                                 </Menu>
                             </Row>
                         </Col>
+                        {/* <Col span={12}>
+                            <Row type="flex" align="middle" justify="end">
+                                <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showCreateRoomFormModal}>Don't See Your Service Here?</Button>
+                            </Row>
+                        </Col> */}
                     </Row>
                     {data != null ?
-                        (data.map(x => (
+                        (
                             <List
                                 grid={{
                                     gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3,
@@ -115,12 +120,11 @@ class FindServicesPage extends React.Component {
                                 renderItem={item => (
                                     <List.Item>
                                         <Card
-                                            style={{ width: "60%" }}
+                                            style={{ width: "80%" }}
                                             cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
-                                            actions={[( <Tooltip title="We'll let you know what the service would cost for your office. No charges or contracts involved."> <Button type="secondary">I'm Interested</Button></Tooltip> ) , ( <Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button type="primary">Request</Button> </Tooltip>)]}
+                                            actions={[(<Tooltip title="We'll answer your questions and even give you a quote. No commitment required."> <Button type="secondary">I'm Interested</Button></Tooltip>), (<Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button type="primary">Request</Button> </Tooltip>)]}
                                         >
                                             <Meta
-                                                // avatar={}
                                                 title="Card title"
                                                 description="This is the description"
                                             />
@@ -128,7 +132,7 @@ class FindServicesPage extends React.Component {
                                     </List.Item>
                                 )}
                             />
-                        )))
+                        )
                         : null}
                 </div>
             </Col>

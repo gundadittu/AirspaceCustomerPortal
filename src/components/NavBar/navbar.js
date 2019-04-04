@@ -65,7 +65,7 @@ class NavBar extends React.Component {
       <Menu
         className="navBarProfileMenu"
         onClick={this.handleClick}
-        style={{ textAlign: 'right', border: 0 }}
+        style={{ textAlign: 'right', border: "0", borderColor: "white", borderWidth: 0 }}
       >
         <Menu.Item key="signOut">
           <Grid container justify="center" alignItems="center">
@@ -132,13 +132,13 @@ class NavBar extends React.Component {
                   style={{ textAlign: 'right', border: 0 }}
                   mode="horizontal"
                 >
-                  {/* <Menu.Item key="notifications">
-                        <Dropdown overlay={notificationMenu} trigger={['click']}>
-                          <a className="ant-dropdown-link" href="#">
-                            <Icon type="bell" style={{ fontSize: 45 }} />
-                          </a>
-                        </Dropdown>
-        </Menu.Item> */}
+                  <Menu.Item key="notifications">
+                    <Dropdown overlay={notificationMenu} trigger={['click']}>
+                      <a className="ant-dropdown-link" href="#">
+                        <Icon type="bell" style={{ fontSize: 45 }} />
+                      </a>
+                    </Dropdown>
+                  </Menu.Item>
 
                   <Menu.Item key="profile">
                     <Dropdown overlay={profileMenu} trigger={['click']}>
@@ -163,19 +163,14 @@ class NavBar extends React.Component {
                   style={{ textAlign: 'right', border: 0 }}
                   mode="horizontal"
                 >
-                  {/* <Menu.Item key="notifications">
+
+                  <Menu.Item key="notifications">
                     <Dropdown overlay={notificationMenu} trigger={['click']}>
                       <a className="ant-dropdown-link" href="#">
-                        <Icon type="bell" style={{ fontSize: 18 }} />
+                        <Icon type="bell" style={{ fontSize: 20, paddingTop: 15 }} />
                       </a>
                     </Dropdown>
-                  </Menu.Item> */}
-                  {/* 
-                  <Menu.item key="support">
-                    <Dropdown overlay={supportMenu} trigger={['click']}>
-                      <Button type="primary" icon="info-circle" size={'large'}>Need Help?</Button>
-                    </Dropdown>
-                  </Menu.item> */}
+                  </Menu.Item>
 
                   <Menu.Item key="profile">
                     <Dropdown overlay={profileMenu} trigger={['click']}>

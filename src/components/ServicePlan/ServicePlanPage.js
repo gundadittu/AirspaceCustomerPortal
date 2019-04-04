@@ -83,7 +83,7 @@ class ServicePlanPage extends React.Component {
             return (
                 <Empty
                     image={emptyState}
-                    imageStyle={{
+                    imagestyle={{
                         height: 400,
                     }}
                     description={
@@ -91,11 +91,7 @@ class ServicePlanPage extends React.Component {
                             {description}
                         </span>
                     }
-                >
-                    <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + "/find-services"}>
-                        <Button type="primary">Find Services</Button>
-                    </Link>
-                </ Empty>
+                />
             )
         }
     }

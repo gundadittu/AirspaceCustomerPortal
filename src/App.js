@@ -17,6 +17,9 @@ import EventsPage from './components/EventsPage/eventspage';
 import SpaceInfoPage from './components/SpaceInfoPage/spaceInfoPage';
 import ServiceRequestsPage from './components/ServiceRequestsPage/serviceRequestsPage';
 //import ExperienceManagerPage from './components/ExperienceManagerPage/experienceManagerPage';
+import AlexaLoginForm from './components/AlexaLogin/AlexaLoginForm';
+import OfficeList from './components/AlexaLogin/OfficeList';
+
 import CreatePasswordPage from './components/CreatePasswordPage/createPasswordPage';
 import InitialRoutingComp from './components/InitialRoutingComp/InitialRoutingComp';
 import Firebase from './components/Firebase';
@@ -55,8 +58,8 @@ class App extends Component {
             }
           }
         } else {
-          weakProps.clearRedux();
-          weakProps.history.push('/login');
+          // weakProps.clearRedux();
+          // weakProps.history.push('/login');
         }
       });
     } else {
@@ -76,20 +79,20 @@ class App extends Component {
         <div style={{ background: '#FFFFFF' }}>
           <Row>
             {/* <MediaQuery minDeviceWidth={1224}> for desktop devices */}
-              <Col span={4}>
-                <SideNavbar device={"desktop"} />
-              </Col>
-              <Col span={20}>
-                <NavBar />
-                <Switch>
-                  <Route exact path="/" component={InitialRoutingComp} />
-                  <Route exact path="/login" component={InitialRoutingComp} />
-                  <Route path="/general" component={generalRoutingComp} />
-                  <Route path="/officeAdmin" component={officeAdminRoutingComp} />
-                </Switch>
-              </Col>
+            <Col span={4}>
+              <SideNavbar device={"desktop"} />
+            </Col>
+            <Col span={20}>
+              <NavBar />
+              <Switch>
+                <Route exact path="/" component={InitialRoutingComp} />
+                <Route exact path="/login" component={InitialRoutingComp} />
+                <Route path="/general" component={generalRoutingComp} />
+                <Route path="/officeAdmin" component={officeAdminRoutingComp} />
+              </Switch>
+            </Col>
             {/* </MediaQuery> */}
-            
+
             {/* <MediaQuery maxDeviceWidth={1224}> for mobile devices
               <Col span={24}>
                 <NavBar device={"mobile"} />
@@ -101,7 +104,7 @@ class App extends Component {
                 </Switch>
               </Col>
             </MediaQuery>  */}
-            
+
           </Row>
         </div>
       );
@@ -124,7 +127,7 @@ const mapStateToProps = state => {
     user: state.auth.user,
     currentOfficeAdminUID: state.general.currentOfficeAdminUID,
     firebase: state.firebase.firebase,
-    mixpanel: state.firebase.mixpanel, 
+    mixpanel: state.firebase.mixpanel,
     currentPage: state.general.currentPage
   }
 };
@@ -144,6 +147,8 @@ const generalRoutingComp = () => (
     <Route exact path='/general/arrivedGuest/:UID' component={ConfirmationPage}></Route>
     <Route exact path='/general/updateServiceRequestStatus/:uid/:status' component={UpdateServiceRequestStatusPage}></Route>
     <Route exact path='/general/createPassword/:userUID' component={CreatePasswordPage}></Route>
+    <Route exact path="/general/alexa-login" component={AlexaLoginForm} />
+    <Route exact path="/general/alexa-login/office-list/:url" component={OfficeList} />
   </Switch>
 )
 

@@ -34,6 +34,7 @@ class Firebase {
     this.auth = app.auth();
     this.functions = app.functions();
     this.storage = app.storage();
+    this.database = app.firestore();
   }
 }
 

@@ -1,5 +1,32 @@
 import * as actionTypes from './actionTypes';
 
+export const submitGetStartedData = (payload) => { 
+  return { 
+    type: actionTypes.SUBMIT_GET_STARTED_DATA, 
+    payload: { 
+     ...payload 
+    }
+  }
+}
+
+export const updateGetStartedData = (data) => { 
+  return { 
+    type: actionTypes.UPDATE_GET_STARTED_DATA, 
+    payload: { 
+     ...data 
+    }
+  }
+}
+
+export const changeGetStartedStep = (newStep) => { 
+  return { 
+    type: actionTypes.CHANGE_GET_STARTED_STEP, 
+    payload: { 
+      newStep: newStep
+    }
+  }
+}
+
 export const clearReduxState = () => { 
   return { 
     type: actionTypes.CLEAR_REDUX_STATE, 

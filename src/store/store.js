@@ -6,6 +6,7 @@ import firebaseReducer from './reducers/firebase';
 import generalReducer from './reducers/general';
 import officeAdminReducer from './reducers/officeAdmin';
 import authReducer from './reducers/auth';
+import getStartedReducer from './reducers/getStarted';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -19,7 +20,8 @@ import storage from 'redux-persist/lib/storage'
     firebase: firebaseReducer,
     general: generalReducer,
     auth: authReducer,
-    officeAdmin: officeAdminReducer
+    officeAdmin: officeAdminReducer, 
+    getStarted: getStartedReducer
  });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

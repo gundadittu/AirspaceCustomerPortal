@@ -30,6 +30,11 @@ import { Row, Col } from 'antd';
 import * as pageTitles from './pages/pageTitles';
 import * as Sentry from '@sentry/browser';
 
+import GetStartedComp from './components/GetStartedComp/GetStarted';
+import GetStartedFinishedComp from './components/GetStartedComp/GetStartedFinished';
+
+import LoginNavBar from './components/Login/LoginNavBar';
+
 class App extends Component {
   state = {
     toggle_render: false
@@ -57,10 +62,11 @@ class App extends Component {
               weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/home');
             }
           }
-        } else {
-          // weakProps.clearRedux();
-          // weakProps.history.push('/login');
         }
+        // else {
+        //   weakProps.clearRedux();
+        //   weakProps.history.push('/login');
+        // }
       });
     } else {
       const error = Error("Firebase NOT set up in App.js render()");
@@ -111,10 +117,13 @@ class App extends Component {
     } else { // logged out
       return (
         <div>
+          <LoginNavBar />
           <Switch>
+            <Route exact path='/get-started/finished' component={GetStartedFinishedComp}></Route>
+            <Route exact path='/get-started' component={GetStartedComp}></Route>
             <Route path="/general" component={generalRoutingComp} />
-            <Route path="/" component={Login} />
-            <Route path="/login" component={Login} />
+            <Route exact path="/" component={Login} />
+            <Route exact path="/login" component={Login} />
           </ Switch>
         </div>
       );

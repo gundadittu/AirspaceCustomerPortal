@@ -15,6 +15,10 @@ require("firebase/storage");
 
 // Watchers
 
+export function* submitGetStartedData() {
+    yield takeLatest(actionTypes.SUBMIT_GET_STARTED_DATA, submitGetStartedDataWorkerSaga);
+}
+
 export function* loadOfficeUsersWatchSaga() {
     yield takeLatest(actionTypes.LOAD_OFFICE_USERS, loadOfficeUsersWorkerSaga);
 }
@@ -1153,5 +1157,36 @@ function* getSpaceInfoWorkerSaga(action) {
         });
 
         yield put({ type: actionTypes.LOAD_SPACE_INFO_FINISHED_ERROR });
+    }
+}
+
+function submitGSData(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('getStartedForm');
+    return apiCall({ ...payload })
+        .then(response => {
+            const data = response.data;
+            console.log(data);
+            return 
+        })
+}
+
+
+function* submitGetStartedDataWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(submitGSData, payload, firebase);
+
+        yield put({ type: actionTypes.SUBMIT_GET_STARTED_DATA_FINISHED_SUCCESS });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to submit your data.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.SUBMIT_GET_STARTED_DATA_FINISHED_ERROR });
     }
 }

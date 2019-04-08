@@ -40,14 +40,18 @@ const initialState = {
     successfulPost: false,
     onboardingURL: null,
     floorplanURL: null,
-    buildingDetailsURL: null
+    buildingDetailsURL: null,
+    alexaRedirect: null
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.STORE_ALEXA_REDIRECT:
+            const url = action.payload.redirect;
+            return updateObject(state, { alexaRedirect: url });
         case actionTypes.SIGN_OUT_USER_SUCCESS:
             return initialState;
-        case actionTypes.CLEAR_REDUX_STATE: 
+        case actionTypes.CLEAR_REDUX_STATE:
             return initialState;
         case actionTypes.EDIT_CONF_ROOM:
             return updateObject(state, { editRoomFormLoading: true });
@@ -103,11 +107,11 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_ERROR:
             return updateObject(state, { isLoadingAnnouncementsData: false });
         case actionTypes.POST_ADMIN_ANNOUNCEMENT:
-            return updateObject(state, {postingAnnouncement: true, successfulPost: false});
+            return updateObject(state, { postingAnnouncement: true, successfulPost: false });
         case actionTypes.POST_ADMIN_ANNOUNCEMENT_SUCCESS:
-            return updateObject(state, {postingAnnouncement: false, successfulPost: true});
+            return updateObject(state, { postingAnnouncement: false, successfulPost: true });
         case actionTypes.POST_ADMIN_ANNOUNCEMENT_ERROR:
-            return updateObject(state, {postingAnnouncement: false, successfulPost: false});
+            return updateObject(state, { postingAnnouncement: false, successfulPost: false });
         case actionTypes.LOAD_CONFERENCE_ROOMS:
             return updateObject(state, { isLoadingRoomsData: true });
         case actionTypes.LOAD_CONFERENCE_ROOMS_SUCCESS:
@@ -123,69 +127,69 @@ const reducer = (state = initialState, action) => {
             const inactiveDesks = action.payload.inactiveDesksList || null;
             return updateObject(state, { activeDesksList: activeDesks, inactiveDesksList: inactiveDesks, isLoadingHotDesksData: false });
         case actionTypes.LOAD_HOT_DESKS_ERROR:
-            return updateObject(state, {isLoadingHotDesksData: false});
+            return updateObject(state, { isLoadingHotDesksData: false });
         case actionTypes.LOAD_SERVICE_REQUESTS:
-            return updateObject(state, {isLoadingServiceRequestsData: true});
+            return updateObject(state, { isLoadingServiceRequestsData: true });
         case actionTypes.LOAD_SERVICE_REQUESTS_SUCCESS:
             const serviceRequestsList = action.payload.serviceRequestsList || null;
-            return updateObject(state, { serviceRequestsList: serviceRequestsList, isLoadingServiceRequestsData: false});
+            return updateObject(state, { serviceRequestsList: serviceRequestsList, isLoadingServiceRequestsData: false });
         case actionTypes.LOAD_SERVICE_REQUESTS_ERROR:
-            return updateObject(state, {isLoadingServiceRequestsData: false});
+            return updateObject(state, { isLoadingServiceRequestsData: false });
         case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS:
-            return updateObject(state, {isLoadingServiceRequestsEmailsData: true});
+            return updateObject(state, { isLoadingServiceRequestsEmailsData: true });
         case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_SUCCESS:
             const serviceRequestsEmailsList = action.payload.serviceEmailsList || null;
-            return updateObject(state, { serviceRequestsEmailsList: serviceRequestsEmailsList, isLoadingServiceRequestsEmailsData: false});
+            return updateObject(state, { serviceRequestsEmailsList: serviceRequestsEmailsList, isLoadingServiceRequestsEmailsData: false });
         case actionTypes.LOAD_SERVICE_REQUESTS_EMAILS_ERROR:
-            return updateObject(state, {isLoadingServiceRequestsEmailsData: false});
+            return updateObject(state, { isLoadingServiceRequestsEmailsData: false });
         case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS:
-            return updateObject(state, {finishedUpdatingEmails: false, isLoadingServiceRequestsEmailsData: true});
+            return updateObject(state, { finishedUpdatingEmails: false, isLoadingServiceRequestsEmailsData: true });
         case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS:
             const editEmailsPayload = action.payload;
             editEmailsPayload.hideForm();
             return updateObject(state, { finishedUpdatingEmails: true, isLoadingServiceRequestsEmailsData: false });
         case actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_ERROR:
-            return updateObject(state, {finishedUpdatingEmails: true, isLoadingServiceRequestsEmailsData: false});
-            //
+            return updateObject(state, { finishedUpdatingEmails: true, isLoadingServiceRequestsEmailsData: false });
+        //
         case actionTypes.EDIT_SERVICE_REQUESTS_STATUS:
-            return updateObject(state, {updatingServiceStatus: true, successfulServiceRequestUpdate: false});
+            return updateObject(state, { updatingServiceStatus: true, successfulServiceRequestUpdate: false });
         case actionTypes.EDIT_SERVICE_REQUESTS_STATUS_SUCCESS:
-            return updateObject(state, {updatingServiceStatus: false, successfulServiceRequestUpdate: true });
+            return updateObject(state, { updatingServiceStatus: false, successfulServiceRequestUpdate: true });
         case actionTypes.EDIT_SERVICE_REQUESTS_STATUS_ERROR:
-            return updateObject(state, {updatingServiceStatus: false});
+            return updateObject(state, { updatingServiceStatus: false });
 
         case actionTypes.LOAD_REGISTERED_GUESTS:
-            return updateObject(state, {isLoadingGuestsData: true});
+            return updateObject(state, { isLoadingGuestsData: true });
         case actionTypes.LOAD_REGISTERED_GUESTS_SUCCESS:
             const guestList = action.payload.guestList || null;
-            return updateObject(state, { guestsList: guestList, isLoadingGuestsData: false});
+            return updateObject(state, { guestsList: guestList, isLoadingGuestsData: false });
         case actionTypes.LOAD_REGISTERED_GUESTS_ERROR:
-            return updateObject(state, {isLoadingGuestsData: false});
+            return updateObject(state, { isLoadingGuestsData: false });
         case actionTypes.EDIT_REGISTERED_GUESTS_STATUS:
-            return updateObject(state, {isEditingGuestsData: true, checkedIn: false});
+            return updateObject(state, { isEditingGuestsData: true, checkedIn: false });
         case actionTypes.EDIT_REGISTERED_GUESTS_STATUS_SUCCESS:
-            return updateObject(state, { isEditingGuestsData: false, checkedIn: true});
+            return updateObject(state, { isEditingGuestsData: false, checkedIn: true });
         case actionTypes.EDIT_REGISTERED_GUESTS_STATUS_ERROR:
-            return updateObject(state, {isEditingGuestsData: false, checkedIn: false});
+            return updateObject(state, { isEditingGuestsData: false, checkedIn: false });
         case actionTypes.LOAD_EVENTS:
-            return updateObject(state, {isLoadingEventsData: true});
+            return updateObject(state, { isLoadingEventsData: true });
         case actionTypes.LOAD_EVENTS_SUCCESS:
             const pastEventsList = action.payload.pastEventsList || null;
             const upcomingEventsList = action.payload.upcomingEventsList || null;
-            return updateObject(state, {pastEventsList: pastEventsList, upcomingEventsList: upcomingEventsList, isLoadingEventsData: false});
+            return updateObject(state, { pastEventsList: pastEventsList, upcomingEventsList: upcomingEventsList, isLoadingEventsData: false });
         case actionTypes.LOAD_EVENTS_ERROR:
-            return updateObject(state, {isLoadingEventsData: false});
+            return updateObject(state, { isLoadingEventsData: false });
         case actionTypes.ADD_HOT_DESK:
             return updateObject(state, { createDeskFormLoading: true });
         case actionTypes.ADD_HOT_DESK_FINISHED:
-             const addDeskPayload = action.payload;
-             addDeskPayload.hideForm();
+            const addDeskPayload = action.payload;
+            addDeskPayload.hideForm();
             return updateObject(state, { createDeskFormLoading: false });
         case actionTypes.EDIT_HOT_DESK:
             return updateObject(state, { editDeskFormLoading: true });
         case actionTypes.EDIT_HOT_DESK_FINISHED:
-             const editDeskPayload = action.payload;
-             editDeskPayload.hideForm();
+            const editDeskPayload = action.payload;
+            editDeskPayload.hideForm();
             return updateObject(state, { editDeskFormLoading: false });
         case actionTypes.LOAD_SPACE_INFO:
             return updateObject(state, { isLoadingSpaceInfo: true });
@@ -208,7 +212,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.EDIT_EVENT_FINISHED:
             const editEventPayload = action.payload;
             editEventPayload.hideForm();
-            return updateObject(state, { editEventFormLoading: false , });
+            return updateObject(state, { editEventFormLoading: false, });
         default:
             return state
     }

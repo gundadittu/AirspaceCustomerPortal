@@ -157,7 +157,7 @@ const generalRoutingComp = () => (
     <Route exact path='/general/updateServiceRequestStatus/:uid/:status' component={UpdateServiceRequestStatusPage}></Route>
     <Route exact path='/general/createPassword/:userUID' component={CreatePasswordPage}></Route>
     <Route exact path="/general/alexa-login" component={AlexaLoginForm} />
-    <Route exact path="/general/alexa-login/office-list/:url" component={OfficeList} />
+    <Route path="/general/alexa-login/office-list" component={OfficeList} />
   </Switch>
 )
 

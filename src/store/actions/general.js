@@ -1,5 +1,14 @@
 import * as actionTypes from './actionTypes';
 
+export const storeAlexaRedirect = (payload) => { 
+  return { 
+    type: actionTypes.STORE_ALEXA_REDIRECT, 
+    payload: { 
+      redirect: payload.redirect
+    }
+  }
+}
+
 export const submitGetStartedData = (payload) => { 
   return { 
     type: actionTypes.SUBMIT_GET_STARTED_DATA, 

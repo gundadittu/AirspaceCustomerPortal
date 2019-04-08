@@ -13,15 +13,16 @@ import { withRouter } from 'react-router-dom';
 class OfficeList extends React.Component {
 
     state = {
-        url: null,
+        // url: null,
         showLoading: false,
     }
 
     componentDidMount() {
-        if (this.props.match.isExact) {
-            const url = this.props.match.params.url;
-            this.setState({ url: url });
-        }
+        // if (this.props.match.isExact) {
+        //     const url = this.props.match.params.url;
+        //     console.log("officelist store url: "+url);
+        //     this.setState({ url: url });
+        // }
     }
 
     chooseOffice = (officeUID) => {
@@ -31,19 +32,23 @@ class OfficeList extends React.Component {
         const firebase = this.props.firebase || null;
         if (firebase) {
 
-            const urlParams = new URLSearchParams(window.location.search);
+            const urlParams = new URLSearchParams(this.props.redirect);
             const authCode = urlParams.get("code");
+            console.log(authCode);
             const dict = {
                 authCode: authCode,
                 selectedOfficeUID: officeUID
             }
 
             this.setState({ showLoading: true });
+            console.log("reached linkAlexa");
             const apiCall = firebase.functions.httpsCallable('linkAlexa');
             apiCall(dict)
                 .then(result => {
                     this.setState({ showLoading: false });
-                    window.location.href = this.state.url;
+                    console.log("reached end of linkAlexa");
+                    console.log(this.props.redirect);
+                    window.location.href = this.props.redirect;
                     return null
                 })
         }
@@ -88,7 +93,6 @@ class OfficeList extends React.Component {
 
 // const mapDispatchToProps = dispatch => {
 //     return {
-
 //     }
 // };
 
@@ -96,7 +100,8 @@ const mapStateToProps = state => {
     return {
         user: state.auth.user,
         adminOfficeList: state.auth.adminOfficeList,
-        firebase: state.firebase.firebase
+        firebase: state.firebase.firebase, 
+        redirect: state.officeAdmin.alexaRedirect
     }
 }
 

@@ -9,6 +9,7 @@ import '../Login/Login.css'
 import LoginNavBar from '../Login/LoginNavBar';
 import { withRouter } from 'react-router-dom';
 import OfficeList from './OfficeList';
+import * as generalActionCreator from '../../store/actions/general';
 
 class AlexaLoginForm extends React.Component {
 
@@ -16,6 +17,7 @@ class AlexaLoginForm extends React.Component {
         if (this.props.user) {
             var uid = this.props.uid;
             this.nextPage(uid);
+            return 
         }
 
 
@@ -42,8 +44,11 @@ class AlexaLoginForm extends React.Component {
         const redirect_uri = urlParams.get("redirect_uri");
         // Combine all the uri elements.
         let url = redirect_uri + "?state=" + state + "&code=" + authCode;
-
-        this.props.history.push('/general/alexa-login/office-list/' + url);
+        if (this.props.redirect === null) { 
+            console.log("alexa-login store url: "+url);
+            this.props.storeRedirect(url);
+        }
+        this.props.history.push('/general/alexa-login/office-list');
     }
 
     handleSubmit = (e) => {
@@ -145,7 +150,8 @@ class AlexaLoginForm extends React.Component {
 const mapDispatchToProps = dispatch => {
     return {
         signOutUser: () => dispatch(authActionCreators.signOutUserAction()),
-        signInUser: (email, password, rememberMe) => dispatch(authActionCreators.signInUserAction(email, password, rememberMe))
+        signInUser: (email, password, rememberMe) => dispatch(authActionCreators.signInUserAction(email, password, rememberMe)), 
+        storeRedirect: (url) => dispatch(generalActionCreator.storeAlexaRedirect({redirect: url}))
     }
 };
 
@@ -154,6 +160,7 @@ const mapStateToProps = state => {
         user: state.auth.user,
         isLoadingSignIn: state.general.isLoadingSignIn,
         firebase: state.firebase.firebase,
+        redirect: state.officeAdmin.alexaRedirect
     }
 }
 

@@ -18,19 +18,31 @@ export const checkValidEmail = (payload) => {
   }
 }
 
-export const loadOfficeProfile = (payload) => { 
-  return { 
-    type: actionTypes.LOAD_OFFICE_PROFILE, 
-    payload: { 
+export const addRequestForService = (payload) => {
+  return {
+    type: actionTypes.ADD_REQUEST_SERVICE,
+    payload: {
+      serviceType: payload.serviceType,
+      serviceDescription: payload.serviceDescription,
+      selectedOfficeUID: payload.selectedOfficeUID,
+      onlyInterested: payload.onlyInterested
+    }
+  }
+}
+
+export const loadOfficeProfile = (payload) => {
+  return {
+    type: actionTypes.LOAD_OFFICE_PROFILE,
+    payload: {
       selectedOfficeUID: payload.selectedOfficeUID
     }
   }
 }
 
-export const getEMInfo = (payload) => { 
-  return { 
-    type: actionTypes.LOAD_EM_INFO, 
-    payload: { 
+export const getEMInfo = (payload) => {
+  return {
+    type: actionTypes.LOAD_EM_INFO,
+    payload: {
       selectedOfficeUID: payload.selectedOfficeUID
     }
   }

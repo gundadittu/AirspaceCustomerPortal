@@ -33,6 +33,10 @@ class OfficeProfileModal extends React.Component {
         const hideForm = this.props.hideModal;
         const profile = this.props.officeProfile;
 
+        if (profile === null) { 
+            return null 
+        }
+
         const companyName = profile["Company Name"];
         const employeeNo = profile["No. of Employees"];
         const sqFT = profile["Square Feet"];

@@ -15,6 +15,10 @@ require("firebase/storage");
 
 // Watchers
 
+export function* addRequestService() {
+    yield takeLatest(actionTypes.ADD_REQUEST_SERVICE, addRequestForServiceWorkerSaga);
+}
+
 export function* loadOfficeProfile() {
     yield takeLatest(actionTypes.LOAD_OFFICE_PROFILE, loadOfficeProfileWorkerSaga);
 }
@@ -1353,5 +1357,29 @@ function* checkValidEmailWorkerSaga(action) {
         });
 
         yield put({ type: actionTypes.CHECK_VALID_EMAIL_FINISHED, payload: { validEmail: false } });
+    }
+}
+
+function addRequestForService(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('addRequestFromPortal');
+    return apiCall({ ...payload });
+}
+
+function* addRequestForServiceWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        yield call(addRequestForService, payload, firebase);
+
+        yield put({ type: actionTypes.ADD_REQUEST_SERVICE_FINISHED });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to request service.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.ADD_REQUEST_SERVICE_FINISHED });
     }
 }

@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom';
 // import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
 import ServicePlanCard from './ServicePlanCard';
+import ServicePlanPendingCard from './ServicePlanPendingCard';
+
 import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
 import { Row, Col, Menu, Empty, Button, Spin } from 'antd';
@@ -18,13 +20,13 @@ import OfficeProfileModal from './OfficeProfileModal';
 class ServicePlanPage extends React.Component {
 
     state = {
-        dataSource: "active", // or "inactive"
+        dataSource: "active", // or "inactive" or "pending"
         visible: false
     }
 
     handleClick(e) {
         var key = e.key;
-        if ((key === 'active') || (key === 'inactive')) {
+        if ((key === 'active') || (key === 'inactive') || (key === 'pending')) {
             this.setState({ dataSource: key });
         }
     }
@@ -65,6 +67,16 @@ class ServicePlanPage extends React.Component {
                 </div>
             )
         } else if ((dataSource != null) && (dataSource.length > 0)) {
+
+            if (this.state.dataSource === "pending") {
+                return (dataSource.map(x => (
+                    <Row>
+                        <Col style={{ paddingLeft: "1%", paddingRight: "15%", paddingBottom: "30px" }} span={24}>
+                            <ServicePlanPendingCard pendingPackage={x} />
+                        </Col>
+                    </Row>
+                )))
+            }
             return (dataSource.map(x => (
                 <Row>
                     <Col style={{ paddingLeft: "1%", paddingRight: "15%", paddingBottom: "30px" }} span={24}>
@@ -107,18 +119,20 @@ class ServicePlanPage extends React.Component {
     render() {
         const active = this.props.activeList || null;
         const inactive = this.props.inactiveList || null;
-
+        const pending = this.props.pendingList || null;
 
         let dataSource = null;
         if (this.state.dataSource === "active") {
             dataSource = active;
         } else if (this.state.dataSource === "inactive") {
             dataSource = inactive;
+        } else if (this.state.dataSource === "pending") {
+            dataSource = pending;
         }
 
         return (
             <div>
-                <OfficeProfileModal visible={this.state.visible} hideModal={this.hideOfficeProfile}/>
+                <OfficeProfileModal visible={this.state.visible} hideModal={this.hideOfficeProfile} />
                 <Col className="wide-table" span={24}>
                     <h1>Service Plan</h1>
                     <div>
@@ -137,6 +151,9 @@ class ServicePlanPage extends React.Component {
                                     >
                                         <Menu.Item key="active">
                                             Current
+                                    </Menu.Item>
+                                        <Menu.Item key="pending" >
+                                            Pending Approval
                                     </Menu.Item>
                                         <Menu.Item key="inactive" >
                                             Past
@@ -164,7 +181,8 @@ const mapStateToProps = state => {
         userAdminOfficeList: state.auth.adminOfficeList,
         isLoadingServicePlan: state.officeAdmin.isLoadingServicePlan,
         activeList: state.officeAdmin.activeServicePlan,
-        inactiveList: state.officeAdmin.inactiveServicePlan
+        inactiveList: state.officeAdmin.inactiveServicePlan,
+        pendingList: state.officeAdmin.pendingServicePlan
     }
 };
 

@@ -1261,7 +1261,7 @@ function* getServicePlanForOfficeWorkerSaga(action) {
         let firebase = yield select(selectors.firebase);
         const response = yield call(getServicePlan, payload, firebase);
 
-        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: response.active, inactive: response.inactive } });
+        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: response.active, inactive: response.inactive, pending: response.pending } });
     } catch (error) {
         sentry.captureException(error);
 
@@ -1275,6 +1275,17 @@ function* getServicePlanForOfficeWorkerSaga(action) {
 }
 
 function getEmInfo(payload, firebase) {
+    const call = firebase.functions.httpsCallable('getPendingPackages');
+    call({ selectedOfficeUID: payload.selectedOfficeUID })
+        .then(response => {
+            console.log(response.data);
+            return
+        })
+        .catch(err => {
+            console.error(err);
+            return
+        })
+
     const apiCall = firebase.functions.httpsCallable('getExperienceManagerInfoForOffice');
     return apiCall({ ...payload })
         .then(response => {

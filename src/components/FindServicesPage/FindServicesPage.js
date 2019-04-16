@@ -29,6 +29,7 @@ class FindServicesPage extends React.Component {
     }
 
     componentDidMount() {
+
         if (this.props.match.isExact) {
             const selectedOfficeUID = this.props.match.params.officeUID;
 
@@ -79,7 +80,7 @@ class FindServicesPage extends React.Component {
                 },
                 {
                     image: AlcoholImage,
-                    title: "Alcohol",
+                    title: "Beer + Spirits + Wine",
                     description: "We take pride in serving your office with local craft beers. International and domestic? Yeah, we got that too. Find out more about how our vendors can service your office with an assortment of beers, spirits, and wines."
                 }
             ];
@@ -114,7 +115,7 @@ class FindServicesPage extends React.Component {
         } else if (this.state.dataSource === "space-management") {
             data = [
                 {
-                    image:"https://cdn.pixabay.com/photo/2017/03/28/12/07/bricks-2181920_1280.jpg",
+                    image: "https://cdn.pixabay.com/photo/2017/03/28/12/07/bricks-2181920_1280.jpg",
                     title: "Furniture",
                     description: "Take the hassle out of furniture, we offer purchase, lease, and rental options, and include assembly, installation, and replacements."
                 },
@@ -274,13 +275,13 @@ class FindServicesPage extends React.Component {
         this.setState({ showDescription: true, descriptionTitle: title, descriptionText: description });
     }
 
-    requestService(type, description, onlyInterested) { 
+    requestService(type, description, onlyInterested) {
         message.success('Sending your request to your experience manager.');
-        let dict = { 
-            selectedOfficeUID: this.props.currentOfficeUID, 
-            serviceType: type, 
+        let dict = {
+            selectedOfficeUID: this.props.currentOfficeUID,
+            serviceType: type,
             serviceDescription: description,
-            onlyInterested: onlyInterested 
+            onlyInterested: onlyInterested
         };
         this.props.addRequestForService(dict);
     }
@@ -298,7 +299,7 @@ class FindServicesPage extends React.Component {
                     onCancel={this.hideDescription.bind(this)}
                     footer={[
                         (<Tooltip title="We'll answer your questions and even give you a quote. No commitment required."> <Button onClick={() => this.requestService(this.state.descriptionTitle, "", true)} type="secondary">I'm Interested</Button></Tooltip>),
-                     (<Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button onClick={() => this.requestService(this.state.descriptionTitle, "", false)} type="primary">Request</Button> </Tooltip>)
+                        (<Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button onClick={() => this.requestService(this.state.descriptionTitle, "", false)} type="primary">Request</Button> </Tooltip>)
                     ]}
                 >
                     <p>{this.state.descriptionText}</p>
@@ -344,6 +345,7 @@ class FindServicesPage extends React.Component {
                                 </Row>
                             </Col>
                         </Row>
+                        {/* <a onClick={() => this.showDetails(item)}></a> */}
                         {data != null ?
                             (
                                 <List
@@ -352,19 +354,19 @@ class FindServicesPage extends React.Component {
                                     }}
                                     dataSource={data}
                                     renderItem={item => (
-                                        <a onClick={() => this.showDetails(item)}>
-                                            <List.Item style={{ paddingTop: 0 }}>
-                                                <Card
-                                                    style={{ width: "85%" }}
-                                                    cover={<img alt="example" src={item.image} />}
-                                                    actions={[(<Tooltip title="We'll answer your questions and even give you a quote. No commitment required."> <Button onClick={() => this.requestService(item.title, "", true)} type="secondary">I'm Interested</Button></Tooltip>), (<Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button onClick={() => this.requestService(item.title, "", false)} type="primary">Request</Button> </Tooltip>)]}
-                                                >
+                                        <List.Item style={{ paddingTop: 0 }}>
+                                            <Card
+                                                style={{ width: "85%" }}
+                                                cover={<img style={{ cursor: "pointer" }} onClick={() => this.showDetails(item)} alt="example" src={item.image} />}
+                                                actions={[(<Tooltip title="We'll answer your questions and even give you a quote. No commitment required."> <Button onClick={() => this.requestService(item.title, "", true)} type="secondary">I'm Interested</Button></Tooltip>), (<Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button onClick={() => this.requestService(item.title, "", false)} type="primary">Request</Button> </Tooltip>)]}
+                                            >
+                                                <a onClick={() => this.showDetails(item)}>
                                                     <Meta
                                                         title={item.title}
                                                     />
-                                                </Card>
-                                            </List.Item>
-                                        </a>
+                                                </a>
+                                            </Card>
+                                        </List.Item>
                                     )}
                                 />
                             )
@@ -378,14 +380,14 @@ class FindServicesPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        userAdminOfficeList: state.auth.adminOfficeList, 
-        currentOfficeUID: state.general.currentOfficeAdminUID,
+        userAdminOfficeList: state.auth.adminOfficeList,
+        currentOfficeUID: state.general.currentOfficeAdminUID
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        changePage: (payload) => dispatch(generalActionCreator.changePage(payload)), 
+        changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
         addRequestForService: (payload) => dispatch(generalActionCreator.addRequestForService(payload))
     }
 };

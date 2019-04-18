@@ -30,10 +30,10 @@ class OfficeProfileModal extends React.Component {
 
     render() {
         const visible = this.props.visible || false;
-        const hideForm = this.props.hideModal;
-        const profile = this.props.officeProfile;
+        const hideForm = this.props.hideModal || true;
+        const profile = this.props.officeProfile || null;
 
-        if ((profile === null) || (typeof(profile) === undefined)) { 
+        if (profile === null) { 
             return null 
         }
 

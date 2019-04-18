@@ -75,7 +75,7 @@ class ExperienceManagerPage extends React.Component {
       )
     } else {
 
-      const info = this.props.emInfo;
+      const info = this.props.emInfo || null;
       if (info === null) {
         return null
       }

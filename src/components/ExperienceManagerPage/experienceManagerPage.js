@@ -76,15 +76,18 @@ class ExperienceManagerPage extends React.Component {
     } else {
 
       const info = this.props.emInfo;
-      const name = "Hi, I'm " + info["Name"];
-      const bio = info["Bio"];
-      const photoDict = info["Photo"][0];
+      if (info === null) {
+        return null
+      }
+      const name = "Hi, I'm " + (info["Name"] || "");
+      const bio = info["Bio"] || "";
+      const photoDict = info["Photo"][0] || {};
       const imageURL = photoDict.thumbnails.large.url;
 
-      const phone = info["Phone"];
-      const phoneHref = "tel:"+phone; 
-      const email = info["Email"];
-      const emailHref = "mailto:"+email; 
+      const phone = info["Phone"] || "";
+      const phoneHref = "tel:" + phone;
+      const email = info["Email"] || "";
+      const emailHref = "mailto:" + email;
 
       return (
         <div>
@@ -93,7 +96,7 @@ class ExperienceManagerPage extends React.Component {
               <Card style={{ textAlign: "center", width: "80%" }}>
                 <Row>
                   <Col span={24}>
-                    <Avatar shape="circle" size={350} src={imageURL} />
+                    <Avatar style={{ width: "100%", height: "100%" }} shape="circle" src={imageURL} />
                   </Col>
                 </Row>
               </Card>

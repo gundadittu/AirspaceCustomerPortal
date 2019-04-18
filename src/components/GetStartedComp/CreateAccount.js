@@ -70,6 +70,9 @@ class CreateAccount extends React.Component {
         } else if (this.validateEmail(this.props.emailAddress) === false) {
             this.setState({ emailAddrErr: "Must provide a valid email address." });
             error = true;
+        } else if (this.props.validEmail === false) {
+            this.setState({ emailAddrErr: "An account already exists with this email. Try logging in." });
+            error = true;
         } else {
             this.setState({ emailAddrErr: null });
         }
@@ -283,6 +286,7 @@ class CreateAccount extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        validEmail: state.getStarted.validEmail,
         firstName: state.getStarted.firstName,
         lastName: state.getStarted.lastName,
         emailAddress: state.getStarted.emailAddress,

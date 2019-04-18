@@ -9,6 +9,15 @@ export const storeAlexaRedirect = (payload) => {
   }
 }
 
+export const checkValidEmail = (payload) => { 
+  return { 
+    type: actionTypes.CHECK_VALID_EMAIL, 
+    payload: { 
+      email: payload.email
+    }
+  }
+}
+
 export const loadOfficeProfile = (payload) => { 
   return { 
     type: actionTypes.LOAD_OFFICE_PROFILE, 

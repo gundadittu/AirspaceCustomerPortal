@@ -19,6 +19,10 @@ export function* loadOfficeProfile() {
     yield takeLatest(actionTypes.LOAD_OFFICE_PROFILE, loadOfficeProfileWorkerSaga);
 }
 
+export function* checkValidEmailWatcher() {
+    yield takeLatest(actionTypes.CHECK_VALID_EMAIL, checkValidEmailWorkerSaga);
+}
+
 export function* getEMInfo() {
     yield takeLatest(actionTypes.LOAD_EM_INFO, getEmInfoForOfficeWorkerSaga);
 }
@@ -1319,5 +1323,35 @@ function* loadOfficeProfileWorkerSaga(action) {
         });
 
         yield put({ type: actionTypes.LOAD_OFFICE_PROFILE_FINISHED, payload: { info: null } });
+    }
+}
+
+
+function checkValidEmail(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('checkValidEmail');
+    return apiCall({ ...payload })
+        .then(response => {
+            const data = response.data;
+            const valid = data.valid || false;
+            return valid;
+        })
+}
+
+function* checkValidEmailWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(checkValidEmail, payload, firebase);
+
+        yield put({ type: actionTypes.CHECK_VALID_EMAIL_FINISHED, payload: { validEmail: response } });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to check if email is valid.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.CHECK_VALID_EMAIL_FINISHED, payload: { validEmail: false } });
     }
 }

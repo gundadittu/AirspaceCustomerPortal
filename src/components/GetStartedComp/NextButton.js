@@ -20,6 +20,12 @@ class NextButton extends React.Component {
     trigger = () => {
         // this.nextAction();
         // return 
+
+        if ((this.props.step === 0) && ((this.props.validEmail === false) || (this.props.validEmail === null))) {
+            this.validate();
+            return
+        }
+
         if (this.validate() === false) {
             return
         } else {
@@ -56,7 +62,8 @@ class NextButton extends React.Component {
 const mapStateToProps = state => {
     return {
         step: state.getStarted.step,
-        isLoading: state.getStarted.isLoading
+        isLoading: state.getStarted.isLoading,
+        validEmail: state.getStarted.validEmail
     }
 }
 

@@ -23,16 +23,20 @@ const initialState = {
     squareFT: null,
     employeeNo: null,
     moveInDate: null,
+    validEmail: null,
     // buildingContactName: null,
     // buildingContactRole: null,
     // buildingContactEmail: null,
     // buildingContactPhone: null,
-    newServices: [], 
-    otherServicesDetails: null 
+    newServices: [],
+    otherServicesDetails: null
 }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.CHECK_VALID_EMAIL_FINISHED:
+            const valid = action.payload.validEmail || false;
+            return updateObject(state, { validEmail: valid });
         case actionTypes.CHANGE_GET_STARTED_STEP:
             const newStep = action.payload.newStep;
             return updateObject(state, { step: newStep })

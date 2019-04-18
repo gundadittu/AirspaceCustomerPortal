@@ -97,6 +97,11 @@ class GetStartedComp extends React.Component {
     }
 
     updateData = (value, key) => {
+
+        if (key === "emailAddress") {
+            this.props.checkValidEmail({ email: value });
+        }
+
         let obj = {};
         obj[key] = value;
         this.props.updateGetStartedData(obj);
@@ -254,6 +259,7 @@ const mapDispatchToProps = dispatch => {
         updateGetStartedData: (data) => dispatch(generalActionCreators.updateGetStartedData(data)),
         changeStep: (newStep) => dispatch(generalActionCreators.changeGetStartedStep(newStep)),
         submitGSData: (payload) => dispatch(generalActionCreators.submitGetStartedData(payload)),
+        checkValidEmail: (payload) => dispatch(generalActionCreators.checkValidEmail(payload))
     }
 };
 

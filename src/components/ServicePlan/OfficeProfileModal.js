@@ -37,17 +37,17 @@ class OfficeProfileModal extends React.Component {
             return null 
         }
 
-        const companyName = profile["Company Name"];
-        const employeeNo = profile["No. of Employees"];
-        const sqFT = profile["Square Feet"];
+        const companyName = profile["Company Name"] || "";
+        const employeeNo = profile["No. of Employees"] || "";
+        const sqFT = profile["Square Feet"] || "";
 
-        const street = "Street Address: " + profile["Street Address - 1"];
+        const street = "Street Address: " + (profile["Street Address - 1"] || "");
         const street2 = "Street Address 2: " + (profile["Street Address - 2"] || "");
-        const city = "City: " + profile["City"];
-        const state = "State: " + profile["State"];
-        const zip = "Zip Code: " + profile["Zip Code"];
-        const floorNo = "Floor No.: " + profile["Floor No."];
-        const suiteNo = "Suite No.: " + profile["Suite No."];
+        const city = "City: " + profile["City"] || "";
+        const state = "State: " + profile["State"] || "";
+        const zip = "Zip Code: " + profile["Zip Code"] || "";
+        const floorNo = "Floor No.: " + profile["Floor No."] || "";
+        const suiteNo = "Suite No.: " + profile["Suite No."] || "";
 
         return (
             <Modal

@@ -41,7 +41,7 @@ const initialState = {
     onboardingURL: null,
     floorplanURL: null,
     buildingDetailsURL: null,
-    alexaRedirect: null
+    alexaRedirect: null,
     isLoadingInvoices: false,
     allInvoiceData: null,
     paidInvoiceData: null,
@@ -61,11 +61,11 @@ const reducer = (state = initialState, action) => {
         case actionTypes.STORE_ALEXA_REDIRECT:
             const url = action.payload.redirect;
             return updateObject(state, { alexaRedirect: url });
-        case actionTypes.LOAD_EM_INFO:
-            return updateObject(state, { isLoadingEMInfo: true });
-        case actionTypes.LOAD_EM_INFO_FINISHED:
-            const info = action.payload.info; 
-            return updateObject(state, { isLoadingEMInfo: false, emInfo: info });
+        // case actionTypes.LOAD_EM_INFO:
+        //     return updateObject(state, { isLoadingEMInfo: true });
+        // case actionTypes.LOAD_EM_INFO_FINISHED:
+        //     const info = action.payload.info; 
+        //     return updateObject(state, { isLoadingEMInfo: false, emInfo: info });
         case actionTypes.LOAD_OFFICE_PROFILE:
             return updateObject(state, { isLoadingOfficeProfile: true });
         case actionTypes.LOAD_OFFICE_PROFILE_FINISHED:

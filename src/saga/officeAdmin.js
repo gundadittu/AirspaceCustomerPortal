@@ -1280,12 +1280,11 @@ function* getServicePlanForOfficeWorkerSaga(action) {
         const payload = action.payload;
         let firebase = yield select(selectors.firebase);
         const response = yield call(getServicePlan, payload, firebase);
-        console.log(response);
-        console.log(response.pending);
+  
         yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: response.active, inactive: response.inactive, pending: response.pending } });
     } catch (error) {
         sentry.captureException(error);
-
+        
         notification['error']({
             message: 'Unable to get service plan.',
             description: error.message

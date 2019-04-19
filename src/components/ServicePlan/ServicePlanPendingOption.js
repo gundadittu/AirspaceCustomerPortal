@@ -48,7 +48,7 @@ class ServicePlanPendingOption extends React.Component {
 
         return (
             <div>
-                <h3>Choose options:</h3>
+                <h3>Choose an option:</h3>
                 <List
                     grid={{
                         gutter: 16, xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 2,

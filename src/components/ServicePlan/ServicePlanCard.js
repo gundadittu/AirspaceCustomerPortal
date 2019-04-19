@@ -58,9 +58,9 @@ const servicePlanCard = (props) => {
                     {deliveryInstructions}
                 </Col>
             </Row>
-            <Tooltip title="Want to change some details? Something went wrong with the service? We can help you here.">
+            {/* <Tooltip title="Want to change some details? Something went wrong with the service? We can help you here.">
                 <Button className="inlineDisplay rightAlign" type="primary" onClick={() => openURL()}>Get Help</Button>
-            </Tooltip>
+            </Tooltip> */}
         </Card>
     );
 }

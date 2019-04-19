@@ -7,6 +7,14 @@ import { Statistic, Row, Col, Icon, Input, Spin, Avatar, Card, Empty } from 'ant
 // import Paper from '@material-ui/core/Paper';
 // import Typography from '@material-ui/core/Typography';
 import ConstPlanImg from "../../assets/images/em-icons/construction-plan.png";
+import ServicePlanImg from "../../assets/images/em-icons/service-plan.png";
+import RepairsImg from "../../assets/images/em-icons/repairs.png";
+import InventoryImg from "../../assets/images/em-icons/inventory.png";
+import VendorsImg from "../../assets/images/em-icons/vendors.png";
+import MovingIm from "../../assets/images/em-icons/moving.png";
+import MoreImg from "../../assets/images/em-icons/more.png";
+import SuppliesImg from "../../assets/images/em-icons/supplies.png";
+
 import '../../App.css';
 
 import * as actionCreator from '../../store/actions/officeAdmin';
@@ -126,20 +134,20 @@ class ExperienceManagerPage extends React.Component {
                   <h2>Here are some things I can help with:</h2>
                   <Row style={{ paddingTop: 15 }}>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={ConstPlanImg} />
-                      <h3>Space Planning</h3>
+                      <img src={ServicePlanImg} />
+                      <h3>Adjusting Service Plan</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={ConstPlanImg} />
-                      <h3>Space Planning</h3>
+                      <img src={VendorsImg} />
+                      <h3>Vendor Issues</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={ConstPlanImg} />
-                      <h3>Space Planning</h3>
+                      <img src={SuppliesImg} />
+                      <h3>Reordering Supplies</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={ConstPlanImg} />
-                      <h3>Space Planning</h3>
+                      <img src={RepairsImg} />
+                      <h3>Repairs</h3>
                     </Col>
                   </Row>
                   <Row style={{ paddingTop: 15 }}>
@@ -148,16 +156,16 @@ class ExperienceManagerPage extends React.Component {
                       <h3>Space Planning</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={ConstPlanImg} />
-                      <h3>Space Planning</h3>
+                      <img src={MovingIm} />
+                      <h3>Move Planning</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={ConstPlanImg} />
-                      <h3>Space Planning</h3>
+                      <img src={InventoryImg} />
+                      <h3>Taking Inventory</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={ConstPlanImg} />
-                      <h3>Space Planning</h3>
+                      <img src={MoreImg} />
+                      <h3>Much More!</h3>
                     </Col>
                   </Row>
                 </Col>

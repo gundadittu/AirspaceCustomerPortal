@@ -60,6 +60,7 @@ class ServicePlanPendingAddOn extends React.Component {
                         const pricing = item["Pricing Details"] || null;
                         const identifier = item["Record ID"] || null;
                         const title = item["Name"] || null;
+                        const reccomended = item["Reccomended"] === "Yes" ? true : false; 
 
                         if (status === "Needs to be Added to Service Plan") {
                             return (
@@ -113,12 +114,17 @@ class ServicePlanPendingAddOn extends React.Component {
                                 </div>
                             )
                         } else {
+                            let extra = () => { return null }; 
+                            if (reccomended === true) { 
+                                extra = () => (<Tag color="#FC588F" type="primary">Reccomended</Tag>);
+                            }
+
                             return (
                                 <div>
                                     <List.Item>
                                         <Card
                                             title={title}
-                                            // extra={<p style={{ textAlign: "right" }}>ID: {item["Record ID"]}</p>}
+                                            extra={extra()}
                                             actions={[(<Button onClick={() => this.accept(identifier)} type="primary">Select</Button>)]}
                                         >
                                             <Row>

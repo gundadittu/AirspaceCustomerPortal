@@ -96,6 +96,7 @@ class ExperienceManagerPage extends React.Component {
       const phoneHref = "tel:" + phone;
       const email = info["Email"] || "";
       const emailHref = "mailto:" + email;
+      const chatURL = info["Drift Link"] || null;
 
       return (
         <div>
@@ -113,20 +114,21 @@ class ExperienceManagerPage extends React.Component {
             <Col span={13}>
               <div style={{ paddingTop: 20 }}>
                 <h1>{name}</h1>
-                <h2>{bio}</h2>
+                <h3>{bio}</h3>
               </div>
               <Row style={{ paddingTop: 15, paddingBottom: 15 }}>
-                <Col span={12}>
+                <Col span={6}>
+                  <h3> <Icon type="phone" /> Live Chat</h3>
+                  <a target="_blank" href={chatURL}><h2>Chat Here</h2></a>
+                </Col>
+                <Col span={8}>
                   <h3> <Icon type="phone" /> Call</h3>
                   <a href={phoneHref}><h2>{phone}</h2></a>
                 </Col>
-                <Col span={12}>
+                <Col span={10}>
                   <h3> <Icon type="inbox" /> Email</h3>
                   <a href={emailHref}><h2>{email}</h2></a>
                 </Col>
-                {/* <Col span={8}>
-                  <h3> <Icon type="phone" /> Live Chat</h3>
-                </Col> */}
               </Row>
               <hr style={{ margin: 10, marginBottom: 10 }} />
               <Row style={{ paddingTop: 15 }}>

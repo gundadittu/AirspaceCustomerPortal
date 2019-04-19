@@ -12,7 +12,7 @@ class ServicePlanPendingOption extends React.Component {
             return
         }
 
-        message.success('Adding this service option.');
+        message.success('Added this service option.');
 
         const payload = {
             selectedOfficeUID: this.props.currentOfficeAdminUID,
@@ -27,7 +27,7 @@ class ServicePlanPendingOption extends React.Component {
         if ((this.props.currentOfficeAdminUID === null) || (record === null)) {
             return
         }
-        message.error('Removing this service option.');
+        message.error('Removed this service option.');
 
         const payload = {
             selectedOfficeUID: this.props.currentOfficeAdminUID,

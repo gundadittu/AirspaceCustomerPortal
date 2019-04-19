@@ -12,7 +12,7 @@ class ServicePlanPendingAddOn extends React.Component {
             return
         }
 
-        message.success('Adding this service add-on.');
+        message.success('Selected service add-on.');
 
         const payload = {
             selectedOfficeUID: this.props.currentOfficeAdminUID,
@@ -27,7 +27,7 @@ class ServicePlanPendingAddOn extends React.Component {
         if ((this.props.currentOfficeAdminUID === null) || (record === null)) {
             return
         }
-        message.error('Removing this service add-on.');
+        message.error('Removed this service add-on.');
 
         const payload = {
             selectedOfficeUID: this.props.currentOfficeAdminUID,

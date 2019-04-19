@@ -40,6 +40,7 @@ import Electric from "../../assets/images/services/electric.jpeg";
 import Plumbing from "../../assets/images/services/plumbing.jpeg";
 import Catering from "../../assets/images/services/catering.jpg";
 import Events from "../../assets/images/services/events.jpeg";
+import Other from "../../assets/images/services/other.jpeg";
 
 const { Meta } = Card;
 
@@ -106,7 +107,12 @@ class FindServicesPage extends React.Component {
                     image: AlcoholImage,
                     title: "Beer + Spirits + Wine",
                     description: "We take pride in serving your office with local craft beers. International and domestic? Yeah, we got that too. Find out more about how our vendors can service your office with an assortment of beers, spirits, and wines."
-                }
+                },
+                {
+                    image: Other,
+                    title: "Other",
+                    description: "Can't find what you're looking for? Your experience manager can work with you to find a solution."
+                },
             ];
         } else if (this.state.dataSource === "it-services") {
             data = [
@@ -131,7 +137,12 @@ class FindServicesPage extends React.Component {
                 {
                     title: "IT Services",
                     description: "Maximize business efficiency by working with an Airspace professional IT firm. We can cover all of your ongoing IT needs. Examples include: help desk support, managing software licenses and hardware purchases, setting up new devices, handling connectivity issues, and proactively providing insights and advice to improve your workspace productivity based on specific business needs."
-                }
+                },
+                {
+                    image: Other,
+                    title: "Other",
+                    description: "Can't find what you're looking for? Your experience manager can work with you to find a solution."
+                },
             ];
         } else if (this.state.dataSource === "space-management") {
             data = [
@@ -149,7 +160,7 @@ class FindServicesPage extends React.Component {
                     description: "Learn if you're using your space to its fullest potential. Airspace can help you through your expansion needs."
                 },
                 {
-                    image: SpacePlanning, 
+                    image: SpacePlanning,
                     title: "Space Planning & Design",
                     description: "Redesign your office space to reflect your brand and company culture with custom interior design services. Create a work environment that accommodates the needs of your team by designing a successful, efficient office space."
                 },
@@ -157,7 +168,12 @@ class FindServicesPage extends React.Component {
                     image: ArchitectureImg,
                     title: "Architecture + General Contracting",
                     description: "Not sure where to begin on your next big project? Let us guide you."
-                }
+                },
+                {
+                    image: Other,
+                    title: "Other",
+                    description: "Can't find what you're looking for? Your experience manager can work with you to find a solution."
+                },
             ];
         } else if (this.state.dataSource === "office-help") {
             data = [
@@ -172,22 +188,22 @@ class FindServicesPage extends React.Component {
                     description: "Save space by mounting whiteboards in conference rooms and common spaces to enable easy collaboration and brainstorming. Can also provide the whiteboards. "
                 },
                 {
-                    image: Plants, 
+                    image: Plants,
                     title: "Plants",
                     description: "Plants are great for decorating office space––they literally breathe life into the air. If you don't have a green thumb, it can be hard to know which plants are best for your space and will thrive in your office environment. Set up a free consultation to help determine which high quality, nursery-grown plants would be best to install in your office. Inquire separately for weekly plant care services. And yes, we can hang and care for them too."
                 },
                 {
-                    image: Branding, 
+                    image: Branding,
                     title: "Signs & Branding",
                     description: "Add signage to your office space and reception area to ensure your brand is well represented. Get help mounting custom wood, metal, plastic, or LED signage to make a great first impression."
                 },
                 {
-                    image: Accoustics, 
+                    image: Accoustics,
                     title: "Acoustic Panels",
                     description: "Soundproof conference rooms and common areas of your office to prevent sound from traveling from meetings, team lunches, or neighboring tenants and keep work areas distraction-free."
                 },
                 {
-                    image: Moving, 
+                    image: Moving,
                     title: "Moving Service",
                     description: "Office relocations consist of a lot of moving pieces. Have your office furniture, appliances, supplies, and personal items packed up and prepared for transport with professional moving services. Once your belongings have reached your new office space, the team can help you prep the space and unpack, reassemble, and organize your items in your new office."
                 },
@@ -195,7 +211,12 @@ class FindServicesPage extends React.Component {
                     image: Security,
                     title: "Office Security",
                     description: "We cover everything from integrated security installation, system repair, locksmith services, access control, surveillance systems, guard services, and general consultation."
-                }
+                },
+                {
+                    image: Other,
+                    title: "Other",
+                    description: "Can't find what you're looking for? Your experience manager can work with you to find a solution."
+                },
             ];
         } else if (this.state.dataSource === "cleaning") {
             data = [
@@ -204,17 +225,17 @@ class FindServicesPage extends React.Component {
                     description: "With any shared space, dust and dirt can accumulate quickly. Based on your office size and needs, you can schedule evening cleaning to ensure a clean office each morning."
                 },
                 {
-                    image: DeepClean, 
+                    image: DeepClean,
                     title: "Deep Cleaning",
                     description: "Whether you are moving out or just need to press reset on your office space, this intensive cleaning session sanitizes your office and removes dust and dirt from out-of-reach places like under heavy furniture or hard to clean areas like moulding. Deep cleaning creates a healthier work environment for teams."
                 },
                 {
-                    image: Floors, 
+                    image: Floors,
                     title: "Floors",
                     description: "From carpets, to buffing, to tile and grout, we have all your floor cleaning needs covered."
                 },
                 {
-                    image: Windows, 
+                    image: Windows,
                     title: "Windows",
                     description: "Between the weather and living in a city, dirt and debris can build up on your windows, compromising your natural light. Regular window washing can remove stains and keep your office bright."
                 },
@@ -227,47 +248,57 @@ class FindServicesPage extends React.Component {
                     description: "It's always surprising how much trash an office creates. Take trash collection and removal out of your job description by setting up daily or weekly hauling to properly dispose of your trash and recycling to adhere to city and building requirements and avoid fines. Need to get rid of heavy trash items? We cover that too."
                 },
                 {
-                    image: Hazardous, 
+                    image: Hazardous,
                     title: "Hazardous Materials",
                     description: "Keep your office safe and have mildew and black mold in bathrooms, kitchens, around windows, or behind walls professionally removed. Our environmental experts can diagnose your mold type and other environmental waste, its severity, and make recommendations about remediation methods. Proper containment and removal will ensure your air quality is safe for your team and your physical space does not experience any wood rot or further damage."
                 },
                 {
                     title: "Pest Control",
                     description: "Whether you've spotted unwanted visitors in your office or want to prevent pests from finding their way inside, professional pest control services can exterminate rodents and insects and protect your space from future infestation. Regularly scheduled inspections and preventative treatments can also help keep your office pest-free and sanitary."
-                }
+                },
+                {
+                    image: Other,
+                    title: "Other",
+                    description: "Can't find what you're looking for? Your experience manager can work with you to find a solution."
+                },
             ]
         } else if (this.state.dataSource === "repairs-maintenance") {
             data = [
                 {
-                    image: Restroom, 
+                    image: Restroom,
                     title: "Restrooms",
                     description: "From toilets, to sinks to leaks, we've got your restroom needs covered."
                 },
                 {
-                    image: Lights, 
+                    image: Lights,
                     title: "Lights",
                     description: "We cover fixtures, installation, switches, and everything in between."
                 },
                 {
-                    image: HVAC, 
+                    image: HVAC,
                     title: "HVAC",
                     description: "We service your HVAC needs to keep your team cool and comfortable."
                 },
                 {
-                    image: Electric, 
+                    image: Electric,
                     title: "General Electric",
                     description: "Electrical issues like faulty wiring or a blown fuse can harm productivity. Buildings sometimes aren't wired to accommodate the size of your team, so having an electrician take a look at your setup will ensure quick and safe repairs."
                 },
                 {
-                    image: Plumbing, 
+                    image: Plumbing,
                     title: "General Plumbing",
                     description: "Plumbing problems can wreak havoc on your space. Let our experts respond to these issues or provide proactive solutions."
+                },
+                {
+                    image: Other,
+                    title: "Other",
+                    description: "Can't find what you're looking for? Your experience manager can work with you to find a solution."
                 },
             ];
         } else if (this.state.dataSource === "office-moving") {
             data = [
                 {
-                    image: Moving, 
+                    image: Moving,
                     title: "Moving Service",
                     description: "Office relocations consist of a lot of moving pieces. Have your office furniture, appliances, supplies, and personal items packed up and prepared for transport with professional moving services. Once your belongings have reached your new office space, the team can help you prep the space and unpack, reassemble, and organize your items in your new office."
                 },
@@ -277,7 +308,7 @@ class FindServicesPage extends React.Component {
                     description: "Take the hassle out of furniture, we offer purchase, lease, and rental options, and include assembly, installation, and replacements."
                 },
                 {
-                    image: DeepClean, 
+                    image: DeepClean,
                     title: "Deep Cleaning",
                     description: "Whether you are moving out or just need to press reset on your office space, this intensive cleaning session sanitizes your office and removes dust and dirt from out-of-reach places like under heavy furniture or hard to clean areas like moulding. Deep cleaning creates a healthier work environment for teams."
                 },
@@ -286,7 +317,7 @@ class FindServicesPage extends React.Component {
                     description: "It's always surprising how much trash an office creates. Take trash collection and removal out of your job description by setting up daily or weekly hauling to properly dispose of your trash and recycling to adhere to city and building requirements and avoid fines. Need to get rid of heavy trash items? We cover that too."
                 },
                 {
-                    image: ArchitectureImg, 
+                    image: ArchitectureImg,
                     title: "Architecture + General Contracting",
                     description: "Not sure where to begin on your next big project? Let us guide you."
                 },
@@ -295,18 +326,28 @@ class FindServicesPage extends React.Component {
                     title: "Space Planning & Design",
                     description: "Redesign your office space to reflect your brand and company culture with custom interior design services. Create a work environment that accommodates the needs of your team by designing a successful, efficient office space."
                 },
+                {
+                    image: Other,
+                    title: "Other",
+                    description: "Can't find what you're looking for? Your experience manager can work with you to find a solution."
+                },
             ];
         } else if (this.state.dataSource === "events-catering") {
             data = [
                 {
-                    image: Events, 
+                    image: Events,
                     title: "Event Planning",
                     description: "From Tuesday Cold Brews to office happy hours, to the yearly Christmas party, let Airspace take the hassle out of having fun."
                 },
                 {
-                    image: Catering, 
+                    image: Catering,
                     title: "Catering",
                     description: "From Tuesday Cold Brews to office happy hours, to the yearly Christmas party, let Airspace take the hassle out of having fun."
+                },
+                {
+                    image: Other,
+                    title: "Other",
+                    description: "Can't find what you're looking for? Your experience manager can work with you to find a solution."
                 }
             ]
         }
@@ -324,7 +365,7 @@ class FindServicesPage extends React.Component {
     }
 
     requestService(type, description, onlyInterested) {
-        message.success('Sending your request to your experience manager.');
+        message.success('Sent your request to your experience manager.');
         let dict = {
             selectedOfficeUID: this.props.currentOfficeUID,
             serviceType: type,

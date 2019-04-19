@@ -179,14 +179,14 @@ class OfficeDetails extends React.Component {
                             <TextField
                                 required
                                 id="outlined-name"
-                                label="Floor Number"
+                                label="Floor Number(s)"
                                 className={classes.textField}
                                 value={this.props.floorNo}
                                 onChange={(e) => updateData(e.target.value, "floorNo")}
                                 margin="normal"
                                 variant="outlined"
                                 style={{ width: "40%" }}
-                                type="number"
+                                type="text"
                                 error={this.state.floorNoErr}
                                 helperText={this.state.floorNoErr}
                             />

@@ -358,7 +358,7 @@ class FindServicesPage extends React.Component {
                                             <Card
                                                 style={{ width: "85%" }}
                                                 cover={<img style={{ cursor: "pointer" }} onClick={() => this.showDetails(item)} alt="example" src={item.image} />}
-                                                actions={[(<Tooltip title="We'll answer your questions and even give you a quote. No commitment required."> <Button onClick={() => this.requestService(item.title, "", true)} type="secondary">I'm Interested</Button></Tooltip>), (<Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button onClick={() => this.requestService(item.title, "", false)} type="primary">Request</Button> </Tooltip>)]}
+                                                actions={[ (<Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button onClick={() => this.requestService(item.title, "", false)} type="primary">Request</Button> </Tooltip>)]}
                                             >
                                                 <a onClick={() => this.showDetails(item)}>
                                                     <Meta

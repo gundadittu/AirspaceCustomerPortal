@@ -1,5 +1,46 @@
 import * as actionTypes from './actionTypes';
 
+export const acceptServiceOption = (payload) => {
+  return {
+    type: actionTypes.ACCEPT_SERVICE_OPTION,
+    payload: {
+      selectedOfficeUID: payload.selectedOfficeUID,
+      recordID: payload.recordID
+    }
+  }
+}
+
+export const pendingServiceOption = (payload) => {
+  return {
+    type: actionTypes.PENDING_SERVICE_OPTION,
+    payload: {
+      selectedOfficeUID: payload.selectedOfficeUID,
+      recordID: payload.recordID
+    }
+  }
+}
+
+
+// export const acceptServiceAddOn = (payload) => {
+//   return {
+//     type: actionTypes.ACCEPT_SERVICE_ADDON,
+//     payload: {
+//       selectedOfficeUID: payload.selectedOfficeUID,
+//       recordID: payload.recordID
+//     }
+//   }
+// }
+
+// export const pendingServiceAddOn = (payload) => {
+//   return {
+//     type: actionTypes.PENDING_SERVICE_ADDON,
+//     payload: {
+//       selectedOfficeUID: payload.selectedOfficeUID,
+//       recordID: payload.recordID
+//     }
+//   }
+// }
+
 export const storeAlexaRedirect = (payload) => {
   return {
     type: actionTypes.STORE_ALEXA_REDIRECT,

@@ -40,7 +40,7 @@ const servicePlanCard = (props) => {
                 </Col>
                 <Col span={8}>
                     <h4>Price:</h4>
-                    {"$" + price}
+                    {price}
                 </Col>
             </Row>
             <br />

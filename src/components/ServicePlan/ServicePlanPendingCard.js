@@ -1,93 +1,9 @@
 import React from 'react';
 import { Row, Col, Card, Button, Tooltip, List } from 'antd';
+import ServicePlanPendingAddOn from './ServicePlanPendingAddOn';
+import ServicePlanPendingOption from './ServicePlanPendingOption';
 const moment = require('moment');
 
-const ServicePlanPendingOption = (props) => {
-    const options = props.options || null;
-    if (options === null) {
-        return null
-    }
-
-    return (
-        <div>
-            <h3>Choose options:</h3>
-            <List
-                grid={{
-                    gutter: 16, xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 2,
-                }}
-                dataSource={options}
-                renderItem={item => (
-                    <List.Item>
-                        <Card
-                            title={item["Name"]}
-                            // extra={<p style={{ textAlign: "right" }}>ID: {item["Record ID"]}</p>}
-                            actions={[(<Button type="primary">Select</Button>)]}
-                        >
-                            <Row>
-                                <Col span={24}>
-                                    <h4>Description:</h4>
-                                    {item["Description"]}
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col span={24}>
-                                    <h4>Pricing:</h4>
-                                    {item["Pricing Details"]}
-                                </Col>
-                            </Row>
-                        </Card>
-                    </List.Item>
-                )}
-            />
-        </div>
-
-    )
-}
-
-const ServicePlanPendingAddOn = (props) => {
-    const options = props.options || null;
-    if (options === null) {
-        return null
-    }
-
-    return (
-        <div>
-            <h3>Choose add-ons:</h3>
-            <List
-                grid={{
-                    gutter: 16, xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 2,
-                }}
-                dataSource={options}
-                renderItem={item => (
-                    <div>
-                        <List.Item>
-                            <Card
-                                title={item["Name"]}
-                                // extra={<p style={{ textAlign: "right" }}>ID: {item["Record ID"]}</p>}
-                                actions={[(<Button type="primary">Select</Button>)]}
-                            >
-                                <Row>
-                                    <Col span={24}>
-                                        <h4>Description:</h4>
-                                        {item["Description"]}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={24}>
-                                        <h4>Pricing:</h4>
-                                        {item["Pricing Details"]}
-                                    </Col>
-                                </Row>
-                            </Card>
-                        </List.Item>
-                    </div>
-
-                )}
-            />
-        </div>
-
-    )
-}
 
 const servicePlanPendingCard = (props) => {
     const servicePackage = props.pendingPackage || null;

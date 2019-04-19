@@ -23,7 +23,7 @@ const invoiceCard = (props) => {
     const dueDateTimeStamp = invoice.due_date || null;
     const dueDateObj = new Date(dueDateTimeStamp * 1000).toString();
     const dueDate = moment(dueDateObj).calendar();
-    const identifier = invoice.id || null;
+    const identifier = invoice.number || null;
     const createdTimestamp = invoice.created || null;
     const createdObj = new Date(createdTimestamp * 1000).toString();
     const created = moment(createdObj).calendar();
@@ -61,7 +61,9 @@ const invoiceCard = (props) => {
                 </Col>
             </Row>
             <p><strong>Created at:</strong> {created}</p>
-            <Button className="inlineDisplay rightAlign" type="primary" onClick={() => openUrl(payURL)}>Pay</Button>
+            {remaining !== 0 ?
+                <Button className="inlineDisplay rightAlign" type="primary" onClick={() => openUrl(payURL)}>Pay</Button>
+            : null }
         </Card>
     );
 }

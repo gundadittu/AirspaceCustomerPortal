@@ -108,17 +108,17 @@ class ExperienceManagerPage extends React.Component {
                 <h2>{bio}</h2>
               </div>
               <Row style={{ paddingTop: 15, paddingBottom: 15 }}>
-                <Col span={8}>
+                <Col span={12}>
                   <h3> <Icon type="phone" /> Call</h3>
                   <a href={phoneHref}><h2>{phone}</h2></a>
                 </Col>
-                <Col span={8}>
+                <Col span={12}>
                   <h3> <Icon type="inbox" /> Email</h3>
                   <a href={emailHref}><h2>{email}</h2></a>
                 </Col>
-                <Col span={8}>
+                {/* <Col span={8}>
                   <h3> <Icon type="phone" /> Live Chat</h3>
-                </Col>
+                </Col> */}
               </Row>
               <hr style={{ margin: 10, marginBottom: 10 }} />
               <Row style={{ paddingTop: 15 }}>

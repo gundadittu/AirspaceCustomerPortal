@@ -90,6 +90,8 @@ class ServicePlanPage extends React.Component {
                 description = "All services you are currently subscribed to will show up here.";
             } else if (this.state.dataSource === "inactive") {
                 description = "All services you previously subscribed to will show up here.";
+            } else if (this.state.dataSource === "pending") {
+                description = "All services that need your approval will appear here. Once accepted, they are added to your service plan.";
             }
 
             return (

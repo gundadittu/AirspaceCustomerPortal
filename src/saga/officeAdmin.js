@@ -15,6 +15,26 @@ require("firebase/storage");
 
 // Watchers
 
+export function* acceptServiceOptionWatcher() {
+    yield takeLatest(actionTypes.ACCEPT_SERVICE_OPTION, acceptServiceOptionWorkerSaga);
+}
+
+export function* pendingServiceOptionWatcher() {
+    yield takeLatest(actionTypes.PENDING_SERVICE_OPTION, pendingServiceOptionWorkerSaga);
+}
+
+// export function* acceptServiceAddOnWatcher() {
+//     yield takeLatest(actionTypes.ACCEPT_SERVICE_ADDON, acceptServiceAddOnWorkerSaga);
+// }
+
+// export function* pendingServiceAddOnWatcher() {
+//     yield takeLatest(actionTypes.PENDING_SERVICE_ADDON, pendingServiceAddOnWorkerSaga);
+// }
+
+export function* getServicePlanForOfficeNoLoad() {
+    yield takeLatest(actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_NO_LOAD, getServicePlanForOfficeWorkerSaga);
+}
+
 export function* addRequestService() {
     yield takeLatest(actionTypes.ADD_REQUEST_SERVICE, addRequestForServiceWorkerSaga);
 }
@@ -1260,7 +1280,8 @@ function* getServicePlanForOfficeWorkerSaga(action) {
         const payload = action.payload;
         let firebase = yield select(selectors.firebase);
         const response = yield call(getServicePlan, payload, firebase);
-
+        console.log(response);
+        console.log(response.pending);
         yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: response.active, inactive: response.inactive, pending: response.pending } });
     } catch (error) {
         sentry.captureException(error);
@@ -1394,3 +1415,107 @@ function* addRequestForServiceWorkerSaga(action) {
         yield put({ type: actionTypes.ADD_REQUEST_SERVICE_FINISHED });
     }
 }
+
+function acceptServiceOption(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('acceptServicePlanOption');
+    return apiCall({ ...payload });
+}
+
+function* acceptServiceOptionWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        yield call(acceptServiceOption, payload, firebase);
+
+        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_NO_LOAD, payload: payload });
+
+        yield put({ type: actionTypes.ACCEPT_SERVICE_OPTION_FINISHED });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to accept service option.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.ACCEPT_SERVICE_OPTION_FINISHED });
+    }
+}
+
+function pendingServiceOption(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('pendingServicePlanOption');
+    return apiCall({ ...payload });
+}
+
+function* pendingServiceOptionWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        yield call(pendingServiceOption, payload, firebase);
+
+        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_NO_LOAD, payload: payload });
+
+        yield put({ type: actionTypes.PENDING_SERVICE_OPTION_FINISHED });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to unselect service option.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.PENDING_SERVICE_OPTION_FINISHED });
+    }
+}
+
+// function acceptServiceAddOn(payload, firebase) {
+//     const apiCall = firebase.functions.httpsCallable('acceptServicePlanAddOn');
+//     return apiCall({ ...payload });
+// }
+
+// function* acceptServiceAddOnWorkerSaga(action) {
+//     try {
+//         const payload = action.payload;
+//         let firebase = yield select(selectors.firebase);
+//         yield call(acceptServiceAddOn, payload, firebase);
+
+//         yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_NO_LOAD, payload: payload });
+
+//         yield put({ type: actionTypes.ACCEPT_SERVICE_ADDON_FINISHED });
+//     } catch (error) {
+//         sentry.captureException(error);
+
+//         notification['error']({
+//             message: 'Unable to select service add-on.',
+//             description: error.message
+//         });
+
+//         yield put({ type: actionTypes.ACCEPT_SERVICE_ADDON_FINISHED });
+//     }
+// }
+
+// function pendingServiceAddOn(payload, firebase) {
+//     const apiCall = firebase.functions.httpsCallable('pendingServicePlanAddOn');
+//     return apiCall({ ...payload });
+// }
+
+// function* pendingServiceAddOnWorkerSaga(action) {
+//     try {
+//         const payload = action.payload;
+//         let firebase = yield select(selectors.firebase);
+//         yield call(pendingServiceAddOn, payload, firebase);
+
+//         yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_NO_LOAD, payload: payload });
+
+//         yield put({ type: actionTypes.PENDING_SERVICE_ADDON_FINISHED });
+//     } catch (error) {
+//         sentry.captureException(error);
+
+//         notification['error']({
+//             message: 'Unable to unselect service add-on.',
+//             description: error.message
+//         });
+
+//         yield put({ type: actionTypes.PENDING_SERVICE_ADDON_FINISHED });
+//     }
+// }

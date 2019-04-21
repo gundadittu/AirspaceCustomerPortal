@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Menu, Icon, Affix, Tag, Drawer } from 'antd';
+import { Button, Menu, Icon, Affix, Tag, Drawer, Badge } from 'antd';
 //import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -207,20 +207,33 @@ class SideNavBar extends React.Component {
           mode="inline"
           className="airspace-side-nav-bar"
         >
-          {Object.keys(menuLinks).map((key) => (
-            < Menu.Item key={menuLinks[key].keyVal} >
-              <Link to={'/officeAdmin/' + currentOfficeAdminUID + '/' + menuLinks[key].pageSubtitle}>
-                {<span style={{ fontSize: fontSize }}><Icon type={menuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{menuLinks[key].linkTitle}</span></span>}
-              </Link>
-            </Menu.Item>
-          ))}
+          {Object.keys(menuLinks).map((key) => {
+
+            if (key === "servicePlan") {
+              return (
+                < Menu.Item key={menuLinks[key].keyVal} >
+                  <Link to={'/officeAdmin/' + currentOfficeAdminUID + '/' + menuLinks[key].pageSubtitle}>
+                      {<span style={{ fontSize: fontSize }}><Icon type={menuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{menuLinks[key].linkTitle} <Badge dot count={this.props.badgeCount} /></span></span>}
+                  </Link>
+                </Menu.Item>
+              )
+            }
+
+            return (
+              < Menu.Item key={menuLinks[key].keyVal} >
+                <Link to={'/officeAdmin/' + currentOfficeAdminUID + '/' + menuLinks[key].pageSubtitle}>
+                  {<span style={{ fontSize: fontSize }}><Icon type={menuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{menuLinks[key].linkTitle}</span></span>}
+                </Link>
+              </Menu.Item>
+            );
+          })}
 
           {officeAppSubMenu}
           {switchPortalSubMenu}
-          <Affix style={{position: 'absolute', left: 20, bottom: 100}}>
+          <Affix style={{ position: 'absolute', left: 20, bottom: 100 }}>
             <a style={{ color: "#C0C0C0" }} target="_blank" href="https://www.airspaceoffice.co/terms.html">Terms</a>
           </Affix>
-          <Affix style={{position: 'absolute', left: 80, bottom: 100}}>
+          <Affix style={{ position: 'absolute', left: 80, bottom: 100 }}>
             <a style={{ color: "#C0C0C0" }} target="_blank" href="https://www.airspaceoffice.co/privacy.html">Privacy</a>
           </Affix>
         </Menu >
@@ -331,7 +344,8 @@ const mapStateToProps = state => {
     regularUserPortalMode: state.general.regularUserPortalMode,
     currentPage: state.general.currentPage,
     currentOfficeAdminUID: state.general.currentOfficeAdminUID,
-    currentOfficeAdmin: state.general.currentOfficeAdmin
+    currentOfficeAdmin: state.general.currentOfficeAdmin,
+    badgeCount: state.officeAdmin.pendingServicePlanCount
   }
 };
 

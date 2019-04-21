@@ -6,10 +6,13 @@ import { withRouter } from 'react-router-dom';
 import * as generalActionCreator from '../../store/actions/general';
 
 import RefreshIcon from '@material-ui/icons/Refresh';
-import { Row, Col, Menu, Empty, Button, Spin, Card, Upload, Icon } from 'antd';
+import { Row, Col, Menu, Empty, Button, Spin, Card, Upload, Icon, Tooltip } from 'antd';
 
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
+
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
 
 class OfficeProfilePage extends React.Component {
 
@@ -57,13 +60,13 @@ class OfficeProfilePage extends React.Component {
             status: 'done',
             url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-          }, {
+        }, {
             uid: '-2',
             name: 'yyy.png',
             status: 'done',
             url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-          }];
+        }];
 
         const props2 = {
             action: '//jsonplaceholder.typicode.com/posts/',
@@ -105,7 +108,7 @@ class OfficeProfilePage extends React.Component {
                 <Card
                     title={"General"}
                     // extra={<p style={{ textAlign: "right" }}>ID: {identifier}</p>}
-                    style={{ width: "100%", paddingTop: 20 }}
+                    style={{ width: "100%", marginTop: 20 }}
                 >
                     <Row>
                         <Col span={8}>
@@ -192,7 +195,13 @@ class OfficeProfilePage extends React.Component {
 
         return (
             <Col className="wide-table" span={24}>
-                <h1>Office Profile</h1>
+                <h1>Office Profile
+                <Tooltip title="Your office profile allows us to create personalized service terms and prices. If any details have changed, let your Experience Manager know.">
+                        <IconButton className="inlineDisplay" style={{ marginBottom: 5 }}>
+                            <InfoIcon />
+                        </IconButton>
+                    </Tooltip>
+                </h1>
                 <div>
                     {/* <Row type="flex" style={{ paddingLeft: "1%", paddingRight: "15%" }}>
                         <Col span={12}>

@@ -50,6 +50,7 @@ const initialState = {
     activeServicePlan: null,
     inactiveServicePlan: null,
     pendingServicePlan: null,
+    pendingServicePlanCount: 0,
     isLoadingEMInfo: false,
     emInfo: null,
     isLoadingOfficeProfile: false,
@@ -82,7 +83,8 @@ const reducer = (state = initialState, action) => {
             const activePlan = action.payload.active || null;
             const inactivePlan = action.payload.inactive || null;
             const pendingPlan = action.payload.pending || null; 
-            return updateObject(state, { isLoadingServicePlan: false, activeServicePlan: activePlan, inactiveServicePlan: inactivePlan, pendingServicePlan: pendingPlan });
+            const pendingServicePlanCount = pendingPlan.length || 0; 
+            return updateObject(state, { isLoadingServicePlan: false, activeServicePlan: activePlan, inactiveServicePlan: inactivePlan, pendingServicePlan: pendingPlan, pendingServicePlanCount: pendingServicePlanCount });
         case actionTypes.GET_ALL_INVOICES_FOR_OFFICE:
             return updateObject(state, { isLoadingInvoices: true });
         case actionTypes.GET_ALL_INVOICES_FOR_OFFICE_FINISHED:

@@ -8,12 +8,15 @@ import ServicePlanCard from './ServicePlanCard';
 import ServicePlanPendingCard from './ServicePlanPendingCard';
 
 import RefreshIcon from '@material-ui/icons/Refresh';
-import { Row, Col, Menu, Empty, Button, Spin, Steps, Modal } from 'antd';
+import { Row, Col, Menu, Empty, Button, Spin, Steps, Modal, Tooltip, Badge } from 'antd';
 
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import { Link } from 'react-router-dom';
 import emptyState from "../../assets/images/empty/empty-1.png";
+
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
 // import OfficeProfileModal from './OfficeProfileModal';
 
 class ServicePlanPage extends React.Component {
@@ -151,7 +154,13 @@ class ServicePlanPage extends React.Component {
             <div>
                 {/* <OfficeProfileModal visible={this.state.visible} hideModal={this.hideOfficeProfile} /> */}
                 <Col className="wide-table" span={24}>
-                    <h1>Service Plan</h1>
+                    <h1>Service Plan
+                    <Tooltip title="Your service plans helps you understand and manage your office's services.">
+                            <IconButton className="inlineDisplay" style={{ marginBottom: 5 }}>
+                                <InfoIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </h1>
                     <div>
                         <Row type="flex" style={{ paddingLeft: "1%", paddingRight: "15%" }}>
                             <Col span={12}>
@@ -168,6 +177,7 @@ class ServicePlanPage extends React.Component {
                                     </Menu.Item>
                                         <Menu.Item key="pending" >
                                             Pending Approval
+                                            <Badge dot count={this.props.badgeCount} />
                                         </Menu.Item>
                                         <Menu.Item key="inactive" >
                                             Past
@@ -196,7 +206,8 @@ const mapStateToProps = state => {
         isLoadingServicePlan: state.officeAdmin.isLoadingServicePlan,
         activeList: state.officeAdmin.activeServicePlan,
         inactiveList: state.officeAdmin.inactiveServicePlan,
-        pendingList: state.officeAdmin.pendingServicePlan
+        pendingList: state.officeAdmin.pendingServicePlan, 
+        badgeCount: state.officeAdmin.pendingServicePlanCount
     }
 };
 

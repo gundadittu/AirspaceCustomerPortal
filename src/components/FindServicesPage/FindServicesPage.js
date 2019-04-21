@@ -406,7 +406,7 @@ class FindServicesPage extends React.Component {
                 <Row>
                     <Col className="wide-table" span={24}>
                         <h1>Find Services
-                        <IconButton className="inlineDisplay" onClick={this.showSteps.bind(this)}>
+                        <IconButton className="inlineDisplay" style={{ marginBottom: 5 }} onClick={this.showSteps.bind(this)}>
                                 <InfoIcon />
                             </IconButton>
                         </h1>

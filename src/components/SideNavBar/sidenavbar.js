@@ -230,10 +230,10 @@ class SideNavBar extends React.Component {
 
           {officeAppSubMenu}
           {switchPortalSubMenu}
-          <Affix style={{ position: 'absolute', left: 20, bottom: 100 }}>
+          <Affix active={"true"} style={{ position: 'absolute', left: 20, bottom: 100 }}>
             <a style={{ color: "#C0C0C0" }} target="_blank" href="https://www.airspaceoffice.co/terms.html">Terms</a>
           </Affix>
-          <Affix style={{ position: 'absolute', left: 80, bottom: 100 }}>
+          <Affix active={"true"} style={{ position: 'absolute', left: 80, bottom: 100 }}>
             <a style={{ color: "#C0C0C0" }} target="_blank" href="https://www.airspaceoffice.co/privacy.html">Privacy</a>
           </Affix>
         </Menu >

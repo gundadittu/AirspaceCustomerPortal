@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Row, Col, Card, Button, Tooltip, List, Tag, message } from 'antd';
 import * as generalActionCreator from '../../store/actions/general';
+import { Row, Col, Card, Button, Tooltip, List, Tag, message } from 'antd';
+import AddIcon from '@material-ui/icons/AddCircle';
+import RemoveIcon from '@material-ui/icons/Clear';
+import IconButton from '@material-ui/core/IconButton';
 
 class ServicePlanPendingAddOn extends React.Component {
 
@@ -42,6 +45,9 @@ class ServicePlanPendingAddOn extends React.Component {
         if (options === null) {
             return null
         }
+        if (options.length === 0) { 
+            return null 
+        }
 
         // check if option is "Needs to be Added to Service Plan" or "Added to Service Plan" -> highlighted
         // click on select button should change status to "Needs to be Added to Service Plan" or back to "Pending" if they unselect
@@ -64,105 +70,50 @@ class ServicePlanPendingAddOn extends React.Component {
 
                         let extra = () => { return null };
                         if (reccomended === true) {
-                            extra = () => (<Tag color="#FC588F" type="primary">Reccomended</Tag>);
+                            extra = () => (<Tag style={{ marginLeft: 15 }} color="#FC588F" type="primary">Reccomended</Tag>);
                         }
 
-
+                        let sideContent = () => null;
                         if (status === "Needs to be Added to Service Plan") {
-                            return (
-                                <div>
-                                    <List.Item>
-                                        <Card
-                                            title={title}
-                                            extra={(<Button onClick={() => this.pending(identifier)} type="secondary">Unselect</Button>)}
-                                        // actions={[(<Button onClick={() => this.pending(identifier)} type="secondary">Unselect</Button>)]}
-                                        >
-                                            <Row>
-                                                <Col span={24}>
-                                                    {/* <h4>Description:</h4> */}
-                                                    {description}
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col style={{ marginTop: 10 }} span={24}>
-                                                    {extra()}
-                                                </Col>
-                                            </Row>
-
-                                            <br />
-                                            <Row>
-                                                <Col span={24}>
-                                                    <h4>Pricing:</h4>
-                                                    {pricing}
-                                                </Col>
-                                            </Row>
-                                        </Card>
-                                    </List.Item>
-                                </div>)
+                            sideContent = () => (<Button onClick={() => this.pending(identifier)} style={{ backgroundColor: "#F3F3F3", borderColor: "#F3F3F3", color: "#696969" }} type="primary">Remove Selection</Button>)
                         } else if (status === "Added to Service Plan") {
-                            return (
-                                <div>
-                                    <List.Item>
-                                        <Card
-                                            title={title}
-                                            extra={<Tag type="primary">Added to Service Plan</Tag>}
-                                        // actions={[(<Button type="primary" disabled>Added to Service Plan</Button>)]}
-                                        >
-                                            <Row>
-                                                <Col span={24}>
-                                                    {/* <h4>Description:</h4> */}
-                                                    {description}
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col style={{ marginTop: 10 }} span={24}>
-                                                    {extra()}
-                                                </Col>
-                                            </Row>
-                                            <br />
-                                            <Row>
-                                                <Col span={24}>
-                                                    <h4>Pricing:</h4>
-                                                    {pricing}
-                                                </Col>
-                                            </Row>
-                                        </Card>
-                                    </List.Item>
-                                </div>
-                            )
+                            sideContent = () => (<Tag type="primary">Added to Service Plan</Tag>)
                         } else {
-
-                            return (
-                                <div>
-                                    <List.Item>
-                                        <Card
-                                            title={title}
-                                            extra={(<Button onClick={() => this.accept(identifier)} type="primary">Select</Button>)}
-                                        // actions={[(<Button onClick={() => this.accept(identifier)} type="primary">Select</Button>)]}
-                                        >
-                                            <Row>
-                                                <Col span={24}>
-                                                    {/* <h4>Description:</h4> */}
-                                                    {description}
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col style={{ marginTop: 10 }} span={24}>
-                                                    {extra()}
-                                                </Col>
-                                            </Row>
-                                            <br />
-                                            <Row>
-                                                <Col span={24}>
-                                                    <h4>Pricing:</h4>
-                                                    {pricing}
-                                                </Col>
-                                            </Row>
-                                        </Card>
-                                    </List.Item>
-                                </div>
-                            )
+                            sideContent = () => (<Button onClick={() => this.accept(identifier)} ghost type="primary">Select</Button>)
                         }
+
+
+                        return (
+                            <div>
+                                <List.Item>
+                                    <Card
+                                        title={(<h3>{title} {extra()}</h3>)}
+                                        extra={sideContent()}
+                                    // actions={[(<Button onClick={() => this.pending(identifier)} type="secondary">Unselect</Button>)]}
+                                    >
+                                        <Row>
+                                            <Col span={16}>
+                                                <h4>Description:</h4>
+                                                {description}
+                                            </Col>
+                                            <Col span={2}>
+                                            </Col>
+                                            <Col span={6}>
+                                                <h4>Pricing:</h4>
+                                                {pricing}
+                                            </Col>
+                                        </Row>
+                                        {/* <br />
+                                        <Row>
+                                            <Col span={24}>
+                                                <h4>Pricing:</h4>
+                                                {pricing}
+                                            </Col>
+                                        </Row> */}
+                                    </Card>
+                                </List.Item>
+                            </div>)
+
                     }}
                 />
             </div>

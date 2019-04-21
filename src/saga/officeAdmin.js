@@ -23,6 +23,14 @@ export function* pendingServiceOptionWatcher() {
     yield takeLatest(actionTypes.PENDING_SERVICE_OPTION, pendingServiceOptionWorkerSaga);
 }
 
+export function* confirmPendingPackageWatcher() {
+    yield takeLatest(actionTypes.CONFIRM_PENDING_PACKAGE, confirmPendingPackageWorkerSaga);
+}
+
+export function* rejectPendingPackageWatcher() {
+    yield takeLatest(actionTypes.REJECT_PENDING_PACKAGE, rejectPendingPackageWorkerSaga);
+}
+
 // export function* acceptServiceAddOnWatcher() {
 //     yield takeLatest(actionTypes.ACCEPT_SERVICE_ADDON, acceptServiceAddOnWorkerSaga);
 // }
@@ -1267,24 +1275,33 @@ function* getAllInvoicesForOfficeWorkerSaga(action) {
 }
 
 function getServicePlan(payload, firebase) {
+    console.log("start");
     const apiCall = firebase.functions.httpsCallable('getServicePlanForOffice');
     return apiCall({ ...payload })
         .then(response => {
             const data = response.data;
+            console.log("here");
+            console.log(response);
+            console.log(data);
             return data;
         })
 }
 
 function* getServicePlanForOfficeWorkerSaga(action) {
     try {
+        console.log("start-0");
         const payload = action.payload;
         let firebase = yield select(selectors.firebase);
         const response = yield call(getServicePlan, payload, firebase);
-  
-        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: response.active, inactive: response.inactive, pending: response.pending } });
+
+        if (response === null) {
+            yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: null, inactive: null } });
+            return 
+        }
+        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: response.active || [], inactive: response.inactive || [], pending: response.pending || [] } });
     } catch (error) {
         sentry.captureException(error);
-        
+
         notification['error']({
             message: 'Unable to get service plan.',
             description: error.message
@@ -1427,7 +1444,7 @@ function* acceptServiceOptionWorkerSaga(action) {
         yield call(acceptServiceOption, payload, firebase);
 
         yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_NO_LOAD, payload: payload });
-        yield put({ type: actionTypes.ACCEPT_SERVICE_OPTION_FINISHED, payload: { } });
+        yield put({ type: actionTypes.ACCEPT_SERVICE_OPTION_FINISHED, payload: {} });
     } catch (error) {
         sentry.captureException(error);
 
@@ -1463,6 +1480,56 @@ function* pendingServiceOptionWorkerSaga(action) {
         });
 
         yield put({ type: actionTypes.PENDING_SERVICE_OPTION_FINISHED });
+    }
+}
+
+function confirmPendingPackage(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('confirmPendingPackage');
+    return apiCall({ ...payload });
+}
+
+function* confirmPendingPackageWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        yield call(confirmPendingPackage, payload, firebase);
+
+        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_NO_LOAD, payload: payload });
+        yield put({ type: actionTypes.CONFIRM_PENDING_PACKAGE_FINISHED, payload: {} });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to add package to your service plan.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.CONFIRM_PENDING_PACKAGE_FINISHED, payload: {} });
+    }
+}
+
+function rejectPendingPackage(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('rejectPendingPackage');
+    return apiCall({ ...payload });
+}
+
+function* rejectPendingPackageWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        yield call(rejectPendingPackage, payload, firebase);
+
+        yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_NO_LOAD, payload: payload });
+        yield put({ type: actionTypes.REJECT_PENDING_PACKAGE_FINISHED, payload: {} });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to reject package.',
+            description: error.message
+        });
+
+        yield put({ type: actionTypes.REJECT_PENDING_PACKAGE_FINISHED, payload: {} });
     }
 }
 

@@ -37,6 +37,7 @@ class GetStartedComp extends React.Component {
 
     getStartedPayload = () => {
         let dict = {
+            password: this.props.password, 
             companyName: this.props.companyName,
             firstName: this.props.firstName,
             lastName: this.props.lastName,

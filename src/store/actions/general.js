@@ -20,6 +20,26 @@ export const pendingServiceOption = (payload) => {
   }
 }
 
+export const confirmPendingPackage = (payload) => {
+  return {
+    type: actionTypes.CONFIRM_PENDING_PACKAGE,
+    payload: {
+      selectedOfficeUID: payload.selectedOfficeUID,
+      recordID: payload.recordID
+    }
+  }
+}
+
+export const rejectPendingPackage = (payload) => {
+  return {
+    type: actionTypes.REJECT_PENDING_PACKAGE,
+    payload: {
+      selectedOfficeUID: payload.selectedOfficeUID,
+      recordID: payload.recordID
+    }
+  }
+}
+
 
 // export const acceptServiceAddOn = (payload) => {
 //   return {
@@ -50,10 +70,10 @@ export const storeAlexaRedirect = (payload) => {
   }
 }
 
-export const checkValidEmail = (payload) => { 
-  return { 
-    type: actionTypes.CHECK_VALID_EMAIL, 
-    payload: { 
+export const checkValidEmail = (payload) => {
+  return {
+    type: actionTypes.CHECK_VALID_EMAIL,
+    payload: {
       email: payload.email
     }
   }

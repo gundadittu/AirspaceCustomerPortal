@@ -1,14 +1,18 @@
 import React from 'react';
-import { Row, Col, Card, Button, Tooltip, List, Collapse, Icon, Modal, Steps } from 'antd';
+import { Row, Col, Card, Button, Tooltip, List, Collapse, Icon, Modal, Steps, message, notification, Popconfirm} from 'antd';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Help';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
 import ServicePlanPendingAddOn from './ServicePlanPendingAddOn';
 import ServicePlanPendingOption from './ServicePlanPendingOption';
-// const moment = require('moment');
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import * as generalActionCreator from '../../store/actions/general';// const moment = require('moment');
 
 class ServicePlanPendingCard extends React.Component {
 
-    state = { 
+    state = {
         showSteps: false
     }
 
@@ -42,11 +46,69 @@ class ServicePlanPendingCard extends React.Component {
             this.setState({ showSteps: true })
         }
 
+        const confirmPackage = (record) => {
+            if (record === null) {
+                return
+            }
+
+            let allow = false;
+            options.forEach(x => {
+                const status = x["Status"] || null;
+                if (status === null) {
+                    return
+                }
+                if (status !== "Pending") {
+                    allow = true;
+                }
+            })
+
+            if (allow === false) {
+                notification['error']({
+                    message: 'Please select an option first.',
+                    // description: error.message
+                });
+                return
+            }
+
+            const dict = {
+                selectedOfficeUID: this.props.currentOfficeAdminUID,
+                recordID: record
+            }
+
+            this.props.confirm(dict);
+            message.success('Adding to your service plan. It may take some time to show up in your plan...');
+        }
+
+        const rejectPackage = (record) => {
+            if (record === null) {
+                return
+            }
+
+            const dict = {
+                selectedOfficeUID: this.props.currentOfficeAdminUID,
+                recordID: record
+            }
+            this.props.reject(dict);
+            message.error('Rejected service package.');
+        }
+
         const extra = () => (
             <IconButton className="inlineDisplay" onClick={() => showStepsForm()}><InfoIcon /></IconButton>
         );
 
+        // const theme = {
+        //     cssRoot: {
+        //         color: theme.palette.getContrastText(green[500]),
+        //         backgroundColor: green[500],
+        //         '&:hover': {
+        //             backgroundColor: green[700],
+        //         },
+        //     },
+        // }
+
         return (
+            // <MuiThemeProvider theme={theme}>
+
             <div>
                 <Modal
                     visible={this.state.showSteps}
@@ -59,7 +121,7 @@ class ServicePlanPendingCard extends React.Component {
                     <div style={{ paddingTop: 40, paddingBottom: 40 }}>
                         <Steps progressDot current={3}>
                             <Step title="Select Options" description="Choose the best options and add-ons for your office." />
-                            <Step title="Add to Service Plan" description="Your Experience Manager will add your selections to your service plan." />
+                            <Step title="Add to Service Plan" description="It may take some time to show up in your plan" />
                             <Step title="Enjoy Services" description="Your Experience Manager will coordinate everything." />
                         </Steps>
                     </div>
@@ -75,6 +137,7 @@ class ServicePlanPendingCard extends React.Component {
                             // extra={<p style={{ textAlign: "right" }}>ID: {identifier}</p>}
                             extra={extra()}
                             style={{ width: "100%" }}
+                            actions={[(<Popconfirm title="Are you sure？" okText="Yes" cancelText="No" onConfirm={() => rejectPackage(identifier)}><Button type="secondary">Reject</Button></Popconfirm>), (<Popconfirm title="Are you sure？" okText="Yes" cancelText="No" onConfirm={() => confirmPackage(identifier)}><Button type="primary">Add to Service Plan</Button></Popconfirm>)]}
                         >
                             <Row>
                                 <Col span={24}>
@@ -109,11 +172,27 @@ class ServicePlanPendingCard extends React.Component {
                     </ Panel>
                 </Collapse>
             </div>
+            // </MuiThemeProvider>
         );
     }
 }
 
-export default ServicePlanPendingCard;
+const mapStateToProps = state => {
+    return {
+        currentOfficeAdminUID: state.general.currentOfficeAdminUID
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        confirm: (payload) => dispatch(generalActionCreator.confirmPendingPackage(payload)),
+        reject: (payload) => dispatch(generalActionCreator.rejectPendingPackage(payload))
+    }
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ServicePlanPendingCard));
+
+// export default ServicePlanPendingCard;
 
 // const servicePlanPendingCard = (props) => {
 //     const Panel = Collapse.Panel;

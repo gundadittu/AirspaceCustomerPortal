@@ -80,11 +80,14 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_SERVICE_PLAN_FOR_OFFICE:
             return updateObject(state, { isLoadingServicePlan: true });
         case actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED:
-            const activePlan = action.payload.active || null;
-            const inactivePlan = action.payload.inactive || null;
-            const pendingPlan = action.payload.pending || null; 
-            const pendingServicePlanCount = pendingPlan.length || 0; 
-            return updateObject(state, { isLoadingServicePlan: false, activeServicePlan: activePlan, inactiveServicePlan: inactivePlan, pendingServicePlan: pendingPlan, pendingServicePlanCount: pendingServicePlanCount });
+            if (action.payload !== null) {
+                const activePlan = action.payload.active || null;
+                const inactivePlan = action.payload.inactive || null;
+                const pendingPlan = action.payload.pending || [];
+                const pendingServicePlanCount = pendingPlan.length || 0;
+                return updateObject(state, { isLoadingServicePlan: false, activeServicePlan: activePlan, inactiveServicePlan: inactivePlan, pendingServicePlan: pendingPlan, pendingServicePlanCount: pendingServicePlanCount });
+            }
+            return updateObject(state, { isLoadingServicePlan: false });
         case actionTypes.GET_ALL_INVOICES_FOR_OFFICE:
             return updateObject(state, { isLoadingInvoices: true });
         case actionTypes.GET_ALL_INVOICES_FOR_OFFICE_FINISHED:

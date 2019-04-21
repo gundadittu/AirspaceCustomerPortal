@@ -8,7 +8,7 @@ import * as generalActionCreator from '../../store/actions/general';
 // import RefreshIcon from '@material-ui/icons/Refresh';
 // import IconButton from '@material-ui/core/IconButton';
 import { withRouter } from 'react-router-dom';
-import { Row, Col, Menu, List, Card, Button, Tooltip, Modal, message, Steps } from 'antd';
+import { Row, Col, Menu, List, Card, Button, Tooltip, Modal, message, Steps, Popconfirm } from 'antd';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 
@@ -50,6 +50,7 @@ import PestControl from "../../assets/images/services/pest-control.jpg";
 
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+import HelpIcon from '@material-ui/icons/Help';
 
 // import Other from "../../assets/images/services/other.jpeg";
 
@@ -354,7 +355,7 @@ class FindServicesPage extends React.Component {
     }
 
     showSteps() {
-        this.setState({ showSteps: true });
+        this.setState({ showSteps: true, showDescription: false });
     }
 
     requestService(type, description, onlyInterested) {
@@ -365,6 +366,7 @@ class FindServicesPage extends React.Component {
             serviceDescription: description,
             onlyInterested: onlyInterested
         };
+        console.log(dict);
         this.props.addRequestForService(dict);
     }
 
@@ -393,12 +395,16 @@ class FindServicesPage extends React.Component {
                 </Modal>
                 <Modal
                     visible={this.state.showDescription}
-                    title={this.state.descriptionTitle}
+                    title={(<h3>{this.state.descriptionTitle}</h3>)}
                     onOk={this.hideDescription.bind(this)}
                     onCancel={this.hideDescription.bind(this)}
                     footer={[
                         // (<Tooltip title="We'll answer your questions and even give you a quote. No commitment required."> <Button onClick={() => this.requestService(this.state.descriptionTitle, "", true)} type="secondary">I'm Interested</Button></Tooltip>),
-                        (<Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button onClick={() => this.requestService(this.state.descriptionTitle, "", false)} type="primary">Request</Button> </Tooltip>)
+                        (<Popconfirm title="Are you sure？" okText="Yes" cancelText="No" onConfirm={() => this.requestService(this.state.descriptionTitle, "", true)}>
+                            <Tooltip placement="bottom" title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">
+                                <Button type="primary">I'm Interested</Button>
+                            </Tooltip>
+                        </Popconfirm>)
                     ]}
                 >
                     <p>{this.state.descriptionText}</p>
@@ -463,7 +469,11 @@ class FindServicesPage extends React.Component {
                                                 <Card
                                                     style={{ width: "85%" }}
                                                     cover={<img style={{ cursor: "pointer" }} onClick={() => this.showDetails(item)} alt="example" src={item.image} />}
-                                                    actions={[(<Button onClick={() => this.showDetails(item)} type="secondary">Learn More</Button>), (<Tooltip title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">  <Button onClick={() => this.requestService(item.title, "", false)} type="primary">Request</Button> </Tooltip>)]}
+                                                    actions={[(<Button onClick={() => this.showDetails(item)} type="secondary">Learn More</Button>), (<Popconfirm title="Are you sure？" okText="Yes" cancelText="No" onConfirm={() => this.requestService(item.title, "", true)}>
+                                                        <Tooltip placement="bottom" title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">
+                                                            <Button type="primary">I'm Interested</Button>
+                                                        </Tooltip>
+                                                    </Popconfirm>)]}
                                                 >
                                                     <a onClick={() => this.showDetails(item)}>
                                                         <Meta
@@ -482,7 +492,7 @@ class FindServicesPage extends React.Component {
                 </Row>
                 <Row style={{ paddingTop: 50, paddingBottom: 50 }}>
                     <Col style={{ textAlign: "center" }} span={24}>
-                        <h3>Can't find your service here? <a onClick={() => this.requestService("other", "", false)}>Let your experience manager help you find it.</a></h3>
+                        <h3 style={{ fontWeight: 4 }}>Don’t see a service you want? <a onClick={() => this.requestService("other", "", false)}>Let your experience manager help you find it.</a></h3>
                     </Col>
                 </Row>
             </div>

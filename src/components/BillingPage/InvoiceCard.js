@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Button, Row, Col } from 'antd';
+import { red } from '@material-ui/core/colors';
 const moment = require('moment');
 
 function openUrl(url) {
@@ -63,7 +64,7 @@ const invoiceCard = (props) => {
             <p><strong>Created at:</strong> {created}</p>
             {remaining !== 0 ?
                 <Button className="inlineDisplay rightAlign" type="primary" onClick={() => openUrl(payURL)}>Pay</Button>
-            : null }
+                : null}
         </Card>
     );
 }

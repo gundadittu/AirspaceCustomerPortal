@@ -177,7 +177,7 @@ class ServicePlanPage extends React.Component {
                                     </Menu.Item>
                                         <Menu.Item key="pending" >
                                             Pending Approval
-                                            <Badge dot count={this.props.badgeCount} />
+                                            <Badge dot offset={[0, 4]} count={this.props.badgeCount} />
                                         </Menu.Item>
                                         <Menu.Item key="inactive" >
                                             Past

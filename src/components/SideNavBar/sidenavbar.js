@@ -213,7 +213,7 @@ class SideNavBar extends React.Component {
               return (
                 < Menu.Item key={menuLinks[key].keyVal} >
                   <Link to={'/officeAdmin/' + currentOfficeAdminUID + '/' + menuLinks[key].pageSubtitle}>
-                      {<span style={{ fontSize: fontSize }}><Icon type={menuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{menuLinks[key].linkTitle} <Badge dot count={this.props.badgeCount} /></span></span>}
+                      {<span style={{ fontSize: fontSize }}><Icon type={menuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{menuLinks[key].linkTitle} <Badge dot offset={[0, 5]} count={this.props.badgeCount} /></span></span>}
                   </Link>
                 </Menu.Item>
               )

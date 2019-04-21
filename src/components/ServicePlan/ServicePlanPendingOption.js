@@ -88,12 +88,12 @@ class ServicePlanPendingOption extends React.Component {
 
                                         <Row>
                                             <Col span={24}>
-                                                <h4>Description:</h4>
+                                                {/* <h4>Description:</h4> */}
                                                 {description}
                                             </Col>
                                         </Row>
                                         <Row>
-                                            <Col span={24}>
+                                            <Col style={{ marginTop: 10 }} span={24}>
                                                 {extra()}
                                             </Col>
                                         </Row>
@@ -118,12 +118,12 @@ class ServicePlanPendingOption extends React.Component {
 
                                         <Row>
                                             <Col span={24}>
-                                                <h4>Description:</h4>
+                                                {/* <h4>Description:</h4> */}
                                                 {item["Description"]}
                                             </Col>
                                         </Row>
                                         <Row>
-                                            <Col span={24}>
+                                            <Col style={{ marginTop: 10 }} span={24}>
                                                 {extra()}
                                             </Col>
                                         </Row>
@@ -148,12 +148,12 @@ class ServicePlanPendingOption extends React.Component {
                                     >
                                         <Row>
                                             <Col span={24}>
-                                                <h4>Description:</h4>
+                                                {/* <h4>Description:</h4> */}
                                                 {item["Description"]}
                                             </Col>
                                         </Row>
                                         <Row>
-                                            <Col span={24}>
+                                            <Col style={{ marginTop: 10 }} span={24}>
                                                 {extra()}
                                             </Col>
                                         </Row>

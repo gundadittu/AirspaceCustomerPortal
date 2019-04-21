@@ -169,7 +169,7 @@ function validatePermission(selectedOfficeUID, userAdminOfficeList) {
     if (userAdminOfficeList == null) {
         notification['error']({
             message: 'Permission denied.',
-            description: 'Current user is not a admin for this office.'
+            // description: 'Current user is not a admin for this office.'
         });
         throw new Error('Current user is not a admin for this office..');
     }
@@ -213,7 +213,7 @@ function* createUserWorkerSaga(action) {
 
         notification['success']({
             message: 'Successfully added new user.',
-            description: ''
+            // description: ''
         });
 
         const newPayload = { hideFormRef: payload.hideFormRef }
@@ -223,7 +223,7 @@ function* createUserWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to add user.',
-            description: error.message
+            // description: error.message
         });
         const payload = action.payload;
         const newPayload = { hideFormRef: payload.hideFormRef }
@@ -266,7 +266,7 @@ function* loadOfficeUsersWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to load Users for this office.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.LOAD_OFFICE_USERS_ERROR, payload: { error: error } });
@@ -307,7 +307,7 @@ function* loadAdminAnnouncementsWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to load Announcements for this office.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.LOAD_ADMIN_ANNOUNCEMENTS_ERROR, payload: { error: error } });
@@ -339,7 +339,7 @@ function* postAdminAnnouncementWorkerSaga(action) {
 
         notification['success']({
             message: 'Successfully posted announcement.',
-            description: null
+            // description: null
         });
 
         const newPayload = {}
@@ -349,7 +349,7 @@ function* postAdminAnnouncementWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to post announcement for this office.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -401,7 +401,7 @@ function* loadConferenceRoomsWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to load Conference Rooms for this office.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.LOAD_CONFERENCE_ROOMS_ERROR, payload: { error: error } });
@@ -452,7 +452,7 @@ function* loadHotDesksWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to load Hot Desks for this office.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.LOAD_HOT_DESKS_ERROR, payload: { error: error } });
@@ -491,7 +491,7 @@ function* loadServiceRequestsWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to load Service Requests for this office.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_ERROR, payload: { error: error } });
@@ -524,7 +524,7 @@ function* loadServiceRequestsEmailsWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to load Service Requests Emails for this office.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.LOAD_SERVICE_REQUESTS_ERROR, payload: { error: error } });
@@ -558,7 +558,7 @@ function* editServiceRequestsEmailsWorkerSaga(action) {
 
         notification['success']({
             message: 'Successfully edited emails.',
-            description: null
+            // description: null
         });
         const newPayload = { hideForm: payload.hideForm }
         yield put({ type: actionTypes.EDIT_SERVICE_REQUESTS_EMAILS_SUCCESS, payload: { ...newPayload } });
@@ -567,7 +567,7 @@ function* editServiceRequestsEmailsWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to edit emails for this office.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -598,7 +598,7 @@ function* editServiceRequestsStatusWorkerSaga(action) {
 
         notification['success']({
             message: 'Successfully edited service request status.',
-            description: null
+            // description: null
         });
 
         const newPayload = { hideForm: payload.hideForm }
@@ -608,7 +608,7 @@ function* editServiceRequestsStatusWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to edit status for this office.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -656,7 +656,7 @@ function* loadRegisteredGuestsWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to load Registered Guests for this office.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.LOAD_REGISTERED_GUESTS_ERROR, payload: { error: error } });
@@ -686,7 +686,7 @@ function* editRegisteredGuestStatusForOfficeAdminWorkerSaga(action) {
 
         notification['success']({
             message: 'Successfully changed the arrival status of your guest.',
-            description: null
+            // description: null
         });
 
         const newPayload = { hideForm: payload.hideForm }
@@ -696,7 +696,7 @@ function* editRegisteredGuestStatusForOfficeAdminWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to change the arrival status of your guest.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -734,7 +734,7 @@ function* guestSelfCheckInWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to check you in.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -785,7 +785,7 @@ function* loadEventsWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to load Events for this office.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.LOAD_EVENTS_ERROR, payload: { error: error } });
@@ -828,7 +828,7 @@ function* createEventWorkerSaga(action) {
 
         notification['success']({
             message: 'Successfully created event.',
-            description: null
+            // description: null
         });
 
         const newPayload = { hideForm: payload.hideForm }
@@ -838,7 +838,7 @@ function* createEventWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to create event for this office.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -895,7 +895,7 @@ function* editEventWorkerSaga(action) {
         }
         notification['success']({
             message: notificationMessage,
-            description: null
+            // description: null
         });
 
         const newPayload = { hideForm: payload.hideForm }
@@ -905,7 +905,7 @@ function* editEventWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to edit event for this office.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -948,7 +948,7 @@ function* removeUserWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to remove user from this office.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -986,7 +986,7 @@ function* editUserWorkerSaga(action) {
         sentry.captureException(error);
         notification['error']({
             message: 'Unable to update user info.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -1033,7 +1033,7 @@ function* addRoomWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to add conference room.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -1079,7 +1079,7 @@ function* editRoomWorkerSaga(action) {
         sentry.captureException(error);
         notification['error']({
             message: 'Unable to edit conference room.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -1126,7 +1126,7 @@ function* addDeskWorkerSaga(action) {
         sentry.captureException(error);
         notification['error']({
             message: 'Unable to add hot desk.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -1171,7 +1171,7 @@ function* editDeskWorkerSaga(action) {
         sentry.captureException(error);
         notification['error']({
             message: 'Unable to edit hot desk.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;
@@ -1205,7 +1205,7 @@ function* getSpaceInfoWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to load space info for this office.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.LOAD_SPACE_INFO_FINISHED_ERROR });
@@ -1236,7 +1236,7 @@ function* submitGetStartedDataWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to submit your data.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.SUBMIT_GET_STARTED_DATA_FINISHED_ERROR });
@@ -1267,7 +1267,7 @@ function* getAllInvoicesForOfficeWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to get invoices.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.GET_ALL_INVOICES_FOR_OFFICE_FINISHED, payload: { invoices: null, outstanding: null, paid: null } });
@@ -1304,7 +1304,7 @@ function* getServicePlanForOfficeWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to get service plan.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: null, inactive: null } });
@@ -1343,7 +1343,7 @@ function* getEmInfoForOfficeWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to load experience manager info.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.LOAD_EM_INFO_FINISHED, payload: { info: null } });
@@ -1371,7 +1371,7 @@ function* loadOfficeProfileWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to load office profile info.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.LOAD_OFFICE_PROFILE_FINISHED, payload: { info: null } });
@@ -1401,7 +1401,7 @@ function* checkValidEmailWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to check if email is valid.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.CHECK_VALID_EMAIL_FINISHED, payload: { validEmail: false } });
@@ -1425,7 +1425,7 @@ function* addRequestForServiceWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to request service.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.ADD_REQUEST_SERVICE_FINISHED });
@@ -1450,7 +1450,7 @@ function* acceptServiceOptionWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to accept service option.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.ACCEPT_SERVICE_OPTION_FINISHED });
@@ -1476,7 +1476,7 @@ function* pendingServiceOptionWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to unselect service option.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.PENDING_SERVICE_OPTION_FINISHED });
@@ -1501,7 +1501,7 @@ function* confirmPendingPackageWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to add package to your service plan.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.CONFIRM_PENDING_PACKAGE_FINISHED, payload: {} });
@@ -1526,7 +1526,7 @@ function* rejectPendingPackageWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to reject package.',
-            description: error.message
+            // description: error.message
         });
 
         yield put({ type: actionTypes.REJECT_PENDING_PACKAGE_FINISHED, payload: {} });

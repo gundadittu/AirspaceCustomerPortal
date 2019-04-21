@@ -461,7 +461,7 @@ class FindServicesPage extends React.Component {
                                 (
                                     <List
                                         grid={{
-                                            gutter: 16, xs: 1, sm: 1, md: 2, lg: 3, xl: 4, xxl: 4,
+                                            gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 3, xxl: 3,
                                         }}
                                         dataSource={data}
                                         renderItem={item => (

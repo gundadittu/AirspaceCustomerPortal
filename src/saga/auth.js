@@ -49,7 +49,7 @@ function* userSignInWorkerSaga(action) {
     sentry.captureException(error);
     notification['error']({
       message: 'Unable to sign in user.',
-      description: error.message
+      // description: error.message
     });
 
     yield put({ type: actionTypes.SIGN_IN_USER_ERROR, payload: { error: error } });
@@ -74,7 +74,7 @@ function* userSignOutWorkerSaga(action) {
 
     notification['error']({
       message: 'Unable to sign out user.',
-      description: error.message
+      // description: error.message
     });
 
     yield put({ type: actionTypes.SIGN_OUT_USER_ERROR, payload: { error: error } });

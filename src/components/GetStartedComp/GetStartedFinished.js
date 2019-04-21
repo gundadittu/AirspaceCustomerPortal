@@ -32,7 +32,9 @@ const theme = createMuiTheme({
 class GetStartedFinishedComp extends React.Component {
 
     signIn = () => {
-        this.props.signInUser(this.props.email, this.props.password, true);
+        this.props.history.push('/login');
+        window.location.reload(false);
+        // this.props.signInUser(this.props.email, this.props.password, true);
     }
 
     render() {
@@ -77,29 +79,29 @@ class GetStartedFinishedComp extends React.Component {
                             </Col>
                         </div>
                     </Row >
-                    </MuiThemeProvider>
+                </MuiThemeProvider>
             </div>
 
-                )
-            }
-        }
-        
+        )
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
-                    signInUser: (email, password, rememberMe) => dispatch(authActionCreators.signInUserAction(email, password, rememberMe))
-            }
-        };
-        
+        signInUser: (email, password, rememberMe) => dispatch(authActionCreators.signInUserAction(email, password, rememberMe))
+    }
+};
+
 const mapStateToProps = state => {
     return {
-                    isLoadingSignIn: state.general.isLoadingSignIn,
-                email: state.getStarted.emailAddress,
-                password: state.getStarted.password
-            }
-        }
-        
+        isLoadingSignIn: state.general.isLoadingSignIn,
+        email: state.getStarted.emailAddress,
+        password: state.getStarted.password
+    }
+}
+
 GetStartedFinishedComp.propTypes = {
-                    classes: PropTypes.object.isRequired,
-            };
-            
-            export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(GetStartedFinishedComp)));
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(GetStartedFinishedComp)));

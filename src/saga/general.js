@@ -46,7 +46,7 @@ function* loadNotificationsWorkerSaga(action) {
         sentry.captureException(error);
         notification['error']({
             message: 'Unable to load notifications.',
-            description: error.message
+            // description: error.message
         });
         yield put({ type: actionTypes.LOAD_NOTIFICATIONS_ERROR , payload: { error: error } });
     }
@@ -74,7 +74,7 @@ function* guestCreatePasswordWorkerSaga(action) {
         sentry.captureException(error);
         notification['error']({
             message: 'Unable to verify create password.',
-            description: error.message
+            // description: error.message
         });
         yield put({ type: actionTypes.GUEST_CREATE_PASSWORD_ERROR , payload: { error: error } });
     }
@@ -104,7 +104,7 @@ function* editServiceRequestsStatusEmailWorkerSaga(action) {
 
         notification['success']({
             message: 'Successfully edited service request status.',
-            description: null
+            // description: null
         });
 
         const newPayload = { hideForm: payload.hideForm }
@@ -113,7 +113,7 @@ function* editServiceRequestsStatusEmailWorkerSaga(action) {
         sentry.captureException(error);
         notification['error']({
             message: 'Unable to edit status for this office.',
-            description: error.message
+            // description: error.message
         });
 
         const payload = action.payload;

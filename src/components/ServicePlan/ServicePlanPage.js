@@ -8,20 +8,20 @@ import ServicePlanCard from './ServicePlanCard';
 import ServicePlanPendingCard from './ServicePlanPendingCard';
 
 import RefreshIcon from '@material-ui/icons/Refresh';
-import IconButton from '@material-ui/core/IconButton';
-import { Row, Col, Menu, Empty, Button, Spin } from 'antd';
+import { Row, Col, Menu, Empty, Button, Spin, Steps, Modal } from 'antd';
 
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import { Link } from 'react-router-dom';
 import emptyState from "../../assets/images/empty/empty-1.png";
-import OfficeProfileModal from './OfficeProfileModal';
+// import OfficeProfileModal from './OfficeProfileModal';
 
 class ServicePlanPage extends React.Component {
 
     state = {
         dataSource: "active", // or "inactive" or "pending"
-        visible: false
+        visible: false,
+        showSteps: false
     }
 
     handleClick(e) {
@@ -30,6 +30,7 @@ class ServicePlanPage extends React.Component {
             this.setState({ dataSource: key });
         }
     }
+
 
     componentDidMount() {
         if (this.props.match.isExact) {
@@ -69,17 +70,25 @@ class ServicePlanPage extends React.Component {
         } else if ((dataSource != null) && (dataSource.length > 0)) {
 
             if (this.state.dataSource === "pending") {
-                return (dataSource.map(x => (
-                    <Row>
-                        <Col style={{ paddingLeft: "1%", paddingRight: "15%", paddingBottom: "30px" }} span={24}>
-                            <ServicePlanPendingCard pendingPackage={x} />
-                        </Col>
-                    </Row>
-                )))
+
+                return (
+                    <div style={{ paddingLeft: "1%", paddingRight: "15%", paddingBottom: "30px" }}>
+                        {dataSource.map(x => (
+                            <div>
+                                <Row>
+                                    <Col span={24}>
+                                        <ServicePlanPendingCard pendingPackage={x} />
+                                    </Col>
+                                </Row>
+                            </div>
+                        ))}
+                    </div>
+                )
             }
+
             return (dataSource.map(x => (
                 <Row>
-                    <Col style={{ paddingLeft: "1%", paddingRight: "15%", paddingBottom: "30px" }} span={24}>
+                    <Col style={{ paddingLeft: "1%", paddingRight: "15%" }} span={24}>
                         <ServicePlanCard servicePackage={x} />
                     </Col>
                 </Row>)
@@ -89,34 +98,38 @@ class ServicePlanPage extends React.Component {
             if (this.state.dataSource === "active") {
                 description = "All services you are currently subscribed to will show up here.";
             } else if (this.state.dataSource === "inactive") {
-                description = "All services you previously subscribed to will show up here.";
+                description = "All past and inactive services will show up here.";
             } else if (this.state.dataSource === "pending") {
                 description = "All services that need your approval will appear here. Once accepted, they are added to your service plan.";
             }
 
             return (
-                <Empty
-                    image={emptyState}
-                    imagestyle={{
-                        height: 400,
-                    }}
-                    description={
-                        <span>
-                            {description}
-                        </span>
-                    }
-                />
-            )
+                // <Empty
+                //     image={emptyState}
+                //     imagestyle={{
+                //         height: 800,
+                //     }}
+                //     description={
+                //         <span>
+                //             {description}
+                //         </span>
+                //     }
+                // />
+                <div style={{ textAlign: "center" }}>
+                    <img style={{ maxWidth: 500 }} src={emptyState} />
+                    <h2 style={{ marginTop: 30, color: "#C0C0C0" }}>{description} </h2>
+                </div>
+            );
         }
     }
 
-    showOfficeProfile = () => {
-        this.setState({ visible: true });
-    }
+    // showOfficeProfile = () => {
+    //     this.setState({ visible: true });
+    // }
 
-    hideOfficeProfile = () => {
-        this.setState({ visible: false });
-    }
+    // hideOfficeProfile = () => {
+    //     this.setState({ visible: false });
+    // }
 
     render() {
         const active = this.props.activeList || null;
@@ -132,18 +145,17 @@ class ServicePlanPage extends React.Component {
             dataSource = pending;
         }
 
+        const Step = Steps.Step;
+
         return (
             <div>
-                <OfficeProfileModal visible={this.state.visible} hideModal={this.hideOfficeProfile} />
+                {/* <OfficeProfileModal visible={this.state.visible} hideModal={this.hideOfficeProfile} /> */}
                 <Col className="wide-table" span={24}>
                     <h1>Service Plan</h1>
                     <div>
                         <Row type="flex" style={{ paddingLeft: "1%", paddingRight: "15%" }}>
                             <Col span={12}>
                                 <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
-                                    <IconButton className="inlineDisplay" onClick={() => this.props.getServicePlan(this.props.currentOfficeAdminUID)}>
-                                        <RefreshIcon />
-                                    </IconButton>
                                     <Menu
                                         className="inlineDisplay"
                                         style={{ border: 0 }}
@@ -156,23 +168,23 @@ class ServicePlanPage extends React.Component {
                                     </Menu.Item>
                                         <Menu.Item key="pending" >
                                             Pending Approval
-                                    </Menu.Item>
+                                        </Menu.Item>
                                         <Menu.Item key="inactive" >
                                             Past
                                     </Menu.Item>
                                     </Menu>
                                 </Row>
                             </Col>
-                            <Col span={12}>
+                            {/* <Col span={12}>
                                 <Row type="flex" align="middle" justify="end">
                                     <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showOfficeProfile}>View Office Profile</Button>
                                 </Row>
-                            </Col>
+                            </Col> */}
                         </Row>
                         {this.getBody(dataSource)}
                     </div>
                 </Col>
-            </div>
+            </div >
         );
     }
 }

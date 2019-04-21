@@ -60,7 +60,13 @@ class ServicePlanPendingAddOn extends React.Component {
                         const pricing = item["Pricing Details"] || null;
                         const identifier = item["Record ID"] || null;
                         const title = item["Name"] || null;
-                        const reccomended = item["Reccomended"] === "Yes" ? true : false; 
+                        const reccomended = item["Reccomended"] === "Yes" ? true : false;
+
+                        let extra = () => { return null };
+                        if (reccomended === true) {
+                            extra = () => (<Tag color="#FC588F" type="primary">Reccomended</Tag>);
+                        }
+
 
                         if (status === "Needs to be Added to Service Plan") {
                             return (
@@ -68,8 +74,8 @@ class ServicePlanPendingAddOn extends React.Component {
                                     <List.Item>
                                         <Card
                                             title={title}
-                                            extra={<Tag type="primary">Selected</Tag>}
-                                            actions={[(<Button onClick={() => this.pending(identifier)} type="secondary">Unselect</Button>)]}
+                                            extra={(<Button onClick={() => this.pending(identifier)} type="secondary">Unselect</Button>)}
+                                        // actions={[(<Button onClick={() => this.pending(identifier)} type="secondary">Unselect</Button>)]}
                                         >
                                             <Row>
                                                 <Col span={24}>
@@ -77,6 +83,12 @@ class ServicePlanPendingAddOn extends React.Component {
                                                     {description}
                                                 </Col>
                                             </Row>
+                                            <Row>
+                                                <Col span={24}>
+                                                    {extra()}
+                                                </Col>
+                                            </Row>
+
                                             <br />
                                             <Row>
                                                 <Col span={24}>
@@ -94,12 +106,17 @@ class ServicePlanPendingAddOn extends React.Component {
                                         <Card
                                             title={title}
                                             extra={<Tag type="primary">Added to Service Plan</Tag>}
-                                            actions={[(<Button type="primary" disabled>Added to Service Plan</Button>)]}
+                                        // actions={[(<Button type="primary" disabled>Added to Service Plan</Button>)]}
                                         >
                                             <Row>
                                                 <Col span={24}>
                                                     <h4>Description:</h4>
                                                     {description}
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col span={24}>
+                                                    {extra()}
                                                 </Col>
                                             </Row>
                                             <br />
@@ -114,23 +131,24 @@ class ServicePlanPendingAddOn extends React.Component {
                                 </div>
                             )
                         } else {
-                            let extra = () => { return null }; 
-                            if (reccomended === true) { 
-                                extra = () => (<Tag color="#FC588F" type="primary">Reccomended</Tag>);
-                            }
 
                             return (
                                 <div>
                                     <List.Item>
                                         <Card
                                             title={title}
-                                            extra={extra()}
-                                            actions={[(<Button onClick={() => this.accept(identifier)} type="primary">Select</Button>)]}
+                                            extra={(<Button onClick={() => this.accept(identifier)} type="primary">Select</Button>)}
+                                        // actions={[(<Button onClick={() => this.accept(identifier)} type="primary">Select</Button>)]}
                                         >
                                             <Row>
                                                 <Col span={24}>
                                                     <h4>Description:</h4>
                                                     {description}
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col span={24}>
+                                                    {extra()}
                                                 </Col>
                                             </Row>
                                             <br />

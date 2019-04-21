@@ -24,6 +24,7 @@ import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import emptyState from "../../assets/images/empty/empty-2.png";
+import { blue } from '@material-ui/core/colors';
 
 const { TextArea } = Input;
 
@@ -68,18 +69,22 @@ class ExperienceManagerPage extends React.Component {
     } else if (this.props.emInfo === null) {
       const description = "Patience is a virtue! We are still matching you with an Airspace Experience Manager."
       return (
-        <Empty
-          image={emptyState}
-          imageStyle={{
-            height: 250,
-          }}
-          description={
-            <span>
-              {description}
-            </span>
-          }
-        >
-        </ Empty>
+        // <Empty
+        //   image={emptyState}
+        //   imageStyle={{
+        //     height: 250,
+        //   }}
+        //   description={
+        //     <span>
+        //       {description}
+        //     </span>
+        //   }
+        // >
+        // </ Empty>
+        <div style={{ textAlign: "center" }}>
+          <img style={{ maxWidth: 500 }} src={emptyState} />
+          <h2 style={{ marginTop: 30, color: "#C0C0C0" }}>{description} </h2>
+        </div>
       )
     } else {
 
@@ -114,20 +119,22 @@ class ExperienceManagerPage extends React.Component {
             <Col span={13}>
               <div style={{ paddingTop: 20 }}>
                 <h1>{name}</h1>
-                <h3>{bio}</h3>
+                <h3 style={{ fontSize: 20, fontWeight: 300 }} >{bio}</h3>
               </div>
               <Row style={{ paddingTop: 15, paddingBottom: 15 }}>
                 <Col span={6}>
-                  <h3> <Icon type="phone" /> Live Chat</h3>
-                  <a target="_blank" href={chatURL}><h2>Chat Here</h2></a>
+                  <a target="_blank" href={chatURL}><h2 style={{ color: "#1585FF" }}> <Icon type="message" /> Live Chat</h2></a>
+                  {/* <a target="_blank" href={chatURL}><h2 style={{ color: "#1585FF" }} >Chat Here</h2></a> */}
+                </Col>
+                <Col span={4}>
+                  <a href={phoneHref}><h2 style={{ color: "#1585FF" }}> <Icon type="phone" /> Call</h2></a>
+                  {/* <a href={phoneHref}><h2 style={{ color: "#1585FF" }} >{phone}</h2></a> */}
+                </Col>
+                <Col span={6}>
+                  <a href={emailHref}><h2 style={{ color: "#1585FF" }}> <Icon type="inbox" /> Email</h2></a>
+                  {/* <a href={emailHref}><h2 style={{ color: "#1585FF" }} >{email}</h2></a> */}
                 </Col>
                 <Col span={8}>
-                  <h3> <Icon type="phone" /> Call</h3>
-                  <a href={phoneHref}><h2>{phone}</h2></a>
-                </Col>
-                <Col span={10}>
-                  <h3> <Icon type="inbox" /> Email</h3>
-                  <a href={emailHref}><h2>{email}</h2></a>
                 </Col>
               </Row>
               <hr style={{ margin: 10, marginBottom: 10 }} />
@@ -175,7 +182,7 @@ class ExperienceManagerPage extends React.Component {
             </Col>
             <Col span={5} />
           </Row>
-        </div>
+        </div >
       )
     }
   }

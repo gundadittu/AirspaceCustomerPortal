@@ -1427,8 +1427,7 @@ function* acceptServiceOptionWorkerSaga(action) {
         yield call(acceptServiceOption, payload, firebase);
 
         yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_NO_LOAD, payload: payload });
-
-        yield put({ type: actionTypes.ACCEPT_SERVICE_OPTION_FINISHED });
+        yield put({ type: actionTypes.ACCEPT_SERVICE_OPTION_FINISHED, payload: { } });
     } catch (error) {
         sentry.captureException(error);
 

@@ -79,17 +79,21 @@ class BillingPage extends React.Component {
             }
 
             return (
-                <Empty
-                    image={emptyState}
-                    imagestyle={{
-                        height: 400,
-                    }}
-                    description={
-                        <span>
-                            {description}
-                        </span>
-                    }
-                />
+                // <Empty
+                //     image={emptyState}
+                //     imagestyle={{
+                //         height: 400,
+                //     }}
+                //     description={
+                //         <span>
+                //             {description}
+                //         </span>
+                //     }
+                // />
+                <div style={{ textAlign: "center", verticalAlign: "middle" }}>
+                    <img style={{ maxWidth: 400 }} src={emptyState} />
+                    <h2 style={{ marginTop: 30, color: "#C0C0C0" }}>{description} </h2>
+                </div>
             )
         }
     }

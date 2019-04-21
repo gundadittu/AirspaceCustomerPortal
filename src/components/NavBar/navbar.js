@@ -112,8 +112,8 @@ class NavBar extends React.Component {
         alt="Airspace Photo" src={require('../../assets/images/nav-logo.png')} />
     );
 
+    const chatURL = this.props.emInfo["Drift Link"] || null;
     return (
-
 
       <Affix>
 
@@ -132,6 +132,7 @@ class NavBar extends React.Component {
                   style={{ textAlign: 'right', border: 0 }}
                   mode="horizontal"
                 >
+
                   <Menu.Item key="notifications">
                     <Dropdown overlay={notificationMenu} trigger={['click']}>
                       <a className="ant-dropdown-link" href="#">
@@ -163,6 +164,12 @@ class NavBar extends React.Component {
                   style={{ textAlign: 'right', border: 0 }}
                   mode="horizontal"
                 >
+                  <Menu.Item key="support">
+                    <a className="ant-dropdown-link" target="_blank" href={chatURL}>
+                      <Icon type="message" style={{ fontSize: 20 }} />
+                      Live Chat
+                    </a>
+                  </Menu.Item>
 
                   <Menu.Item key="notifications">
                     <Dropdown overlay={notificationMenu} trigger={['click']}>
@@ -196,7 +203,8 @@ const mapStateToProps = state => {
   return {
     user: state.auth.user,
     notifications: state.general.notifications,
-    mixpanel: state.firebase.mixpanel
+    mixpanel: state.firebase.mixpanel,
+    emInfo: state.officeAdmin.emInfo
   }
 };
 

@@ -12,6 +12,7 @@ import * as pageTitles from '../../pages/pageTitles';
 import * as actionCreators from '../../store/actions/general';
 import '../../App.css';
 import './sideNavBar.css';
+import { grey } from '@material-ui/core/colors';
 
 
 const SubMenu = Menu.SubMenu;
@@ -177,18 +178,18 @@ class SideNavBar extends React.Component {
         pageSubtitle: "service-plan",
         linkTitle: "Service Plan"
       },
+      officeProfile: {
+        keyVal: pageTitles.officeProfilePageOfficeAdmin,
+        iconType: "layout",
+        pageSubtitle: "office-profile",
+        linkTitle: "Office Profile"
+      },
       billing: {
         keyVal: pageTitles.billingPageOfficeAdmin,
         iconType: "dollar",
         pageSubtitle: "billing",
         linkTitle: "Billing"
       },
-      // officeProfile: {
-      //   keyVal: pageTitles.officeProfilePageOfficeAdmin,
-      //   iconType: "gateway",
-      //   pageSubtitle: "office-profile",
-      //   linkTitle: "Office Profile"
-      // },
       // support: {
       //   keyVal: pageTitles.supportPageOfficeAdmin,
       //   iconType: "solution",
@@ -216,6 +217,12 @@ class SideNavBar extends React.Component {
 
           {officeAppSubMenu}
           {switchPortalSubMenu}
+          <Affix style={{position: 'absolute', left: 20, bottom: 100}}>
+            <a style={{ color: "#C0C0C0" }} target="_blank" href="https://www.airspaceoffice.co/terms.html">Terms</a>
+          </Affix>
+          <Affix style={{position: 'absolute', left: 80, bottom: 100}}>
+            <a style={{ color: "#C0C0C0" }} target="_blank" href="https://www.airspaceoffice.co/privacy.html">Privacy</a>
+          </Affix>
         </Menu >
       </div >
     )

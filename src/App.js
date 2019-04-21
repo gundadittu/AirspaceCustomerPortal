@@ -28,6 +28,7 @@ import BillingPage from './components/BillingPage/BillingPage';
 import ServicePlanPage from './components/ServicePlan/ServicePlanPage';
 import SupportPage from './components/SupportComp/SupportPage';
 import FindServicesPage from './components/FindServicesPage/FindServicesPage';
+import OfficeProfilePage from './components/OfficeProfile/OfficeProfile';
 
 import Firebase from './components/Firebase';
 
@@ -188,5 +189,6 @@ const officeAdminRoutingComp = () => (
     <Route exact path='/officeAdmin/:officeUID/service-plan' component={ServicePlanPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/support' component={SupportPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/experience-manager' component={ExperienceManagerPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/office-profile' component={OfficeProfilePage}></Route>
   </Switch>
 )

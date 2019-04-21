@@ -112,7 +112,12 @@ class NavBar extends React.Component {
         alt="Airspace Photo" src={require('../../assets/images/nav-logo.png')} />
     );
 
-    const chatURL = this.props.emInfo["Drift Link"] || null;
+    let chatURL = "https://drift.me/airspaceoffice"
+    const emInfo = this.props.emInfo || null;
+    if (emInfo !== null) {
+      chatURL = emInfo["Drift Link"] || "https://drift.me/airspaceoffice";
+    }
+    
     return (
 
       <Affix>

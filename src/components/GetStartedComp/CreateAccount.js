@@ -77,12 +77,15 @@ class CreateAccount extends React.Component {
             this.setState({ emailAddrErr: null });
         }
 
-        // if (this.props.password === null) {
-        //     this.setState({ passwordErr: "Required value" });
-        //     error = true;
-        // } else {
-        //     this.setState({ passwordErr: null });
-        // }
+        if (this.props.password === null) {
+            this.setState({ passwordErr: "Required value" });
+            error = true;
+        } else if (this.props.password.length < 6) {
+            this.setState({ passwordErr: "Must be atleast 6 characters." });
+            error = true;
+        } else {
+            this.setState({ passwordErr: null });
+        }
 
         if (this.props.companyName === null) {
             this.setState({ compNameErr: "Required value" });

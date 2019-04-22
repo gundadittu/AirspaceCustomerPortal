@@ -155,16 +155,19 @@ class ServicePlanPage extends React.Component {
                 {/* <OfficeProfileModal visible={this.state.visible} hideModal={this.hideOfficeProfile} /> */}
                 <Col className="wide-table" span={24}>
                     <h1>Service Plan
-                    <Tooltip title="Your service plans helps you understand and manage your office's services.">
+                    {/* <Tooltip title="Your service plans helps you understand and manage your office's services.">
                             <IconButton className="inlineDisplay" style={{ marginBottom: 5 }}>
                                 <InfoIcon />
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
                     </h1>
                     <div>
                         <Row type="flex" style={{ paddingLeft: "1%", paddingRight: "15%" }}>
                             <Col span={12}>
                                 <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
+                                    <IconButton className="inlineDisplay" onClick={() => this.props.getServicePlan(this.props.currentOfficeAdminUID)}>
+                                        <RefreshIcon />
+                                    </IconButton>
                                     <Menu
                                         className="inlineDisplay"
                                         style={{ border: 0 }}
@@ -206,7 +209,7 @@ const mapStateToProps = state => {
         isLoadingServicePlan: state.officeAdmin.isLoadingServicePlan,
         activeList: state.officeAdmin.activeServicePlan,
         inactiveList: state.officeAdmin.inactiveServicePlan,
-        pendingList: state.officeAdmin.pendingServicePlan, 
+        pendingList: state.officeAdmin.pendingServicePlan,
         badgeCount: state.officeAdmin.pendingServicePlanCount
     }
 };

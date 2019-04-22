@@ -89,6 +89,8 @@ class FindServicesPage extends React.Component {
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
             }
+
+            this.props.getServicePlan(selectedOfficeUID);
         }
     }
 
@@ -510,7 +512,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
-        addRequestForService: (payload) => dispatch(generalActionCreator.addRequestForService(payload))
+        addRequestForService: (payload) => dispatch(generalActionCreator.addRequestForService(payload)), 
+        getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })),
     }
 };
 

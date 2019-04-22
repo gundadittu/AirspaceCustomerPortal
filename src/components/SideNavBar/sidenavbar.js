@@ -31,7 +31,7 @@ class SideNavBar extends React.Component {
       } else {
         const currentOfficeAdmin = this.props.currentOfficeAdmin;
         if (currentOfficeAdmin !== null) {
-          return ('Managing ' + currentOfficeAdmin.name)
+          return (currentOfficeAdmin.name)
         } else {
           return 'Office Admin Mode'
         }
@@ -206,6 +206,8 @@ class SideNavBar extends React.Component {
           defaultSelectedKeys={currentPages}
           mode="inline"
           className="airspace-side-nav-bar"
+          forceSubMenuRender={true}
+          // multiple={true}
         >
           {Object.keys(menuLinks).map((key) => {
 
@@ -213,7 +215,7 @@ class SideNavBar extends React.Component {
               return (
                 < Menu.Item key={menuLinks[key].keyVal} >
                   <Link to={'/officeAdmin/' + currentOfficeAdminUID + '/' + menuLinks[key].pageSubtitle}>
-                      {<span style={{ fontSize: fontSize }}><Icon type={menuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{menuLinks[key].linkTitle} <Badge dot offset={[0, 5]} count={this.props.badgeCount} /></span></span>}
+                    {<span style={{ fontSize: fontSize }}><Icon type={menuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{menuLinks[key].linkTitle} <Badge dot offset={[0, 5]} count={this.props.badgeCount} /></span></span>}
                   </Link>
                 </Menu.Item>
               )
@@ -305,7 +307,7 @@ class SideNavBar extends React.Component {
   }
 
   render() {
-    let currentPages = [this.props.currentPage];
+    let currentPages = [this.props.currentPage, this.props.currentOfficeAdminUID];
 
     const drawerWidth = 240;
 

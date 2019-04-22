@@ -121,8 +121,10 @@ class NewServiceDetails extends React.Component {
                     margin="normal"
                     variant="outlined"
                 />
-
-                < NextButton validate={this.validateEntries} nextAction={this.props.nextAction} />
+                <div style={{ textAlign: "center" }}>
+                    < NextButton validate={this.validateEntries} nextAction={this.props.nextAction} />
+                    <p style={{ marginTop: 10 }}>By clicking Finish, you agree to our <a style={{ color: "#FC588F" }} target="_blank" href="https://www.airspaceoffice.co/terms.html">Terms</a> and <a style={{ color: "#FC588F" }} target="_blank" href="https://www.airspaceoffice.co/privacy.html">Privacy Policy.</a> </p>
+                </div>
             </div>
         )
     }
@@ -130,7 +132,7 @@ class NewServiceDetails extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        newServices: state.getStarted.newServices, 
+        newServices: state.getStarted.newServices,
         otherServicesDetails: state.getStarted.otherServicesDetails
     }
 };

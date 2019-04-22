@@ -133,6 +133,7 @@ class GetStartedComp extends React.Component {
         let firstMessage = null;
         if (this.props.step === 0) {
             body = (<CreateAccount updateData={(value, key) => this.updateData(value, key)} nextAction={this.nextStep} />);
+            // body = (<NewServiceDetails updateData={this.updateData} nextAction={this.nextStep} />);
             bodyPhoto = getStarted1Photo;
             bodyTitle = stepTitles[0];
             firstMessage = "This will take around 5 minutes.";

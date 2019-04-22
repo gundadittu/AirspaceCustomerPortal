@@ -15,6 +15,10 @@ require("firebase/storage");
 
 // Watchers
 
+export function* sendPasswordResetWatcher() {
+    yield takeLatest(actionTypes.SEND_PASSWORD_RESET, sendPasswordResetWorkerSaga);
+}
+
 export function* acceptServiceOptionWatcher() {
     yield takeLatest(actionTypes.ACCEPT_SERVICE_OPTION, acceptServiceOptionWorkerSaga);
 }
@@ -1296,7 +1300,7 @@ function* getServicePlanForOfficeWorkerSaga(action) {
 
         if (response === null) {
             yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: null, inactive: null } });
-            return 
+            return
         }
         yield put({ type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED, payload: { active: response.active || [], inactive: response.inactive || [], pending: response.pending || [] } });
     } catch (error) {
@@ -1530,6 +1534,39 @@ function* rejectPendingPackageWorkerSaga(action) {
         });
 
         yield put({ type: actionTypes.REJECT_PENDING_PACKAGE_FINISHED, payload: {} });
+    }
+}
+
+function sendPasswordReset(payload, firebase) {
+    const email = payload.email || null;
+    if (email === null) {
+        throw Error("No email provided.");
+    }
+    return firebase.auth.sendPasswordResetEmail(email);
+}
+
+function* sendPasswordResetWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        yield call(sendPasswordReset, payload, firebase);
+
+
+        notification['success']({
+            message: 'Sent password reset link to your email.',
+            // description: error.message
+        });
+
+        yield put({ type: actionTypes.SEND_PASSWORD_RESET_FINISHED });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to send password reset email.',
+            // description: error.message
+        });
+
+        yield put({ type: actionTypes.SEND_PASSWORD_RESET_FINISHED });
     }
 }
 

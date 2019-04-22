@@ -1,5 +1,14 @@
 import * as actionTypes from './actionTypes';
 
+export const sendPasswordReset = (email) => {
+  return {
+    type: actionTypes.SEND_PASSWORD_RESET,
+    payload: {
+      email: email
+    }
+  }
+}
+
 export const acceptServiceOption = (payload) => {
   return {
     type: actionTypes.ACCEPT_SERVICE_OPTION,

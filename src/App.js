@@ -43,6 +43,9 @@ import GetStartedFinishedComp from './components/GetStartedComp/GetStartedFinish
 
 import LoginNavBar from './components/Login/LoginNavBar';
 
+import NoMobile from './components/InitialRoutingComp/NoMobile';
+
+
 class App extends Component {
   state = {
     toggle_render: false
@@ -92,33 +95,33 @@ class App extends Component {
       return (
         <div style={{ background: '#FFFFFF' }}>
           <Row>
-            {/* <MediaQuery minDeviceWidth={1224}> for desktop devices */}
-            <Col span={4}>
-              <SideNavbar device={"desktop"} />
-            </Col>
-            <Col span={20}>
-              <NavBar />
-              <Switch>
-                <Route exact path="/" component={InitialRoutingComp} />
-                <Route exact path="/login" component={InitialRoutingComp} />
-                <Route path="/general" component={generalRoutingComp} />
-                <Route path="/officeAdmin" component={officeAdminRoutingComp} />
-              </Switch>
-            </Col>
-            {/* </MediaQuery> */}
-
-            {/* <MediaQuery maxDeviceWidth={1224}> for mobile devices
-              <Col span={24}>
-                <NavBar device={"mobile"} />
+            <MediaQuery minDeviceWidth={1224}>
+              <Col span={4}>
+                <SideNavbar device={"desktop"} />
+              </Col>
+              <Col span={20}>
+                <NavBar />
                 <Switch>
-                  <Route path="/" component={InitialRoutingComp} />
+                  <Route exact path="/" component={InitialRoutingComp} />
                   <Route exact path="/login" component={InitialRoutingComp} />
                   <Route path="/general" component={generalRoutingComp} />
                   <Route path="/officeAdmin" component={officeAdminRoutingComp} />
                 </Switch>
               </Col>
-            </MediaQuery>  */}
+            </MediaQuery>
 
+            <MediaQuery maxDeviceWidth={1224}>
+              <Col span={24}>
+                {/* <NavBar device={"mobile"} /> */}
+                <Switch>
+                  {/* <Route path="/" component={InitialRoutingComp} /> */}
+                  <Route exact path="/login" component={InitialRoutingComp} />
+                  <Route path="/general" component={generalRoutingComp} />
+                  <Route path="/" component={NoMobile} />
+                  {/* <Route path="/officeAdmin" component={officeAdminRoutingComp} /> */}
+                </Switch>
+              </Col>
+            </MediaQuery>
           </Row>
         </div>
       );
@@ -126,6 +129,7 @@ class App extends Component {
       return (
         <div>
           <LoginNavBar />
+          {/* <MediaQuery minDeviceWidth={1224}> */}
           <Switch>
             <Route exact path='/get-started/finished' component={GetStartedFinishedComp}></Route>
             <Route exact path='/get-started' component={GetStartedComp}></Route>
@@ -133,6 +137,9 @@ class App extends Component {
             <Route path="/" component={Login} />
             <Route exact path="/login" component={Login} />
           </ Switch>
+          {/* </ MediaQuery>
+          <MediaQuery maxDeviceWidth={1224}>
+          </MediaQuery> */}
         </div>
       );
     }

@@ -1,9 +1,8 @@
 @import '../node_modules/antd/dist/antd.css';
 
 body { 
-  font-family: 'Avenir Next', sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
 }
-
 
 .airspace-submit-button {
   color: white !important;

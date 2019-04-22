@@ -19,12 +19,21 @@ const styles = theme => ({
 
 class NewServiceDetails extends React.Component {
 
+    state = {
+        agreedLegal: false
+    }
+
     onChange = (checkedValues) => {
         this.props.updateData(checkedValues, 'newServices');
     }
 
+    onChangeAgree = (e) => {
+        const value = e.target.checked || false;
+        this.setState({ agreedLegal: value })
+    }
+
     validateEntries = () => {
-        return true
+        return this.state.agreedLegal;
     }
 
     componentWillMount() {
@@ -122,8 +131,9 @@ class NewServiceDetails extends React.Component {
                     variant="outlined"
                 />
                 <div style={{ textAlign: "center" }}>
+                    <Checkbox onChange={this.onChangeAgree}>I have read and agree to the Airspace <a style={{ color: "#FC588F" }} target="_blank" href="https://www.airspaceoffice.co/terms.html">Terms of Service</a> and <a style={{ color: "#FC588F" }} target="_blank" href="https://www.airspaceoffice.co/privacy.html">Privacy Policy.</a></Checkbox>
                     < NextButton validate={this.validateEntries} nextAction={this.props.nextAction} />
-                    <p style={{ marginTop: 10 }}>By clicking Finish, you agree to our <a style={{ color: "#FC588F" }} target="_blank" href="https://www.airspaceoffice.co/terms.html">Terms</a> and <a style={{ color: "#FC588F" }} target="_blank" href="https://www.airspaceoffice.co/privacy.html">Privacy Policy.</a> </p>
+                    {/* <p style={{ marginTop: 10 }}>By clicking Finish, you agree to our <a style={{ color: "#FC588F" }} target="_blank" href="https://www.airspaceoffice.co/terms.html">Terms</a> and <a style={{ color: "#FC588F" }} target="_blank" href="https://www.airspaceoffice.co/privacy.html">Privacy Policy.</a> </p> */}
                 </div>
             </div>
         )

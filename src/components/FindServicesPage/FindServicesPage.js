@@ -105,7 +105,7 @@ class FindServicesPage extends React.Component {
             data = [
                 {
                     image: CoffeeImage,
-                    title: "Coffee & Tea",
+                    title: "Coffee + Tea",
                     description: "We bring you the most iconic local brands to service all your fresh coffee, tea, and cold brew needs. Request to find out what coffee we can bring to your office."
                 },
                 {

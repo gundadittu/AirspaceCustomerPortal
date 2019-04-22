@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Row, Col, Card, Button } from 'antd';
+import { Row, Col, Card } from 'antd';
 import getStartedFinishedImage from "../../assets/images/get-started/get-started-finished.png"
 import * as authActionCreators from '../../store/actions/auth';
 import CircularProgress from '@material-ui/core/CircularProgress';

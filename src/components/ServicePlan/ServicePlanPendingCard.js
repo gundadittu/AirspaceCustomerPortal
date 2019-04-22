@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Card, Button, Tooltip, List, Collapse, Icon, Modal, Steps, message, notification, Popconfirm} from 'antd';
+import { Row, Col, Card, Button, Tooltip, List, Collapse, Icon, Modal, Steps, message, notification, Popconfirm } from 'antd';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Help';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -143,6 +143,9 @@ class ServicePlanPendingCard extends React.Component {
                                 <Col span={24}>
                                     {/* <h4>Description:</h4> */}
                                     {description}
+                                </Col>
+                                <Col span={24}>
+                                    <p style={{ marginTop: 10 }}>ID: {identifier}</p>
                                 </Col>
                             </Row>
                             <br />

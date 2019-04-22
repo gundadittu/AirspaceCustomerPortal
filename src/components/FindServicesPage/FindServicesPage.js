@@ -512,7 +512,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
-        addRequestForService: (payload) => dispatch(generalActionCreator.addRequestForService(payload)), 
+        addRequestForService: (payload) => dispatch(generalActionCreator.addRequestForService(payload)),
         getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })),
     }
 };

@@ -102,6 +102,7 @@ class ServicePlanPendingOption extends React.Component {
                                             <Col span={16}>
                                                 <h4>Description:</h4>
                                                 {description}
+                                                <p style={{ marginTop: 10 }}>ID: {identifier}</p>
                                             </Col>
                                             <Col span={2}>
                                             </Col>

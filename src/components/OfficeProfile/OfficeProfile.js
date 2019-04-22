@@ -38,7 +38,6 @@ class OfficeProfilePage extends React.Component {
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
             }
-
             this.props.loadOfficeProfile(selectedOfficeUID);
         }
     }

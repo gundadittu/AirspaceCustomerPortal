@@ -1548,12 +1548,13 @@ function sendPasswordReset(payload, firebase) {
 function* sendPasswordResetWorkerSaga(action) {
     try {
         const payload = action.payload;
+        const email = payload.email || null;
         let firebase = yield select(selectors.firebase);
         yield call(sendPasswordReset, payload, firebase);
 
 
         notification['success']({
-            message: 'Sent password reset link to your email.',
+            message: 'Please check your email for further instructions to reset your password.',
             // description: error.message
         });
 

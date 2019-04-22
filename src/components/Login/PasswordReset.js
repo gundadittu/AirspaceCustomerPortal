@@ -40,8 +40,8 @@ class PasswordReset extends React.Component {
         return (
             <Modal
                 visible={visible}
-                title={"Reset Password"}
-                okText="Reset"
+                title={"Forgot your password?"}
+                okText="Submit"
                 onCancel={this.onCancel.bind(this)}
                 onOk={this.onCreate.bind(this)}
             // confirmLoading={confirmLoading}

@@ -387,7 +387,7 @@ class FindServicesPage extends React.Component {
                 >
                     <div style={{ paddingTop: 40, paddingBottom: 40 }}>
                         <Steps progressDot current={3}>
-                            <Step title="Request Service" description="Request the services your office wants." />
+                            <Step title="I'm Interested" description="Let us know which services your office is interested in." />
                             <Step title="Understand Needs" description="Your Experience Manager reaches out with a few simple questions." />
                             <Step title="Choose an Option" description="Your Experience Manager provides personalized options." />
                         </Steps>

@@ -56,7 +56,7 @@ class NavBar extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadNotifications()
+    // this.props.loadNotifications()
   }
 
   render() {
@@ -176,13 +176,13 @@ class NavBar extends React.Component {
                     </a>
                   </Menu.Item>
 
-                  <Menu.Item key="notifications">
+                  {/* <Menu.Item key="notifications">
                     <Dropdown overlay={notificationMenu} trigger={['click']}>
                       <a className="ant-dropdown-link" href="#">
                         <Icon type="bell" style={{ fontSize: 20, paddingTop: 15 }} />
                       </a>
                     </Dropdown>
-                  </Menu.Item>
+                  </Menu.Item> */}
 
                   <Menu.Item key="profile">
                     <Dropdown overlay={profileMenu} trigger={['click']}>

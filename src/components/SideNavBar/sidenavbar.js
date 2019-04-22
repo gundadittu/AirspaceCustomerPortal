@@ -228,7 +228,7 @@ class SideNavBar extends React.Component {
             );
           })}
 
-          {officeAppSubMenu}
+          {/* {officeAppSubMenu} */}
           {switchPortalSubMenu}
           <Affix active={"true"} style={{ position: 'absolute', left: 20, bottom: 100 }}>
             <a style={{ color: "#C0C0C0" }} target="_blank" href="https://www.airspaceoffice.co/terms.html">Terms</a>

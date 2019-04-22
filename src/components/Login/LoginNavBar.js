@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
 import '../../App.css'
+import { withRouter } from 'react-router-dom';
 
 class LoginNavBar extends React.Component {
     state = {
@@ -13,13 +14,17 @@ class LoginNavBar extends React.Component {
         return
     }
 
+    forward() { 
+      this.props.history.push('/');
+    }
+
     render() {
 
         return (
           <div>
             <AppBar position="static" style={{ background: 'transparent'}}>
               <Grid container justify="center" alignItems="center" >
-                <a href="https://airspaceoffice.co">
+                <a onClick={this.forward.bind(this)}>
                   <img className="logo-nav-image" src={require('../../assets/images/nav-logo.png')}></img>
                 </a>
               </Grid>
@@ -29,4 +34,4 @@ class LoginNavBar extends React.Component {
     }
 }
 
-export default connect(null, null)(LoginNavBar);
+export default withRouter(connect(null, null)(LoginNavBar));

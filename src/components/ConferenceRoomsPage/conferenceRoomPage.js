@@ -187,7 +187,7 @@ class ConferenceRoomsPage extends React.Component {
                                     <RefreshIcon />
                                 </IconButton>
                                 <Menu
-                                    className="inlineDisplay"
+                                    className="inlineDisplay menu-tab"
                                     style={{ border: 0 }}
                                     onClick={this.handleClick}
                                     defaultSelectedKeys={[this.state.currentList]}

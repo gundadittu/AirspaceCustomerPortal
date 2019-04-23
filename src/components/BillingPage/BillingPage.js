@@ -72,8 +72,9 @@ class BillingPage extends React.Component {
             ))
         } else {
             let description = null;
+            const title = "Nothing to show yet!"
             if (this.state.dataSource === "paid") {
-                description = "All invoices that have been paid off will show up here .";
+                description = "You can find a history of invoices here that have been paid off.";
             } else if (this.state.dataSource === "outstanding") {
                 description = "All invoices with an outstanding balance will show up here.";
             }
@@ -92,7 +93,8 @@ class BillingPage extends React.Component {
                 // />
                 <div style={{ textAlign: "center", verticalAlign: "middle" }}>
                     <img style={{ maxWidth: 400 }} src={emptyState} />
-                    <h2 style={{ marginTop: 30, color: "#C0C0C0" }}>{description} </h2>
+                    <h2 style={{ marginTop: 30, fontWeight: 15 }}>{title} </h2>
+                    <h3 style={{ marginTop: 30, fontWeight: 10, color: "#C0C0C0" }}>{description} </h3>
                 </div>
             )
         }
@@ -122,7 +124,7 @@ class BillingPage extends React.Component {
                                     <RefreshIcon />
                                 </IconButton>
                                 <Menu
-                                    className="inlineDisplay"
+                                    className="inlineDisplay menu-tab"
                                     style={{ border: 0 }}
                                     onClick={this.handleClick.bind(this)}
                                     defaultSelectedKeys={[this.state.dataSource]}

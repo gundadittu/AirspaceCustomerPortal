@@ -13,7 +13,7 @@ import { Row, Col, Menu, Empty, Button, Spin, Steps, Modal, Tooltip, Badge } fro
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import { Link } from 'react-router-dom';
-import emptyState from "../../assets/images/empty/empty-1.png";
+import emptyState from "../../assets/images/empty/empty-3.png";
 
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
@@ -98,12 +98,13 @@ class ServicePlanPage extends React.Component {
             ))
         } else {
             let description = null;
+            const title = "Nothing to show yet!";
             if (this.state.dataSource === "active") {
-                description = "All services you are currently subscribed to will show up here.";
+                description = "Once you subscribe to services, they will show up here.";
             } else if (this.state.dataSource === "inactive") {
                 description = "All past and inactive services will show up here.";
             } else if (this.state.dataSource === "pending") {
-                description = "All services that need your approval will appear here. Once accepted, they are added to your service plan.";
+                description = "All services that need your approval will appear here. Once accepted, they will show up in your current service plan.";
             }
 
             return (
@@ -118,9 +119,10 @@ class ServicePlanPage extends React.Component {
                 //         </span>
                 //     }
                 // />
-                <div style={{ textAlign: "center" }}>
-                    <img style={{ maxWidth: 500 }} src={emptyState} />
-                    <h2 style={{ marginTop: 30, color: "#C0C0C0" }}>{description} </h2>
+                <div style={{ textAlign: "center", verticalAlign: "middle" }}>
+                    <img style={{ maxWidth: 400 }} src={emptyState} />
+                    <h2 style={{ marginTop: 30, fontWeight: 15 }}>{title} </h2>
+                    <h3 style={{ marginTop: 30, fontWeight: 10, color: "#C0C0C0" }}>{description} </h3>
                 </div>
             );
         }
@@ -169,7 +171,7 @@ class ServicePlanPage extends React.Component {
                                         <RefreshIcon />
                                     </IconButton>
                                     <Menu
-                                        className="inlineDisplay"
+                                        className="inlineDisplay menu-tab"
                                         style={{ border: 0 }}
                                         onClick={this.handleClick.bind(this)}
                                         defaultSelectedKeys={[this.state.dataSource]}

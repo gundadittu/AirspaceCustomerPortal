@@ -63,7 +63,7 @@ class NavBar extends React.Component {
 
     const profileMenu = (
       <Menu
-        className="navBarProfileMenu"
+        className="navBarProfileMenu menu-tab"
         onClick={this.handleClick}
         style={{ textAlign: 'right', border: "0", borderColor: "white", borderWidth: 0 }}
       >
@@ -117,7 +117,7 @@ class NavBar extends React.Component {
     if (emInfo !== null) {
       chatURL = emInfo["Drift Link"] || "https://drift.me/airspaceoffice";
     }
-    
+
     return (
 
       <Affix>
@@ -133,6 +133,7 @@ class NavBar extends React.Component {
               </Col>
               <Col span={6} >
                 <Menu
+                  className="menu-tab"
                   onClick={this.handleClick}
                   style={{ textAlign: 'right', border: 0 }}
                   mode="horizontal"
@@ -165,6 +166,7 @@ class NavBar extends React.Component {
             <Row >
               <Col span={24}>
                 <Menu
+                  className="menu-tab"
                   onClick={this.handleClick}
                   style={{ textAlign: 'right', border: 0 }}
                   mode="horizontal"

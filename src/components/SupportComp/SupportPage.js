@@ -114,7 +114,7 @@ class SupportPage extends React.Component {
                         <Col span={12}>
                             <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
                                 <Menu
-                                    className="inlineDisplay"
+                                    className="inlineDisplay menu-tab"
                                     style={{ border: 0 }}
                                     onClick={this.handleClick.bind(this)}
                                     defaultSelectedKeys={[this.state.dataSource]}

@@ -167,7 +167,7 @@ class EventsPage extends React.Component {
                             onClick={(e) => this.handleClick(e)}
                             selectedKeys={[this.state.currentList]}
                             defaultSelectedKeys={[this.state.currentList]}
-                            className="page-nav-menu"
+                            className="page-nav-menu menu-tab"
                             mode="horizontal"
                           >
                             <Menu.Item key="upcoming">

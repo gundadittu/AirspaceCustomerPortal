@@ -94,14 +94,14 @@ class ServicePlanPendingAddOn extends React.Component {
                                         <Row>
                                             <Col span={16}>
                                                 <h4>Description:</h4>
-                                                {description}
-                                                <p style={{ marginTop: 10 }}>ID: {identifier}</p>
+                                                <p>{description}</p>
+                                                <p style={{ marginTop: 10, fontSize: 13, color: "#D3D3D3" }}>ID: {identifier}</p>
                                             </Col>
                                             <Col span={2}>
                                             </Col>
                                             <Col span={6}>
                                                 <h4>Pricing:</h4>
-                                                {pricing}
+                                                <p>{pricing}</p>
                                             </Col>
                                         </Row>
                                         {/* <br />

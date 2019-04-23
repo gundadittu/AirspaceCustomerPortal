@@ -23,7 +23,7 @@ import * as generalActionCreator from '../../store/actions/general';
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
-import emptyState from "../../assets/images/empty/empty-2.png";
+import emptyState from "../../assets/images/empty/empty-1.png";
 import { blue } from '@material-ui/core/colors';
 
 const { TextArea } = Input;
@@ -67,7 +67,8 @@ class ExperienceManagerPage extends React.Component {
         </div>
       )
     } else if (this.props.emInfo === null) {
-      const description = "Patience is a virtue! We are still matching you with an Airspace Experience Manager."
+      const title = "Nothing to show yet!"
+      const description = "We are still in the process of matching you with an Experience Manager."
       return (
         // <Empty
         //   image={emptyState}
@@ -81,9 +82,10 @@ class ExperienceManagerPage extends React.Component {
         //   }
         // >
         // </ Empty>
-        <div style={{ textAlign: "center" }}>
-          <img style={{ maxWidth: 500 }} src={emptyState} />
-          <h2 style={{ marginTop: 30, color: "#C0C0C0" }}>{description} </h2>
+        <div style={{ textAlign: "center", verticalAlign: "middle" }}>
+          <img style={{ maxWidth: 400 }} src={emptyState} />
+          <h2 style={{ marginTop: 30, fontWeight: 15 }}>{title} </h2>
+          <h3 style={{ marginTop: 30, fontWeight: 10, color: "#C0C0C0" }}>{description} </h3>
         </div>
       )
     } else {
@@ -107,13 +109,13 @@ class ExperienceManagerPage extends React.Component {
         <div>
           <Row>
             <Col span={6}>
-              <Card style={{ textAlign: "center", width: "80%" }}>
-                <Row>
-                  <Col span={24}>
-                    <Avatar style={{ width: "100%", height: "100%" }} shape="circle" src={imageURL} />
-                  </Col>
-                </Row>
-              </Card>
+              {/* <Card style={{ textAlign: "center", width: "80%" }}> */}
+              <Row>
+                <Col span={24}>
+                  <Avatar style={{ width: "80%", height: "80%" }} shape="circle" src={imageURL} />
+                </Col>
+              </Row>
+              {/* </Card> */}
               <br />
             </Col>
             <Col span={13}>
@@ -123,15 +125,16 @@ class ExperienceManagerPage extends React.Component {
               </div>
               <Row style={{ paddingTop: 15, paddingBottom: 15 }}>
                 <Col span={6}>
-                  <a target="_blank" href={chatURL}><h2 style={{ color: "#1585FF" }}> <Icon type="message" /> Live Chat</h2></a>
+                  <a target="_blank" href={chatURL}><h2 style={{ fontSize: 20 }}
+                  > <Icon type="message" /> Live Chat</h2></a>
                   {/* <a target="_blank" href={chatURL}><h2 style={{ color: "#1585FF" }} >Chat Here</h2></a> */}
                 </Col>
                 <Col span={4}>
-                  <a href={phoneHref}><h2 style={{ color: "#1585FF" }}> <Icon type="phone" /> Call</h2></a>
+                  <a href={phoneHref}><h2 style={{ fontSize: 20 }}> <Icon type="phone" /> Call</h2></a>
                   {/* <a href={phoneHref}><h2 style={{ color: "#1585FF" }} >{phone}</h2></a> */}
                 </Col>
                 <Col span={6}>
-                  <a href={emailHref}><h2 style={{ color: "#1585FF" }}> <Icon type="inbox" /> Email</h2></a>
+                  <a href={emailHref}><h2 style={{ fontSize: 20 }}> <Icon type="inbox" /> Email</h2></a>
                   {/* <a href={emailHref}><h2 style={{ color: "#1585FF" }} >{email}</h2></a> */}
                 </Col>
                 <Col span={8}>

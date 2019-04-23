@@ -130,6 +130,7 @@ class ServicePlanPendingCard extends React.Component {
                     bordered={false}
                     // defaultActiveKey={['1']}
                     expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0} />}
+                    className="collapse-tab"
                 >
                     <Panel header={title} key="1" style={customPanelStyle} >
                         <Card
@@ -142,10 +143,10 @@ class ServicePlanPendingCard extends React.Component {
                             <Row>
                                 <Col span={24}>
                                     {/* <h4>Description:</h4> */}
-                                    {description}
+                                    <p>{description}</p>
                                 </Col>
                                 <Col span={24}>
-                                    <p style={{ marginTop: 10 }}>ID: {identifier}</p>
+                                    <p style={{ marginTop: 10, fontSize: 13, color: "#D3D3D3" }}>ID: {identifier}</p>
                                 </Col>
                             </Row>
                             <br />

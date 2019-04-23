@@ -205,7 +205,7 @@ class SideNavBar extends React.Component {
           style={{ border: 0 }}
           defaultSelectedKeys={currentPages}
           mode="inline"
-          className="airspace-side-nav-bar"
+          className="airspace-side-nav-bar menu-tab"
           forceSubMenuRender={true}
           // multiple={true}
         >
@@ -294,6 +294,7 @@ class SideNavBar extends React.Component {
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             mode="inline"
+            className="menu-tab"
           >
             {sideBarLogo}
             {switchPortalSubMenu}

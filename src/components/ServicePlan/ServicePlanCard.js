@@ -31,6 +31,7 @@ const servicePlanCard = (props) => {
     return (
         <Collapse
             bordered={false}
+            className="collapse-tab"
             // defaultActiveKey={['1']}
             expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0} />}
         >

@@ -4,6 +4,38 @@ body {
   font-family: 'Helvetica Neue', sans-serif;
 }
 
+h1 { 
+  font-size: 30px
+}
+
+h2 { 
+  font-size: 25px
+}
+
+h3 { 
+  font-size: 18px
+}
+
+h4 { 
+  font-size: 16px
+}
+
+p { 
+  font-size: 16px
+}
+
+ span { 
+  font-size: 16px
+ }
+
+.menu-tab { 
+  font-size: 14px 
+}
+
+.collapse-tab { 
+  font-size: 15px 
+}
+
 .airspace-submit-button {
   color: white !important;
   border-color: white !important;

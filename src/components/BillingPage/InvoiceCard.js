@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button, Row, Col } from 'antd';
+import { Card, Button, Row, Col, Collapse, Icon } from 'antd';
 import { red } from '@material-ui/core/colors';
 const moment = require('moment');
 
@@ -11,6 +11,16 @@ function openUrl(url) {
 }
 
 const invoiceCard = (props) => {
+
+    const Panel = Collapse.Panel;
+    const customPanelStyle = {
+        background: '#f7f7f7',
+        borderRadius: 4,
+        marginBottom: 15,
+        border: 0,
+        overflow: 'hidden',
+    };
+
     const invoice = props.invoice || null;
     if (invoice === null) {
         return null
@@ -30,42 +40,51 @@ const invoiceCard = (props) => {
     const created = moment(createdObj).calendar();
 
     return (
-        <Card
-            title={description}
-            extra={<p style={{ textAlign: "right" }}>ID: {identifier}</p>}
-            style={{ width: "100%" }}
+        <Collapse
+            bordered={false}
+            className="collapse-tab"
+            // defaultActiveKey={['1']}
+            expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0} />}
         >
-            <Row>
-                <Col span={8}>
-                    <h3>Due Date:</h3>
-                    {dueDate}
-                </Col>
-                <Col span={8}>
-                    <h3>Outstanding Balance:</h3>
-                    ${remaining}
-                </Col>
-                <Col span={8}>
-                    <div style={{ textAlign: "end" }}>
-                        <a target="_blank" href={invoiceURL}>Download Invoice</a>
-                    </div>
-                </Col>
-            </Row>
-            <br />
-            <Row >
-                <Col span={8}>
-                    <p><strong>Total Balance:</strong> ${total}</p>
-                </Col>
-                <Col span={8}>
-                    <p><strong>Paid:</strong> ${paid}</p>
-                </Col>
-                <Col span={8}>
-                </Col>
-            </Row>
-            <p><strong>Created at:</strong> {created}</p>
-            {remaining !== 0 ?
-                <Button className="inlineDisplay rightAlign" type="primary" onClick={() => openUrl(payURL)}>Pay</Button>
-                : null}
-        </Card>
+            <Panel header={description} key="1" style={customPanelStyle}>
+                <Card
+                    title={description}
+                    extra={<p style={{ textAlign: "right" }}>ID: {identifier}</p>}
+                    style={{ width: "100%" }}
+                >
+                    <Row>
+                        <Col span={8}>
+                            <h3>Due Date:</h3>
+                            {dueDate}
+                        </Col>
+                        <Col span={8}>
+                            <h3>Outstanding Balance:</h3>
+                            ${remaining}
+                        </Col>
+                        <Col span={8}>
+                            <div style={{ textAlign: "end" }}>
+                                <a target="_blank" href={invoiceURL}>Download Invoice</a>
+                            </div>
+                        </Col>
+                    </Row>
+                    <br />
+                    <Row >
+                        <Col span={8}>
+                            <p><strong>Total Balance:</strong> ${total}</p>
+                        </Col>
+                        <Col span={8}>
+                            <p><strong>Paid:</strong> ${paid}</p>
+                        </Col>
+                        <Col span={8}>
+                        </Col>
+                    </Row>
+                    <p><strong>Created at:</strong> {created}</p>
+                    {remaining !== 0 ?
+                        <Button className="inlineDisplay rightAlign" type="primary" onClick={() => openUrl(payURL)}>Pay</Button>
+                        : null}
+                </Card>
+            </ Panel>
+        </Collapse>
     );
 }
 

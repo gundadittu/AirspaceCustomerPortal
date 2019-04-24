@@ -18,11 +18,11 @@ const servicePlanCard = (props) => {
     }
     const title = servicePackage["Title"];
     const deliveryInstructions = servicePackage["Delivery Instructions"];
-    const buildingAccess = servicePackage["Building Access Details"];
+    // const buildingAccess = servicePackage["Building Access Details"];
 
 
-    const startDateObj = servicePackage["Start Date"] || "TBD";
-    const startDate = moment(startDateObj).calendar();
+    const startDateObj = servicePackage["Start Date"] || null;
+    const startDate = (startDateObj !== null ? moment(startDateObj).calendar() : "TBD");
     const price = servicePackage["Price"];
     const notes = servicePackage["Notes"];
     const schedule = servicePackage["Schedule"];
@@ -42,14 +42,16 @@ const servicePlanCard = (props) => {
                     style={{ width: "100%" }}
                 >
                     <Row>
-                        <Col span={8}>
+                        <Col span={7}>
                             <h4>Details:</h4>
                             {notes}
                         </Col>
-                        <Col span={8}>
+                        <Col span={1} />
+                        <Col span={7}>
                             <h4>Schedule:</h4>
                             {schedule}
                         </Col>
+                        <Col span={1} />
                         <Col span={8}>
                             <h4>Price:</h4>
                             {price}
@@ -57,14 +59,15 @@ const servicePlanCard = (props) => {
                     </Row>
                     <br />
                     <Row>
-                        <Col span={8}>
+                        <Col span={7}>
                             <h4>Start Date</h4>
                             {startDate}
                         </Col>
-                        <Col span={8}>
+                        <Col span={1} />
+                        {/* <Col span={8}>
                             <h4>Building Access Details:</h4>
                             {buildingAccess}
-                        </Col>
+                        </Col> */}
                         <Col span={8}>
                             <h4>Delivery Instructions:</h4>
                             {deliveryInstructions}

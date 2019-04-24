@@ -68,6 +68,9 @@ function* userSignOutWorkerSaga(action) {
     let firebase = yield select(selectors.firebase);
     yield call(signOutUser, firebase);
     yield put({ type: actionTypes.CLEAR_REDUX_STATE });
+
+    window.location.reload();
+    
     yield put({ type: actionTypes.SIGN_OUT_USER_SUCCESS });
   } catch (error) {
     sentry.captureException(error);

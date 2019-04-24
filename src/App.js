@@ -68,16 +68,10 @@ class App extends Component {
       this.listener = firebase.auth.onAuthStateChanged(function (user) {
         if (user) {
           weakProps.setUpUser(user.uid);
-          if (weakProps.currentOfficeAdminUID) {
-            if (weakProps.currentPage == null) {
-              weakProps.history.push('/' + 'officeAdmin/' + weakProps.currentOfficeAdminUID + '/home');
-            }
-          }
+        } else {
+          weakProps.clearRedux();
+          weakProps.history.push('/');
         }
-        // else {
-        //   weakProps.clearRedux();
-        //   weakProps.history.push('/login');
-        // }
       });
     } else {
       const error = Error("Firebase NOT set up in App.js render()");

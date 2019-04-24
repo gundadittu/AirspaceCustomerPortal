@@ -146,37 +146,37 @@ class ExperienceManagerPage extends React.Component {
                   <h2>Here are some things I can help with:</h2>
                   <Row style={{ paddingTop: 15 }}>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={ServicePlanImg} />
+                      <img style={{ width: "50px" }} src={ServicePlanImg} />
                       <h3>Adjusting Service Plan</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={VendorsImg} />
+                      <img style={{ width: "50px" }} src={VendorsImg} />
                       <h3>Vendor Issues</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={SuppliesImg} />
+                      <img style={{ width: "50px" }} src={SuppliesImg} />
                       <h3>Reordering Supplies</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={RepairsImg} />
+                      <img style={{ width: "50px" }} src={RepairsImg} />
                       <h3>Repairs</h3>
                     </Col>
                   </Row>
                   <Row style={{ paddingTop: 15 }}>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={ConstPlanImg} />
+                      <img style={{ width: "50px" }} src={ConstPlanImg} />
                       <h3>Space Planning</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={MovingIm} />
+                      <img style={{ width: "50px" }} src={MovingIm} />
                       <h3>Move Planning</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={InventoryImg} />
+                      <img style={{ width: "50px" }} src={InventoryImg} />
                       <h3>Taking Inventory</h3>
                     </Col>
                     <Col style={{ textAlign: "center" }} span={6}>
-                      <img src={MoreImg} />
+                      <img style={{ width: "50px" }} src={MoreImg} />
                       <h3>Much More!</h3>
                     </Col>
                   </Row>

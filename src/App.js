@@ -176,13 +176,14 @@ const officeAdminRoutingComp = () => (
     {/* <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route> */}
     {/* <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route> */}
     <Route exact path='/officeAdmin/:officeUID/announcements' component={AnnouncementsPage}></Route>
-    <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/serviceRequests' component={ServiceRequestsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>
+    
+    <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
 
     {/* Service Portal */}
     <Route exact path='/officeAdmin/:officeUID/find-services' component={FindServicesPage}></Route>

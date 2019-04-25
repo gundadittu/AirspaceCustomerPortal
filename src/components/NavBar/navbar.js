@@ -9,6 +9,7 @@ import '../../App.css'
 import './navbar.css'
 import { AirNotificationType } from '../../models/AirNotificationType';
 import Grid from '@material-ui/core/Grid';
+import { withRouter } from 'react-router-dom';
 
 class NavBar extends React.Component {
   state = {
@@ -37,6 +38,8 @@ class NavBar extends React.Component {
     } else if (e.key === "notifications") {
       this.props.mixpanel.track('User did click notifications.');
       this.props.loadNotifications()
+    } else if (e.key === "users") {
+      this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/users');
     }
   }
 
@@ -67,6 +70,11 @@ class NavBar extends React.Component {
         onClick={this.handleClick}
         style={{ textAlign: 'right', border: "0", borderColor: "white", borderWidth: 0 }}
       >
+        <Menu.Item key="users">
+          <Grid container justify="center" alignItems="center">
+            Manage Users
+          </Grid>
+        </Menu.Item>
         <Menu.Item key="signOut">
           <Grid container justify="center" alignItems="center">
             Sign Out
@@ -211,7 +219,8 @@ const mapStateToProps = state => {
     user: state.auth.user,
     notifications: state.general.notifications,
     mixpanel: state.firebase.mixpanel,
-    emInfo: state.officeAdmin.emInfo
+    emInfo: state.officeAdmin.emInfo, 
+    currentOfficeAdminUID: state.general.currentOfficeAdminUID
   }
 };
 
@@ -222,4 +231,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));

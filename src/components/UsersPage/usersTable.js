@@ -11,72 +11,96 @@ class UsersTable extends React.Component {
 
   columns = [
     {
-    title: 'First Name',
-    dataIndex: 'firstName',
-    sorter: (a, b) => {
-      const aName = a.firstName;
-      const bName = b.firstName;
-      if (aName < bName) {
-        return -1;
-      } else if (aName > bName) {
-        return 1;
-      } else {
-        return 0
-      }
+      title: 'First Name',
+      dataIndex: 'firstName',
+      sorter: (a, b) => {
+        const aName = a.firstName;
+        const bName = b.firstName;
+        if (aName < bName) {
+          return -1;
+        } else if (aName > bName) {
+          return 1;
+        } else {
+          return 0
+        }
+      },
+      sortDirections: ['descend', 'ascend'],
     },
-    sortDirections: ['descend', 'ascend'],
-  },
-  {
-    title: 'Last Name',
-    dataIndex: 'lastName',
-    sorter: (a, b) => {
-      const aName = a.lastName;
-      const bName = b.lastName;
-      if (aName < bName) {
-        return -1;
-      } else if (aName > bName) {
-        return 1;
-      } else {
-        return 0
-      }
+    {
+      title: 'Last Name',
+      dataIndex: 'lastName',
+      sorter: (a, b) => {
+        const aName = a.lastName;
+        const bName = b.lastName;
+        if (aName < bName) {
+          return -1;
+        } else if (aName > bName) {
+          return 1;
+        } else {
+          return 0
+        }
+      },
+      sortDirections: ['descend', 'ascend'],
     },
-    sortDirections: ['descend', 'ascend'],
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email'
-  },
-  {
-    title: 'Offices',
-    dataIndex: 'offices',
-    render: (offices => (
-      <span>
-        {offices.map(office => <Tag color="blue" key={office.uid}>{office.name}</Tag>)}
-      </span>
-    ))
-  },
-  {
-    title: 'Office Admin For',
-    dataIndex: 'officeAdmins',
-    render: (offices => (
-      <span>
-        {offices.map(office => <Tag color="blue" key={office.uid}>{office.name}</Tag>)}
-      </span>
-    ))
-  },
-  {
-    title: '',
-    dataIndex: 'uid',
-    key: 'more',
-    render: (userUID) => (
-      <Dropdown overlay={() => this.editMenu(userUID)} trigger={['click']}>
-        <IconButton>
-          <MoreIcon />
-        </IconButton>
-      </Dropdown>
-    ),
-  }
-];
+    {
+      title: 'Email',
+      dataIndex: 'email'
+    },
+    // {
+    //   title: 'Offices',
+    //   dataIndex: 'offices',
+    //   render: (offices => (
+    //     <span>
+    //       {offices.map(office => <Tag color="blue" key={office.uid}>{office.name}</Tag>)}
+    //     </span>
+    //   ))
+    // },
+    // {
+    //   title: 'Office Admin For',
+    //   dataIndex: 'officeAdmins',
+    //   render: (offices => (
+
+    //     < span >
+    //       {offices.map(office => <Tag color="blue" key={office.uid}>{office.name}</Tag>)}
+    //     </span>
+    //   ))
+    // },
+    {
+      title: 'Office Admin',
+      dataIndex: 'officeAdmins',
+      render: (officeAdmin => {
+        if (officeAdmin === null) {
+          console.log("officeAdmin is null");
+          return null
+        }
+        console.log(officeAdmin);
+        const current = this.props.currentOfficeUID;
+        const list = officeAdmin;
+        for (let key in list) {
+          const value = list[key];
+
+          if (value.uid === current) {
+            return (
+              <Tag color="blue" key={value.uid}>Yes</Tag>
+            )
+          }
+        }
+        return null
+      })
+    },
+    {
+      title: '',
+      dataIndex: 'uid',
+      key: 'more',
+      render: (userUID) => (
+        <Dropdown overlay={() => this.editMenu(userUID)} trigger={['click']}>
+          <IconButton>
+            <MoreIcon />
+          </IconButton>
+        </Dropdown>
+      ),
+    }
+  ];
 
   state = {
     removeUserFormVisible: false,
@@ -114,13 +138,13 @@ class UsersTable extends React.Component {
       let initialUserTypeValue = 'regular'
 
       for (let key in userAdminOffices) {
-          const value = userAdminOffices[key];
-          const officeUID = value.uid;
+        const value = userAdminOffices[key];
+        const officeUID = value.uid;
 
-          if (officeUID === officeObj) {
-              initialUserTypeValue = 'officeAdmin'
-              break
-          }
+        if (officeUID === officeObj) {
+          initialUserTypeValue = 'officeAdmin'
+          break
+        }
       }
 
       this.editUserFormRef.props.form.setFields({
@@ -133,7 +157,7 @@ class UsersTable extends React.Component {
           error: null
         },
         emailAddress: {
-          value:  selectedUser.email,
+          value: selectedUser.email,
           error: null
         },
         emailAddress2: {
@@ -146,10 +170,10 @@ class UsersTable extends React.Component {
         }
       });
 
-      this.props.mixpanel.track("Clicked edit user in office", {"userUID": userUID });
-      this.setState({editUserFormVisible: true, removeUserFormVisible: false });
+      this.props.mixpanel.track("Clicked edit user in office", { "userUID": userUID });
+      this.setState({ editUserFormVisible: true, removeUserFormVisible: false });
     } else if (key === 'remove') {
-      this.props.mixpanel.track("Clicked remove user in office", {"userUID": userUID });
+      this.props.mixpanel.track("Clicked remove user in office", { "userUID": userUID });
       this.setState({ removeUserFormVisible: true, editUserFormVisible: false });
     }
   }
@@ -179,7 +203,7 @@ class UsersTable extends React.Component {
     const editUserForm = this.editUserFormRef.props.form;
     editUserForm.validateFields((err, values) => {
       if (err) {
-          return;
+        return;
       }
 
       const firstName = values.firstName;
@@ -188,10 +212,10 @@ class UsersTable extends React.Component {
       const makeUserOfficeAdmin = (values.userType === 'regular') ? false : true;
       const officeUID = this.props.currentOfficeUID;
       const payload = { hideForm: this.hideEditUserForm, userUID: userUID, firstName: firstName, lastName: lastName, email: email, makeUserOfficeAdmin: makeUserOfficeAdmin, officeUID: officeUID, componentRef: this, formRef: editUserForm, }
-      
-      this.props.mixpanel.track("Confirmed edit user in office", {"oldUserInfo": this.state.selectedUser, "newUserInfo": payload});
+
+      this.props.mixpanel.track("Confirmed edit user in office", { "oldUserInfo": this.state.selectedUser, "newUserInfo": payload });
       this.props.editUserForOfficeAdmin(payload);
-  });
+    });
   }
 
   hideEditUserForm = () => {
@@ -231,11 +255,11 @@ class UsersTable extends React.Component {
           confirmLoading={this.props.editUserFormLoading}
         />
         <RemoveUserForm
-            visible={this.state.removeUserFormVisible}
-            onCancel={this.handleCancelRemoveUser}
-            onCreate={() => this.handleRemoveUser(this.state.selectedUser, this.props.currentOfficeUID)}
-            selectedUser={this.state.selectedUser}
-            confirmLoading={this.props.removeUserFormLoading}
+          visible={this.state.removeUserFormVisible}
+          onCancel={this.handleCancelRemoveUser}
+          onCreate={() => this.handleRemoveUser(this.state.selectedUser, this.props.currentOfficeUID)}
+          selectedUser={this.state.selectedUser}
+          confirmLoading={this.props.removeUserFormLoading}
         />
         <Table rowKey={record => record.uid.toString()} columns={this.columns} dataSource={this.props.userList} pagination={false} loading={this.props.isLoadingUserData} />
       </div>
@@ -247,6 +271,7 @@ const mapStateToProps = state => {
   return {
     userList: state.officeAdmin.userList,
     currentOfficeUID: state.general.currentOfficeAdminUID,
+    userAdminOfficeList: state.auth.adminOfficeList,
     isLoadingUserData: state.officeAdmin.isLoadingUserData,
     editUserFormLoading: state.officeAdmin.editUserFormLoading,
     removeUserFormLoading: state.officeAdmin.removeUserFormLoading,
@@ -257,9 +282,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID)),
-    removeUserFromOffice: (userUID, officeUID, componentRef) => dispatch(actionCreator.removeUserForOfficeAdmin({userUID: userUID, officeUID: officeUID, componentRef: componentRef })),
+    removeUserFromOffice: (userUID, officeUID, componentRef) => dispatch(actionCreator.removeUserForOfficeAdmin({ userUID: userUID, officeUID: officeUID, componentRef: componentRef })),
     editUserForOfficeAdmin: (payload) => dispatch(actionCreator.editUserForOfficeAdmin(payload)),
-    finishedEditUserForOfficeAdmin: (payload) => dispatch({type: 'EDIT_OFFICE_USER_FINISHED', payload: { ...payload }})
+    finishedEditUserForOfficeAdmin: (payload) => dispatch({ type: 'EDIT_OFFICE_USER_FINISHED', payload: { ...payload } })
   }
 };
 

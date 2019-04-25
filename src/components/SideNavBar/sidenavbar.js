@@ -13,6 +13,7 @@ import * as actionCreators from '../../store/actions/general';
 import '../../App.css';
 import './sideNavBar.css';
 import { grey } from '@material-ui/core/colors';
+import getPagePayload from '../../pages/pageRoutingFunctions';
 
 
 const SubMenu = Menu.SubMenu;
@@ -207,7 +208,7 @@ class SideNavBar extends React.Component {
           mode="inline"
           className="airspace-side-nav-bar menu-tab"
           forceSubMenuRender={true}
-          // multiple={true}
+        // multiple={true}
         >
           {Object.keys(menuLinks).map((key) => {
 
@@ -250,14 +251,39 @@ class SideNavBar extends React.Component {
         return null;
       }
 
+      const switchOffice = (uid) => {
+        console.log("switch office reached");
+        if (uid === null) {
+          console.log("switch office reached - null ");
+          return
+        }
+
+        const list = this.props.adminOfficeList;
+        let officeObj = null;
+        for (let key in list) {
+          const value = list[key];
+
+          if (value.uid === uid) {
+            officeObj = value;
+          }
+        }
+
+        const pagePayload = getPagePayload(pageTitles.homePageOfficeAdmin, { officeUID: uid, officeObj: officeObj });
+        if (pagePayload) {
+          this.props.changePage(pagePayload);
+        }
+      }
+
 
       return (
         this.props.adminOfficeList.map((office) => (
-          <Menu.Item key={office.uid}>
-            <Link to={'/officeAdmin/' + office.uid}>
-              {office.name}
-            </Link>
-          </Menu.Item>
+          <a onClick={() => switchOffice(office.uid)}>
+            <Menu.Item key={office.uid} >
+              <Link to={'/officeAdmin/' + office.uid}>
+                {office.name}
+              </Link>
+            </Menu.Item>
+          </a>
         ))
       );
     }

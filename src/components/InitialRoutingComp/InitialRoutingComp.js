@@ -20,7 +20,6 @@ class InitialRoutingComp extends Component {
             if (this.props.officeAdminList.length > 0) {
                 const officeObj = this.props.officeAdminList[0];
                 const officeUID = officeObj.uid;
-                console.log("initial");
                 this.props.history.push('/officeAdmin/' + officeUID)
                 // return <Redirect to={'/officeAdmin/' + officeUID}></Redirect>
                 return null

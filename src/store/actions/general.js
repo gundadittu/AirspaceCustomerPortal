@@ -179,9 +179,27 @@ export const setUpFirebaseInstanceAction = (firebaseInstance) => {
 }
 
 export const changePage = (payload) => {
+
+  const officeUID = payload.officeUID || payload.currentOfficeAdminUID || null;
+  const officeObj = payload.officeObj || payload.currentOfficeAdmin || null;
+
+
+  if ((officeUID !== null) && (officeObj !== null)) {
+    return {
+      type: actionTypes.CHANGE_PAGE,
+      payload: {
+        ...payload,
+        currentOfficeAdminUID: officeUID,
+        currentOfficeAdmin: officeObj
+      }
+    }
+  }
+
   return {
     type: actionTypes.CHANGE_PAGE,
-    payload: { ...payload }
+    payload: {
+      ...payload
+    }
   };
 }
 

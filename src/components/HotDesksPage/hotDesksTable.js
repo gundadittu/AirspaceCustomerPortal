@@ -82,7 +82,6 @@ class HotDesksTable extends React.Component {
      }
 
      if (selectedDesk == null) {
-       console.log("return null");
        return
      }
 

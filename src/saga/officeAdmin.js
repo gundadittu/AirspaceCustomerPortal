@@ -1221,7 +1221,6 @@ function submitGSData(payload, firebase) {
     return apiCall({ ...payload })
         .then(response => {
             const data = response.data;
-            // console.log(data);
             return
         })
 }
@@ -1252,8 +1251,6 @@ function getInvoices(payload, firebase) {
     return apiCall({ ...payload })
         .then(response => {
             const data = response.data;
-            // console.log(response);
-            // console.log(data);
             return data;
         })
 }
@@ -1279,21 +1276,16 @@ function* getAllInvoicesForOfficeWorkerSaga(action) {
 }
 
 function getServicePlan(payload, firebase) {
-    console.log("start");
     const apiCall = firebase.functions.httpsCallable('getServicePlanForOffice');
     return apiCall({ ...payload })
         .then(response => {
             const data = response.data;
-            console.log("here");
-            console.log(response);
-            console.log(data);
             return data;
         })
 }
 
 function* getServicePlanForOfficeWorkerSaga(action) {
     try {
-        console.log("start-0");
         const payload = action.payload;
         let firebase = yield select(selectors.firebase);
         const response = yield call(getServicePlan, payload, firebase);
@@ -1319,7 +1311,6 @@ function getEmInfo(payload, firebase) {
     const call = firebase.functions.httpsCallable('getPendingPackages');
     call({ selectedOfficeUID: payload.selectedOfficeUID })
         .then(response => {
-            console.log(response.data);
             return
         })
         .catch(err => {

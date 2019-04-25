@@ -66,8 +66,7 @@ class FindServicesPage extends React.Component {
         showSteps: false
     }
 
-    componentDidMount() {
-
+    handleRoute() { 
         if (this.props.match.isExact) {
             const selectedOfficeUID = this.props.match.params.officeUID;
 
@@ -93,6 +92,14 @@ class FindServicesPage extends React.Component {
             this.props.getServicePlan(selectedOfficeUID);
         }
     }
+
+    // componentDidMount() {  
+    //     // this.handleRoute();
+    // }
+
+    // shouldComponentUpdate() { 
+
+    // }
 
     handleClick(e) {
         var key = e.key;
@@ -368,11 +375,11 @@ class FindServicesPage extends React.Component {
             serviceDescription: description,
             onlyInterested: onlyInterested
         };
-        console.log(dict);
         this.props.addRequestForService(dict);
     }
 
     render() {
+        this.handleRoute();
 
         let data = this.getDataSource();
         const Step = Steps.Step;

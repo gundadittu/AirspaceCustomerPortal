@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table, Tag, Dropdown, Menu } from 'antd';
+import { Table, Tag, Dropdown, Menu, message } from 'antd';
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
 import EditUserForm from './editUserForm';
 import RemoveUserForm from './removeUserForm';
 import * as actionCreator from '../../store/actions/officeAdmin';
+import { throws } from 'assert';
 
 class UsersTable extends React.Component {
 
@@ -203,9 +204,10 @@ class UsersTable extends React.Component {
     const editUserForm = this.editUserFormRef.props.form;
     editUserForm.validateFields((err, values) => {
       if (err) {
+        message.error('We were unable to save your changes.');
         return;
       }
-
+      message.success('Saving your changes...');
       const firstName = values.firstName;
       const lastName = values.lastName;
       const email = values.emailAddress;
@@ -216,6 +218,8 @@ class UsersTable extends React.Component {
       this.props.mixpanel.track("Confirmed edit user in office", { "oldUserInfo": this.state.selectedUser, "newUserInfo": payload });
       this.props.editUserForOfficeAdmin(payload);
     });
+
+    this.setState({ editUserFormVisible: false, selectedUser: null });
   }
 
   hideEditUserForm = () => {
@@ -234,7 +238,8 @@ class UsersTable extends React.Component {
   handleRemoveUser = (selectedUser, selectedOffice) => {
     const userUID = selectedUser.uid;
     const officeUID = selectedOffice;
-    this.setState({ selectedUser: null });
+    message.success('Removing user from this office...');
+    this.setState({ removeUserFormVisible: false, selectedUser: null });
     this.props.mixpanel.track("Confirmed remove user in office");
     this.props.removeUserFromOffice(userUID, officeUID, this)
   }

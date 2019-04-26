@@ -47,6 +47,8 @@ import Upholstery from "../../assets/images/services/upholestery.jpeg";
 import IT from "../../assets/images/services/it-services.jpeg";
 import WasteRemoval from "../../assets/images/services/waste-removal.jpeg";
 import PestControl from "../../assets/images/services/pest-control.jpg";
+import FloorMat from "../../assets/images/services/floor-mat.jpeg";
+import CleaningSupplies from "../../assets/images/services/cleaning-supplies.jpg";
 
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
@@ -66,7 +68,7 @@ class FindServicesPage extends React.Component {
         showSteps: false
     }
 
-    handleRoute() { 
+    handleRoute() {
         if (this.props.match.isExact) {
             const selectedOfficeUID = this.props.match.params.officeUID;
 
@@ -241,6 +243,11 @@ class FindServicesPage extends React.Component {
                     description: "From carpets, to buffing, to tile and grout, we have all your floor cleaning needs covered."
                 },
                 {
+                    image: FloorMat,
+                    title: "Floor Mat Service",
+                    description: "Commercial floor mat service program protects your floors and the people that walk on them. Service includes laundering, pick-up and delivery."
+                },
+                {
                     image: Windows,
                     title: "Windows",
                     description: "Between the weather and living in a city, dirt and debris can build up on your windows, compromising your natural light. Regular window washing can remove stains and keep your office bright."
@@ -264,6 +271,11 @@ class FindServicesPage extends React.Component {
                     image: PestControl,
                     title: "Pest Control",
                     description: "Whether you've spotted unwanted visitors in your office or want to prevent pests from finding their way inside, professional pest control services can exterminate rodents and insects and protect your space from future infestation. Regularly scheduled inspections and preventative treatments can also help keep your office pest-free and sanitary."
+                },
+                {
+                    image: CleaningSupplies,
+                    title: "Cleaning + Maintenance Supplies",
+                    description: "Janitorial supplies are essential for businesses of all sizes. Having janitorial cleaning supplies, sprays, paper towels and hygiene products on hand ensures that custodians are ready for any spills or situations they encounter. Office cleaning supplies range from industrial-strength cleansers and sprays to basic restroom items like soap and hand sanitizer."
                 }
             ]
         } else if (this.state.dataSource === "repairs-maintenance") {

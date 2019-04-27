@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 // import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
+import * as actionCreator from '../../store/actions/officeAdmin';
 // import * as officeActionCreator from '../../store/actions/officeAdmin';
 // import InvoiceCard from './InvoiceCard';
 // import RefreshIcon from '@material-ui/icons/Refresh';
@@ -95,16 +96,9 @@ class FindServicesPage extends React.Component {
             this.props.loadEMInfo({ selectedOfficeUID: selectedOfficeUID });
             this.props.getServicePlan(selectedOfficeUID);
             this.props.loadInvoices(selectedOfficeUID);
+            this.props.loadUserList(selectedOfficeUID);
         }
     }
-
-    // componentDidMount() {  
-    //     // this.handleRoute();
-    // }
-
-    // shouldComponentUpdate() { 
-
-    // }
 
     handleClick(e) {
         var key = e.key;
@@ -539,6 +533,7 @@ const mapDispatchToProps = dispatch => {
         loadEMInfo: (payload) => dispatch(generalActionCreator.getEMInfo(payload)), 
         getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })), 
         loadInvoices: (officeUID) => dispatch(generalActionCreator.getAllInvoices({ selectedOfficeUID: officeUID })),
+        loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID))
     }
 };
 

@@ -92,6 +92,9 @@ class FindServicesPage extends React.Component {
             }
 
             this.props.getServicePlan(selectedOfficeUID);
+            this.props.loadEMInfo({ selectedOfficeUID: selectedOfficeUID });
+            this.props.getServicePlan(selectedOfficeUID);
+            this.props.loadInvoices(selectedOfficeUID);
         }
     }
 
@@ -421,7 +424,7 @@ class FindServicesPage extends React.Component {
                     onCancel={this.hideDescription.bind(this)}
                     footer={[
                         // (<Tooltip title="We'll answer your questions and even give you a quote. No commitment required."> <Button onClick={() => this.requestService(this.state.descriptionTitle, "", true)} type="secondary">I'm Interested</Button></Tooltip>),
-                        (<Popconfirm title="Are you sure？" okText="Yes" cancelText="No" onConfirm={() => this.requestService(this.state.descriptionTitle, "", true)}>
+                        (<Popconfirm icon={null} title={null} okText="Confirm" cancelText="Never mind" onConfirm={() => this.requestService(this.state.descriptionTitle, "", true)}>
                             <Tooltip placement="bottom" title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">
                                 <Button type="primary">I'm Interested</Button>
                             </Tooltip>
@@ -490,7 +493,7 @@ class FindServicesPage extends React.Component {
                                                 <Card
                                                     style={{ width: "85%" }}
                                                     cover={<img style={{ cursor: "pointer" }} onClick={() => this.showDetails(item)} alt="example" src={item.image} />}
-                                                    actions={[(<Button onClick={() => this.showDetails(item)} type="secondary">Learn More</Button>), (<Popconfirm title="Are you sure？" okText="Yes" cancelText="No" onConfirm={() => this.requestService(item.title, "", true)}>
+                                                    actions={[(<Button onClick={() => this.showDetails(item)} type="secondary">Learn More</Button>), (<Popconfirm icon={null} title={null} okText="Confirm" cancelText="Never mind" onConfirm={() => this.requestService(item.title, "", true)}>
                                                         <Tooltip placement="bottom" title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">
                                                             <Button type="primary">I'm Interested</Button>
                                                         </Tooltip>
@@ -533,6 +536,9 @@ const mapDispatchToProps = dispatch => {
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
         addRequestForService: (payload) => dispatch(generalActionCreator.addRequestForService(payload)),
         getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })),
+        loadEMInfo: (payload) => dispatch(generalActionCreator.getEMInfo(payload)), 
+        getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })), 
+        loadInvoices: (officeUID) => dispatch(generalActionCreator.getAllInvoices({ selectedOfficeUID: officeUID })),
     }
 };
 

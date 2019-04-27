@@ -44,7 +44,7 @@ class BillingPage extends React.Component {
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
             }
-            this.props.loadInvoices(this.props.currentOfficeAdminUID);
+            this.props.loadInvoices(selectedOfficeUID);
         }
     }
 

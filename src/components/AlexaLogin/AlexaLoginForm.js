@@ -44,10 +44,7 @@ class AlexaLoginForm extends React.Component {
         const redirect_uri = urlParams.get("redirect_uri");
         // Combine all the uri elements.
         let url = redirect_uri + "?state=" + state + "&code=" + authCode;
-        if (this.props.redirect === null) { 
-            console.log("alexa-login store url: "+url);
-            this.props.storeRedirect(url);
-        }
+        this.props.storeRedirect(url);
         this.props.history.push('/general/alexa-login/office-list');
     }
 

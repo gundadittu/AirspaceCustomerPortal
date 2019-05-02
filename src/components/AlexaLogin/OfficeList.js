@@ -77,7 +77,7 @@ class OfficeList extends React.Component {
                         <h3>Which Airspace Office do you want to associate with all your Alexa devices?</h3>
                         {this.props.adminOfficeList !== null ?
                             this.props.adminOfficeList.map(x => (
-                                <Card actions={[<Button onClick={() => this.chooseOffice(x.uid)}>Choose</Button>]}>
+                                <Card style={{ marginBottom: 30 }} actions={[<Button onClick={() => this.chooseOffice(x.uid)}>Choose</Button>]}>
                                     {x.name}
                                 </Card>
                             ))
@@ -100,7 +100,7 @@ const mapStateToProps = state => {
     return {
         user: state.auth.user,
         adminOfficeList: state.auth.adminOfficeList,
-        firebase: state.firebase.firebase, 
+        firebase: state.firebase.firebase,
         redirect: state.officeAdmin.alexaRedirect
     }
 }

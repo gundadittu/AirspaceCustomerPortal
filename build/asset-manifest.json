@@ -1,7 +1,7 @@
 {
   "main.css": "/static/css/main.dc7132bf.chunk.css",
-  "main.js": "/static/js/main.bc841987.chunk.js",
-  "main.js.map": "/static/js/main.bc841987.chunk.js.map",
+  "main.js": "/static/js/main.e1744e82.chunk.js",
+  "main.js.map": "/static/js/main.e1744e82.chunk.js.map",
   "static/css/1.073841e3.chunk.css": "/static/css/1.073841e3.chunk.css",
   "static/js/1.b24588a2.chunk.js": "/static/js/1.b24588a2.chunk.js",
   "static/js/1.b24588a2.chunk.js.map": "/static/js/1.b24588a2.chunk.js.map",
@@ -59,9 +59,9 @@
   "static/media/no-mobile.png": "/static/media/no-mobile.67ac8726.png",
   "static/media/updated_logo.png": "/static/media/updated_logo.f01abc27.png",
   "static/media/postal.jpeg": "/static/media/postal.99dd899d.jpeg",
-  "static/css/1.073841e3.chunk.css.map": "/static/css/1.073841e3.chunk.css.map",
   "static/css/main.dc7132bf.chunk.css.map": "/static/css/main.dc7132bf.chunk.css.map",
+  "static/css/1.073841e3.chunk.css.map": "/static/css/1.073841e3.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.14eca49384ec458b614ad921286714af.js": "/precache-manifest.14eca49384ec458b614ad921286714af.js",
+  "precache-manifest.ef48d283140405852a906e11c7ffafb1.js": "/precache-manifest.ef48d283140405852a906e11c7ffafb1.js",
   "service-worker.js": "/service-worker.js"
 }

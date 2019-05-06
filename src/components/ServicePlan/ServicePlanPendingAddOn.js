@@ -87,13 +87,13 @@ class ServicePlanPendingAddOn extends React.Component {
                             <div>
                                 <List.Item>
                                     <Card
-                                        title={(<h3>{title} {extra()}</h3>)}
+                                        title={(<h3>{title}</h3>)}
                                         extra={sideContent()}
                                     // actions={[(<Button onClick={() => this.pending(identifier)} type="secondary">Unselect</Button>)]}
                                     >
                                         <Row>
                                             <Col span={16}>
-                                                <h4>Description:</h4>
+                                                <h4>Description: {extra()}</h4>
                                                 <p>{description}</p>
                                                 <p style={{ marginTop: 10, fontSize: 13, color: "#D3D3D3" }}>ID: {identifier}</p>
                                             </Col>

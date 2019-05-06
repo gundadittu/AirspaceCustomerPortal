@@ -10,6 +10,24 @@ function openUrl(url) {
     window.open(url, "_blank");
 }
 
+function convertToDollarString(amount) {
+    if (amount === null) {
+        return "Not available"
+    }
+    const dollarAmt = "$" + Math.floor(amount / 100);
+    const cents = () => {
+        const centsAmt = amount % 100;
+        if (centsAmt === 0) {
+            return "00";
+        } else if (centsAmt < 10) {
+            return "0" + centsAmt;
+        } else {
+            return "" + centsAmt;
+        }
+    }
+    return dollarAmt+"."+cents();
+}
+
 const invoiceCard = (props) => {
 
     const Panel = Collapse.Panel;
@@ -28,9 +46,11 @@ const invoiceCard = (props) => {
     const description = invoice.description || "Invoice";
     const invoiceURL = invoice.invoice_pdf || null;
     const payURL = invoice.hosted_invoice_url || null;
-    const remaining = invoice.amount_remaining || 0;
-    const total = invoice.amount_due || 0;
-    const paid = invoice.amount_paid || 0;
+
+    const remaining = convertToDollarString(invoice.amount_remaining)|| convertToDollarString(0);
+    const total = convertToDollarString(invoice.amount_due) || convertToDollarString(0);
+    const paid = convertToDollarString(invoice.amount_paid) || convertToDollarString(0);
+
     const dueDateTimeStamp = invoice.due_date || null;
     const dueDateObj = new Date(dueDateTimeStamp * 1000).toString();
     const dueDate = moment(dueDateObj).calendar();
@@ -59,7 +79,7 @@ const invoiceCard = (props) => {
                         </Col>
                         <Col span={8}>
                             <h3>Outstanding Balance:</h3>
-                            ${remaining}
+                            {remaining}
                         </Col>
                         <Col span={8}>
                             <div style={{ textAlign: "end" }}>
@@ -70,10 +90,10 @@ const invoiceCard = (props) => {
                     <br />
                     <Row >
                         <Col span={8}>
-                            <p><strong>Total Balance:</strong> ${total}</p>
+                            <p><strong>Total Balance:</strong> {total}</p>
                         </Col>
                         <Col span={8}>
-                            <p><strong>Paid:</strong> ${paid}</p>
+                            <p><strong>Paid:</strong> {paid}</p>
                         </Col>
                         <Col span={8}>
                         </Col>

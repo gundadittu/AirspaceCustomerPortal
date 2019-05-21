@@ -75,6 +75,7 @@ class OfficeList extends React.Component {
                     <Col span={6} />
                     <Col span={12}>
                         <h3>Which Airspace Office do you want to associate with all your Alexa devices?</h3>
+                        {spinner()}
                         {this.props.adminOfficeList !== null ?
                             this.props.adminOfficeList.map(x => (
                                 <Card style={{ marginBottom: 30 }} actions={[<Button onClick={() => this.chooseOffice(x.uid)}>Choose</Button>]}>
@@ -82,7 +83,6 @@ class OfficeList extends React.Component {
                                 </Card>
                             ))
                             : null}
-                        {spinner()}
                     </Col>
                     <Col span={6} />
                 </Row>

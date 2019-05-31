@@ -72,8 +72,8 @@ class OfficeList extends React.Component {
 
             <div>
                 <Row type="flex" justify="space-around" align="middle">
-                    <Col span={6} />
-                    <Col span={12}>
+                    <Col span={3} />
+                    <Col span={18}>
                         <h3>Which Airspace Office do you want to associate with all your Alexa devices?</h3>
                         {spinner()}
                         {this.props.adminOfficeList !== null ?
@@ -84,7 +84,7 @@ class OfficeList extends React.Component {
                             ))
                             : null}
                     </Col>
-                    <Col span={6} />
+                    <Col span={3} />
                 </Row>
             </div>
         );

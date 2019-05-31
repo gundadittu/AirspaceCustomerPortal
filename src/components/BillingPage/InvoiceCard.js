@@ -25,7 +25,24 @@ function convertToDollarString(amount) {
             return "" + centsAmt;
         }
     }
-    return dollarAmt+"."+cents();
+    return dollarAmt + "." + cents();
+}
+
+const getMonthString = (index) => {
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    return month[index];
 }
 
 const invoiceCard = (props) => {
@@ -43,17 +60,21 @@ const invoiceCard = (props) => {
     if (invoice === null) {
         return null
     }
-    const description = invoice.description || "Invoice";
     const invoiceURL = invoice.invoice_pdf || null;
     const payURL = invoice.hosted_invoice_url || null;
 
-    const remaining = convertToDollarString(invoice.amount_remaining)|| convertToDollarString(0);
+    const remaining = convertToDollarString(invoice.amount_remaining) || convertToDollarString(0);
     const total = convertToDollarString(invoice.amount_due) || convertToDollarString(0);
     const paid = convertToDollarString(invoice.amount_paid) || convertToDollarString(0);
 
     const dueDateTimeStamp = invoice.due_date || null;
-    const dueDateObj = new Date(dueDateTimeStamp * 1000).toString();
-    const dueDate = moment(dueDateObj).calendar();
+    const dueDateObj = new Date(dueDateTimeStamp * 1000);
+    const dueDateString = dueDateObj.toString();
+    const dueDate = moment(dueDateString).calendar();
+
+    const description = getMonthString(dueDateObj.getMonth()) + " " + dueDateObj.getFullYear() || "Invoice";
+
+
     const identifier = invoice.number || null;
     const createdTimestamp = invoice.created || null;
     const createdObj = new Date(createdTimestamp * 1000).toString();

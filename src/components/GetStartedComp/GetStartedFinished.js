@@ -58,7 +58,6 @@ class GetStartedFinishedComp extends React.Component {
                     </div>
                 </Row>
                 <MuiThemeProvider theme={theme}>
-
                     <Row align="middle">
                         <div style={{ textAlign: "center" }}>
                             <Col span={5}>
@@ -66,14 +65,14 @@ class GetStartedFinishedComp extends React.Component {
                             <Col span={14}>
                                 <h1 >You're on your way to a new office experience.</h1>
                                 <h2 style={{ color: "#A9A9A9" }}>Your experience manager will be reaching out soon.</h2>
-                                {this.props.isLoadingSignIn ? (<CircularProgress className={classes.progress} color="#f07c94" />)
+                                {/* {this.props.isLoadingSignIn ? (<CircularProgress className={classes.progress} color="#f07c94" />)
                                     : (
                                         <div style={{ textAlign: "center" }}>
                                             <Fab onClick={this.signIn} style={{ width: "40%", fontSize: 19 }} variant="extended" color="primary" aria-label="Add">
                                                 LOGIN
                                         </Fab>
                                         </div>
-                                    )}
+                                    )} */}
                             </Col>
                             <Col span={5}>
                             </Col>

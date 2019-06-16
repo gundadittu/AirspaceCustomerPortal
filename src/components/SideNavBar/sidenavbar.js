@@ -191,12 +191,12 @@ class SideNavBar extends React.Component {
         pageSubtitle: "billing",
         linkTitle: "Billing"
       },
-      // support: {
-      //   keyVal: pageTitles.supportPageOfficeAdmin,
-      //   iconType: "solution",
-      //   pageSubtitle: "support",
-      //   linkTitle: "Support"
-      // }
+      support: {
+        keyVal: pageTitles.supportPageOfficeAdmin,
+        iconType: "solution",
+        pageSubtitle: "support",
+        linkTitle: "Support"
+      }
     };
 
     return (

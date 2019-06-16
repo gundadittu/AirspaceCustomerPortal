@@ -51,6 +51,10 @@ export function* addRequestService() {
     yield takeLatest(actionTypes.ADD_REQUEST_SERVICE, addRequestForServiceWorkerSaga);
 }
 
+export function* submitSupportTicketWatcher() {
+    yield takeLatest(actionTypes.SUBMIT_SERVICE_TICKET, submitSupportTicketWorkerSaga);
+}
+
 export function* loadOfficeProfile() {
     yield takeLatest(actionTypes.LOAD_OFFICE_PROFILE, loadOfficeProfileWorkerSaga);
 }
@@ -1403,6 +1407,42 @@ function* checkValidEmailWorkerSaga(action) {
     }
 }
 
+function submitSupportTicket(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('submitSupportTicket');
+    return apiCall({ ...payload, onFinish: null });
+}
+
+function* submitSupportTicketWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        yield call(submitSupportTicket, payload, firebase);
+
+        notification['success']({
+            message: 'Sent your ticket to your Experience Manager...',
+            // description: error.message
+        });
+
+        const finish = payload.onFinish;
+        finish();
+
+        yield put({ type: actionTypes.SUBMIT_SERVICE_TICKET_FINISHED });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to submit ticket.',
+            // description: error.message
+        });
+
+        const payload = action.payload;
+        const finish = payload.onFinish;
+        finish();
+
+        yield put({ type: actionTypes.SUBMIT_SERVICE_TICKET_FINISHED });
+    }
+}
+
 function addRequestForService(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('addRequestFromPortal');
     return apiCall({ ...payload, onFinish: null });
@@ -1430,7 +1470,7 @@ function* addRequestForServiceWorkerSaga(action) {
             message: 'Unable to request service.',
             // description: error.message
         });
-        
+
         const payload = action.payload;
         const finish = payload.onFinish;
         finish();

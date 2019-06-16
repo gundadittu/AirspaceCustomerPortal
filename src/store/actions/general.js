@@ -88,6 +88,16 @@ export const checkValidEmail = (payload) => {
   }
 }
 
+export const submitSupportTicket = (payload) => {
+  return {
+    type: actionTypes.SUBMIT_SERVICE_TICKET,
+    payload: {
+      selectedOfficeUID: payload.selectedOfficeUID,
+      details: payload.details,
+      onFinish: payload.onFinish
+    }
+  }
+}
 export const addRequestForService = (payload) => {
   return {
     type: actionTypes.ADD_REQUEST_SERVICE,
@@ -96,7 +106,7 @@ export const addRequestForService = (payload) => {
       serviceDescription: (payload.serviceDescription || null),
       selectedOfficeUID: payload.selectedOfficeUID,
       onlyInterested: payload.onlyInterested,
-      onFinish: payload.onFinish 
+      onFinish: payload.onFinish
       // details: (payload.details || null)
     }
   }

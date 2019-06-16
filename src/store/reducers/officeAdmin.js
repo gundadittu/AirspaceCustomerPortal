@@ -55,11 +55,16 @@ const initialState = {
     emInfo: null,
     isLoadingOfficeProfile: false,
     officeProfile: null,
-    isAddingRequestForService: false
+    isAddingRequestForService: false,
+    isSubmittingSupportTicket: false
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.SUBMIT_SERVICE_TICKET:
+            return updateObject(state, { isSubmittingSupportTicket: true });
+        case actionTypes.SUBMIT_SERVICE_TICKET_FINISHED:
+            return updateObject(state, { isSubmittingSupportTicket: false });
         case actionTypes.ADD_REQUEST_SERVICE:
             return updateObject(state, { isAddingRequestForService: true });
         case actionTypes.ADD_REQUEST_SERVICE_FINISHED:

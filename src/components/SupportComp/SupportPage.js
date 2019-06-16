@@ -6,7 +6,8 @@ import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import * as generalActionCreator from '../../store/actions/general';
 import { Link } from 'react-router-dom';
-import { Row, Col, Collapse, Icon, Menu } from 'antd';
+import { Row, Col, Collapse, Icon, Menu, Button } from 'antd';
+import GetHelpForm from './GetHelpForm';
 const Panel = Collapse.Panel;
 
 const text = `
@@ -26,7 +27,17 @@ const customPanelStyle = {
 class SupportPage extends React.Component {
 
     state = {
-        dataSource: "delivery"
+        dataSource: "delivery",
+        getHelpVisible: false
+    }
+
+    showHelp() {
+        this.setState({ getHelpVisible: true });
+    }
+
+    hideHelp() {
+        // clear fields 
+        this.setState({ getHelpVisible: false });
     }
 
     componentDidMount() {
@@ -106,36 +117,44 @@ class SupportPage extends React.Component {
         body = this.delivery;
 
         return (
-            <Col className="wide-table" span={24}>
-                <h1>Support</h1>
+            <div>
+                <GetHelpForm visible={this.state.getHelpVisible} onCancel={this.hideHelp.bind(this)} />
+                <Col className="wide-table" span={24}>
+                    <h1>Support</h1>
 
-                <div>
-                    <Row type="flex">
-                        <Col span={12}>
-                            <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
-                                <Menu
-                                    className="inlineDisplay menu-tab"
-                                    style={{ border: 0 }}
-                                    onClick={this.handleClick.bind(this)}
-                                    defaultSelectedKeys={[this.state.dataSource]}
-                                    mode="horizontal"
-                                >
-                                    <Menu.Item key="delivery">
-                                        Delivery
+                    <div>
+                        <Row type="flex">
+                            <Col span={12}>
+                                <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
+                                    <Menu
+                                        className="inlineDisplay menu-tab"
+                                        style={{ border: 0 }}
+                                        onClick={this.handleClick.bind(this)}
+                                        defaultSelectedKeys={[this.state.dataSource]}
+                                        mode="horizontal"
+                                    >
+                                        <Menu.Item key="delivery">
+                                            Delivery
                                     </Menu.Item>
-                                    <Menu.Item key="billing">
-                                        Billing
+                                        <Menu.Item key="billing">
+                                            Billing
                                     </Menu.Item>
-                                    <Menu.Item key="exp-manager">
-                                        Experience Manager
+                                        <Menu.Item key="exp-manager">
+                                            Experience Manager
                                     </Menu.Item>
-                                </Menu>
-                            </Row>
-                        </Col>
-                    </Row>
-                    {body}
-                </div>
-            </Col>
+                                    </Menu>
+                                </Row>
+                            </Col>
+                            <Col span={12}>
+                                <Row type="flex" align="middle" justify="end">
+                                    <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showHelp.bind(this)}>Get Help</Button>
+                                </Row>
+                            </Col>
+                        </Row>
+                        {body}
+                    </div>
+                </Col>
+            </div>
         );
     }
 
@@ -143,7 +162,7 @@ class SupportPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        userAdminOfficeList: state.auth.adminOfficeList, 
+        userAdminOfficeList: state.auth.adminOfficeList,
         currentOfficeAdminUID: state.general.currentOfficeAdminUID
     }
 };

@@ -93,9 +93,10 @@ export const addRequestForService = (payload) => {
     type: actionTypes.ADD_REQUEST_SERVICE,
     payload: {
       serviceType: payload.serviceType,
-      serviceDescription: payload.serviceDescription,
+      serviceDescription: (payload.serviceDescription || null),
       selectedOfficeUID: payload.selectedOfficeUID,
-      onlyInterested: payload.onlyInterested
+      onlyInterested: payload.onlyInterested,
+      // details: (payload.details || null)
     }
   }
 }

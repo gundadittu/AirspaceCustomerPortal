@@ -55,6 +55,8 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import HelpIcon from '@material-ui/icons/Help';
 
+import OrderForm from "../OrderFormComp/OrderForm";
+
 // import Other from "../../assets/images/services/other.jpeg";
 
 const { Meta } = Card;
@@ -393,6 +395,8 @@ class FindServicesPage extends React.Component {
         let data = this.getDataSource();
         const Step = Steps.Step;
 
+
+
         return (
             <div>
                 <Modal
@@ -411,7 +415,7 @@ class FindServicesPage extends React.Component {
                         </Steps>
                     </div>
                 </Modal>
-                <Modal
+                {/* <Modal
                     visible={this.state.showDescription}
                     title={(<h3>{this.state.descriptionTitle}</h3>)}
                     onOk={this.hideDescription.bind(this)}
@@ -426,7 +430,10 @@ class FindServicesPage extends React.Component {
                     ]}
                 >
                     <p>{this.state.descriptionText}</p>
-                </Modal>
+                </Modal> */}
+                
+                <OrderForm visible={this.state.showDescription} onCancel={this.hideDescription.bind(this)} serviceTitle={this.state.descriptionTitle} topText={this.state.descriptionText} />
+
                 <Row>
                     <Col className="wide-table" span={24}>
                         <h1>Find Services
@@ -487,12 +494,14 @@ class FindServicesPage extends React.Component {
                                                 <Card
                                                     style={{ width: "85%" }}
                                                     cover={<img style={{ cursor: "pointer" }} onClick={() => this.showDetails(item)} alt="example" src={item.image} />}
-                                                    actions={[(<Button onClick={() => this.showDetails(item)} type="secondary">Learn More</Button>), (<Popconfirm icon={null} title={null} okText="Confirm" cancelText="Never mind" onConfirm={() => this.requestService(item.title, "", true)}>
+                                                    actions={[(<Button onClick={() => this.showDetails(item)} type="primary">Request</Button>)]}
+                                                >
+
+                                                    {/* (<Button onClick={() => this.showDetails(item)} type="secondary">Learn More</Button>), (<Popconfirm icon={null} title={null} okText="Confirm" cancelText="Never mind" onConfirm={() => this.requestService(item.title, "", true)}>
                                                         <Tooltip placement="bottom" title="Your experience manager will reach out with pricing and terms to help add this to your service plan.">
                                                             <Button type="primary">I'm Interested</Button>
                                                         </Tooltip>
-                                                    </Popconfirm>)]}
-                                                >
+                                                    </Popconfirm>) */}
                                                     <a onClick={() => this.showDetails(item)}>
                                                         <Meta
                                                             title={item.title}
@@ -530,8 +539,8 @@ const mapDispatchToProps = dispatch => {
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
         addRequestForService: (payload) => dispatch(generalActionCreator.addRequestForService(payload)),
         getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })),
-        loadEMInfo: (payload) => dispatch(generalActionCreator.getEMInfo(payload)), 
-        getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })), 
+        loadEMInfo: (payload) => dispatch(generalActionCreator.getEMInfo(payload)),
+        getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })),
         loadInvoices: (officeUID) => dispatch(generalActionCreator.getAllInvoices({ selectedOfficeUID: officeUID })),
         loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID))
     }

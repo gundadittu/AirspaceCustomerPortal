@@ -54,11 +54,16 @@ const initialState = {
     isLoadingEMInfo: false,
     emInfo: null,
     isLoadingOfficeProfile: false,
-    officeProfile: null
+    officeProfile: null,
+    isAddingRequestForService: false
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.ADD_REQUEST_SERVICE:
+            return updateObject(state, { isAddingRequestForService: true });
+        case actionTypes.ADD_REQUEST_SERVICE_FINISHED:
+            return updateObject(state, { isAddingRequestForService: false });
         case actionTypes.STORE_ALEXA_REDIRECT:
             const url = action.payload.redirect;
             return updateObject(state, { alexaRedirect: url });

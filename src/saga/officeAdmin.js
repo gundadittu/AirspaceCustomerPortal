@@ -1405,7 +1405,7 @@ function* checkValidEmailWorkerSaga(action) {
 
 function addRequestForService(payload, firebase) {
     const apiCall = firebase.functions.httpsCallable('addRequestFromPortal');
-    return apiCall({ ...payload });
+    return apiCall({ ...payload, onFinish: null });
 }
 
 function* addRequestForServiceWorkerSaga(action) {
@@ -1413,6 +1413,14 @@ function* addRequestForServiceWorkerSaga(action) {
         const payload = action.payload;
         let firebase = yield select(selectors.firebase);
         yield call(addRequestForService, payload, firebase);
+
+        notification['success']({
+            message: 'Sent your request to your Experience Manager...',
+            // description: error.message
+        });
+
+        const finish = payload.onFinish;
+        finish();
 
         yield put({ type: actionTypes.ADD_REQUEST_SERVICE_FINISHED });
     } catch (error) {
@@ -1422,6 +1430,10 @@ function* addRequestForServiceWorkerSaga(action) {
             message: 'Unable to request service.',
             // description: error.message
         });
+        
+        const payload = action.payload;
+        const finish = payload.onFinish;
+        finish();
 
         yield put({ type: actionTypes.ADD_REQUEST_SERVICE_FINISHED });
     }

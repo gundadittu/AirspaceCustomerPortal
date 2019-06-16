@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-    Modal, Form, Input, Radio,
+    Modal, Form, Input, Radio, InputNumber
 } from 'antd';
 import * as generalActionCreator from '../../store/actions/general';
 
@@ -32,10 +32,11 @@ class OrderForm extends React.Component {
                 serviceType: this.props.serviceTitle,
                 serviceDescription: fields,
                 selectedOfficeUID: this.props.currentAdminOfficeUID,
-                onlyInterested: false
+                onlyInterested: false,
+                onFinish: this.props.onCancel
             };
-            console.log("order service payload:");
-            console.log(payload);
+            // console.log("order service payload:");
+            // console.log(payload);
             this.props.addRequestForService(payload);
             return
         });
@@ -85,7 +86,7 @@ class OrderForm extends React.Component {
                     title={formTitle}
                     okText="Request"
                     onCancel={onCancel}
-                    onOk={onCreate}
+                    onOk={onCreate.bind(this)}
                     confirmLoading={confirmLoading}
                 >
                     <p>{topText}</p>
@@ -108,6 +109,16 @@ class OrderForm extends React.Component {
                                         )}
                                     </Form.Item>
                                 );
+                            } else if (type === "number") {
+                                return (
+                                    <Form.Item label={question}>
+                                        {getFieldDecorator(key, {
+                                            rules: [{ required: required, whitespace: true, message: message }],
+                                        })(
+                                            <InputNumber min={0} disabled={confirmLoading} />
+                                        )}
+                                    </Form.Item>
+                                );
                             }
                             return null;
                         }
@@ -121,7 +132,7 @@ class OrderForm extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        // confirmLoading:
+        confirmLoading: state.officeAdmin.isAddingRequestForService,
         currentAdminOfficeUID: state.general.currentOfficeAdminUID
     }
 };

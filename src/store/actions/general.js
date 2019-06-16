@@ -96,6 +96,7 @@ export const addRequestForService = (payload) => {
       serviceDescription: (payload.serviceDescription || null),
       selectedOfficeUID: payload.selectedOfficeUID,
       onlyInterested: payload.onlyInterested,
+      onFinish: payload.onFinish 
       // details: (payload.details || null)
     }
   }

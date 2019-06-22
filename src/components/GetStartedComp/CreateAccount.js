@@ -51,6 +51,7 @@ class CreateAccount extends React.Component {
     validateEntries = () => {
         let error = false;
         if (this.props.firstName === null) {
+            console.log("a");
             this.setState({ firstNameErr: "Required value" });
             error = true;
         } else {
@@ -58,6 +59,7 @@ class CreateAccount extends React.Component {
         }
 
         if (this.props.lastName === null) {
+            console.log("b");
             this.setState({ lastNameErr: "Required value" });
             error = true;
         } else {
@@ -65,29 +67,37 @@ class CreateAccount extends React.Component {
         }
 
         if (this.props.emailAddress === null) {
+            console.log("c");
             this.setState({ emailAddrErr: "Required value" });
             error = true;
         } else if (this.validateEmail(this.props.emailAddress) === false) {
+            console.log("d");
             this.setState({ emailAddrErr: "Must provide a valid email address." });
-            error = true;
-        } else if (this.props.validEmail === false) {
-            this.setState({ emailAddrErr: "An account already exists with this email. Try logging in." });
             error = true;
         } else {
             this.setState({ emailAddrErr: null });
         }
+        // else if (this.props.validEmail === false) {
+        //     console.log("e");
+        //     this.setState({ emailAddrErr: "An account already exists with this email. Try logging in." });
+        //     error = true;
+        // } 
+      
 
-        if (this.props.password === null) {
-            this.setState({ passwordErr: "Required value" });
-            error = true;
-        } else if (this.props.password.length < 6) {
-            this.setState({ passwordErr: "Must be atleast 6 characters." });
-            error = true;
-        } else {
-            this.setState({ passwordErr: null });
-        }
+        // if (this.props.password === null) {
+        //     console.log("f");
+        //     this.setState({ passwordErr: "Required value" });
+        //     error = true;
+        // } else if (this.props.password.length < 6) {
+        //     console.log("g");
+        //     this.setState({ passwordErr: "Must be atleast 6 characters." });
+        //     error = true;
+        // } else {
+        //     this.setState({ passwordErr: null });
+        // }
 
         if (this.props.companyName === null) {
+            console.log("h");
             this.setState({ compNameErr: "Required value" });
             error = true;
         } else {
@@ -95,6 +105,7 @@ class CreateAccount extends React.Component {
         }
 
         if (this.props.companyURL === null) {
+            console.log("i");
             this.setState({ compURLErr: "Required value" });
             error = true;
         } else {
@@ -102,6 +113,7 @@ class CreateAccount extends React.Component {
         }
 
         if (this.props.userRole === null) {
+            console.log("j");
             this.setState({ roleErr: "Required value" });
             error = true;
         } else {
@@ -109,6 +121,7 @@ class CreateAccount extends React.Component {
         }
 
         if (this.props.phoneNo === null) {
+            console.log("k");
             this.setState({ phoneNoErr: "Required value" });
             error = true;
             // var digits = ("" + this.props.phoneNo).split("");

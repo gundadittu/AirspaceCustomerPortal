@@ -99,9 +99,9 @@ class GetStartedComp extends React.Component {
 
     updateData = (value, key) => {
 
-        if (key === "emailAddress") {
-            this.props.checkValidEmail({ email: value });
-        }
+        // if (key === "emailAddress") {
+        //     this.props.checkValidEmail({ email: value });
+        // }
 
         let obj = {};
         obj[key] = value;

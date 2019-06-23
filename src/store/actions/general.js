@@ -121,6 +121,16 @@ export const loadOfficeProfile = (payload) => {
   }
 }
 
+export const updateOfficeProfile = (payload) => {
+  return {
+    type: actionTypes.UPDATE_OFFICE_PROFILE,
+    payload: {
+      selectedOfficeUID: payload.selectedOfficeUID,
+      changes: payload.changes
+    }
+  }
+}
+
 export const getEMInfo = (payload) => {
   return {
     type: actionTypes.LOAD_EM_INFO,

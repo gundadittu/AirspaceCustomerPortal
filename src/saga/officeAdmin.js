@@ -59,6 +59,10 @@ export function* loadOfficeProfile() {
     yield takeLatest(actionTypes.LOAD_OFFICE_PROFILE, loadOfficeProfileWorkerSaga);
 }
 
+export function* updateOfficeProfile() {
+    yield takeLatest(actionTypes.UPDATE_OFFICE_PROFILE, updateOfficeProfileWorkerSaga);
+}
+
 export function* checkValidEmailWatcher() {
     yield takeLatest(actionTypes.CHECK_VALID_EMAIL, checkValidEmailWorkerSaga);
 }
@@ -1374,6 +1378,45 @@ function* loadOfficeProfileWorkerSaga(action) {
         });
 
         yield put({ type: actionTypes.LOAD_OFFICE_PROFILE_FINISHED, payload: { info: null } });
+    }
+}
+
+function updateOfficeProfileForAdmin(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('updateOfficeProfileForAdmin');
+    return apiCall({ ...payload })
+        .then(response => {
+            const data = response.data;
+            return data;
+        })
+}
+
+function* updateOfficeProfileWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(updateOfficeProfileForAdmin, payload, firebase);
+
+        notification['success']({
+            message: 'Your changes were saved.',
+            // description: error.message
+        });
+
+        yield put({ type: actionTypes.LOAD_OFFICE_PROFILE, payload: { ...payload, noLoad: true } });
+
+        yield put({ type: actionTypes.UPDATE_OFFICE_PROFILE_FINISHED });
+    } catch (error) {
+        sentry.captureException(error);
+
+        const payload = action.payload;
+
+        notification['error']({
+            message: 'Unable to update office profile info.',
+            // description: error.message
+        });
+
+        yield put({ type: actionTypes.LOAD_OFFICE_PROFILE, payload: { ...payload, noLoad: true } });
+
+        yield put({ type: actionTypes.UPDATE_OFFICE_PROFILE_FINISHED });
     }
 }
 

@@ -42,7 +42,6 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { step: newStep })
         case actionTypes.UPDATE_GET_STARTED_DATA:
             const payload = action.payload;
-            console.log("getStarted payload: "+JSON.stringify(payload));
             return updateObject(state, payload);
         case actionTypes.SUBMIT_GET_STARTED_DATA:
             return updateObject(state, { isLoading: true });

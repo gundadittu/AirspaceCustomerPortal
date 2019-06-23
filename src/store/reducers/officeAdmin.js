@@ -78,7 +78,9 @@ const reducer = (state = initialState, action) => {
         //     const info = action.payload.info; 
         //     return updateObject(state, { isLoadingEMInfo: false, emInfo: info });
         case actionTypes.LOAD_OFFICE_PROFILE:
-            return updateObject(state, { isLoadingOfficeProfile: true });
+            const noLoad = action.payload.noLoad || false; 
+            const loadStatus = (noLoad === true) ? false : true; 
+            return updateObject(state, { isLoadingOfficeProfile: loadStatus });
         case actionTypes.LOAD_OFFICE_PROFILE_FINISHED:
             const profile = action.payload.info;
             return updateObject(state, { isLoadingOfficeProfile: false, officeProfile: profile });

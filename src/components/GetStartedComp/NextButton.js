@@ -18,19 +18,15 @@ class NextButton extends React.Component {
     nextAction = this.props.nextAction;
 
     trigger = () => {
-        // this.nextAction();
-        // return 
-        // console.log("trigger - 1");
+    
         // if ((this.props.step === 0) && ((this.props.validEmail === false) || (this.props.validEmail === null))) {
         //     this.validate();
         //     return
         // }
-        console.log("trigger - 2");
 
         if (this.validate() === false) {
             return
         } else {
-            console.log("trigger - 3");
             this.nextAction();
         }
     }

@@ -13,16 +13,7 @@ import { withRouter } from 'react-router-dom';
 class OfficeList extends React.Component {
 
     state = {
-        // url: null,
         showLoading: false,
-    }
-
-    componentDidMount() {
-        // if (this.props.match.isExact) {
-        //     const url = this.props.match.params.url;
-        //     console.log("officelist store url: "+url);
-        //     this.setState({ url: url });
-        // }
     }
 
     chooseOffice = (officeUID) => {
@@ -34,20 +25,20 @@ class OfficeList extends React.Component {
 
             const urlParams = new URLSearchParams(this.props.redirect);
             const authCode = urlParams.get("code");
-            console.log(authCode);
+            // console.log(authCode);
             const dict = {
                 authCode: authCode,
                 selectedOfficeUID: officeUID
             }
 
             this.setState({ showLoading: true });
-            console.log("reached linkAlexa");
+            // console.log("reached linkAlexa");
             const apiCall = firebase.functions.httpsCallable('linkAlexa');
             apiCall(dict)
                 .then(result => {
                     this.setState({ showLoading: false });
-                    console.log("reached end of linkAlexa");
-                    console.log(this.props.redirect);
+                    // console.log("reached end of linkAlexa");
+                    // console.log(this.props.redirect);
                     window.location.href = this.props.redirect;
                     return null
                 })

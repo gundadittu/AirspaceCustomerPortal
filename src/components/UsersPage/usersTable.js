@@ -71,10 +71,8 @@ class UsersTable extends React.Component {
       dataIndex: 'officeAdmins',
       render: (officeAdmin => {
         if (officeAdmin === null) {
-          console.log("officeAdmin is null");
           return null
         }
-        console.log(officeAdmin);
         const current = this.props.currentOfficeUID;
         const list = officeAdmin;
         for (let key in list) {

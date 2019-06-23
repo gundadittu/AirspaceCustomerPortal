@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import * as generalActionCreator from '../../store/actions/general';
 
 import RefreshIcon from '@material-ui/icons/Refresh';
-import { Row, Col, Menu, Empty, Button, Spin, Card, Upload, Icon, Tooltip } from 'antd';
+import { Row, Col, Menu, Empty, Button, Spin, Card, Upload, Icon, Tooltip, Input } from 'antd';
 
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
@@ -15,6 +15,16 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 
 class OfficeProfilePage extends React.Component {
+
+    changes = {};
+
+    addChange = (dict) => {
+        const updated = {
+            ...this.changes,
+            ...dict
+        }
+        this.changes = updated;
+    }
 
     componentDidMount() {
         if (this.props.match.isExact) {
@@ -42,6 +52,10 @@ class OfficeProfilePage extends React.Component {
         }
     }
 
+    saveChanges() {
+        this.props.updateOfficeProfile(this.props.currentOfficeAdminUID, this.changes);
+    }
+
     getBody() {
         if (this.props.isLoadingOfficeProfile) {
             return (
@@ -52,27 +66,6 @@ class OfficeProfilePage extends React.Component {
         }
 
         const profile = this.props.officeProfile || null;
-
-        const fileList = [{
-            uid: '-1',
-            name: 'xxx.png',
-            status: 'done',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        }, {
-            uid: '-2',
-            name: 'yyy.png',
-            status: 'done',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        }];
-
-        const props2 = {
-            action: '//jsonplaceholder.typicode.com/posts/',
-            listType: 'picture',
-            defaultFileList: [...fileList],
-            className: 'upload-list-inline',
-        };
 
         if (profile === null) {
             return null
@@ -102,36 +95,77 @@ class OfficeProfilePage extends React.Component {
         const floorNo = profile["Floor No."] || "";
         const suiteNo = profile["Suite No."] || "";
 
+        const attachments = profile["Attachments"] || [];
+        const mappedAttachments = attachments.map(x => {
+            return {
+                uid: x.id,
+                name: x.filename,
+                status: 'done',
+                url: x.url,
+            }
+        });
+
+        const uploadSectionProps = {
+            // action: '//jsonplaceholder.typicode.com/posts/',
+            defaultFileList: [...mappedAttachments],
+            className: 'upload-list-inline',
+            onRemove: (file) => false,
+            action: (file) => {
+                const firebase = this.props.firebase;
+                const storageRef = firebase.storage.ref();
+
+                const fileName = file.name;
+                
+                // bug with removing files 
+                // bug with showing red file name when uploading 
+
+                const fileRef = storageRef.child('officeProfileUploads/' + this.props.currentOfficeAdminUID + "/" + fileName);
+                return fileRef.put(file)
+                    .then((snapshot) => {
+                        return snapshot.ref.getDownloadURL()
+                    })
+                    .then((downloadURL) => {
+                        // this.addChange({ "Company Name": e.target.value })
+                        let current = this.changes["Attachments"] || [];
+                        current.push({ "filename": fileName, "url": downloadURL })
+                        this.changes["Attachments"] = current;
+                        this.saveChanges();
+                        return true 
+                    })
+            }
+        };
+
         return (
             <div>
                 <Card
                     title={"General"}
-                    // extra={<p style={{ textAlign: "right" }}>ID: {identifier}</p>}
+                    // extra={<a>Save Changes</a>}
                     style={{ width: "100%", marginTop: 20 }}
                 >
                     <Row>
                         <Col span={8}>
                             <h3>Company Name:</h3>
-                            <p>{companyName}</p>
+                            <Input style={{ width: "60%" }} defaultValue={companyName} onChange={(e) => this.addChange({ "Company Name": e.target.value })} />
                         </Col>
                         <Col span={8}>
                             <h3>Employee Count:</h3>
-                            <p>{employeeNo}</p>
+                            <Input style={{ width: "60%" }} defaultValue={employeeNo} onChange={(e) => this.addChange({ "No. of Employees": e.target.value })} />
                         </Col>
                         <Col span={8}>
                             <h3>Square Feet:</h3>
-                            <p>{sqFT}</p>
+                            <Input style={{ width: "60%" }} defaultValue={sqFT} onChange={(e) => this.addChange({ "Square Feet": e.target.value })} />
                         </Col>
                     </Row>
-                    <br />
-                    <Row >
+                    <Button className='inlineDisplay rightAlign' type="primary" onClick={this.saveChanges.bind(this)}>Save Changes</Button>
+                    {/* <br /> */}
+                    {/* <Row >
                         <Col span={8}>
                         </Col>
                         <Col span={8}>
                         </Col>
                         <Col span={8}>
                         </Col>
-                    </Row>
+                    </Row> */}
                 </Card>
 
                 <Card
@@ -142,15 +176,15 @@ class OfficeProfilePage extends React.Component {
                     <Row>
                         <Col span={6}>
                             <h3>Street Address 1:</h3>
-                            <p>{street}</p>
+                            <Input style={{ width: "60%" }} defaultValue={street} onChange={(e) => this.addChange({ "Street Address - 1": e.target.value })} />
                         </Col>
                         <Col span={6}>
                             <h3>Street Address 2:</h3>
-                            <p>{street2}</p>
+                            <Input style={{ width: "60%" }} defaultValue={street2} onChange={(e) => this.addChange({ "Street Address - 2": e.target.value })} />
                         </Col>
                         <Col span={6}>
                             <h3>City:</h3>
-                            <p>{city}</p>
+                            <Input style={{ width: "60%" }} defaultValue={city} onChange={(e) => this.addChange({ "City": e.target.value })} />
                         </Col>
                         <Col span={6}>
                         </Col>
@@ -159,33 +193,38 @@ class OfficeProfilePage extends React.Component {
                     <Row >
                         <Col span={6}>
                             <h3>State:</h3>
-                            <p>{state}</p>
+                            <Input style={{ width: "60%" }} defaultValue={state} onChange={(e) => this.addChange({ "State": e.target.value })} />
                         </Col>
                         <Col span={6}>
                             <h3>Zip Code:</h3>
-                            <p>{zip}</p>
+                            <Input style={{ width: "60%" }} defaultValue={zip} onChange={(e) => this.addChange({ "Zip Code": e.target.value })} />
                         </Col>
                         <Col span={6}>
                             <h3>Floor No:</h3>
-                            <p>{floorNo}</p>
+                            <Input style={{ width: "60%" }} defaultValue={floorNo} onChange={(e) => this.addChange({ "Floor No.": e.target.value })} />
                         </Col>
                         <Col span={6}>
                             <h3>Suite No:</h3>
-                            <p>{suiteNo}</p>
+                            <Input style={{ width: "60%" }} defaultValue={suiteNo} onChange={(e) => this.addChange({ "Suite No.": e.target.value })} />
                         </Col>
+                        <Button className='inlineDisplay rightAlign' type="primary" onClick={this.saveChanges.bind(this)}>Save Changes</Button>
                     </Row>
                 </Card>
-                {/* <Card
+                <Card
                     title={"Files"}
                     // extra={<p style={{ textAlign: "right" }}>ID: {identifier}</p>}
                     style={{ width: "100%", marginTop: 50 }}
                 >
-                    <Upload {...props2}>
+                    <Upload {...uploadSectionProps}>
                         <Button>
                             <Icon type="upload" /> Upload
                         </Button>
                     </Upload>
-                </Card> */}
+                </Card>
+                <br></br>
+                <br></br>
+                <br></br>
+
             </div>
         );
     }
@@ -202,15 +241,6 @@ class OfficeProfilePage extends React.Component {
                     </Tooltip>
                 </h1>
                 <div>
-                    {/* <Row type="flex" style={{ paddingLeft: "1%", paddingRight: "15%" }}>
-                        <Col span={12}>
-                            <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
-                                <IconButton className="inlineDisplay" onClick={() => this.props.loadOfficeProfile(this.props.currentOfficeAdminUID)}>
-                                    <RefreshIcon />
-                                </IconButton>
-                            </Row>
-                        </Col>
-                    </Row> */}
                     {this.getBody()}
                 </div>
             </Col>
@@ -220,15 +250,18 @@ class OfficeProfilePage extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        userAdminOfficeList: state.auth.adminOfficeList,
         currentOfficeAdminUID: state.general.currentOfficeAdminUID,
         isLoadingOfficeProfile: state.officeAdmin.isLoadingOfficeProfile,
-        officeProfile: state.officeAdmin.officeProfile
+        officeProfile: state.officeAdmin.officeProfile,
+        firebase: state.firebase.firebase,
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         loadOfficeProfile: (officeUID) => dispatch(generalActionCreator.loadOfficeProfile({ selectedOfficeUID: officeUID })),
+        updateOfficeProfile: (officeUID, changes) => dispatch(generalActionCreator.updateOfficeProfile({ selectedOfficeUID: officeUID, changes: changes })),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
     }
 };

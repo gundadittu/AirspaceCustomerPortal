@@ -179,12 +179,12 @@ class SideNavBar extends React.Component {
         pageSubtitle: "service-plan",
         linkTitle: "Service Plan"
       },
-      // officeProfile: {
-      //   keyVal: pageTitles.officeProfilePageOfficeAdmin,
-      //   iconType: "layout",
-      //   pageSubtitle: "office-profile",
-      //   linkTitle: "Office Profile"
-      // },
+      officeProfile: {
+        keyVal: pageTitles.officeProfilePageOfficeAdmin,
+        iconType: "layout",
+        pageSubtitle: "office-profile",
+        linkTitle: "Office Profile"
+      },
       billing: {
         keyVal: pageTitles.billingPageOfficeAdmin,
         iconType: "dollar",
@@ -252,9 +252,7 @@ class SideNavBar extends React.Component {
       }
 
       const switchOffice = (uid) => {
-        console.log("switch office reached");
         if (uid === null) {
-          console.log("switch office reached - null ");
           return
         }
 

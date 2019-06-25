@@ -5,6 +5,7 @@ import {
 } from 'antd';
 import * as generalActionCreator from '../../store/actions/general';
 const { Option } = Select;
+const { TextArea } = Input;
 
 class OrderForm extends React.Component {
 
@@ -111,7 +112,7 @@ class OrderForm extends React.Component {
                             {
                                 value: 'Bean-to-Cup',
                                 label: 'Bean-to-Cup',
-                            }, 
+                            },
                             {
                                 value: 'None',
                                 label: 'None',
@@ -183,6 +184,113 @@ class OrderForm extends React.Component {
                     }
                 },
             ];
+        } else if (serviceTitle === "Snacks + Beverages") {
+            return [
+                {
+                    type: "text",
+                    key: "snacksDrinksLocation",
+                    question: "Please provide a specific location where the snacks + drinks will be served.",
+                    message: "Please provide a specific location where the snacks + drinks will be served.",
+                    required: false,
+                },
+                {
+                    type: "select",
+                    key: "snacksDrinksPackage",
+                    question: "Snacks + Drink Package?",
+                    message: "Please tell us which package you're interested in.",
+                    required: true,
+                    data: {
+                        options: ["The Loop (e.x. Fiji, RXBar, Terra, Pistachios, Jerky, etc.)", "River North (e.x. Honest Tea, Cliff, Kettle Chips, Almonds, Yogurt, etc.)", "Fulton (e.x.: LaCroix, Nature Valley, Pretzels, Peanuts, Bananas", "Create my Own"]
+                    }
+                },
+                {
+                    type: "textArea",
+                    key: "createPackage",
+                    question: "Please create your own package or add some more of your office's preferences here.",
+                    message: "Please create your own package or add some more of your office's preferences here.",
+                    required: false,
+                },
+                {
+                    type: "selectMultiple",
+                    key: "addOns",
+                    question: "Choose any add-ons your office would like.",
+                    message: "Choose any add-ons your office would like.",
+                    required: false,
+                    data: {
+                        options: ["Fresh Fruit", "Organic Fresh Fruit", "Exotic Fruit", "Organic Exotic Fruit"]
+                    }
+                },
+            ];
+        } else if (serviceTitle === "Cold Brew") {
+            return [
+                {
+                    type: "cascader",
+                    key: "coldBrew-HowOften",
+                    question: "How often would you like cold-brew?",
+                    message: "Please tell us how often your office would like cold-brew.",
+                    required: true,
+                    data: {
+                        options: [
+                            {
+                                value: "Recurring",
+                                label: "Recurring",
+                                children: [
+                                    {
+                                        value: "Daily",
+                                        label: "Daily"
+                                    }, 
+                                    {
+                                        value: "Weekly",
+                                        label: "Weekly"
+                                    }, 
+                                    {
+                                        value: "Monthly",
+                                        label: "Monthly"
+                                    }
+                                ]
+                            },
+                            {
+                                value: "One-time",
+                                label: "One-time",
+                            },
+                        ]
+                    }
+                },
+                { 
+                    type: "number",
+                    key: "coldBrewCount",
+                    question: "Number of cold brew slurpers?",
+                    message: "Tell us how many people would like to drink cold brew in your office.",
+                    required: true,
+                },
+                {
+                    type: "select",
+                    key: "nitro",
+                    question: "Would you like nitro cold brew?",
+                    message: "Let us know whether you'd like nitro cold brew.",
+                    required: true,
+                    data: {
+                        options: ["Yes", "No"]
+                    }
+                },
+                {
+                    type: "select",
+                    key: "equipment",
+                    question: "Do you need equipment?",
+                    message: "Let us know whether you need equipment.",
+                    required: true,
+                    data: {
+                        options: ["Yes", "No"]
+                    }
+                },
+                {
+                    type: "text",
+                    key: "coldBrewLocation",
+                    question: "Please provide a specific location where the cold brew will be served.",
+                    message: "Please provide a specific location where the cold brew will be served.",
+                    required: false,
+                },
+            ];
         } else {
             return [];
         }
@@ -236,7 +344,7 @@ class OrderForm extends React.Component {
                                 return (
                                     <Form.Item label={question}>
                                         {getFieldDecorator(key, {
-                                            rules: [{ required: required, whitespace: true, message: message }],
+                                            rules: [{ required: required, message: message }],
                                         })(
                                             <InputNumber min={0} disabled={confirmLoading} />
                                         )}
@@ -267,6 +375,32 @@ class OrderForm extends React.Component {
                                         )}
                                     </Form.Item>
                                 );
+                            } else if (type === "selectMultiple") {
+                                const options = data.options || [];
+
+                                return (
+                                    <Form.Item label={question}>
+                                        {getFieldDecorator(key, {
+                                            rules: [{ required: required, whitespace: true, message: message }],
+                                        })(
+
+                                            <Select
+                                                showSearch
+                                                // style={{ width: 200 }}
+                                                mode="multiple"
+                                                placeholder={message}
+                                                optionFilterProp="children"
+                                                filterOption={(input, option) =>
+                                                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                                }
+                                            >
+                                                {options.map(x => (
+                                                    <Option value={x}>{x}</Option>
+                                                ))}
+                                            </Select>
+                                        )}
+                                    </Form.Item>
+                                );
                             } else if (type === "cascader") {
                                 const options = data.options || [];
                                 return (
@@ -275,6 +409,16 @@ class OrderForm extends React.Component {
                                             rules: [{ required: required, message: message }],
                                         })(
                                             <Cascader options={options} placeholder={message} />
+                                        )}
+                                    </Form.Item>
+                                );
+                            } else if (type === "textArea") {
+                                return (
+                                    <Form.Item label={question}>
+                                        {getFieldDecorator(key, {
+                                            rules: [{ required: required, whitespace: true, message: message }],
+                                        })(
+                                            <TextArea rows={4} disabled={confirmLoading} />
                                         )}
                                     </Form.Item>
                                 );

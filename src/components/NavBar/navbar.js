@@ -10,6 +10,7 @@ import './navbar.css'
 import { AirNotificationType } from '../../models/AirNotificationType';
 import Grid from '@material-ui/core/Grid';
 import { withRouter } from 'react-router-dom';
+import * as pageTitles from '../../pages/pageTitles';
 
 class NavBar extends React.Component {
   state = {
@@ -40,6 +41,10 @@ class NavBar extends React.Component {
       this.props.loadNotifications()
     } else if (e.key === "users") {
       this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/users');
+    } else if (e.key === "support") {
+      this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/support');
+    } else if (e.key === "office-profile") {
+      this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/office-profile');
     }
   }
 
@@ -70,9 +75,19 @@ class NavBar extends React.Component {
         onClick={this.handleClick}
         style={{ textAlign: 'right', border: "0", borderColor: "white", borderWidth: 0 }}
       >
+        <Menu.Item key="support">
+          <Grid container justify="center" alignItems="center">
+            Support
+          </Grid>
+        </Menu.Item>
         <Menu.Item key="users">
           <Grid container justify="center" alignItems="center">
             Manage Users
+          </Grid>
+        </Menu.Item>
+        <Menu.Item key="office-profile">
+          <Grid container justify="center" alignItems="center">
+            Office Profile
           </Grid>
         </Menu.Item>
         <Menu.Item key="signOut">
@@ -179,7 +194,7 @@ class NavBar extends React.Component {
                   style={{ textAlign: 'right', border: 0 }}
                   mode="horizontal"
                 >
-                  <Menu.Item key="support">
+                  <Menu.Item key="live-chat">
                     <a className="ant-dropdown-link" target="_blank" href={chatURL}>
                       <Icon type="message" style={{ fontSize: 20 }} />
                       Live Chat
@@ -219,7 +234,7 @@ const mapStateToProps = state => {
     user: state.auth.user,
     notifications: state.general.notifications,
     mixpanel: state.firebase.mixpanel,
-    emInfo: state.officeAdmin.emInfo, 
+    emInfo: state.officeAdmin.emInfo,
     currentOfficeAdminUID: state.general.currentOfficeAdminUID
   }
 };

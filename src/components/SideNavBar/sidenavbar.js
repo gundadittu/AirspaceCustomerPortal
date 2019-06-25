@@ -179,24 +179,24 @@ class SideNavBar extends React.Component {
         pageSubtitle: "service-plan",
         linkTitle: "Service Plan"
       },
-      officeProfile: {
-        keyVal: pageTitles.officeProfilePageOfficeAdmin,
-        iconType: "layout",
-        pageSubtitle: "office-profile",
-        linkTitle: "Office Profile"
-      },
+      // officeProfile: {
+      //   keyVal: pageTitles.officeProfilePageOfficeAdmin,
+      //   iconType: "layout",
+      //   pageSubtitle: "office-profile",
+      //   linkTitle: "Office Profile"
+      // },
       billing: {
         keyVal: pageTitles.billingPageOfficeAdmin,
         iconType: "dollar",
         pageSubtitle: "billing",
         linkTitle: "Billing"
       },
-      support: {
-        keyVal: pageTitles.supportPageOfficeAdmin,
-        iconType: "solution",
-        pageSubtitle: "support",
-        linkTitle: "Support"
-      }
+      // support: {
+      //   keyVal: pageTitles.supportPageOfficeAdmin,
+      //   iconType: "solution",
+      //   pageSubtitle: "support",
+      //   linkTitle: "Support"
+      // }
     };
 
     return (
@@ -231,7 +231,7 @@ class SideNavBar extends React.Component {
             );
           })}
 
-          {/* {officeAppSubMenu} */}
+          {officeAppSubMenu}
           {switchPortalSubMenu}
           <Affix active={"true"} style={{ position: 'absolute', left: 20, bottom: 100 }}>
             <a style={{ color: "#C0C0C0" }} target="_blank" href="https://www.airspaceoffice.co/terms.html">Terms</a>

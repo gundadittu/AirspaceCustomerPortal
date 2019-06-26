@@ -22,6 +22,7 @@ const customPanelStyle = {
     marginBottom: 24,
     border: 0,
     overflow: 'hidden',
+    fontWeight: 'bold'
 };
 
 class SupportPage extends React.Component {
@@ -237,7 +238,7 @@ class SupportPage extends React.Component {
             <div>
                 <GetHelpForm visible={this.state.getHelpVisible} onCancel={this.hideHelp.bind(this)} />
                 <Col className="wide-table" span={24}>
-                    <h1>Support</h1>
+                    <h1>Help Center</h1>
 
                     <div>
                         <Row type="flex">
@@ -267,7 +268,7 @@ class SupportPage extends React.Component {
                             </Col>
                             <Col span={12}>
                                 <Row type="flex" align="middle" justify="end">
-                                    <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showHelp.bind(this)}>Get Help</Button>
+                                    <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showHelp.bind(this)}>Submit Ticket</Button>
                                 </Row>
                             </Col>
                         </Row>

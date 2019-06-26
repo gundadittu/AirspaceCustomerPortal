@@ -409,9 +409,9 @@ class FindServicesPage extends React.Component {
                 >
                     <div style={{ paddingTop: 40, paddingBottom: 40 }}>
                         <Steps progressDot current={3}>
-                            <Step title="I'm Interested" description="Let us know which services your office is interested in." />
-                            <Step title="Understand Needs" description="Your Experience Manager reaches out with a few simple questions." />
-                            <Step title="Choose an Option" description="Your Experience Manager provides personalized options." />
+                            <Step title="Request" description="Answer a few quick questions." />
+                            <Step title="Wait for it..." description="Your Experience Manager does their magic. This usually takes 24-40 hours." />
+                            <Step title="Choose an Option" description="Your Experience Manager provides personalized options to add to your service plan." />
                         </Steps>
                     </div>
                 </Modal>

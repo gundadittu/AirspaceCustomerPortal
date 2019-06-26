@@ -42,7 +42,7 @@ class NavBar extends React.Component {
     } else if (e.key === "users") {
       this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/users');
     } else if (e.key === "support") {
-      this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/support');
+      this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/help-center');
     } else if (e.key === "office-profile") {
       this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/office-profile');
     }
@@ -75,11 +75,6 @@ class NavBar extends React.Component {
         onClick={this.handleClick}
         style={{ textAlign: 'right', border: "0", borderColor: "white", borderWidth: 0 }}
       >
-        <Menu.Item key="support">
-          <Grid container justify="center" alignItems="center">
-            Support
-          </Grid>
-        </Menu.Item>
         <Menu.Item key="users">
           <Grid container justify="center" alignItems="center">
             Manage Users
@@ -141,6 +136,10 @@ class NavBar extends React.Component {
       chatURL = emInfo["Drift Link"] || "https://drift.me/airspaceoffice";
     }
 
+    const goToHelpCenter = () => {
+      this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/help-center');
+    }
+
     return (
 
       <Affix>
@@ -198,6 +197,12 @@ class NavBar extends React.Component {
                     <a className="ant-dropdown-link" target="_blank" href={chatURL}>
                       <Icon type="message" style={{ fontSize: 20 }} />
                       Live Chat
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item key="support">
+                    <a className="ant-dropdown-link" onClick={goToHelpCenter}>
+                      <Icon type="solution" style={{ fontSize: 20 }} />
+                      Help Center
                     </a>
                   </Menu.Item>
 

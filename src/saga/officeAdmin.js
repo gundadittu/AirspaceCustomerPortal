@@ -1394,6 +1394,13 @@ function* updateOfficeProfileWorkerSaga(action) {
     try {
         const payload = action.payload;
         let firebase = yield select(selectors.firebase);
+
+        notification['info']({
+            message: 'Hold on...',
+            description: 'We are trying to save your changes', 
+            duration: 1
+        });
+
         const response = yield call(updateOfficeProfileForAdmin, payload, firebase);
 
         notification['success']({

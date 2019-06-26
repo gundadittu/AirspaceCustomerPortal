@@ -158,7 +158,6 @@ class OrderForm extends React.Component {
                             {
                                 value: "Do not need equipment",
                                 label: "Do not need equipment",
-                                children: waterLineChildren
                             }
                         ]
                     }
@@ -191,7 +190,7 @@ class OrderForm extends React.Component {
                     key: "snacksDrinksLocation",
                     question: "Please provide a specific location where the snacks + drinks will be served.",
                     message: "Please provide a specific location where the snacks + drinks will be served.",
-                    required: false,
+                    required: true,
                 },
                 {
                     type: "select",
@@ -238,11 +237,11 @@ class OrderForm extends React.Component {
                                     {
                                         value: "Daily",
                                         label: "Daily"
-                                    }, 
+                                    },
                                     {
                                         value: "Weekly",
                                         label: "Weekly"
-                                    }, 
+                                    },
                                     {
                                         value: "Monthly",
                                         label: "Monthly"
@@ -256,7 +255,7 @@ class OrderForm extends React.Component {
                         ]
                     }
                 },
-                { 
+                {
                     type: "number",
                     key: "coldBrewCount",
                     question: "Number of cold brew slurpers?",
@@ -288,7 +287,7 @@ class OrderForm extends React.Component {
                     key: "coldBrewLocation",
                     question: "Please provide a specific location where the cold brew will be served.",
                     message: "Please provide a specific location where the cold brew will be served.",
-                    required: false,
+                    required: true,
                 },
             ];
         } else {
@@ -381,7 +380,7 @@ class OrderForm extends React.Component {
                                 return (
                                     <Form.Item label={question}>
                                         {getFieldDecorator(key, {
-                                            rules: [{ required: required, whitespace: true, message: message }],
+                                            rules: [{ required: required, message: message }],
                                         })(
 
                                             <Select

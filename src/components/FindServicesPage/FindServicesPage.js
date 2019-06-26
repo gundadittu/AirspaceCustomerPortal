@@ -130,6 +130,16 @@ class FindServicesPage extends React.Component {
                     image: AlcoholImage,
                     title: "Beer + Spirits + Wine",
                     description: "We take pride in serving your office with local craft beers. International and domestic? Yeah, we got that too. Find out more about how our vendors can service your office with an assortment of beers, spirits, and wines."
+                }, 
+                {
+                    image: AlcoholImage,
+                    title: "Pantry",
+                    description: "Let us outfit your break room with everything you need to fuel the team."
+                }, 
+                {
+                    image: Catering,
+                    title: "Catering",
+                    description: "From Tuesday Cold Brews to office happy hours, to the yearly Christmas party, let Airspace take the hassle out of having fun."
                 }
             ];
         } else if (this.state.dataSource === "it-services") {

@@ -841,10 +841,10 @@ class OrderForm extends React.Component {
                     type: "textArea",
                     key: "details",
                     question: "Please specify in detail what you would like:",
-                    required: false,
+                    required: true,
                 },
             ];
-        } else if (serviceTitle === "Office Supplies") {
+        } else if (serviceTitle === "Whiteboards + Mounting") {
             return [
                 {
                     type: "select",
@@ -1101,15 +1101,330 @@ class OrderForm extends React.Component {
             ];
         } else if (serviceTitle === "Ongoing Cleaning") {
             return [
-
+                {
+                    type: "date",
+                    key: "start",
+                    question: "When would you like the cleaning to start?",
+                    required: true
+                },
+                {
+                    type: "number",
+                    key: "frequency",
+                    question: "How many times per week?",
+                    required: true
+                },
+                {
+                    type: "number",
+                    key: "bathrooms",
+                    question: "Number of bathrooms?",
+                    required: true
+                },
+                {
+                    type: "number",
+                    key: "stalls",
+                    question: "Number of stalls & urinals?",
+                    required: true
+                },
+                {
+                    type: "number",
+                    key: "kitchens",
+                    question: "Number of kitchens?",
+                    required: true
+                },
+                {
+                    type: "number",
+                    key: "private",
+                    question: "Number of conference rooms & private rooms?",
+                    required: true
+                },
+                {
+                    type: "selectMultiple",
+                    key: "type",
+                    question: "Floor Type:",
+                    required: true,
+                    data: {
+                        options: ["Waxable", "Hardwood", "Carpet", "Tile", "Rugs", "Other"]
+                    }
+                },
+                {
+                    type: "selectMultiple",
+                    key: "type",
+                    question: "Type of Walls?",
+                    required: true,
+                    data: {
+                        options: ["Exposed Brick", "Glass", "Concrete", "Plaster Slab", "Other"]
+                    }
+                },
             ];
-        } else if (serviceTitle === "") {
+        } else if (serviceTitle === "Deep Cleaning") {
             return [
+                {
+                    type: "date",
+                    key: "start",
+                    question: "When would you like the cleaning by?",
+                    required: true
+                },
+                {
+                    type: "number",
+                    key: "bathrooms",
+                    question: "Number of bathrooms?",
+                    required: true
+                },
+                {
+                    type: "number",
+                    key: "stalls",
+                    question: "Number of stalls & urinals?",
+                    required: true
+                },
+                {
+                    type: "number",
+                    key: "kitchens",
+                    question: "Number of kitchens?",
+                    required: true
+                },
+                {
+                    type: "number",
+                    key: "private",
+                    question: "Number of conference rooms & private rooms?",
+                    required: true
+                },
+                {
+                    type: "selectMultiple",
+                    key: "type",
+                    question: "Floor Type:",
+                    required: true,
+                    data: {
+                        options: ["Waxable", "Hardwood", "Carpet", "Tile", "Rugs", "Other"]
+                    }
+                },
+                {
+                    type: "selectMultiple",
+                    key: "type",
+                    question: "Type of Walls?",
+                    required: true,
+                    data: {
+                        options: ["Exposed Brick", "Glass", "Concrete", "Plaster Slab", "Other"]
 
+                    }
+                },
+            ];
+        } else if (serviceTitle === "Specialized Cleaning") {
+            return [
+                {
+                    type: "date",
+                    key: "start",
+                    question: "When would you like the cleaning to start?",
+                    required: true
+                },
+                {
+                    type: "number",
+                    key: "frequency",
+                    question: "How many times per week?",
+                    required: true
+                },
+                {
+                    type: "selectMultiple",
+                    key: "type",
+                    question: "Which do you need help with?",
+                    required: true,
+                    data: {
+                        options: ["Windows", "Upholstery", "Hazardous Material", "Walls - Exposed Brick", "Walls - Glass", "Walls - Concrete", "Walls - Plaster Slab", "Walls - Other", "Floors - Waxable", "Floors - Hardwood", "Floors - Carpet", "Floors - Tile", "Floors - Rugs", "Floors - Other"]
+                    }
+                },
+                {
+                    type: "textArea",
+                    key: "details",
+                    question: "Please describe your request in detail:",
+                    required: true
+                },
+            ];
+        } else if (serviceTitle === "General Handywork") {
+            return [
+                {
+                    type: "selectMultiple",
+                    key: "type",
+                    question: "Which do you need help with?",
+                    required: true,
+                    data: {
+                        options: ["Picture Hanging", "Blinds", "Glass Frosting", "Shelving", "Doors", "Walls", "Windows", "Appliances", "Refrigerator", "Fans", "Locks/Security", "Other"]
+                    }
+                },
+                {
+                    type: "textArea",
+                    key: "details",
+                    question: "Please describe your request in detail:",
+                    required: true
+                },
+            ];
+        } else if (serviceTitle === "Lighting") {
+            return [
+                {
+                    type: "select",
+                    key: "type",
+                    question: "What do you need help with?",
+                    required: true,
+                    data: {
+                        options: ["Install", "Repair", "Other"]
+                    }
+                },
+                {
+                    type: "number",
+                    key: "sets",
+                    question: "How many sets of lighting need to be worked on?",
+                    required: true
+                },
+                {
+                    type: "textArea",
+                    key: "locations",
+                    question: "Please provide the specific location of the lights:",
+                    required: true
+                },
+                {
+                    type: "textArea",
+                    key: "details",
+                    question: "Anything else we should know?",
+                    required: false
+                },
+            ];
+        } else if (serviceTitle === "HVAC") {
+            return [
+                {
+                    type: "select",
+                    key: "type",
+                    question: "Is your office in a high-rise building?",
+                    required: true,
+                    data: {
+                        options: ["Yes", "No"]
+                    }
+                },
+                {
+                    type: "textArea",
+                    key: "detail",
+                    question: "Please describe your request in detail:",
+                    required: true
+                },
+            ];
+        } else if (serviceTitle === "General Electric") {
+            return [
+                {
+                    type: "select",
+                    key: "type",
+                    question: "Is your office in a high-rise building?",
+                    required: true,
+                    data: {
+                        options: ["Yes", "No"]
+                    }
+                },
+                {
+                    type: "textArea",
+                    key: "detail",
+                    question: "Please describe your request in detail:",
+                    required: true
+                },
+            ];
+        } else if (serviceTitle === "General Plumbing") {
+            return [
+                {
+                    type: "select",
+                    key: "type",
+                    question: "Is your office in a high-rise building?",
+                    required: true,
+                    data: {
+                        options: ["Yes", "No"]
+                    }
+                },
+                {
+                    type: "select",
+                    key: "issue",
+                    question: "What are you having an issue with?",
+                    required: true,
+                    data: {
+                        options: ["Sink", "Toilet", "Faucet", "Drain", "Leak", "Hot Water", "Other"]
+                    }
+                },
+                {
+                    type: "textArea",
+                    key: "detail",
+                    question: "Please describe your request in detail:",
+                    required: true
+                },
+            ];
+        } else if (serviceTitle === "Waste Removal") {
+            return [
+                {
+                    type: "text",
+                    key: "address",
+                    question: "What address are you moving from?",
+                    required: true
+                },
+                {
+                    type: "date",
+                    key: "start",
+                    question: "What date do you need to waste removed by?",
+                    required: true
+                },
+                {
+                    type: "selectMultiple",
+                    key: "elevator",
+                    question: "Elevators available:",
+                    required: true,
+                    data: {
+                        options: ["Yes - freight", "Yes - passenger", "No - stairs", "No - ground floor"]
+                    }
+                },
+                {
+                    type: "textArea",
+                    key: "detail",
+                    question: "Please provide a detailed list of items to be removed:",
+                    required: true
+                },
+            ];
+        } else if (serviceTitle === "Space Planning & Design") {
+            return [
+                {
+                    type: "selectMultiple",
+                    key: "help",
+                    question: "What do you need help with?",
+                    required: true,
+                    data: {
+                        option: ["Redesigning my current office", "Redesigning my new office", "Other"]
+                    }
+                },
+                {
+                    type: "selectMultiple",
+                    key: "help",
+                    question: "Please indicate what features you are hoping to add or include in your new, redesigned space:",
+                    required: true,
+                    data: {
+                        option: ["Furniture", "Appliances", "Art", "Lighting", "Wall Color"]
+                    }
+                },
+                {
+                    type: "textArea",
+                    key: "details",
+                    question: "Anything else we should know?",
+                    required: false
+                }
             ];
         } else {
             return [];
         }
+        // } else if (serviceTitle === "Event Planning") {
+        //     return [
+        //         {
+        //             type: "textArea",
+        //             key: "detail",
+        //             question: "Please describe your event:",
+        //             required: true
+        //         },
+        //         {
+        //             type: "number",
+        //             key: "attendee",
+        //             question: "How many people will be in attendance?",
+        //             required: true
+        //         },
+        //     ];
+        // }
     }
 
     render() {

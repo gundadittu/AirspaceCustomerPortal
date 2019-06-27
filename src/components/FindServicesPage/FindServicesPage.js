@@ -220,7 +220,7 @@ class FindServicesPage extends React.Component {
                 },
                 {
                     image: Accoustics,
-                    title: "Acoustic Panels",
+                    title: "Soundproofing + White Noise",
                     description: "Soundproof conference rooms and common areas of your office to prevent sound from traveling from meetings, team lunches, or neighboring tenants and keep work areas distraction-free."
                 },
                 {
@@ -247,39 +247,9 @@ class FindServicesPage extends React.Component {
                     description: "Whether you are moving out or just need to press reset on your office space, this intensive cleaning session sanitizes your office and removes dust and dirt from out-of-reach places like under heavy furniture or hard to clean areas like moulding. Deep cleaning creates a healthier work environment for teams."
                 },
                 {
-                    image: Floors,
-                    title: "Floors",
-                    description: "From carpets, to buffing, to tile and grout, we have all your floor cleaning needs covered."
-                },
-                {
-                    image: FloorMat,
-                    title: "Floor Mat Service",
-                    description: "Commercial floor mat service program protects your floors and the people that walk on them. Service includes laundering, pick-up and delivery."
-                },
-                {
-                    image: Windows,
-                    title: "Windows",
-                    description: "Between the weather and living in a city, dirt and debris can build up on your windows, compromising your natural light. Regular window washing can remove stains and keep your office bright."
-                },
-                {
-                    image: Upholstery,
-                    title: "Upholstery",
-                    description: "It's easy for stains to accumulate with so many people in your office each day. Regular furniture cleaning can remove small or large stains and keep your office looking presentable for your team and visitors."
-                },
-                {
-                    image: WasteRemoval,
-                    title: "Waste Removal",
-                    description: "It's always surprising how much trash an office creates. Take trash collection and removal out of your job description by setting up daily or weekly hauling to properly dispose of your trash and recycling to adhere to city and building requirements and avoid fines. Need to get rid of heavy trash items? We cover that too."
-                },
-                {
-                    image: Hazardous,
-                    title: "Hazardous Materials",
-                    description: "Keep your office safe and have mildew and black mold in bathrooms, kitchens, around windows, or behind walls professionally removed. Our environmental experts can diagnose your mold type and other environmental waste, its severity, and make recommendations about remediation methods. Proper containment and removal will ensure your air quality is safe for your team and your physical space does not experience any wood rot or further damage."
-                },
-                {
                     image: PestControl,
-                    title: "Pest Control",
-                    description: "Whether you've spotted unwanted visitors in your office or want to prevent pests from finding their way inside, professional pest control services can exterminate rodents and insects and protect your space from future infestation. Regularly scheduled inspections and preventative treatments can also help keep your office pest-free and sanitary."
+                    title: "Specialized Cleaning",
+                    description: "Janitorial supplies are essential for businesses of all sizes. Having janitorial cleaning supplies, sprays, paper towels and hygiene products on hand ensures that custodians are ready for any spills or situations they encounter. Office cleaning supplies range from industrial-strength cleansers and sprays to basic restroom items like soap and hand sanitizer."
                 },
                 {
                     image: CleaningSupplies,
@@ -291,12 +261,12 @@ class FindServicesPage extends React.Component {
             data = [
                 {
                     image: Restroom,
-                    title: "Restrooms",
-                    description: "From toilets, to sinks to leaks, we've got your restroom needs covered."
+                    title: "General Handywork",
+                    description: "Airspace can help with the little jobs and big ones. Just fill out a few details and your Experience Manager will help you through the process."
                 },
                 {
                     image: Lights,
-                    title: "Lights",
+                    title: "Lighting",
                     description: "We cover fixtures, installation, switches, and everything in between."
                 },
                 {
@@ -420,7 +390,7 @@ class FindServicesPage extends React.Component {
                     <div style={{ paddingTop: 40, paddingBottom: 40 }}>
                         <Steps progressDot current={3}>
                             <Step title="Request" description="Answer a few quick questions." />
-                            <Step title="Wait for it..." description="Your Experience Manager does their magic. This usually takes 24-40 hours." />
+                            <Step title="Abracadabra..." description="You will receive a competitive quote and options within 24 hours." />
                             <Step title="Choose an Option" description="Your Experience Manager provides personalized options to add to your service plan." />
                         </Steps>
                     </div>

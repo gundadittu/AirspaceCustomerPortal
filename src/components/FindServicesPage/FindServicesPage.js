@@ -13,6 +13,8 @@ import { Row, Col, Menu, List, Card, Button, Tooltip, Modal, message, Steps, Pop
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 
+import Handywork from "../../assets/images/services/handywork.jpg";
+import Pantry from "../../assets/images/services/pantry.jpeg";
 import CoffeeImage from "../../assets/images/services/coffee.jpeg";
 import ColdBrewImage from "../../assets/images/services/cold-brew.jpeg";
 import SnacksImage from "../../assets/images/services/snacks.jpeg";
@@ -132,7 +134,7 @@ class FindServicesPage extends React.Component {
                     description: "We take pride in serving your office with local craft beers. International and domestic? Yeah, we got that too. Find out more about how our vendors can service your office with an assortment of beers, spirits, and wines."
                 }, 
                 {
-                    image: AlcoholImage,
+                    image: Pantry,
                     title: "Pantry",
                     description: "Let us outfit your break room with everything you need to fuel the team."
                 }, 
@@ -260,7 +262,7 @@ class FindServicesPage extends React.Component {
         } else if (this.state.dataSource === "repairs-maintenance") {
             data = [
                 {
-                    image: Restroom,
+                    image: Handywork,
                     title: "General Handywork",
                     description: "Airspace can help with the little jobs and big ones. Just fill out a few details and your Experience Manager will help you through the process."
                 },

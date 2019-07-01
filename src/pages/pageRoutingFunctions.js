@@ -2,12 +2,16 @@ import * as pageTitles from './pageTitles';
 
 const getPagePayload = (pageName, payload) => {
     switch (pageName) {
+        case pageTitles.healthReportPageOfficeAdmin:
+            return {
+                currentPage: pageTitles.healthReportPageOfficeAdmin,
+            }
         case pageTitles.homePageLandlord:
             const buildingUID = payload.buildingUID || null;
             const buildingObj = payload.buildingObj || null;
             return landlordHomePagePayload(buildingUID, buildingObj);
         case pageTitles.buildingHealthLandlord:
-            return landlordBuildingHealthPayload(); 
+            return landlordBuildingHealthPayload();
         case pageTitles.homePageOfficeAdmin:
             const officeUID = payload.officeUID || null;
             const officeObj = payload.officeObj || null;
@@ -48,8 +52,8 @@ const getPagePayload = (pageName, payload) => {
 }
 export default getPagePayload;
 
-const landlordBuildingHealthPayload = () => { 
-    return { 
+const landlordBuildingHealthPayload = () => {
+    return {
         currentPage: pageTitles.buildingHealthLandlord,
     }
 }

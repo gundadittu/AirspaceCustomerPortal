@@ -29,6 +29,7 @@ import ServicePlanPage from './components/ServicePlan/ServicePlanPage';
 import SupportPage from './components/SupportComp/SupportPage';
 import FindServicesPage from './components/FindServicesPage/FindServicesPage';
 import OfficeProfilePage from './components/OfficeProfile/OfficeProfile';
+import HealthReportPage from './components/HealthReportPage/healthReportPage';
 
 import BuildingHealthReport from './components/LandlordPortal/BuildingHealthReport';
 
@@ -195,8 +196,8 @@ const officeAdminRoutingComp = () => (
     <Route exact path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>
-
     <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/health-report' component={HealthReportPage}></Route>
 
     {/* Service Portal */}
     <Route exact path='/officeAdmin/:officeUID/find-services' component={FindServicesPage}></Route>

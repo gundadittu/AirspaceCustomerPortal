@@ -30,6 +30,9 @@ import SupportPage from './components/SupportComp/SupportPage';
 import FindServicesPage from './components/FindServicesPage/FindServicesPage';
 import OfficeProfilePage from './components/OfficeProfile/OfficeProfile';
 
+import BuildingHealthReport from './components/LandlordPortal/BuildingHealthReport';
+
+
 import Firebase from './components/Firebase';
 
 import * as generalActionCreators from './store/actions/general';
@@ -100,6 +103,7 @@ class App extends Component {
                   <Route exact path="/login" component={InitialRoutingComp} />
                   <Route path="/general" component={generalRoutingComp} />
                   <Route path="/officeAdmin" component={officeAdminRoutingComp} />
+                  <Route path="/landlord" component={landlordRoutingComp} />
                 </Switch>
               </Col>
             </MediaQuery>
@@ -169,6 +173,14 @@ const generalRoutingComp = () => (
     <Route path="/general/alexa-login/office-list" component={OfficeList} />
   </Switch>
 )
+const landlordRoutingComp = () => (
+  <Switch>
+    <Route exact path='/landlord/:buildingUID' component={BuildingHealthReport}></Route>
+    <Route exact path='/landlord/:buildingUID/home' component={BuildingHealthReport}></Route>
+    <Route exact path='/landlord/:buildingUID/health-report' component={BuildingHealthReport}></Route>
+  </Switch>
+);
+
 
 const officeAdminRoutingComp = () => (
   <Switch>
@@ -182,7 +194,7 @@ const officeAdminRoutingComp = () => (
     <Route exact path='/officeAdmin/:officeUID/registeredGuests' component={RegisteredGuestsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>
-    
+
     <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
 
     {/* Service Portal */}

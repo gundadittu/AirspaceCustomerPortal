@@ -1,5 +1,14 @@
 import * as actionTypes from './actionTypes';
 
+export const getBuildingOfficeReport = (payload) => {
+  return {
+    type: actionTypes.LOAD_BUILDING_OFFICE_REPORT,
+    payload: {
+     ...payload
+    }
+  }
+}
+
 export const sendPasswordReset = (email) => {
   return {
     type: actionTypes.SEND_PASSWORD_RESET,

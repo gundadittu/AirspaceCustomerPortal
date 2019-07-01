@@ -37,6 +37,14 @@ class SideNavBar extends React.Component {
           return 'Office Admin Mode'
         }
       }
+    } else if (this.props.userType === 'landlord') {
+      // const landlordBuildingList = this.props.landlordBuildingList;
+      if (this.props.currentBuilding !== null) {
+        if (this.props.currentBuilding.name !== null) {
+          return (this.props.currentBuilding.name)
+        }
+      }
+      return 'Landlord Mode'
     } else {
       return 'Switch Portal Mode'
     }
@@ -137,15 +145,17 @@ class SideNavBar extends React.Component {
     }
     const currentOfficeAdminUID = this.props.currentOfficeAdminUID
 
-    const officeAppSubMenuContent = () => (
-      Object.keys(officeAppSubMenuLinks).map((key) => (
-        < Menu.Item key={officeAppSubMenuLinks[key].keyVal} >
-          <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/' + officeAppSubMenuLinks[key].pageSubtitle}>
-            {<span style={{ fontSize: fontSize }}><Icon type={officeAppSubMenuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{officeAppSubMenuLinks[key].linkTitle}</span></span>}
-          </Link>
-        </Menu.Item>
-      ))
-    );
+    const officeAppSubMenuContent = () => {
+      return (
+        Object.keys(officeAppSubMenuLinks).map((key) => (
+          < Menu.Item key={officeAppSubMenuLinks[key].keyVal} >
+            <Link to={'/officeAdmin/' + this.props.currentOfficeAdminUID + '/' + officeAppSubMenuLinks[key].pageSubtitle}>
+              {<span style={{ fontSize: fontSize }}><Icon type={officeAppSubMenuLinks[key].iconType} style={{ fontSize: iconSize }} /><span>{officeAppSubMenuLinks[key].linkTitle}</span></span>}
+            </Link>
+          </Menu.Item>
+        ))
+      )
+    }
 
     const officeAppSubMenu = (
       <SubMenu key={"sub2"} title={<span><Icon type="mobile" /><span>Office App</span></span>} style={{ fontSize: iconSize }}>
@@ -245,6 +255,101 @@ class SideNavBar extends React.Component {
   }
 
   renderSubNavBar(currentPages) {
+
+    const landlordMenu = () => {
+
+
+      const menuLinksLL = {
+        "healthReports": {
+          pageSubtitle: "health-reports",
+          iconType: "health",
+          keyVal: pageTitles.buildingHealthLandlord,
+          linkTitle: "Health Reports"
+        }
+      };
+
+      const currentBuildingUID = this.props.currentBuildingUID || null;
+      var fontSize = 14;
+      var iconSize = 14;
+
+      const landlordSwitchPortalDiv = () => {
+        if (this.props.landlordBuildingList == null) {
+          return null;
+        }
+
+        const switchBuilding = (uid) => {
+          if (uid === null) {
+            return
+          }
+
+          const list = this.props.landlordBuildingList;
+          let buildingObj = null;
+          for (let key in list) {
+            const value = list[key];
+
+            if (value.uid === uid) {
+              buildingObj = value;
+            }
+          }
+
+          const pagePayload = getPagePayload(pageTitles.homePageLandlord, { buildingUID: uid, buildingObj: buildingObj });
+          if (pagePayload) {
+            this.props.changePage(pagePayload);
+          }
+        }
+
+        return (
+          <SubMenu className='sideBarPortalSwitcher' key="sub2" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
+            {this.props.landlordBuildingList.map((building) => (
+              <a onClick={() => switchBuilding(building.uid)}>
+                <Menu.Item key={building.uid} >
+                  <Link to={'/landlord/' + building.uid}>
+                    {building.name}
+                  </Link>
+                </Menu.Item>
+              </a>
+            ))
+            }
+          </SubMenu>
+        );
+      }
+
+      return (
+        <div>
+          <Menu
+            style={{ border: 0 }}
+            defaultSelectedKeys={currentPages}
+            mode="inline"
+            className="airspace-side-nav-bar menu-tab"
+            forceSubMenuRender={true}
+          // multiple={true}
+          >
+            {sideBarLogo}
+            {
+              Object.keys(menuLinksLL).map((key) => {
+                return (
+                  < Menu.Item key={menuLinksLL[key].keyVal} >
+                    <Link to={'/landlord/' + currentBuildingUID + '/' + menuLinksLL[key].pageSubtitle}>
+                      {<span style={{ fontSize: fontSize }}><Icon type={menuLinksLL[key].iconType} style={{ fontSize: iconSize }} /><span>{menuLinksLL[key].linkTitle}</span></span>}
+                    </Link>
+                  </Menu.Item>
+                );
+              })
+            }
+
+            {landlordSwitchPortalDiv()}
+            {/* <Affix active={"true"} style={{ position: 'absolute', left: 20, bottom: 100 }}>
+              <a style={{ color: "#C0C0C0" }} target="_blank" href="https://www.airspaceoffice.co/terms.html">Terms</a>
+            </Affix>
+            <Affix active={"true"} style={{ position: 'absolute', left: 80, bottom: 100 }}>
+              <a style={{ color: "#C0C0C0" }} target="_blank" href="https://www.airspaceoffice.co/privacy.html">Privacy</a>
+            </Affix> */}
+          </Menu >
+        </div >
+      );
+    }
+
+
     const officeAdminPortalDiv = () => {
 
       if (this.props.adminOfficeList == null) {
@@ -325,6 +430,22 @@ class SideNavBar extends React.Component {
           </Menu>
         )
       }
+    } else if (this.props.userType === "landlord") {
+      return (
+        <Affix className="airspace-side-nav-bar-group" >
+
+          <Menu
+            onClick={this.handleClick}
+            style={{ width: "100%", height: 100, border: 0 }}
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
+            mode="inline"
+            className="menu-tab"
+          >
+            {landlordMenu()}
+          </Menu>
+        </Affix>
+      )
     } else {
       // if not a regular user
       return null;
@@ -332,7 +453,7 @@ class SideNavBar extends React.Component {
   }
 
   render() {
-    let currentPages = [this.props.currentPage, this.props.currentOfficeAdminUID];
+    let currentPages = [this.props.currentPage];
 
     const drawerWidth = 240;
 
@@ -372,7 +493,10 @@ const mapStateToProps = state => {
     currentPage: state.general.currentPage,
     currentOfficeAdminUID: state.general.currentOfficeAdminUID,
     currentOfficeAdmin: state.general.currentOfficeAdmin,
-    badgeCount: state.officeAdmin.pendingServicePlanCount
+    badgeCount: state.officeAdmin.pendingServicePlanCount,
+    landlordBuildingList: state.auth.landlordBuildingList,
+    currentBuildingUID: state.general.currentBuildingUID,
+    currentBuilding: state.general.currentBuilding,
   }
 };
 

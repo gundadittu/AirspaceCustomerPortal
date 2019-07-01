@@ -69,29 +69,48 @@ class NavBar extends React.Component {
 
   render() {
 
-    const profileMenu = (
-      <Menu
-        className="navBarProfileMenu menu-tab"
-        onClick={this.handleClick}
-        style={{ textAlign: 'right', border: "0", borderColor: "white", borderWidth: 0 }}
-      >
-        <Menu.Item key="users">
-          <Grid container justify="center" alignItems="center">
-            Manage Users
-          </Grid>
-        </Menu.Item>
-        <Menu.Item key="office-profile">
-          <Grid container justify="center" alignItems="center">
-            Office Profile
-          </Grid>
-        </Menu.Item>
-        <Menu.Item key="signOut">
-          <Grid container justify="center" alignItems="center">
-            Sign Out
-          </Grid>
-        </Menu.Item>
-      </Menu>
-    );
+    const profileMenu = () => {
+      if (this.props.currentOfficeAdminUID !== null) {
+        return (
+          <Menu
+            className="navBarProfileMenu menu-tab"
+            onClick={this.handleClick}
+            style={{ textAlign: 'right', border: "0", borderColor: "white", borderWidth: 0 }}
+          >
+            <Menu.Item key="users">
+              <Grid container justify="center" alignItems="center">
+                Manage Users
+            </Grid>
+            </Menu.Item>
+            <Menu.Item key="office-profile">
+              <Grid container justify="center" alignItems="center">
+                Office Profile
+            </Grid>
+            </Menu.Item>
+            <Menu.Item key="signOut">
+              <Grid container justify="center" alignItems="center">
+                Sign Out
+            </Grid>
+            </Menu.Item>
+          </Menu >
+        );
+      } else {
+        return (
+          <Menu
+            className="navBarProfileMenu menu-tab"
+            onClick={this.handleClick}
+            style={{ textAlign: 'right', border: "0", borderColor: "white", borderWidth: 0 }}
+          >
+            <Menu.Item key="signOut">
+              <Grid container justify="center" alignItems="center">
+                Sign Out
+        </Grid>
+            </Menu.Item>
+          </Menu >
+        );
+      }
+
+    };
 
     const notificationMenu = () => {
       return (
@@ -140,6 +159,65 @@ class NavBar extends React.Component {
       this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/help-center');
     }
 
+    const getNavBarItems = () => {
+      if (this.props.currentOfficeAdminUID !== null) {
+        return (
+
+          <Menu
+            className="menu-tab"
+            onClick={this.handleClick}
+            style={{ textAlign: 'right', border: 0 }}
+            mode="horizontal"
+          >
+            <Menu.Item key="live-chat">
+              <a className="ant-dropdown-link" target="_blank" href={chatURL}>
+                <Icon type="message" style={{ fontSize: 20 }} />
+                Live Chat
+          </a>
+            </Menu.Item>
+            <Menu.Item key="support">
+              <a className="ant-dropdown-link" onClick={goToHelpCenter}>
+                <Icon type="solution" style={{ fontSize: 20 }} />
+                Help Center
+         </a>
+            </Menu.Item>
+
+            <Menu.Item key="profile">
+              <Dropdown overlay={profileMenu()} trigger={['click']}>
+                <a className="ant-dropdown-link" href="#">
+                  {this.props.user.profileImageURL ?
+                    <Avatar src={this.props.user.profileImageURL}></Avatar> :
+                    <Avatar style={{ color: '#ffffff', backgroundColor: '#f07c94' }}>{this.props.user.firstName[0]}</Avatar>
+                  }
+                </a>
+              </Dropdown>
+            </Menu.Item>
+          </Menu>
+        )
+      }
+      return (
+
+        <Menu
+          className="menu-tab"
+          onClick={this.handleClick}
+          style={{ textAlign: 'right', border: 0, width: "100%" }}
+          mode="horizontal"
+        >
+
+          <Menu.Item key="profile">
+            <Dropdown overlay={profileMenu()} trigger={['click']}>
+              <a className="ant-dropdown-link" href="#">
+                {this.props.user.profileImageURL ?
+                  <Avatar src={this.props.user.profileImageURL}></Avatar> :
+                  <Avatar style={{ color: '#ffffff', backgroundColor: '#f07c94' }}>{this.props.user.firstName[0]}</Avatar>
+                }
+              </a>
+            </Dropdown>
+          </Menu.Item>
+        </Menu>
+      )
+    }
+
     return (
 
       <Affix>
@@ -160,7 +238,6 @@ class NavBar extends React.Component {
                   style={{ textAlign: 'right', border: 0 }}
                   mode="horizontal"
                 >
-
                   <Menu.Item key="notifications">
                     <Dropdown overlay={notificationMenu} trigger={['click']}>
                       <a className="ant-dropdown-link" href="#">
@@ -170,7 +247,7 @@ class NavBar extends React.Component {
                   </Menu.Item>
 
                   <Menu.Item key="profile">
-                    <Dropdown overlay={profileMenu} trigger={['click']}>
+                    <Dropdown overlay={profileMenu()} trigger={['click']}>
                       <a className="ant-dropdown-link" href="#">
                         {this.props.user.profileImageURL ?
                           <Avatar src={this.props.user.profileImageURL}></Avatar> :
@@ -187,44 +264,7 @@ class NavBar extends React.Component {
         ) : (
             <Row >
               <Col span={24}>
-                <Menu
-                  className="menu-tab"
-                  onClick={this.handleClick}
-                  style={{ textAlign: 'right', border: 0 }}
-                  mode="horizontal"
-                >
-                  <Menu.Item key="live-chat">
-                    <a className="ant-dropdown-link" target="_blank" href={chatURL}>
-                      <Icon type="message" style={{ fontSize: 20 }} />
-                      Live Chat
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item key="support">
-                    <a className="ant-dropdown-link" onClick={goToHelpCenter}>
-                      <Icon type="solution" style={{ fontSize: 20 }} />
-                      Help Center
-                    </a>
-                  </Menu.Item>
-
-                  {/* <Menu.Item key="notifications">
-                    <Dropdown overlay={notificationMenu} trigger={['click']}>
-                      <a className="ant-dropdown-link" href="#">
-                        <Icon type="bell" style={{ fontSize: 20, paddingTop: 15 }} />
-                      </a>
-                    </Dropdown>
-                  </Menu.Item> */}
-
-                  <Menu.Item key="profile">
-                    <Dropdown overlay={profileMenu} trigger={['click']}>
-                      <a className="ant-dropdown-link" href="#">
-                        {this.props.user.profileImageURL ?
-                          <Avatar src={this.props.user.profileImageURL}></Avatar> :
-                          <Avatar style={{ color: '#ffffff', backgroundColor: '#f07c94' }}>{this.props.user.firstName[0]}</Avatar>
-                        }
-                      </a>
-                    </Dropdown>
-                  </Menu.Item>
-                </Menu>
+                {getNavBarItems()}
               </Col>
             </Row>
           )}

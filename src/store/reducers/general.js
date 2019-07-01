@@ -8,6 +8,10 @@ const initialState = {
     regularUserPortalMode: 'regular',
     currentOfficeAdminUID: null,
     currentOfficeAdmin: null,
+    currentBuildingUID: null,
+    isLoadingBuildingOfficeHealthReport: false,
+    buildingOfficeReportData: null, 
+    currentBuilding: null,
     isLoadingSignIn: false,
     notifications: [],
     create_password_url: null,
@@ -16,11 +20,18 @@ const initialState = {
     updatingServiceStatusEmail: false,
     successfulServiceRequestUpdate: false,
     checkedIn: null,
-    checking_user_in: false
+    checking_user_in: false,
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.LOAD_BUILDING_OFFICE_REPORT:
+            return updateObject(state, { isLoadingBuildingOfficeHealthReport: true });
+        case actionTypes.LOAD_BUILDING_OFFICE_REPORT_FINISHED:
+            const data = action.payload.report || null;
+            const oldData = state.buildingOfficeReportData || []; 
+            oldData.push(data);
+            return updateObject(state, { isLoadingBuildingOfficeHealthReport: false, buildingOfficeReportData: oldData });
         case actionTypes.SIGN_OUT_USER_SUCCESS:
             return initialState;
         case actionTypes.CLEAR_REDUX_STATE:

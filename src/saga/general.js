@@ -19,6 +19,36 @@ export function* editServiceRequestsStatusEmailWatchSaga() {
     yield takeLatest(actionTypes.EDIT_SERVICE_REQUESTS_STATUS_EMAIL, editServiceRequestsStatusEmailWorkerSaga);
 }
 
+export function* loadBuildingOfficeReportWatchSaga() {
+    yield takeLatest(actionTypes.LOAD_BUILDING_OFFICE_REPORT, loadBuildingOfficeReportWorkerSaga);
+}
+
+function loadBuildingReport(payload, firebase) { 
+const apiCall = firebase.functions.httpsCallable('getBuildingOfficeReport')
+    return apiCall(payload)
+    .then( result => {
+        const data = result.data;
+        return data;
+    })
+}
+
+function* loadBuildingOfficeReportWorkerSaga(action) { 
+
+    try {
+        let firebase = yield select(selectors.firebase);
+        const payload = action.payload || {}; 
+        const response = yield call(loadBuildingReport, payload, firebase);
+        yield put({ type: actionTypes.LOAD_BUILDING_OFFICE_REPORT_FINISHED, payload: { report: response } });
+    } catch (error) {
+        sentry.captureException(error);
+        notification['error']({
+            message: 'Unable to load office report.',
+            // description: error.message
+        });
+        yield put({ type: actionTypes.LOAD_BUILDING_OFFICE_REPORT_FINISHED, payload: { report: null } });
+    }
+}
+
 
 function loadNotifications(firebase) {
     const apiCall = firebase.functions.httpsCallable('getUsersNotifications')

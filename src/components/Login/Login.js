@@ -10,7 +10,7 @@ class Login extends React.Component {
   render() {
     return (
   
-      <Row type="flex" justify="space-around" align="middle">
+      <Row type="flex" justify="space-around" align="middle" style={{marginTop: 300}}>
         <Col>
           <LoginForm />
         </Col>

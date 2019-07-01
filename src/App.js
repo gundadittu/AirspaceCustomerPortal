@@ -136,9 +136,10 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
           </ Switch>
           {/* </ MediaQuery>
-          <MediaQuery maxDeviceWidth={1224}>
-          </MediaQuery> */}
+        <MediaQuery maxDeviceWidth={1224}>
+        </MediaQuery> */}
         </div>
+
       );
     }
   }
@@ -177,7 +178,7 @@ const landlordRoutingComp = () => (
   <Switch>
     <Route exact path='/landlord/:buildingUID' component={BuildingHealthReport}></Route>
     <Route exact path='/landlord/:buildingUID/home' component={BuildingHealthReport}></Route>
-    <Route exact path='/landlord/:buildingUID/health-report' component={BuildingHealthReport}></Route>
+    <Route exact path='/landlord/:buildingUID/health-reports' component={BuildingHealthReport}></Route>
   </Switch>
 );
 

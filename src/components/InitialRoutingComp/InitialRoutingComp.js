@@ -21,6 +21,7 @@ class InitialRoutingComp extends Component {
                 const building = this.props.landlordBuildingList[0]; 
                 const buildingUID = building.uid; 
                 this.props.history.push('/landlord/' + buildingUID);
+                return null 
             } else { 
                 return (
                     <div style={{ textAlign: "center" }} >

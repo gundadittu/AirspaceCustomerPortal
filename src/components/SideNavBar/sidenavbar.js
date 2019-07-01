@@ -299,7 +299,7 @@ class SideNavBar extends React.Component {
         }
 
         return (
-          <SubMenu className='sideBarPortalSwitcher' key="sub2" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
+          <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
             {this.props.landlordBuildingList.map((building) => (
               <a onClick={() => switchBuilding(building.uid)}>
                 <Menu.Item key={building.uid} >

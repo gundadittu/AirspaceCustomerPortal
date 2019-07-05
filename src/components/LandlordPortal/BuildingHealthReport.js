@@ -46,6 +46,7 @@ class BuildingHealthReport extends React.Component {
             <Row>
                 <Col className="wide-table" span={24}>
                     <h1>Health Reports</h1>
+                    <p>For {this.props.currentBuilding.name} at {this.props.currentBuilding.address}</p>
                     <Row>
                         <div>
                             {dataSource.map(x => {
@@ -53,7 +54,7 @@ class BuildingHealthReport extends React.Component {
                                 const selectedOfficeUID = x.uid; 
                                 return (
                                     <Row>
-                                        <Col style={{ paddingLeft: "1%", paddingRight: "15%", paddingBottom: "1%" }} span={24}>
+                                        <Col style={{ paddingRight: "15%", paddingBottom: "1%" }} span={24}>
                                             <BuildingOfficeHealthReport selectedBuildingUID={selectedBuildingUID} selectedOfficeUID={selectedOfficeUID} selectedOfficeName={selectedOfficeName+" Health Report"} />
                                         </Col>
                                     </Row>

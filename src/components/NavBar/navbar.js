@@ -70,7 +70,21 @@ class NavBar extends React.Component {
   render() {
 
     const profileMenu = () => {
-      if (this.props.currentOfficeAdminUID !== null) {
+      if (this.props.userType === "landlord") {
+        return (
+          <Menu
+            className="navBarProfileMenu menu-tab"
+            onClick={this.handleClick}
+            style={{ textAlign: 'right', border: "0", borderColor: "white", borderWidth: 0 }}
+          >
+            <Menu.Item key="signOut">
+              <Grid container justify="center" alignItems="center">
+                Sign Out
+        </Grid>
+            </Menu.Item>
+          </Menu >
+        );
+      } else if (this.props.currentOfficeAdminUID !== null) {
         return (
           <Menu
             className="navBarProfileMenu menu-tab"
@@ -160,7 +174,29 @@ class NavBar extends React.Component {
     }
 
     const getNavBarItems = () => {
-      if (this.props.currentOfficeAdminUID !== null) {
+      if (this.props.userType === "landlord") {
+        return (
+
+          <Menu
+            className="menu-tab"
+            onClick={this.handleClick}
+            style={{ textAlign: 'right', border: 0, width: "100%" }}
+            mode="horizontal"
+          >
+
+            <Menu.Item key="profile">
+              <Dropdown overlay={profileMenu()} trigger={['click']}>
+                <a className="ant-dropdown-link" href="#">
+                  {this.props.user.profileImageURL ?
+                    <Avatar src={this.props.user.profileImageURL}></Avatar> :
+                    <Avatar style={{ color: '#ffffff', backgroundColor: '#f07c94' }}>{this.props.user.firstName[0]}</Avatar>
+                  }
+                </a>
+              </Dropdown>
+            </Menu.Item>
+          </Menu>
+        )
+      } else if (this.props.currentOfficeAdminUID !== null) {
         return (
 
           <Menu
@@ -276,6 +312,7 @@ class NavBar extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    userType: state.auth.type,
     user: state.auth.user,
     notifications: state.general.notifications,
     mixpanel: state.firebase.mixpanel,

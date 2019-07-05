@@ -283,37 +283,37 @@ class SideNavBar extends React.Component {
           return null;
         }
 
-        const switchBuilding = (uid) => {
-          if (uid === null) {
-            return
-          }
+        // const switchBuilding = (uid) => {
+        //   if (uid === null) {
+        //     return
+        //   }
 
-          const list = this.props.landlordBuildingList;
-          let buildingObj = null;
-          for (let key in list) {
-            const value = list[key];
+        //   const list = this.props.landlordBuildingList;
+        //   let buildingObj = null;
+        //   for (let key in list) {
+        //     const value = list[key];
 
-            if (value.uid === uid) {
-              buildingObj = value;
-            }
-          }
+        //     if (value.uid === uid) {
+        //       buildingObj = value;
+        //     }
+        //   }
 
-          const pagePayload = getPagePayload(pageTitles.homePageLandlord, { buildingUID: uid, buildingObj: buildingObj });
-          if (pagePayload) {
-            this.props.changePage(pagePayload);
-          }
-        }
+        //   const pagePayload = getPagePayload(pageTitles.homePageLandlord, { buildingUID: uid, buildingObj: buildingObj });
+        //   if (pagePayload) {
+        //     this.props.changePage(pagePayload);
+        //   }
+        // }
 
         return (
-          <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
+          <SubMenu key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
             {this.props.landlordBuildingList.map((building) => (
-              <a onClick={() => switchBuilding(building.uid)}>
-                <Menu.Item key={building.uid} >
-                  <Link to={'/landlord/' + building.uid}>
-                    {building.name}
-                  </Link>
-                </Menu.Item>
-              </a>
+              // <a onClick={() => switchBuilding(building.uid)}>
+              <Menu.Item key={building.uid} >
+                <Link to={'/landlord/' + building.uid}>
+                  {building.name}
+                </Link>
+              </Menu.Item>
+              // </a>
             ))
             }
           </SubMenu>

@@ -42,7 +42,7 @@ class BuildingOfficeHealthReport extends React.Component {
             return (
                 <div style={{ textAlign: "center", verticalAlign: "middle" }}>
                     <img style={{ maxWidth: 400 }} src={emptyState} />
-                    <h2 style={{ marginTop: 30, fontWeight: 15 }}>{"No Data Available yet"} </h2>
+                    <h2 style={{ marginTop: 30, fontWeight: 15 }}>{"We are currently generating this office's report"} </h2>
                 </div>
             );
         }

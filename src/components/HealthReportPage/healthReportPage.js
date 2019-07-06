@@ -64,67 +64,71 @@ class HealthReportPage extends React.Component {
         const getBody = () => {
 
             const report = this.props.report;
-            if (report !== null) {
-                const nextVisit = report["Next Visit"] || "";
-                const spendingData = report["Spending Data"] || {};
-                console.log(spendingData);
-                const outstandingIssues = report["Outstanding Issues"] || [];
-                const funFacts = report["Fun Facts"] || [];
-                // const imageURL = report["Image URL"] || "";
 
-                if ((nextVisit === null) && (spendingData === null) && (outstandingIssues === null) && (funFacts === null)) {
-                    return emptyState()
-                }
-
-                return (
-                    <div>
-                        <Row>
-                            {/* <Col span={5}>
-                                <Avatar style={{ width: "80%", height: "50%" }} shape="circle" src={imageURL} />
-                            </Col> */}
-                            <Col span={19}>
-                                <div style={{ paddingTop: 40 }}>
-                                    <h2>{nextVisit}</h2>
-                                    {(outstandingIssues.length > 0) ?
-                                        (<p>Here are some outstanding issues they'll work on:</p>)
-                                        : null}
-                                    < ul >
-                                        {
-                                            outstandingIssues.map(x => (
-                                                <li><h3 style={{ fontWeight: "normal" }}>{x}</h3></li>
-                                            ))
-                                        }
-                                    </ul>
-                                </div>
-                            </Col>
-                        </Row>
-
-                        <hr style={{ margin: 10, marginBottom: 10 }} />
-                        <Row style={{ paddingTop: 50 }}>
-                            <Col span={12}>
-                                <h2>Spending Data:</h2>
-                                <Row style={{ paddingTop: 15 }}>
-                                    <PieChart data={spendingData} />
-                                </Row>
-                            </Col>
-                            <Col span={12}>
-                                <h2>Fun Facts:</h2>
-                                <Row style={{ paddingTop: 15 }}>
-                                    < ul >
-                                        {
-                                            funFacts.map(x => (
-                                                <li><h3 style={{ fontWeight: "normal" }}>{x}</h3></li>
-                                            ))
-                                        }
-                                    </ul>
-                                </Row>
-                            </Col>
-                        </Row>
-                    </div >
-                )
+            if (report === null) {
+                return emptyState()
             }
-            return emptyState()
 
+            if (Object.keys(report).length === 0) { 
+                return emptyState()
+            }
+
+            const nextVisit = report["Next Visit"] || "";
+            const spendingData = report["Spending Data"] || {};
+            const outstandingIssues = report["Outstanding Issues"] || [];
+            const funFacts = report["Fun Facts"] || [];
+
+            return (
+                <div>
+                    <Row>
+                        <Col span={19}>
+                            <div style={{ paddingTop: 40 }}>
+                                <h2>{nextVisit}</h2>
+                                {(outstandingIssues.length > 0) ?
+                                    (<p>Here are some outstanding issues they'll work on:</p>)
+                                    : null}
+                                < ul >
+                                    {
+                                        outstandingIssues.map(x => (
+                                            <li><h3 style={{ fontWeight: "normal" }}>{x}</h3></li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
+                        </Col>
+                    </Row>
+
+                    {((funFacts.length > 0) || (spendingData.length > 0)) ?
+                        (<hr style={{ margin: 10, marginBottom: 10 }} />)
+                        : null}
+
+                    <Row style={{ paddingTop: 50 }}>
+                        <Col span={12}>
+                            {(spendingData.length > 0) ?
+                                (<h2>Spending Data:</h2>)
+                                : null}
+                            <Row style={{ paddingTop: 15 }}>
+                                <PieChart data={spendingData} />
+                            </Row>
+                        </Col>
+                        <Col span={12}>
+                            {(funFacts.length > 0) ?
+                                (<h2>Fun Facts:</h2>)
+                                : null}
+
+                            <Row style={{ paddingTop: 15 }}>
+                                < ul >
+                                    {
+                                        funFacts.map(x => (
+                                            <li><h3 style={{ fontWeight: "normal" }}>{x}</h3></li>
+                                        ))
+                                    }
+                                </ul>
+                            </Row>
+                        </Col>
+                    </Row>
+                </div >
+            )
         }
 
         return (

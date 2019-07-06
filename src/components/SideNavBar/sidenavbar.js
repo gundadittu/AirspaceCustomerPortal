@@ -189,12 +189,12 @@ class SideNavBar extends React.Component {
         pageSubtitle: "service-plan",
         linkTitle: "Service Plan"
       },
-      // healthReport: {
-      //   keyVal: pageTitles.healthReportPageOfficeAdmin,
-      //   iconType: "pie-chart",
-      //   pageSubtitle: "health-report",
-      //   linkTitle: "Health Report"
-      // },
+      healthReport: {
+        keyVal: pageTitles.healthReportPageOfficeAdmin,
+        iconType: "pie-chart",
+        pageSubtitle: "health-report",
+        linkTitle: "Health Report"
+      },
       // officeProfile: {
       //   keyVal: pageTitles.officeProfilePageOfficeAdmin,
       //   iconType: "layout",

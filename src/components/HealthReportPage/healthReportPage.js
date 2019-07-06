@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'antd';
+import { Row, Col, Spin, Avatar } from 'antd';
 import StaticImage from "../../assets/images/home_empty_state.png";
 import '../../App.css';
 import * as generalActionCreator from '../../store/actions/general';
@@ -8,13 +8,10 @@ import * as generalActionCreator from '../../store/actions/general';
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
-
-
+import { PieChart } from 'react-chartkick'
+import 'chart.js'
 
 class HealthReportPage extends React.Component {
-
-    state = {
-    }
 
     componentDidMount() {
         if (this.props.match.isExact) {
@@ -50,10 +47,85 @@ class HealthReportPage extends React.Component {
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
             }
+            this.props.getReport({ selectedOfficeUID: officeUID })
         }
     }
 
     render() {
+
+        const emptyState = () => {
+            return (
+                <Row type="flex" justify="space-around" align="middle">
+                    <img style={{ width: '70%', height: '70%' }} alt="Report is being generated..." src={StaticImage} />
+                </Row>
+            )
+        }
+
+        const getBody = () => {
+
+            const report = this.props.report;
+            if (report !== null) {
+                const nextVisit = report["Next Visit"] || "";
+                const spendingData = report["Spending Data"] || {};
+                console.log(spendingData);
+                const outstandingIssues = report["Outstanding Issues"] || [];
+                const funFacts = report["Fun Facts"] || [];
+                // const imageURL = report["Image URL"] || "";
+
+                if ((nextVisit === null) && (spendingData === null) && (outstandingIssues === null) && (funFacts === null)) {
+                    return emptyState()
+                }
+
+                return (
+                    <div>
+                        <Row>
+                            {/* <Col span={5}>
+                                <Avatar style={{ width: "80%", height: "50%" }} shape="circle" src={imageURL} />
+                            </Col> */}
+                            <Col span={19}>
+                                <div style={{ paddingTop: 40 }}>
+                                    <h2>{nextVisit}</h2>
+                                    {(outstandingIssues.length > 0) ?
+                                        (<p>Here are some outstanding issues they'll work on:</p>)
+                                        : null}
+                                    < ul >
+                                        {
+                                            outstandingIssues.map(x => (
+                                                <li><h3 style={{ fontWeight: "normal" }}>{x}</h3></li>
+                                            ))
+                                        }
+                                    </ul>
+                                </div>
+                            </Col>
+                        </Row>
+
+                        <hr style={{ margin: 10, marginBottom: 10 }} />
+                        <Row style={{ paddingTop: 50 }}>
+                            <Col span={12}>
+                                <h2>Spending Data:</h2>
+                                <Row style={{ paddingTop: 15 }}>
+                                    <PieChart data={spendingData} />
+                                </Row>
+                            </Col>
+                            <Col span={12}>
+                                <h2>Fun Facts:</h2>
+                                <Row style={{ paddingTop: 15 }}>
+                                    < ul >
+                                        {
+                                            funFacts.map(x => (
+                                                <li><h3 style={{ fontWeight: "normal" }}>{x}</h3></li>
+                                            ))
+                                        }
+                                    </ul>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </div >
+                )
+            }
+            return emptyState()
+
+        }
 
         return (
             <div>
@@ -62,12 +134,17 @@ class HealthReportPage extends React.Component {
                         <Row>
                             <h1>Health Report</h1>
                         </Row>
-                        <Row type="flex" justify="space-around" align="middle">
-                            <img style={{ width: '70%', height: '70%' }} alt="Report is being generated..." src={StaticImage} />
-                        </Row>
+                        {(this.props.isLoading === true) ?
+                            (
+                                <div style={{ textAlign: "center" }} className="example">
+                                    <Spin />
+                                </div>
+                            )
+                            : getBody()
+                        }
                     </Col>
                 </Row>
-            </div>
+            </div >
         )
     }
 }
@@ -75,13 +152,16 @@ class HealthReportPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        allAdminOffices: state.auth.adminOfficeList
+        allAdminOffices: state.auth.adminOfficeList,
+        isLoading: state.officeAdmin.isLoadingOfficeReport,
+        report: state.officeAdmin.officeReport
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        changePage: (payload) => dispatch(generalActionCreator.changePage(payload))
+        changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
+        getReport: (payload) => dispatch(generalActionCreator.getOfficeReport(payload))
     }
 };
 

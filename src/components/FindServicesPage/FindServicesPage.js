@@ -101,6 +101,8 @@ class FindServicesPage extends React.Component {
             this.props.getServicePlan(selectedOfficeUID);
             this.props.loadInvoices(selectedOfficeUID);
             this.props.loadUserList(selectedOfficeUID);
+            this.props.loadOfficeReport({ selectedOfficeUID: selectedOfficeUID });
+
         }
     }
 
@@ -132,12 +134,12 @@ class FindServicesPage extends React.Component {
                     image: AlcoholImage,
                     title: "Beer + Spirits + Wine",
                     description: "We take pride in serving your office with local craft beers. International and domestic? Yeah, we got that too. Find out more about how our vendors can service your office with an assortment of beers, spirits, and wines."
-                }, 
+                },
                 {
                     image: Pantry,
                     title: "Pantry",
                     description: "Let us outfit your break room with everything you need to fuel the team."
-                }, 
+                },
                 {
                     image: Catering,
                     title: "Catering",
@@ -413,7 +415,7 @@ class FindServicesPage extends React.Component {
                 >
                     <p>{this.state.descriptionText}</p>
                 </Modal> */}
-                
+
                 <OrderForm visible={this.state.showDescription} onCancel={this.hideDescription.bind(this)} serviceTitle={this.state.descriptionTitle} topText={this.state.descriptionText} />
 
                 <Row>
@@ -524,7 +526,8 @@ const mapDispatchToProps = dispatch => {
         loadEMInfo: (payload) => dispatch(generalActionCreator.getEMInfo(payload)),
         getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })),
         loadInvoices: (officeUID) => dispatch(generalActionCreator.getAllInvoices({ selectedOfficeUID: officeUID })),
-        loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID))
+        loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID)), 
+        loadOfficeReport: (payload) => dispatch(generalActionCreator.getOfficeReport(payload))
     }
 };
 

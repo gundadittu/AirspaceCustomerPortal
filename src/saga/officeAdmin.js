@@ -173,9 +173,39 @@ export function* getSpaceInfoForOfficeAdmin() {
 
 export function* getAllInvoicesForOffice() {
     yield takeLatest(actionTypes.GET_ALL_INVOICES_FOR_OFFICE, getAllInvoicesForOfficeWorkerSaga);
+}
 
+export function* loadOfficeReportWatcher() {
+    yield takeLatest(actionTypes.LOAD_OFFICE_REPORT, loadOfficeReportWorkerSaga);
 }
 // Workers
+
+function loadOfficeReport(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('getOfficeReport')
+    return apiCall(payload)
+        .then(result => {
+            const data = result.data;
+            return data;
+        })
+}
+
+function* loadOfficeReportWorkerSaga(action) {
+
+    try {
+        let firebase = yield select(selectors.firebase);
+        const payload = action.payload || {};
+        const response = yield call(loadOfficeReport, payload, firebase);
+        yield put({ type: actionTypes.LOAD_OFFICE_REPORT_FINISHED, payload: { report: response } });
+    } catch (error) {
+        sentry.captureException(error);
+        notification['error']({
+            message: 'Unable to load office report.',
+            // description: error.message
+        });
+        yield put({ type: actionTypes.LOAD_OFFICE_REPORT_FINISHED, payload: { report: null } });
+    }
+
+}
 
 function validatePermission(selectedOfficeUID, userAdminOfficeList) {
     if (userAdminOfficeList == null) {
@@ -1397,7 +1427,7 @@ function* updateOfficeProfileWorkerSaga(action) {
 
         notification['info']({
             message: 'Hold on...',
-            description: 'We are trying to save your changes', 
+            description: 'We are trying to save your changes',
             duration: 1
         });
 

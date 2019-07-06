@@ -56,11 +56,18 @@ const initialState = {
     isLoadingOfficeProfile: false,
     officeProfile: null,
     isAddingRequestForService: false,
-    isSubmittingSupportTicket: false
+    isSubmittingSupportTicket: false,
+    isLoadingOfficeReport: false,
+    officeReport: null
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.LOAD_OFFICE_REPORT:
+            return updateObject(state, { isLoadingOfficeReport: true });
+        case actionTypes.LOAD_OFFICE_REPORT_FINISHED:
+            const report = action.payload.report || null; 
+            return updateObject(state, { isLoadingOfficeReport: false, officeReport: report });
         case actionTypes.SUBMIT_SERVICE_TICKET:
             return updateObject(state, { isSubmittingSupportTicket: true });
         case actionTypes.SUBMIT_SERVICE_TICKET_FINISHED:
@@ -78,8 +85,8 @@ const reducer = (state = initialState, action) => {
         //     const info = action.payload.info; 
         //     return updateObject(state, { isLoadingEMInfo: false, emInfo: info });
         case actionTypes.LOAD_OFFICE_PROFILE:
-            const noLoad = action.payload.noLoad || false; 
-            const loadStatus = (noLoad === true) ? false : true; 
+            const noLoad = action.payload.noLoad || false;
+            const loadStatus = (noLoad === true) ? false : true;
             return updateObject(state, { isLoadingOfficeProfile: loadStatus });
         case actionTypes.LOAD_OFFICE_PROFILE_FINISHED:
             const profile = action.payload.info;

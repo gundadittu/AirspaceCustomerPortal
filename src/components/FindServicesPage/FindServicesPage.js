@@ -51,7 +51,7 @@ import IT from "../../assets/images/services/it-services.jpeg";
 import WasteRemoval from "../../assets/images/services/waste-removal.jpeg";
 import PestControl from "../../assets/images/services/pest-control.jpg";
 import FloorMat from "../../assets/images/services/floor-mat.jpeg";
-import CleaningSupplies from "../../assets/images/services/cleaning-supplies.jpg";
+// import CleaningSupplies from "../../assets/images/services/cleaning-supplies.jpg";
 
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
@@ -255,11 +255,11 @@ class FindServicesPage extends React.Component {
                     title: "Specialized Cleaning",
                     description: "Janitorial supplies are essential for businesses of all sizes. Having janitorial cleaning supplies, sprays, paper towels and hygiene products on hand ensures that custodians are ready for any spills or situations they encounter. Office cleaning supplies range from industrial-strength cleansers and sprays to basic restroom items like soap and hand sanitizer."
                 },
-                {
-                    image: CleaningSupplies,
-                    title: "Cleaning + Maintenance Supplies",
-                    description: "Janitorial supplies are essential for businesses of all sizes. Having janitorial cleaning supplies, sprays, paper towels and hygiene products on hand ensures that custodians are ready for any spills or situations they encounter. Office cleaning supplies range from industrial-strength cleansers and sprays to basic restroom items like soap and hand sanitizer."
-                }
+                // {
+                //     image: CleaningSupplies,
+                //     title: "Cleaning + Maintenance Supplies",
+                //     description: "Janitorial supplies are essential for businesses of all sizes. Having janitorial cleaning supplies, sprays, paper towels and hygiene products on hand ensures that custodians are ready for any spills or situations they encounter. Office cleaning supplies range from industrial-strength cleansers and sprays to basic restroom items like soap and hand sanitizer."
+                // }
             ]
         } else if (this.state.dataSource === "repairs-maintenance") {
             data = [
@@ -443,11 +443,11 @@ class FindServicesPage extends React.Component {
                                             <Menu.Item key="it-services">
                                                 IT Services
                                     </Menu.Item>
-                                            <Menu.Item key="space-management">
-                                                Space Management
-                                    </Menu.Item>
                                             <Menu.Item key="office-help">
                                                 Office Help
+                                    </Menu.Item>
+                                            <Menu.Item key="space-management">
+                                                Space Management
                                     </Menu.Item>
                                             <Menu.Item key="cleaning">
                                                 Cleaning
@@ -526,7 +526,7 @@ const mapDispatchToProps = dispatch => {
         loadEMInfo: (payload) => dispatch(generalActionCreator.getEMInfo(payload)),
         getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })),
         loadInvoices: (officeUID) => dispatch(generalActionCreator.getAllInvoices({ selectedOfficeUID: officeUID })),
-        loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID)), 
+        loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID)),
         loadOfficeReport: (payload) => dispatch(generalActionCreator.getOfficeReport(payload))
     }
 };

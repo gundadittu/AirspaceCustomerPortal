@@ -88,7 +88,6 @@ class OrderForm extends React.Component {
                     type: "cascader",
                     key: "coffeeType",
                     question: "Coffee Type?",
-                    message: "Please tell us what type of coffee you're interested in.",
                     required: true,
                     data: {
                         options: [
@@ -107,8 +106,8 @@ class OrderForm extends React.Component {
                                 ],
                             },
                             {
-                                value: 'Single Serve',
-                                label: 'Single Serve',
+                                value: 'K-Cup',
+                                label: 'K-Cup',
                             },
                             {
                                 value: 'Bean-to-Cup',
@@ -125,24 +124,34 @@ class OrderForm extends React.Component {
                     type: "select",
                     key: "coffeePackage",
                     question: "Coffee Package?",
-                    message: "Please tell us what package you're interested in.",
+                    required: true,
+                    data: {
+                        options: ["Premium", "Standard", "Budget", "None"]
+                    }
+                },
+          
+                {
+                    type: "select",
+                    key: "teaType",
+                    question: "Tea Type?",
+                    required: true,
+                    data: {
+                        options: ["Sachet", "K-Cup", "None"]
+                    }
+                },
+                {
+                    type: "select",
+                    key: "teaPackage",
+                    question: "Tea Package?",
                     required: true,
                     data: {
                         options: ["Premium", "Standard", "Budget", "None"]
                     }
                 },
                 {
-                    type: "text",
-                    key: "coffeeLocation",
-                    question: "Please provide a specific location where the coffee will be served.",
-                    message: "Please provide a specific location where the coffee will be served.",
-                    required: false
-                },
-                {
                     type: "cascader",
                     key: "equipmentInstall",
                     question: "Add-on: Do you need to purchase or rent equipment?",
-                    message: "Please tell us whether your office needs to purchase or rent equipment.",
                     required: true,
                     data: {
                         options: [
@@ -163,41 +172,13 @@ class OrderForm extends React.Component {
                         ]
                     }
                 },
-                {
-                    type: "select",
-                    key: "teaType",
-                    question: "Tea Type?",
-                    message: "Please tell us what type of tea you're interested in.",
-                    required: true,
-                    data: {
-                        options: ["Sachet", "Single Service", "None"]
-                    }
-                },
-                {
-                    type: "select",
-                    key: "teaPackage",
-                    question: "Tea Package?",
-                    message: "Please tell us which package you're interested in.",
-                    required: true,
-                    data: {
-                        options: ["Premium", "Standard", "Budget", "None"]
-                    }
-                },
             ];
         } else if (serviceTitle === "Snacks + Beverages") {
             return [
                 {
-                    type: "text",
-                    key: "snacksDrinksLocation",
-                    question: "Please provide a specific location where the snacks + drinks will be served.",
-                    message: "Please provide a specific location where the snacks + drinks will be served.",
-                    required: true,
-                },
-                {
                     type: "select",
                     key: "snacksDrinksPackage",
-                    question: "Snacks + Drink Package?",
-                    message: "Please tell us which package you're interested in.",
+                    question: "Select a snacks package:",
                     required: true,
                     data: {
                         options: ["The Loop (e.x. Fiji, RXBar, Terra, Pistachios, Jerky, etc.)", "River North (e.x. Honest Tea, Cliff, Kettle Chips, Almonds, Yogurt, etc.)", "Fulton (e.x.: LaCroix, Nature Valley, Pretzels, Peanuts, Bananas", "Create my Own"]
@@ -206,15 +187,13 @@ class OrderForm extends React.Component {
                 {
                     type: "textArea",
                     key: "createPackage",
-                    question: "Please create your own package here or add some more of your office's preferences here.",
-                    message: "Please create your own package or add some more of your office's preferences here.",
+                    question: "Create your own package or add:",
                     required: false,
                 },
                 {
                     type: "selectMultiple",
                     key: "addOns",
                     question: "Choose any add-ons your office would like.",
-                    message: "Choose any add-ons your office would like.",
                     required: false,
                     data: {
                         options: ["Fresh Fruit", "Organic Fresh Fruit", "Exotic Fruit", "Organic Exotic Fruit"]
@@ -227,7 +206,6 @@ class OrderForm extends React.Component {
                     type: "cascader",
                     key: "coldBrew-HowOften",
                     question: "How often would you like cold-brew?",
-                    message: "Please tell us how often your office would like cold-brew.",
                     required: true,
                     data: {
                         options: [
@@ -260,14 +238,12 @@ class OrderForm extends React.Component {
                     type: "number",
                     key: "coldBrewCount",
                     question: "Number of cold brew slurpers?",
-                    message: "Tell us how many people would like to drink cold brew in your office.",
                     required: true,
                 },
                 {
                     type: "select",
                     key: "nitro",
                     question: "Would you like nitro cold brew?",
-                    message: "Let us know whether you'd like nitro cold brew.",
                     required: true,
                     data: {
                         options: ["Yes", "No"]
@@ -277,7 +253,6 @@ class OrderForm extends React.Component {
                     type: "select",
                     key: "equipment",
                     question: "Do you need equipment?",
-                    message: "Let us know whether you need equipment.",
                     required: true,
                     data: {
                         options: ["Yes", "No"]
@@ -287,7 +262,6 @@ class OrderForm extends React.Component {
                     type: "text",
                     key: "coldBrewLocation",
                     question: "Please provide a specific location where the cold brew will be served.",
-                    message: "Please provide a specific location where the cold brew will be served.",
                     required: true,
                 },
             ];
@@ -297,7 +271,6 @@ class OrderForm extends React.Component {
                     type: "cascader",
                     key: "alcohol-HowOften",
                     question: "One-time or Recurring Order?",
-                    message: "Please tell us how often your office would like this order.",
                     required: true,
                     data: {
                         options: [
@@ -349,7 +322,6 @@ class OrderForm extends React.Component {
                     type: "selectMultiple",
                     key: "beerPackages",
                     question: "Select beer package(s):",
-                    message: "Please tell us which package you're interested in.",
                     required: false,
                     data: {
                         options: ["Chicago craft - ex: Half Acre, Goose Island, Metropolitan, Off Color, Three Floyds", "Premium - ex: Sam Adams, Heineken, Blue Moon, Stella", "Budget - ex: Bud Light, Michelob, Coors, Miller"]
@@ -359,14 +331,12 @@ class OrderForm extends React.Component {
                     type: "text",
                     key: "createBeerPackage",
                     question: "Please create your own beer package here or add some more of your office's preferences here.",
-                    message: "Please create your own package or add some more of your office's preferences here.",
                     required: false,
                 },
                 {
                     type: "selectMultiple",
                     key: "addOns",
                     question: "Choose any add-ons your office would like.",
-                    message: "Choose any add-ons your office would like.",
                     required: false,
                     data: {
                         options: ["120 can beer fridge"]
@@ -381,41 +351,34 @@ class OrderForm extends React.Component {
                     type: "selectMultiple",
                     key: "winePackages",
                     question: "Choose wine package(s):",
-                    message: "Please tell us which package(s) you're interested in.",
                     required: false,
                     data: {
                         options: ["Red Wine Trio - 3 red wines priced ~ $14/bottle", "White Wine Trio  - 3 white wines priced ~ $14/bottle", "Champagne Trio   - 3 champagnes priced ~ $40/bottle", " Rose Trio - 3 rose wines priced ~ $14/bottle", "Top Shelf Trio - 3 premium bottles priced ~ $170/bottle"]
                     }
                 },
-                // {
-                //     type: "title",
-                //     key: "spiritsTitle",
-                //     question: "Spirits:"
-                // },
                 {
                     type: "select",
                     key: "spiritOptions",
                     question: "Choose spirit(s):",
-                    message: "Please tell us which spirit(s) you're interested in.",
                     required: false,
                     data: {
                         options: [
-                            "Rum Sailor Jerry Spiced Rum - Price: $22.00/750ml",
-                            "Rum Parce Rum 3 Year - Price: $36.00/1L",
-                            "Vodka CH Distillery – Chicago Made - Price: $22.00/750ml",
-                            "Vodka Tito’s - Price: $24.00/750ml",
-                            "Vodka Kettel One - Price: $25.00/750ml",
-                            "Bourbon G&W Private Stock - Price: $19.00/750ml",
-                            "Bourbon Bulleit - Price: $34.00/750ml",
-                            "Bourbon Journeyman Featherbone single barrel - Price: $54.00/750ml",
-                            "Gin Hendricks - Price: $44.00/750ml",
-                            "Scotch Whiskey The Balvenie DoubleWood 12 year- Price: $64.00/750ml",
-                            "Scotch Whiskey Macallan Single Malt 12 Year - Price: $72.00/750ml",
-                            "Japanese Whiskey Suntory Toki - Price: $38.00/750ml",
-                            "Tequila Espolón Pure Agave Tequila Blanco - Price: $27.00/750ml",
-                            "Tequila Casamigos Blanco - Price: $44.00/750ml",
-                            "Tequila Casaamigos Roposado - Price: $55.00/750ml",
-                            "Other (specify below"
+                            "Rum Sailor Jerry Spiced Rum",
+                            "Rum Parce Rum 3 Year",
+                            "Vodka CH Distillery – Chicago Made",
+                            "Vodka Tito’s",
+                            "Vodka Kettel One",
+                            "Bourbon G&W Private Stock",
+                            "Bourbon Bulleit",
+                            "Bourbon Journeyman Featherbone single barrel",
+                            "Gin Hendricks",
+                            "Scotch Whiskey The Balvenie DoubleWood 12 year",
+                            "Scotch Whiskey Macallan Single Malt 12 Year",
+                            "Japanese Whiskey Suntory Toki",
+                            "Tequila Espolón Pure Agave Tequila Blanco",
+                            "Tequila Casamigos Blanco",
+                            "Tequila Casaamigos Roposado",
+                            "Other (specify below)"
                         ]
                     }
                 },
@@ -423,7 +386,6 @@ class OrderForm extends React.Component {
                     type: "text",
                     key: "otherSpirits",
                     question: "Please let us know if there any other spirits you're interested in",
-                    message: "Please let us know if there any other spirits you're interested in",
                     required: false,
                 },
             ];
@@ -434,7 +396,6 @@ class OrderForm extends React.Component {
                     type: "selectMultiple",
                     key: "pantryOptions",
                     question: "Choose from our list of pantry staples:",
-                    message: "Please tell us which items you're interested in.",
                     required: true,
                     data: {
                         options: ["Honey", "Sweeteners", "Creamer", "Salt & Pepper", "Plates", "Cutlery", "Stirrers", "Straws", "Paper Towels", "Napkins", "Dish soap", "Hand soap", "Other (please specify below)"]
@@ -444,14 +405,12 @@ class OrderForm extends React.Component {
                     type: "text",
                     key: "otherPantryItems",
                     question: "Please let us know if there any other pantry items you're interested in:",
-                    message: "Please let us know if there any other spirits you're interested in.",
                     required: false,
                 },
                 {
                     type: "selectMultiple",
                     key: "addOns",
                     question: "Choose any add-ons your office would like.",
-                    message: "Choose any add-ons your office would like.",
                     required: false,
                     data: {
                         options: ["Organizers & Containers"]
@@ -464,7 +423,6 @@ class OrderForm extends React.Component {
                     type: "selectMultiple",
                     key: "cateringEvents",
                     question: "What event(s) are you catering for?",
-                    message: "Let us know what event(s) you are catering for.",
                     required: true,
                     data: {
                         options: ["Breakfast", "Lunch", "Dinner", "Happy Hour", "Light Snacks", "Other (specify below)"]
@@ -474,14 +432,12 @@ class OrderForm extends React.Component {
                     type: "text",
                     key: "otherEvent",
                     question: "Please let us know if there any other events you're interested in catering for:",
-                    message: "Please let us know if there any other events you're interested in catering for.",
                     required: false,
                 },
                 {
                     type: "cascader",
                     key: "alcohol-HowOften",
                     question: "One-time or Recurring Order?",
-                    message: "Please tell us how often your office would like this order.",
                     required: true,
                     data: {
                         options: [
@@ -567,14 +523,12 @@ class OrderForm extends React.Component {
                     type: "text",
                     key: "cateringLocation",
                     question: "Please provide a specific location where the catering will be needed:",
-                    // message: "Please provide a specific location where the catering will be needed.",
                     required: true,
                 },
                 {
                     type: "textArea",
                     key: "otherNotes",
                     question: "Anything else we need to know?",
-                    // message: "Please provide a specific location where the catering will be needed.",
                     required: false,
                 },
             ];
@@ -831,10 +785,10 @@ class OrderForm extends React.Component {
                 {
                     type: "selectMultiple",
                     key: "furnitureType",
-                    question: "What type of furniture do you need?",
+                    question: "I need furniture for my:",
                     required: true,
                     data: {
-                        options: ["Office Furniture", "Cubicle Furniture", "Lounge Furniture", "Break Room Furniture", "Other"]
+                        options: ["Cubicle Furniture", "Lounge Furniture", "Break Room Furniture", "Other"]
                     }
                 },
                 {
@@ -849,28 +803,28 @@ class OrderForm extends React.Component {
                 {
                     type: "select",
                     key: "current",
-                    question: "Do you have whiteboards?",
+                    question: "Select package:",
                     required: true,
                     data: {
-                        options: ["Yes", "No"]
+                        options: ["Whiteboard + Mounting", "Mounting only"]
                     }
                 },
                 {
                     type: "number",
                     key: "count",
-                    question: "How many whiteboards need to be mounted?",
+                    question: "How many whiteboards?",
                     required: true
                 },
                 {
                     type: "text",
                     key: "size",
-                    question: "What size are the whiteboards?",
+                    question: "Whiteboard size(s):",
                     required: true
                 },
                 {
-                    type: "select",
+                    type: "selectMultiple",
                     key: "material",
-                    question: "What materials are the whiteboards?",
+                    question: "Whiteboard material(s):",
                     required: true,
                     data: {
                         options: ["Laminate/Plastic", "Glass"]
@@ -885,15 +839,6 @@ class OrderForm extends React.Component {
             ];
         } else if (serviceTitle === "Office Supplies") {
             return [
-                {
-                    type: "selectMultiple",
-                    key: "currentProvider",
-                    question: "Where do you get office supplies from currently?",
-                    required: true,
-                    data: {
-                        options: ["Office Depot", "Staples", "Online Service", "Other", "None"]
-                    }
-                },
                 {
                     type: "selectMultiple",
                     key: "currentProvider",
@@ -1078,12 +1023,6 @@ class OrderForm extends React.Component {
                     required: true
                 },
                 {
-                    type: "text",
-                    key: "provider",
-                    question: "Who do you currently use for security? Would you like to integrate with this system?",
-                    required: true
-                },
-                {
                     type: "selectMultiple",
                     key: "description",
                     question: "Please describe the security features of the office you envision:",
@@ -1096,6 +1035,12 @@ class OrderForm extends React.Component {
                     type: "number",
                     key: "entry",
                     question: "How many entry points does your office have?",
+                    required: true
+                },
+                {
+                    type: "textArea",
+                    key: "details",
+                    question: "Please describe your request in detail:",
                     required: true
                 },
             ];
@@ -1140,7 +1085,7 @@ class OrderForm extends React.Component {
                 {
                     type: "selectMultiple",
                     key: "type",
-                    question: "Floor Type:",
+                    question: "Floor Type(s):",
                     required: true,
                     data: {
                         options: ["Waxable", "Hardwood", "Carpet", "Tile", "Rugs", "Other"]
@@ -1149,11 +1094,17 @@ class OrderForm extends React.Component {
                 {
                     type: "selectMultiple",
                     key: "type",
-                    question: "Type of Walls?",
+                    question: "Wall Type(s):",
                     required: true,
                     data: {
                         options: ["Exposed Brick", "Glass", "Concrete", "Plaster Slab", "Other"]
                     }
+                }, 
+                {
+                    type: "textArea",
+                    key: "details",
+                    question: "Anything else we should know?",
+                    required: false
                 },
             ];
         } else if (serviceTitle === "Deep Cleaning") {
@@ -1206,6 +1157,12 @@ class OrderForm extends React.Component {
                         options: ["Exposed Brick", "Glass", "Concrete", "Plaster Slab", "Other"]
 
                     }
+                },
+                {
+                    type: "textArea",
+                    key: "details",
+                    question: "Anything else we should know?",
+                    required: false
                 },
             ];
         } else if (serviceTitle === "Specialized Cleaning") {
@@ -1275,12 +1232,6 @@ class OrderForm extends React.Component {
                 },
                 {
                     type: "textArea",
-                    key: "locations",
-                    question: "Please provide the specific location of the lights:",
-                    required: true
-                },
-                {
-                    type: "textArea",
                     key: "details",
                     question: "Anything else we should know?",
                     required: false
@@ -1288,15 +1239,6 @@ class OrderForm extends React.Component {
             ];
         } else if (serviceTitle === "HVAC") {
             return [
-                {
-                    type: "select",
-                    key: "type",
-                    question: "Is your office in a high-rise building?",
-                    required: true,
-                    data: {
-                        options: ["Yes", "No"]
-                    }
-                },
                 {
                     type: "textArea",
                     key: "detail",
@@ -1307,15 +1249,6 @@ class OrderForm extends React.Component {
         } else if (serviceTitle === "General Electric") {
             return [
                 {
-                    type: "select",
-                    key: "type",
-                    question: "Is your office in a high-rise building?",
-                    required: true,
-                    data: {
-                        options: ["Yes", "No"]
-                    }
-                },
-                {
                     type: "textArea",
                     key: "detail",
                     question: "Please describe your request in detail:",
@@ -1324,15 +1257,6 @@ class OrderForm extends React.Component {
             ];
         } else if (serviceTitle === "General Plumbing") {
             return [
-                {
-                    type: "select",
-                    key: "type",
-                    question: "Is your office in a high-rise building?",
-                    required: true,
-                    data: {
-                        options: ["Yes", "No"]
-                    }
-                },
                 {
                     type: "select",
                     key: "issue",
@@ -1648,53 +1572,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form.create({ name: 'orderServiceForm' })(OrderForm));
-
-{/* <Form.Item label="First Name">
-    {getFieldDecorator('firstName', {
-        rules: [{ required: true, whitespace: true, message: 'Please input the user\'s first name.' }],
-    })(
-        <Input disabled={confirmLoading} />
-    )}
-</Form.Item>
-    <Form.Item label="Last Name">
-        {getFieldDecorator('lastName', {
-            validateTrigger: 'onBlur',
-            rules: [{ required: true, whitespace: true, message: 'Please input the user\'s last name.' }],
-        })(
-            <Input disabled={confirmLoading} />
-        )}
-    </Form.Item>
-    <Form.Item label="Email Address">
-        {getFieldDecorator('emailAddress', {
-            validateTrigger: 'onBlur',
-            rules: [{ required: true, message: 'Please input the user\'s email address.', whitespace: true, pattern: /^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/ }],
-        })(
-            <Input disabled={confirmLoading} />
-        )}
-    </Form.Item>
-    <Form.Item label="Reenter Email Address">
-        {getFieldDecorator('emailAddress2', {
-            validateTrigger: 'onBlur',
-            rules: [{
-                required: true,
-                whitespace: true,
-                message: 'Please input the user\'s email address.'
-            },
-            {
-                validator: this.emailValidator.bind(this)
-            }],
-        })(
-            <Input disabled={confirmLoading} />
-        )}
-    </Form.Item>
-
-    <Form.Item className="collection-create-form_last-form-item">
-        {getFieldDecorator('userType', {
-            initialValue: 'regular',
-        })(
-            <Radio.Group>
-                <Radio disabled={confirmLoading} value="regular">Regular</Radio>
-                <Radio disabled={confirmLoading} value="officeAdmin">Office Admin</Radio>
-            </Radio.Group>
-        )}
-    </Form.Item>  */}

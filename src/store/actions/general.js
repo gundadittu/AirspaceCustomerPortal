@@ -4,7 +4,7 @@ export const getOfficeReport = (payload) => {
   return {
     type: actionTypes.LOAD_OFFICE_REPORT,
     payload: {
-     ...payload
+      ...payload
     }
   }
 }
@@ -13,7 +13,7 @@ export const getBuildingOfficeReport = (payload) => {
   return {
     type: actionTypes.LOAD_BUILDING_OFFICE_REPORT,
     payload: {
-     ...payload
+      ...payload
     }
   }
 }
@@ -145,6 +145,15 @@ export const updateOfficeProfile = (payload) => {
     payload: {
       selectedOfficeUID: payload.selectedOfficeUID,
       changes: payload.changes
+    }
+  }
+}
+
+export const uploadAttachmentOfficeProfile = (payload) => {
+  return {
+    type: actionTypes.UPLOAD_ATTACHMENT_OFFICE_PROFILE,
+    payload: {
+      ...payload
     }
   }
 }

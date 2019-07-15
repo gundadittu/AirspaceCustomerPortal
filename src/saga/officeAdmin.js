@@ -63,6 +63,10 @@ export function* updateOfficeProfile() {
     yield takeLatest(actionTypes.UPDATE_OFFICE_PROFILE, updateOfficeProfileWorkerSaga);
 }
 
+export function* uploadAttachmentOfficeProfile() {
+    yield takeLatest(actionTypes.UPLOAD_ATTACHMENT_OFFICE_PROFILE, uploadAttachmentOfficeProfileWorkerSaga);
+}
+
 export function* checkValidEmailWatcher() {
     yield takeLatest(actionTypes.CHECK_VALID_EMAIL, checkValidEmailWorkerSaga);
 }
@@ -1408,6 +1412,48 @@ function* loadOfficeProfileWorkerSaga(action) {
         });
 
         yield put({ type: actionTypes.LOAD_OFFICE_PROFILE_FINISHED, payload: { info: null } });
+    }
+}
+
+function uploadAttachmentOfficeProfileForAdmin(payload, firebase) {
+    const apiCall = firebase.functions.httpsCallable('uploadAttachmentOfficeProfileForAdmin');
+    return apiCall({ ...payload })
+        .then(response => {
+            return
+        })
+}
+
+function* uploadAttachmentOfficeProfileWorkerSaga(action) {
+    try {
+        const payload = action.payload;
+        let firebase = yield select(selectors.firebase);
+
+        notification['info']({
+            message: 'Hold on...',
+            description: 'We are trying to upload your file.',
+        });
+
+        const response = yield call(uploadAttachmentOfficeProfileForAdmin, payload, firebase);
+
+        notification['success']({
+            message: 'Your file was uploaded successfully.',
+        });
+
+        yield put({ type: actionTypes.LOAD_OFFICE_PROFILE, payload: { ...payload, noLoad: true } });
+
+        yield put({ type: actionTypes.UPLOAD_ATTACHMENT_OFFICE_PROFILE_FINISHED });
+    } catch (error) {
+        sentry.captureException(error);
+
+        const payload = action.payload;
+
+        notification['error']({
+            message: 'Unable to upload your file.',
+        });
+
+        yield put({ type: actionTypes.LOAD_OFFICE_PROFILE, payload: { ...payload, noLoad: true } });
+
+        yield put({ type: actionTypes.UPLOAD_ATTACHMENT_OFFICE_PROFILE_FINISHED });
     }
 }
 

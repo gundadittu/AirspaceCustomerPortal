@@ -56,6 +56,10 @@ class OfficeProfilePage extends React.Component {
         this.props.updateOfficeProfile(this.props.currentOfficeAdminUID, this.changes);
     }
 
+    uploadAttachments(attachment) {
+        this.props.uploadAttachmentOfficeProfile(this.props.currentOfficeAdminUID, attachment);
+    }
+
     getBody() {
         if (this.props.isLoadingOfficeProfile) {
             return (
@@ -115,7 +119,7 @@ class OfficeProfilePage extends React.Component {
                 const storageRef = firebase.storage.ref();
 
                 const fileName = file.name;
-                
+
                 // bug with removing files 
                 // bug with showing red file name when uploading 
 
@@ -125,12 +129,9 @@ class OfficeProfilePage extends React.Component {
                         return snapshot.ref.getDownloadURL()
                     })
                     .then((downloadURL) => {
-                        // this.addChange({ "Company Name": e.target.value })
-                        let current = this.changes["Attachments"] || [];
-                        current.push({ "filename": fileName, "url": downloadURL })
-                        this.changes["Attachments"] = current;
-                        this.saveChanges();
-                        return true 
+                        const newAttachment = { "filename": fileName, "url": downloadURL }
+                        this.uploadAttachments(newAttachment);
+                        return true
                     })
             }
         };
@@ -262,6 +263,7 @@ const mapDispatchToProps = dispatch => {
     return {
         loadOfficeProfile: (officeUID) => dispatch(generalActionCreator.loadOfficeProfile({ selectedOfficeUID: officeUID })),
         updateOfficeProfile: (officeUID, changes) => dispatch(generalActionCreator.updateOfficeProfile({ selectedOfficeUID: officeUID, changes: changes })),
+        uploadAttachmentOfficeProfile: (officeUID, attachment) => dispatch(generalActionCreator.uploadAttachmentOfficeProfile({ selectedOfficeUID: officeUID, newAttachment: attachment})), 
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
     }
 };

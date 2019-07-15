@@ -229,7 +229,7 @@ class FindServicesPage extends React.Component {
                 },
                 {
                     image: Moving,
-                    title: "Moving Service",
+                    title: "Office Move",
                     description: "Office relocations consist of a lot of moving pieces. Have your office furniture, appliances, supplies, and personal items packed up and prepared for transport with professional moving services. Once your belongings have reached your new office space, the team can help you prep the space and unpack, reassemble, and organize your items in your new office."
                 },
                 {

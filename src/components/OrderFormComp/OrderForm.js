@@ -129,7 +129,7 @@ class OrderForm extends React.Component {
                         options: ["Premium", "Standard", "Budget", "None"]
                     }
                 },
-          
+
                 {
                     type: "select",
                     key: "teaType",
@@ -1099,7 +1099,7 @@ class OrderForm extends React.Component {
                     data: {
                         options: ["Exposed Brick", "Glass", "Concrete", "Plaster Slab", "Other"]
                     }
-                }, 
+                },
                 {
                     type: "textArea",
                     key: "details",
@@ -1330,25 +1330,141 @@ class OrderForm extends React.Component {
                     required: false
                 }
             ];
+
+        } else if (serviceTitle === "Event Planning") {
+            return [
+                {
+                    type: "textArea",
+                    key: "detail",
+                    question: "Please describe your event:",
+                    required: true
+                },
+                {
+                    type: "number",
+                    key: "attendee",
+                    question: "How many people will be in attendance?",
+                    required: true
+                },
+                {
+                    type: "dateTime",
+                    key: "eventTiming",
+                    question: "Date and time of event?",
+                    required: true
+                },  
+
+                {
+                    type: "select",
+                    key: "cateringNeeds",
+                    question: "Will food & drinks be served?",
+                    required: true,
+                    data: {
+                        options: ["Yes", "No"]
+                    }
+                },
+
+                {
+                    type: "selectMultiple",
+                    key: "cateringEvents",
+                    question: "If you need food & drinks, what meals are you looking to cater for?",
+                    required: false,
+                    data: {
+                        options: ["Breakfast", "Lunch", "Dinner", "Happy Hour", "Light Snacks", "Other (specify below)"]
+                    }
+                },
+                {
+                    type: "number",
+                    key: "priceRange",
+                    question: "If you need food & drinks, what price per person are you targeting?",
+                    required: false,
+                },
+                {
+                    type: "selectMultiple",
+                    key: "dietaryNeeds",
+                    question: "If you need food & drinks, are there any dietary sensitivities we should know about?",
+                    required: false,
+                    data: {
+                        options: ["Vegetarian", "Vegan", "Gluten Allergy", "Nut Allergy", "Dairy Intolerance", "Diabetic", "Kosher", "Halal", "None"]
+                    }
+                },
+                {
+                    type: "selectMultiple",
+                    key: "supplies",
+                    question: "If you need food & drinks, are there any supplies you need?",
+                    required: false,
+                    data: {
+                        options: ["Silverware", "Napkins", "Plates", "Cups", "Table Cloths", "Plates", "Cups", "None"]
+                    }
+                },
+                {
+                    type: "selectMultiple",
+                    key: "alcohol",
+                    question: "If you need food & drinks, will you also need to serve alcoholic drinks?",
+                    required: false,
+                    data: {
+                        options: ["Beer", "Wine", "Mixed Drinks", "Bartender Required", "None"]
+                    }
+                },
+                {
+                    type: "text",
+                    key: "cateringLocation",
+                    question: "If you need food & drinks, please provide a specific location where the catering will be needed:",
+                    required: false,
+                },
+                {
+                    type: "textArea",
+                    key: "otherNotes",
+                    question: "If you need food & drinks, is there anything else we need to know?",
+                    required: false,
+                },
+                {
+                    type: "select",
+                    key: "avSystem",
+                    question: "Do you need an AV system?",
+                    required: true,
+                    data: {
+                        options: ["Yes - For Presentation Purposes", "Yes - For Live Music/ Entertainment", "No"]
+                    }
+                },
+                {
+                    type: "select",
+                    key: "location",
+                    question: "Where will your event be held?",
+                    required: true,
+                    data: {
+                        options: ["Our Office", "We need to rent a space"]
+                    }
+                },
+                {
+                    type: "select",
+                    key: "deco",
+                    question: "Are you interested in decorations?",
+                    required: true,
+                    data: {
+                        options: ["Yes", "No"]
+                    }
+                },
+                {
+                    type: "select",
+                    key: "invitations",
+                    question: "Do you need assistance with invitations and/or marketing?",
+                    required: true,
+                    data: {
+                        options: ["Yes", "No"]
+                    }
+                },
+                // {
+                //     type: "selectMultiple",
+                //     key: "features",
+                //     question: "Are you interested in any having any other features for your event?",
+                //     required: true,
+                //     data: {
+                //         options: ["Photobooth", "Branded giveaways", "Other"]
+                //     }
+                // },
+            ];
         } else {
             return [];
         }
-        // } else if (serviceTitle === "Event Planning") {
-        //     return [
-        //         {
-        //             type: "textArea",
-        //             key: "detail",
-        //             question: "Please describe your event:",
-        //             required: true
-        //         },
-        //         {
-        //             type: "number",
-        //             key: "attendee",
-        //             question: "How many people will be in attendance?",
-        //             required: true
-        //         },
-        //     ];
-        // }
     }
 
     render() {

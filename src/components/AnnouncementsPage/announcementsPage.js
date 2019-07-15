@@ -69,7 +69,7 @@ class AnnouncementsPage extends React.Component {
               <Row>
                     <Col className="wide-table" span={24}>
                         <Row>
-                          <h1>Annoucements</h1>
+                          <h1>Announcements</h1>
                         </Row>
                         <Row type="flex">
                             <Col span={24}>

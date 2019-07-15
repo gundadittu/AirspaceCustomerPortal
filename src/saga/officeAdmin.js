@@ -844,7 +844,9 @@ function createEvent(payload, firebase) {
     const description = payload.description;
     const startDate = payload.startDate.toUTCString();
     const endDate = payload.endDate.toUTCString();
-    const dict = { selectedOfficeUID: selectedOfficeUID, title: title, description: description, startDate: startDate, endDate: endDate };
+    const address = payload.address || null; 
+    
+    const dict = { selectedOfficeUID: selectedOfficeUID, title: title, description: description, startDate: startDate, endDate: endDate, address: address };
 
     const apiCall = firebase.functions.httpsCallable('createEventForOfficeAdmin');
     return apiCall(dict)
@@ -897,16 +899,18 @@ function editEvent(payload, firebase) {
     const selectedEventUID = payload.selectedEventUID;
     const title = payload.eventTitle;
     const description = payload.description;
-    const startDate = payload.startDate;
+    const address = payload.address || null;
+
+    let startDate = payload.startDate;
     if (startDate) {
         startDate = startDate.toUTCString();
     }
-    const endDate = payload.endDate
+    let endDate = payload.endDate
     if (endDate) {
         endDate = endDate.toUTCString();
     }
     const canceled = payload.canceled;
-    const dict = { selectedEventUID: selectedEventUID, title: title, description: description, startDate: startDate, endDate: endDate, canceled: canceled };
+    const dict = { selectedEventUID: selectedEventUID, title: title, description: description, startDate: startDate, endDate: endDate, canceled: canceled, address: address };
 
     const apiCall = firebase.functions.httpsCallable('editEventsForOfficeAdmin');
     return apiCall(dict)
@@ -948,6 +952,9 @@ function* editEventWorkerSaga(action) {
         yield put({ type: actionTypes.EDIT_EVENT_FINISHED, payload: { ...newPayload } });
     } catch (error) {
         sentry.captureException(error);
+
+        console.error(error);
+        console.log("edit event failed");
 
         notification['error']({
             message: 'Unable to edit event for this office.',

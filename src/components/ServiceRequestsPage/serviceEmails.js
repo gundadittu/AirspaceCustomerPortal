@@ -77,7 +77,7 @@ class ServiceEmails extends React.Component {
 
   render() {
     const { inputVisible, inputValue } = this.state;
-    var tags = this.props.emails
+    var tags = this.props.emails || []; 
     return (
       <div>
         {tags.map((tag, index) => {

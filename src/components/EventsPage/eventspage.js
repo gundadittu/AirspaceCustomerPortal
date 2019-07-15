@@ -78,6 +78,8 @@ class EventsPage extends React.Component {
           const eventTitle = values.eventName;
           const description = values.description;
 
+          const address = values.eventAddress; 
+
           const timeRange = values.eventTimeRange;
           if (Object.keys(timeRange).length < 2) {
             // handle error
@@ -101,7 +103,8 @@ class EventsPage extends React.Component {
               endDate: endDate,
               photoFileObj: photoFileObj,
               selectedOfficeUID: currentOfficeUID,
-              hideForm: this.hideCreateEventFormModal
+              hideForm: this.hideCreateEventFormModal, 
+              address: address
           }
 
           this.props.createEvent(payload);

@@ -63,7 +63,7 @@ class EventCard extends React.Component {
 
         const eventTitle = values.eventName;
         const description = values.description;
-        const address = values.address;
+        const address = values.eventAddress;
 
         const timeRange = values.eventTimeRange;
         if (Object.keys(timeRange).length < 2) {

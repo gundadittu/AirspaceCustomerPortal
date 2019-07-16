@@ -340,6 +340,29 @@ class FindServicesPage extends React.Component {
                     description: "From Tuesday Cold Brews to office happy hours, to the yearly Christmas party, let Airspace take the hassle out of having fun."
                 }
             ]
+        } else if (this.state.dataSource === "wellness") { 
+            data = [
+                {
+                    image: Events,
+                    title: "Fitness Classes",
+                    description: "Choose from yoga, pilates, barre, HIIT, INSANITY, circuit training & more!"
+                },
+                {
+                    image: Catering,
+                    title: "Wellness Events",
+                    description: "Whether your team needs to relax with meditation classes, massage sessions, or half-day wellness retreats, this flexible offering allows you to elevate your employees' well being."
+                },
+                {
+                    image: Catering,
+                    title: "Wellness Retreats",
+                    description: "Give your executives or teams a retreat experience unlike any other. Build community and a work culture focused on well being and let the team bonding elevate your company's culture. Every retreat is unique and specific to your office and employees."
+                },
+                {
+                    image: Catering,
+                    title: "Health Lunch & Learn",
+                    description: "What does the brain look like on stress? How do you develop a pain-free workplace? What are the healthiest lunch spots in town? LulaFit will deliver a fun yet informative seminar that answers your employees’ most pressing health questions. This won’t be your average lunch and learn. We’ll get them moving, laughing, and thinking as a team."
+                }
+            ]
         }
         return data;
     }
@@ -460,6 +483,9 @@ class FindServicesPage extends React.Component {
                                     </Menu.Item>
                                             <Menu.Item key="events-catering">
                                                 Events + Catering
+                                    </Menu.Item>
+                                    <Menu.Item key="wellness">
+                                                Wellness
                                     </Menu.Item>
                                         </Menu>
                                     </Row>

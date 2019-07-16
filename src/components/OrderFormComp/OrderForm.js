@@ -1311,16 +1311,16 @@ class OrderForm extends React.Component {
                     question: "What do you need help with?",
                     required: true,
                     data: {
-                        option: ["Redesigning my current office", "Redesigning my new office", "Other"]
+                        options: ["Redesigning my current office", "Redesigning my new office", "Other"]
                     }
                 },
                 {
                     type: "selectMultiple",
-                    key: "help",
+                    key: "features",
                     question: "Please indicate what features you are hoping to add or include in your new, redesigned space:",
                     required: true,
                     data: {
-                        option: ["Furniture", "Appliances", "Art", "Lighting", "Wall Color"]
+                        options: ["Furniture", "Appliances", "Art", "Lighting", "Wall Color"]
                     }
                 },
                 {
@@ -1350,7 +1350,7 @@ class OrderForm extends React.Component {
                     key: "eventTiming",
                     question: "Date and time of event?",
                     required: true
-                },  
+                },
 
                 {
                     type: "select",
@@ -1462,6 +1462,18 @@ class OrderForm extends React.Component {
                 //     }
                 // },
             ];
+        } else if (serviceTitle === "Fitness Classes") {
+            return [
+                {
+                    type: "selectMultiple",
+                    key: "type",
+                    question: "Which office fitness classes are you interested in?",
+                    required: true,
+                    data: {
+                        options: ["Yoga", "Pilates", "Barre", "HIIT", "Insanity", "Circuit Training", "Other"]
+                    }
+                },
+            ]
         } else {
             return [];
         }

@@ -29,15 +29,15 @@ import Accoustics from "../../assets/images/services/accoustics.jpg";
 import Branding from "../../assets/images/services/branding.jpg";
 import Moving from "../../assets/images/services/moving.jpeg";
 import Plants from "../../assets/images/services/plants.jpeg";
-import Postal from "../../assets/images/services/postal.jpeg";
+// import Postal from "../../assets/images/services/postal.jpeg";
 import Security from "../../assets/images/services/security.jpeg";
 import SpacePlanning from "../../assets/images/services/space-planning.jpeg";
-import Hazardous from "../../assets/images/services/hazardous.jpg";
+// import Hazardous from "../../assets/images/services/hazardous.jpg";
 import DeepClean from "../../assets/images/services/deep-cleaning.jpg";
-import Windows from "../../assets/images/services/windows.jpeg";
-import Floors from "../../assets/images/services/floors.jpeg";
+// import Windows from "../../assets/images/services/windows.jpeg";
+// import Floors from "../../assets/images/services/floors.jpeg";
 import Lights from "../../assets/images/services/lights.jpeg";
-import Restroom from "../../assets/images/services/restroom.jpeg";
+// import Restroom from "../../assets/images/services/restroom.jpeg";
 import HVAC from "../../assets/images/services/hvac.jpg";
 import Electric from "../../assets/images/services/electric.jpeg";
 import Plumbing from "../../assets/images/services/plumbing.jpeg";
@@ -46,16 +46,20 @@ import Events from "../../assets/images/services/events.jpeg";
 import Mounting from "../../assets/images/services/mounting.jpg";
 import OngoingCleaning from "../../assets/images/services/ongoing-cleaning.jpeg";
 import Printing from "../../assets/images/services/printing.jpg";
-import Upholstery from "../../assets/images/services/upholestery.jpeg";
+// import Upholstery from "../../assets/images/services/upholestery.jpeg";
 import IT from "../../assets/images/services/it-services.jpeg";
 import WasteRemoval from "../../assets/images/services/waste-removal.jpeg";
 import PestControl from "../../assets/images/services/pest-control.jpg";
-import FloorMat from "../../assets/images/services/floor-mat.jpeg";
+// import FloorMat from "../../assets/images/services/floor-mat.jpeg";
 // import CleaningSupplies from "../../assets/images/services/cleaning-supplies.jpg";
+import FitnessClass from "../../assets/images/services/fitness-class.jpeg";
+import LunchLearn from "../../assets/images/services/lunch-learn.jpg";
+import WellnessEvent from "../../assets/images/services/wellness-event.jpeg";
+import WellnessRetreat from "../../assets/images/services/wellness-retreat.jpeg";
 
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import HelpIcon from '@material-ui/icons/Help';
+// import HelpIcon from '@material-ui/icons/Help';
 
 import OrderForm from "../OrderFormComp/OrderForm";
 
@@ -343,22 +347,22 @@ class FindServicesPage extends React.Component {
         } else if (this.state.dataSource === "wellness") { 
             data = [
                 {
-                    image: Events,
+                    image: FitnessClass,
                     title: "Fitness Classes",
                     description: "Choose from yoga, pilates, barre, HIIT, INSANITY, circuit training & more!"
                 },
                 {
-                    image: Catering,
+                    image: WellnessEvent,
                     title: "Wellness Events",
                     description: "Whether your team needs to relax with meditation classes, massage sessions, or half-day wellness retreats, this flexible offering allows you to elevate your employees' well being."
                 },
                 {
-                    image: Catering,
+                    image: WellnessRetreat,
                     title: "Wellness Retreats",
                     description: "Give your executives or teams a retreat experience unlike any other. Build community and a work culture focused on well being and let the team bonding elevate your company's culture. Every retreat is unique and specific to your office and employees."
                 },
                 {
-                    image: Catering,
+                    image: LunchLearn,
                     title: "Health Lunch & Learn",
                     description: "What does the brain look like on stress? How do you develop a pain-free workplace? What are the healthiest lunch spots in town? LulaFit will deliver a fun yet informative seminar that answers your employees’ most pressing health questions. This won’t be your average lunch and learn. We’ll get them moving, laughing, and thinking as a team."
                 }

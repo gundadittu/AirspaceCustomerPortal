@@ -79,7 +79,7 @@ class OrderForm extends React.Component {
                     <img style={{ width: "100%" }} src={image}></img>
                 </Col>
                 <Col span={18}>
-                    <h2 style={{ marginTop: "3%", paddingLeft: "2%" }}>{serviceDescription}</h2>
+                    <p style={{marginTop: "3%", paddingLeft: "2%", fontSize: 22}}>{serviceDescription}</p>
                 </Col>
             </Row>
         )

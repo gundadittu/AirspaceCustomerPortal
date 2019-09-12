@@ -5,7 +5,6 @@ const initialState = {
     user: null,
     type: null,
     adminOfficeList: null,
-    landlordBuildingList: null,
     isSettingUpUser: false
 };
 
@@ -23,8 +22,7 @@ const reducer = (state = initialState, action) => {
             const data = action.payload.data || null;
             const type = data.type || null;
             const adminOfficeList = data.officeAdmin || null;
-            const landlordBuildingList = data.buildings || null;
-            return updateObject(state, { user: data, type: type, landlordBuildingList: landlordBuildingList, adminOfficeList: adminOfficeList, isSettingUpUser: false });
+            return updateObject(state, { user: data, type: type, adminOfficeList: adminOfficeList, isSettingUpUser: false });
         case actionTypes.SET_UP_USER_ERROR:
             return updateObject(state, { user: null });
         default:

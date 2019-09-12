@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import { connect } from 'react-redux';
 import ConfirmationPage from './components/ConfirmationPage/confirmationPage'
@@ -7,7 +7,7 @@ import UpdateServiceRequestStatusPage from './components/UpdateServiceRequestSta
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
 import SideNavbar from './components/SideNavBar/sidenavbar';
-import HomeAdminPage from './components/HomeAdminPage/homeAdminPage';
+// import HomeAdminPage from './components/HomeAdminPage/homeAdminPage';
 import AnnouncementsPage from './components/AnnouncementsPage/announcementsPage';
 import UsersPage from './components/UsersPage/usersPage';
 import ConferenceRoomsPage from './components/ConferenceRoomsPage/conferenceRoomPage';
@@ -19,9 +19,7 @@ import ServiceRequestsPage from './components/ServiceRequestsPage/serviceRequest
 //import ExperienceManagerPage from './components/ExperienceManagerPage/experienceManagerPage';
 import AlexaLoginForm from './components/AlexaLogin/AlexaLoginForm';
 import OfficeList from './components/AlexaLogin/OfficeList';
-
 import ExperienceManagerPage from './components/ExperienceManagerPage/experienceManagerPage';
-
 import CreatePasswordPage from './components/CreatePasswordPage/createPasswordPage';
 import InitialRoutingComp from './components/InitialRoutingComp/InitialRoutingComp';
 import BillingPage from './components/BillingPage/BillingPage';
@@ -29,24 +27,15 @@ import ServicePlanPage from './components/ServicePlan/ServicePlanPage';
 import SupportPage from './components/SupportComp/SupportPage';
 import FindServicesPage from './components/FindServicesPage/FindServicesPage';
 import OfficeProfilePage from './components/OfficeProfile/OfficeProfile';
-import HealthReportPage from './components/HealthReportPage/healthReportPage';
-
-import BuildingHealthReport from './components/LandlordPortal/BuildingHealthReport';
-
-
 import Firebase from './components/Firebase';
-
 import * as generalActionCreators from './store/actions/general';
 import * as authActionCreators from './store/actions/auth';
 import { Row, Col } from 'antd';
-import * as pageTitles from './pages/pageTitles';
+// import * as pageTitles from './pages/pageTitles';
 import * as Sentry from '@sentry/browser';
-
 import GetStartedComp from './components/GetStartedComp/GetStarted';
 import GetStartedFinishedComp from './components/GetStartedComp/GetStartedFinished';
-
 import LoginNavBar from './components/Login/LoginNavBar';
-
 import NoMobile from './components/InitialRoutingComp/NoMobile';
 
 
@@ -88,8 +77,8 @@ class App extends Component {
   }
 
   render() {
-
-    if (this.props.user) { // logged in
+    if (this.props.user) { 
+      // logged in
       return (
         <div style={{ background: '#FFFFFF' }}>
           <Row>
@@ -104,31 +93,27 @@ class App extends Component {
                   <Route exact path="/login" component={InitialRoutingComp} />
                   <Route path="/general" component={generalRoutingComp} />
                   <Route path="/officeAdmin" component={officeAdminRoutingComp} />
-                  <Route path="/landlord" component={landlordRoutingComp} />
                 </Switch>
               </Col>
             </MediaQuery>
 
             <MediaQuery maxDeviceWidth={1224}>
               <Col span={24}>
-                {/* <NavBar device={"mobile"} /> */}
                 <Switch>
-                  {/* <Route path="/" component={InitialRoutingComp} /> */}
                   <Route exact path="/login" component={InitialRoutingComp} />
                   <Route path="/general" component={generalRoutingComp} />
                   <Route path="/" component={NoMobile} />
-                  {/* <Route path="/officeAdmin" component={officeAdminRoutingComp} /> */}
                 </Switch>
               </Col>
             </MediaQuery>
           </Row>
         </div>
       );
-    } else { // logged out
+    } else { 
+      // logged out
       return (
         <div>
           <LoginNavBar />
-          {/* <MediaQuery minDeviceWidth={1224}> */}
           <Switch>
             <Route exact path='/get-started/finished' component={GetStartedFinishedComp}></Route>
             <Route exact path='/get-started' component={GetStartedComp}></Route>
@@ -136,9 +121,6 @@ class App extends Component {
             <Route path="/" component={Login} />
             <Route exact path="/login" component={Login} />
           </ Switch>
-          {/* </ MediaQuery>
-        <MediaQuery maxDeviceWidth={1224}>
-        </MediaQuery> */}
         </div>
 
       );
@@ -175,17 +157,11 @@ const generalRoutingComp = () => (
     <Route path="/general/alexa-login/office-list" component={OfficeList} />
   </Switch>
 )
-const landlordRoutingComp = () => (
-  <Switch>
-    <Route exact path='/landlord/:buildingUID' component={BuildingHealthReport}></Route>
-    <Route exact path='/landlord/:buildingUID/home' component={BuildingHealthReport}></Route>
-    <Route exact path='/landlord/:buildingUID/health-reports' component={BuildingHealthReport}></Route>
-  </Switch>
-);
-
 
 const officeAdminRoutingComp = () => (
   <Switch>
+
+    {/* Office App Admin */}
     <Route exact path='/officeAdmin/:officeUID' component={FindServicesPage}></Route>
     {/* <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route> */}
     {/* <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route> */}
@@ -197,7 +173,7 @@ const officeAdminRoutingComp = () => (
     <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
-    <Route exact path='/officeAdmin/:officeUID/health-report' component={HealthReportPage}></Route>
+    {/* <Route exact path='/officeAdmin/:officeUID/health-report' component={HealthReportPage}></Route> */}
 
     {/* Service Portal */}
     <Route exact path='/officeAdmin/:officeUID/find-services' component={FindServicesPage}></Route>

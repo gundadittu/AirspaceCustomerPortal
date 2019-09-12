@@ -24,10 +24,6 @@ const initialState = {
     employeeNo: null,
     moveInDate: null,
     validEmail: null,
-    // buildingContactName: null,
-    // buildingContactRole: null,
-    // buildingContactEmail: null,
-    // buildingContactPhone: null,
     newServices: [],
     otherServicesDetails: null
 }

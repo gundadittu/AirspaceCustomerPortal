@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
 import '../../App.css'
 import './Login.css'
-import * as generalActionCreators from '../../store/actions/general';
+// import * as generalActionCreators from '../../store/actions/general';
 import PasswordReset from './PasswordReset';
 
 class LoginForm extends React.Component {

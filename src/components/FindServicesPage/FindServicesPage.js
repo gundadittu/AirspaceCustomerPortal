@@ -109,7 +109,7 @@ class FindServicesPage extends React.Component {
                     footer={[<Button onClick={this.hideSteps.bind(this)} type="primary">Ok</Button>]}
                 >
                     <div style={{ paddingTop: 40, paddingBottom: 40 }}>
-                        <Steps progressDot current={3}>
+                        <Steps current={null}>
                             <Step title="Request" description="Answer a few quick questions." />
                             <Step title="Abracadabra..." description="You will receive a competitive quote and options within 24 hours." />
                             <Step title="Choose an Option" description="Your Experience Manager provides personalized options to add to your service plan." />

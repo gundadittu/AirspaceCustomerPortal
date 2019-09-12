@@ -29,7 +29,8 @@ export const getFieldsForService = (serviceTitle) => {
                 required: true,
                 data: {
                     options: ["Fresh Brew", "Single Serve (K-cup)", "Bean-to-Cup", "Not Sure, need help", "None"]
-                }
+                }, 
+                autofocus: true
             },
             {
                 type: FIELD_TYPES["SELECT_MULTIPLE"],

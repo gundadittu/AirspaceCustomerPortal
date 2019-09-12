@@ -1,23 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-    Modal, Form, Input, InputNumber, Select, Cascader, DatePicker, TimePicker, Upload, Icon, message
+    Row, Col, Modal, Form, Input, InputNumber, Select, Cascader, DatePicker, TimePicker, Upload, Icon, message
 } from 'antd';
 import * as generalActionCreator from '../../../store/actions/general';
 import * as formConfig from './OrderFormConfig';
+import * as findServiceDataSource from '../FindServiceDataSources';
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 const Message = message;
 message.config({
     maxCount: 1,
-  });
+});
 const InputGroup = Input.Group;
 
 class OrderForm extends React.Component {
 
     state = {
         visible: false,
-         urlMapping: {}
+        urlMapping: {}
     };
 
     onCreate = () => {
@@ -33,14 +34,14 @@ class OrderForm extends React.Component {
                 const item = fields[i];
                 const key = item.key;
                 let value = values[key] || null;
-                if (item["type"] == "fileUpload") { 
+                if (item["type"] == "fileUpload") {
                     let split_list_file_names = value.split(",")
-                    split_list_file_names = split_list_file_names.map( x => x.trim())
-                    split_list_file_names = split_list_file_names.filter( x => x !== "")
-                    
-                    const newAttachments = split_list_file_names.map( x => { 
-                        return { 
-                            "url": this.state.urlMapping[x].toString(), 
+                    split_list_file_names = split_list_file_names.map(x => x.trim())
+                    split_list_file_names = split_list_file_names.filter(x => x !== "")
+
+                    const newAttachments = split_list_file_names.map(x => {
+                        return {
+                            "url": this.state.urlMapping[x].toString(),
                             "filename": x
                         }
                     })
@@ -65,6 +66,25 @@ class OrderForm extends React.Component {
         return formConfig.getFieldsForService(serviceTitle)
     }
 
+    getBannerSection(serviceTitle, serviceDescription) {
+        const image = findServiceDataSource.getImageForServiceTitle(serviceTitle);
+        if (image === null) {
+            return (
+                <h2>{serviceDescription}</h2>
+            )
+        }
+        return (
+            <Row>
+                <Col span={6}>
+                    <img style={{ width: "100%" }} src={image}></img>
+                </Col>
+                <Col span={18}>
+                    <h2 style={{ marginTop: "3%", paddingLeft: "2%" }}>{serviceDescription}</h2>
+                </Col>
+            </Row>
+        )
+    }
+
     render() {
         const { visible, onCancel, serviceTitle, topText, form } = this.props;
         const { getFieldDecorator } = form;
@@ -73,6 +93,10 @@ class OrderForm extends React.Component {
         const onCreate = this.onCreate;
         const formTitle = "Request " + serviceTitle;
 
+        const inputSize = "large"
+        const formLabel = (label) => ( 
+            <span style={{ fontSize: 18}}>{label}</span>
+        )
         return (
             <div>
                 <Modal
@@ -82,8 +106,9 @@ class OrderForm extends React.Component {
                     onCancel={onCancel}
                     onOk={onCreate.bind(this)}
                     confirmLoading={confirmLoading}
+                    width="70%"
                 >
-                    <p>{topText}</p>
+                    {this.getBannerSection(serviceTitle, topText)}
                     <br></br>
                     <Form layout="vertical">
                         {fields === null ? null : fields.map(x => {
@@ -95,11 +120,11 @@ class OrderForm extends React.Component {
                             const data = x.data || null;
                             if (type === formConfig.FIELD_TYPES["TEXT"]) {
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                         {getFieldDecorator(key, {
                                             rules: [{ required: required, whitespace: true, message: message }],
                                         })(
-                                            <Input disabled={confirmLoading} />
+                                            <Input size={inputSize} disabled={confirmLoading} />
                                         )}
                                     </Form.Item>
                                 );
@@ -107,7 +132,7 @@ class OrderForm extends React.Component {
                                 const groups = data || [];
 
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                         {getFieldDecorator(key, {
                                             rules: [{ required: required, whitespace: true, message: message }],
                                         })(
@@ -144,42 +169,42 @@ class OrderForm extends React.Component {
                                 );
                             } else if (type === formConfig.FIELD_TYPES["DATE_TIME"]) {
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                         {getFieldDecorator(key + "-date", {
                                             rules: [{ required: required, message: message }],
                                         })(
-                                            <DatePicker format="DD-MM-YYYY" placeholder="Select Date" />
+                                            <DatePicker size={inputSize} format="DD-MM-YYYY" placeholder="Select Date" />
                                         )}
                                         <br /><br />
                                         {getFieldDecorator(key + "-time", {
                                             rules: [{ required: required, message: message }],
                                         })(
-                                            <TimePicker use12Hours format="h:mm a" placeholder="Select Time" />
+                                            <TimePicker size={inputSize} use12Hours format="h:mm a" placeholder="Select Time" />
                                         )}
                                     </Form.Item>
                                 );
                             } else if (type === formConfig.FIELD_TYPES["DATE"]) {
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                         {getFieldDecorator(key + "-date", {
                                             rules: [{ required: required, message: message }],
                                         })(
-                                            <DatePicker format="DD-MM-YYYY" placeholder="Select Date" />
+                                            <DatePicker size={inputSize} format="DD-MM-YYYY" placeholder="Select Date" />
                                         )}
                                     </Form.Item>
                                 );
                             } else if (type === formConfig.FIELD_TYPES["TITLE"]) {
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                     </Form.Item>
                                 );
                             } else if (type === formConfig.FIELD_TYPES["NUMBER"]) {
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                         {getFieldDecorator(key, {
                                             rules: [{ required: required, message: message }],
                                         })(
-                                            <InputNumber min={0} defaultValue={0} disabled={confirmLoading} />
+                                            <InputNumber size={inputSize} min={0} defaultValue={0} disabled={confirmLoading} />
                                         )}
                                     </Form.Item>
                                 );
@@ -187,7 +212,7 @@ class OrderForm extends React.Component {
                                 const options = data.options || [];
 
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                         {getFieldDecorator(key, {
                                             rules: [{ required: required, whitespace: true, message: message }],
                                         })(
@@ -198,6 +223,7 @@ class OrderForm extends React.Component {
                                                 filterOption={(input, option) =>
                                                     option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                 }
+                                                size={inputSize}
                                             >
                                                 {options.map(x => (
                                                     <Option value={x}>{x}</Option>
@@ -210,7 +236,7 @@ class OrderForm extends React.Component {
                                 const options = data.options || [];
 
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                         {getFieldDecorator(key, {
                                             rules: [{ required: required, message: message }],
                                         })(
@@ -223,6 +249,7 @@ class OrderForm extends React.Component {
                                                 filterOption={(input, option) =>
                                                     option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                 }
+                                                size={inputSize}
                                             >
                                                 {options.map(x => (
                                                     <Option value={x}>{x}</Option>
@@ -235,7 +262,7 @@ class OrderForm extends React.Component {
                                 const groups = data.groups || [];
 
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                         {getFieldDecorator(key, {
                                             rules: [{ required: required, message: message }],
                                         })(
@@ -248,6 +275,7 @@ class OrderForm extends React.Component {
                                                 filterOption={(input, option) =>
                                                     option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                 }
+                                                size={inputSize}
                                             >
                                                 {groups.map(x => (
                                                     <OptGroup label={x.title}>
@@ -263,7 +291,7 @@ class OrderForm extends React.Component {
                             } else if (type === formConfig.FIELD_TYPES["CASCADER"]) {
                                 const options = data.options || [];
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                         {getFieldDecorator(key, {
                                             rules: [{ required: required, message: message }],
                                         })(
@@ -273,19 +301,19 @@ class OrderForm extends React.Component {
                                 );
                             } else if (type === formConfig.FIELD_TYPES["TEXT_AREA"]) {
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                         {getFieldDecorator(key, {
                                             rules: [{ required: required, whitespace: true, message: message }],
                                         })(
-                                            <TextArea rows={4} disabled={confirmLoading} />
+                                            <TextArea size={inputSize} rows={4} disabled={confirmLoading} />
                                         )}
                                     </Form.Item>
                                 );
                             } else if (type === formConfig.FIELD_TYPES["FILE_UPLOAD"]) {
                                 // Uploads file into Google Bucket and stores url in a mapping in state
-                                let uploadRequestServiceFile = ({onSuccess, onError, file}) => {
+                                let uploadRequestServiceFile = ({ onSuccess, onError, file }) => {
                                     const firebase = this.props.firebase;
-                                    const storageRef = firebase.storage.ref();                    
+                                    const storageRef = firebase.storage.ref();
                                     const fileRef = storageRef.child('requestServiceFiles/' + this.props.currentAdminOfficeUID + "/" + file.name);
 
                                     return fileRef.put(file)
@@ -294,21 +322,21 @@ class OrderForm extends React.Component {
                                         })
                                         .then((downloadURL) => {
                                             const currMapping = this.state.urlMapping;
-                                            let newMapping = { 
-                                                ...currMapping, 
-                                            } 
+                                            let newMapping = {
+                                                ...currMapping,
+                                            }
                                             newMapping[file.name] = downloadURL.toString()
-                                            this.setState({urlMapping: newMapping})
+                                            this.setState({ urlMapping: newMapping })
                                             onSuccess(null, file)
                                             return
                                         })
-                                        .catch( e => { 
+                                        .catch(e => {
                                             onError(e, null)
-                                            return 
+                                            return
                                         })
                                 }
                                 uploadRequestServiceFile = uploadRequestServiceFile.bind(this)
-                                
+
                                 // Recieves Callbacks Triggered in uploadRequestServiceFile and shows alerts 
                                 let onUploadStatusChange = (info) => {
                                     const { status } = info.file
@@ -316,18 +344,18 @@ class OrderForm extends React.Component {
                                         Message.success(`${info.file.name} file uploaded successfully.`);
                                     } else if (status === 'error') {
                                         Message.error(`${info.file.name} file upload failed.`);
-                                    } else if (status === 'uploading') { 
+                                    } else if (status === 'uploading') {
                                         Message.loading(`Uploading ${info.file.name}...`)
                                     }
                                 }
                                 onUploadStatusChange = onUploadStatusChange.bind(this)
-                                
+
                                 // Creates the csv string of download URLS that is stored in the field's value
                                 // Passed as callback function into form below
-                                const getFileNameListStringFromEvent = (info) => { 
-                                    const fileList = info.fileList; 
+                                const getFileNameListStringFromEvent = (info) => {
+                                    const fileList = info.fileList;
                                     let value = ""
-                                    fileList.forEach(f => { 
+                                    fileList.forEach(f => {
                                         const filename = f.name
                                         value += filename
                                         value += ", "
@@ -336,12 +364,12 @@ class OrderForm extends React.Component {
                                 }
 
                                 return (
-                                    <Form.Item label={question}>
+                                    <Form.Item label={formLabel(question)}>
                                         {getFieldDecorator(key, {
                                             getValueFromEvent: getFileNameListStringFromEvent,
                                             rules: [{ required: required, whitespace: true, message: message }]
                                         })(
-                                            <Upload.Dragger name="files" disabled={confirmLoading} onChange={onUploadStatusChange} multiple={true} customRequest={uploadRequestServiceFile}>  
+                                            <Upload.Dragger name="files" disabled={confirmLoading} onChange={onUploadStatusChange} multiple={true} customRequest={uploadRequestServiceFile}>
                                                 <p className="ant-upload-drag-icon">
                                                     <Icon type="inbox" />
                                                 </p>
@@ -365,7 +393,7 @@ class OrderForm extends React.Component {
 const mapStateToProps = state => {
     return {
         confirmLoading: state.officeAdmin.isAddingRequestForService,
-        currentAdminOfficeUID: state.general.currentOfficeAdminUID, 
+        currentAdminOfficeUID: state.general.currentOfficeAdminUID,
         firebase: state.firebase.firebase
     }
 };

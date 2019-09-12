@@ -7,7 +7,7 @@ import UpdateServiceRequestStatusPage from './components/UpdateServiceRequestSta
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/navbar';
 import SideNavbar from './components/SideNavBar/sidenavbar';
-// import HomeAdminPage from './components/HomeAdminPage/homeAdminPage';
+import HomeAdminPage from './components/HomeAdminPage/homeAdminPage';
 import AnnouncementsPage from './components/OfficeAppAdminComponents/AnnouncementsPage/announcementsPage';
 import UsersPage from './components/OfficeAppAdminComponents/UsersPage/usersPage';
 import ConferenceRoomsPage from './components/OfficeAppAdminComponents/ConferenceRoomsPage/conferenceRoomPage';
@@ -16,7 +16,6 @@ import RegisteredGuestsPage from './components/OfficeAppAdminComponents/Register
 import EventsPage from './components/OfficeAppAdminComponents/EventsPage/eventspage';
 import SpaceInfoPage from './components/OfficeAppAdminComponents/SpaceInfoPage/spaceInfoPage';
 import ServiceRequestsPage from './components/OfficeAppAdminComponents/ServiceRequestsPage/serviceRequestsPage';
-//import ExperienceManagerPage from './components/ExperienceManagerPage/experienceManagerPage';
 import AlexaLoginForm from './components/AlexaLogin/AlexaLoginForm';
 import OfficeList from './components/AlexaLogin/OfficeList';
 import ExperienceManagerPage from './components/ExperienceManagerPage/experienceManagerPage';
@@ -38,7 +37,6 @@ import GetStartedFinishedComp from './components/GetStartedComp/GetStartedFinish
 import LoginNavBar from './components/Login/LoginNavBar';
 import NoMobile from './components/InitialRoutingComp/NoMobile';
 
-
 class App extends Component {
   state = {
     toggle_render: false
@@ -46,7 +44,6 @@ class App extends Component {
 
   componentWillMount() {
     Sentry.init({ dsn: 'https://8825e624e2594f1d8ca77d056c8b56dd@sentry.io/1395312' });
-
 
     if (this.props.firebase === null) {
       this.firebase = new Firebase()
@@ -96,7 +93,6 @@ class App extends Component {
                 </Switch>
               </Col>
             </MediaQuery>
-
             <MediaQuery maxDeviceWidth={1224}>
               <Col span={24}>
                 <Switch>
@@ -160,11 +156,17 @@ const generalRoutingComp = () => (
 
 const officeAdminRoutingComp = () => (
   <Switch>
-
+    {/* Service Portal */}
+    <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/find-services' component={FindServicesPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/billing' component={BillingPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/service-plan' component={ServicePlanPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/help-center' component={SupportPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/experience-manager' component={ExperienceManagerPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/office-profile' component={OfficeProfilePage}></Route>
+    
     {/* Office App Admin */}
-    <Route exact path='/officeAdmin/:officeUID' component={FindServicesPage}></Route>
-    {/* <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route> */}
-    {/* <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route> */}
+    <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/announcements' component={AnnouncementsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>
@@ -173,14 +175,5 @@ const officeAdminRoutingComp = () => (
     <Route exact path='/officeAdmin/:officeUID/events' component={EventsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/spaceInfo' component={SpaceInfoPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/users' component={UsersPage}></Route>
-    {/* <Route exact path='/officeAdmin/:officeUID/health-report' component={HealthReportPage}></Route> */}
-
-    {/* Service Portal */}
-    <Route exact path='/officeAdmin/:officeUID/find-services' component={FindServicesPage}></Route>
-    <Route exact path='/officeAdmin/:officeUID/billing' component={BillingPage}></Route>
-    <Route exact path='/officeAdmin/:officeUID/service-plan' component={ServicePlanPage}></Route>
-    <Route exact path='/officeAdmin/:officeUID/help-center' component={SupportPage}></Route>
-    <Route exact path='/officeAdmin/:officeUID/experience-manager' component={ExperienceManagerPage}></Route>
-    <Route exact path='/officeAdmin/:officeUID/office-profile' component={OfficeProfilePage}></Route>
   </Switch>
 )

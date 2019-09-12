@@ -1,6 +1,12 @@
 import * as pageTitles from '../../pages/pageTitles';
 
 export const officeAdminMainLinks = {
+    home: {
+        keyVal: pageTitles.homePageOfficeAdmin,
+        iconType: "home",
+        pageSubtitle: "home",
+        linkTitle: "Home"
+    },
     findServices: {
         keyVal: pageTitles.findServicesPageOfficeAdmin,
         iconType: "search",
@@ -46,12 +52,6 @@ export const officeAdminMainLinks = {
 };
 
 export const officeAppSubMenuLinks = {
-    // home: {
-    //   keyVal: pageTitles.homePageOfficeAdmin,
-    //   iconType: "home",
-    //   pageSubtitle: "home",
-    //   linkTitle: "Home"
-    // },
     users: {
         keyVal: pageTitles.userPageOfficeAdmin,
         iconType: "user",

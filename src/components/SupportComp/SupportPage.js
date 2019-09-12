@@ -1,20 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import * as generalActionCreator from '../../store/actions/general';
-import { Link } from 'react-router-dom';
-import { Row, Col, Collapse, Icon, Menu, Button } from 'antd';
+import { Row, Col, Collapse, Icon, Menu, Button, Avatar } from 'antd';
 import GetHelpForm from './GetHelpForm';
 const Panel = Collapse.Panel;
-
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
 
 const customPanelStyle = {
     background: '#f7f7f7',
@@ -63,11 +55,11 @@ class SupportPage extends React.Component {
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
             }
+            this.props.loadEMInfo({ selectedOfficeUID: selectedOfficeUID });
         }
     }
 
     services() {
-
         return (
             <div>
                 <Collapse
@@ -215,6 +207,35 @@ class SupportPage extends React.Component {
         );
     }
 
+    getContactInfoSection() {
+        const info = this.props.emInfo || null;
+        if (info === null) {
+            return null
+        }
+        const phone = info["Phone"] || "";
+        const phoneHref = "tel:" + phone;
+        const email = info["Email"] || "";
+        const emailHref = "mailto:" + email;
+        const chatURL = info["Drift Link"] || null;
+
+        return (
+            <div>
+                <h4 style={{ fontWeight: 4 }}>Still Need Help? Contact your Experience Manager.</h4>
+                <Row>
+                    <Col span={9}>
+                        <a target="_blank" href={chatURL}><h2 style={{ fontSize: 20 }}> <Icon type="message" /> Live Chat</h2></a>
+                    </Col>
+                    <Col span={7}>
+                        <a href={phoneHref}><h2 style={{ fontSize: 20 }}> <Icon type="phone" /> Call</h2></a>
+                    </Col>
+                    <Col span={8}>
+                        <a href={emailHref}><h2 style={{ fontSize: 20 }}> <Icon type="inbox" /> Email</h2></a>
+                    </Col>
+                </Row>
+            </div>
+        );
+    }
+
     handleClick(e) {
         var key = e.key;
         this.setState({ dataSource: key });
@@ -239,7 +260,6 @@ class SupportPage extends React.Component {
                 <GetHelpForm visible={this.state.getHelpVisible} onCancel={this.hideHelp.bind(this)} />
                 <Col className="wide-table" span={24}>
                     <h1>Help Center</h1>
-
                     <div>
                         <Row type="flex">
                             <Col span={12}>
@@ -267,14 +287,19 @@ class SupportPage extends React.Component {
                                 </Row>
                             </Col>
                             <Col span={12}>
-                                <Row type="flex" align="middle" justify="end">
+                                {/* <Row type="flex" align="middle" justify="end">
                                     <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showHelp.bind(this)}>Submit Ticket</Button>
-                                </Row>
+                                </Row> */}
                             </Col>
                         </Row>
                         {body()}
                     </div>
                 </Col>
+                <Row style={{ paddingTop: "6%" }}>
+                    <Col style={{ textAlign: "center" }} span={24}>
+                        {this.getContactInfoSection()}
+                    </Col>
+                </Row>
             </div>
         );
     }
@@ -284,13 +309,15 @@ class SupportPage extends React.Component {
 const mapStateToProps = state => {
     return {
         userAdminOfficeList: state.auth.adminOfficeList,
-        currentOfficeAdminUID: state.general.currentOfficeAdminUID
+        currentOfficeAdminUID: state.general.currentOfficeAdminUID,
+        emInfo: state.officeAdmin.emInfo
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
+        loadEMInfo: (payload) => dispatch(generalActionCreator.getEMInfo(payload))
     }
 };
 

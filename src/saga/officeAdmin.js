@@ -14,6 +14,9 @@ require("firebase/functions");
 require("firebase/storage");
 
 // Watchers
+export function* loadFeaturedAdminFeedDataWatcher() {
+    yield takeLatest(actionTypes.LOAD_FEATURED_ADMIN_FEED_DATA, loadFeaturedAdminFeedDataWorkerSaga);
+}
 
 export function* sendPasswordResetWatcher() {
     yield takeLatest(actionTypes.SEND_PASSWORD_RESET, sendPasswordResetWorkerSaga);
@@ -844,8 +847,8 @@ function createEvent(payload, firebase) {
     const description = payload.description;
     const startDate = payload.startDate.toUTCString();
     const endDate = payload.endDate.toUTCString();
-    const address = payload.address || null; 
-    
+    const address = payload.address || null;
+
     const dict = { selectedOfficeUID: selectedOfficeUID, title: title, description: description, startDate: startDate, endDate: endDate, address: address };
 
     const apiCall = firebase.functions.httpsCallable('createEventForOfficeAdmin');
@@ -1731,7 +1734,6 @@ function* sendPasswordResetWorkerSaga(action) {
 
         notification['success']({
             message: 'Please check your email for further instructions to reset your password.',
-            // description: error.message
         });
 
         yield put({ type: actionTypes.SEND_PASSWORD_RESET_FINISHED });
@@ -1740,10 +1742,33 @@ function* sendPasswordResetWorkerSaga(action) {
 
         notification['error']({
             message: 'Unable to send password reset email.',
-            // description: error.message
         });
 
         yield put({ type: actionTypes.SEND_PASSWORD_RESET_FINISHED });
+    }
+}
+
+function loadFeaturedAdminFeedData(firebase) {
+    const apiCall = firebase.functions.httpsCallable('getFeaturedAdminFeed');
+    return apiCall({}).then(response => {
+        const data = response["data"];
+        return data;
+    })
+}
+
+function* loadFeaturedAdminFeedDataWorkerSaga(action) {
+    try {
+        let firebase = yield select(selectors.firebase);
+        const response = yield call(loadFeaturedAdminFeedData, firebase);
+        yield put({ type: actionTypes.LOAD_FEATURED_ADMIN_FEED_DATA_FINISHED, payload: { featuredAdminFeedData: response } });
+    } catch (error) {
+        sentry.captureException(error);
+
+        notification['error']({
+            message: 'Unable to load the Featured feed.',
+        });
+
+        yield put({ type: actionTypes.LOAD_FEATURED_ADMIN_FEED_DATA_FINISHED, payload: { featuredAdminFeedData: [] } });
     }
 }
 

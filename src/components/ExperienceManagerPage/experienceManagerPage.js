@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { Statistic, Row, Col, Icon, Input, Spin, Avatar, Card, Empty } from 'antd';
+import { Row, Col, Icon, Input, Spin, Avatar } from 'antd';
 // import RefreshIcon from '@material-ui/icons/Refresh';
 // import IconButton from '@material-ui/core/IconButton';
 // import Paper from '@material-ui/core/Paper';
@@ -14,21 +13,15 @@ import VendorsImg from "../../assets/images/em-icons/vendors.png";
 import MovingIm from "../../assets/images/em-icons/moving.png";
 import MoreImg from "../../assets/images/em-icons/more.png";
 import SuppliesImg from "../../assets/images/em-icons/supplies.png";
-
 import '../../App.css';
-
-import * as actionCreator from '../../store/actions/officeAdmin';
+// import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
-
 import { withRouter } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import emptyState from "../../assets/images/empty/empty-1.png";
-import { blue } from '@material-ui/core/colors';
-
-const { TextArea } = Input;
-
-
+// import { blue } from '@material-ui/core/colors';
+// const { TextArea } = Input;
 
 class ExperienceManagerPage extends React.Component {
 

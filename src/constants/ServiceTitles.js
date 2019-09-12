@@ -2,7 +2,7 @@
 export const COFFEE_TEA = "Coffee + Tea";
 export const SNACKS_BEVS = "Snacks + Beverages";
 export const KEG_DRINKS = "Kegged Drinks";
-export const BEER_SPIRITS_WINE = "Beert + Spirits + Wine"; 
+export const BEER_SPIRITS_WINE = "Beer + Spirits + Wine"; 
 export const WATER = "Water"; 
 export const CATERING = "Catering"; 
 

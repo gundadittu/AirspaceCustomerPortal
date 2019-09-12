@@ -58,11 +58,18 @@ const initialState = {
     isAddingRequestForService: false,
     isSubmittingSupportTicket: false,
     isLoadingOfficeReport: false,
-    officeReport: null
+    officeReport: null,
+    isLoadingFeaturedAdminFeedData: false,
+    featuredAdminFeedData: [],
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.LOAD_FEATURED_ADMIN_FEED_DATA:
+            return updateObject(state, { isLoadingFeaturedAdminFeedData: true })
+        case actionTypes.LOAD_FEATURED_ADMIN_FEED_DATA_FINISHED:
+            const featuredAdminFeedData = action.payload.featuredAdminFeedData;
+            return updateObject(state, { isLoadingFeaturedAdminFeedData: false, featuredAdminFeedData: featuredAdminFeedData })
         case actionTypes.LOAD_OFFICE_REPORT:
             return updateObject(state, { isLoadingOfficeReport: true });
         case actionTypes.LOAD_OFFICE_REPORT_FINISHED:

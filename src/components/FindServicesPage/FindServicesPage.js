@@ -1,24 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as generalActionCreator from '../../store/actions/general';
-import * as actionCreator from '../../store/actions/officeAdmin';
 import { withRouter } from 'react-router-dom';
 import { Row, Col, Menu, List, Card, Button, Modal, message, Steps } from 'antd';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import OrderForm from "./OrderFormComp/OrderForm";
-import * as dataSource from "./FindServiceDataSources";
+import OrderForm from "../OrderFormComp/OrderForm";
+import * as dataSource from "../../datasource/FindServicesDataSource";
 const { Meta } = Card;
 
 class FindServicesPage extends React.Component {
 
     state = {
         dataSource: "food-drink",
-        showDescription: false,
-        descriptionTitle: null,
-        descriptionText: null,
+        showOrderForm: false,
+        selectedServiceTitle: null,
         showSteps: false
     }
 
@@ -44,19 +42,11 @@ class FindServicesPage extends React.Component {
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
             }
-
-            this.props.getServicePlan(selectedOfficeUID);
-            this.props.loadEMInfo({ selectedOfficeUID: selectedOfficeUID });
-            this.props.getServicePlan(selectedOfficeUID);
-            this.props.loadInvoices(selectedOfficeUID);
-            this.props.loadUserList(selectedOfficeUID);
-            this.props.loadOfficeReport({ selectedOfficeUID: selectedOfficeUID });
-
         }
     }
 
     getDataSource() {
-        return dataSource.getDataSource(this.state.dataSource)
+        return dataSource.getServiceCategoriesForFindServicesPage(this.state.dataSource)
     }
 
     handleClick(e) {
@@ -65,13 +55,13 @@ class FindServicesPage extends React.Component {
     }
 
     hideDescription() {
-        this.setState({ showDescription: false, descriptionText: null, descriptionText: null });
+        this.setState({ showOrderForm: false, selectedServiceTitle: null });
     }
 
     showDetails(item) {
         const title = item.title;
         const description = item.description;
-        this.setState({ showDescription: true, descriptionTitle: title, descriptionText: description });
+        this.setState({ showOrderForm: true, selectedServiceTitle: title });
     }
 
     hideSteps() {
@@ -79,7 +69,7 @@ class FindServicesPage extends React.Component {
     }
 
     showSteps() {
-        this.setState({ showSteps: true, showDescription: false });
+        this.setState({ showSteps: true, showOrderForm: false });
     }
 
     requestService(type, description, onlyInterested) {
@@ -116,7 +106,7 @@ class FindServicesPage extends React.Component {
                         </Steps>
                     </div>
                 </Modal>
-                <OrderForm visible={this.state.showDescription} onCancel={this.hideDescription.bind(this)} serviceTitle={this.state.descriptionTitle} topText={this.state.descriptionText} />
+                <OrderForm visible={this.state.showOrderForm} onCancel={this.hideDescription.bind(this)} serviceTitle={this.state.selectedServiceTitle} />
                 <Row>
                     <Col className="wide-table" span={24}>
                         <h1>Find Services
@@ -190,12 +180,6 @@ const mapDispatchToProps = dispatch => {
     return {
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
         addRequestForService: (payload) => dispatch(generalActionCreator.addRequestForService(payload)),
-        getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })),
-        loadEMInfo: (payload) => dispatch(generalActionCreator.getEMInfo(payload)),
-        getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })),
-        loadInvoices: (officeUID) => dispatch(generalActionCreator.getAllInvoices({ selectedOfficeUID: officeUID })),
-        loadUserList: (officeUID) => dispatch(actionCreator.loadOfficeUsers(officeUID)),
-        loadOfficeReport: (payload) => dispatch(generalActionCreator.getOfficeReport(payload))
     }
 };
 

@@ -8,7 +8,7 @@ export const CATERING = "Catering";
 
 // OFFICE_TECH
 export const INTERNET = "Internet"; 
-export const CONFERENCE_ROOMS = "Coference Rooms"; 
+export const CONFERENCE_ROOMS = "Conference Rooms"; 
 export const AV_EQUIPMENT = "AV Equipment"; 
 export const IT_SERVICES = "IT Services"; 
 export const OFFICE_PRINTING = "Office Printing"; 

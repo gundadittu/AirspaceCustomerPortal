@@ -154,7 +154,6 @@ class FindServicesPage extends React.Component {
                                                 <Card
                                                     style={{ width: "85%" }}
                                                     cover={<img style={{ cursor: "pointer" }} onClick={() => this.showDetails(item)} alt="example" src={item.image} />}
-                                                    // actions={[(<Button onClick={() => this.showDetails(item)} type="primary">Request</Button>)]}
                                                 >
                                                     <a onClick={() => this.showDetails(item)}>
                                                         <Meta

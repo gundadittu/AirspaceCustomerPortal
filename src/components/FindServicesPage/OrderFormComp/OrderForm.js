@@ -1,18 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-    Modal, Form, Input, InputNumber, Select, Cascader, DatePicker, TimePicker
+    Modal, Form, Input, InputNumber, Select, Cascader, DatePicker, TimePicker, Upload, Icon, message
 } from 'antd';
 import * as generalActionCreator from '../../../store/actions/general';
 import * as formConfig from './OrderFormConfig';
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
+const Message = message;
+message.config({
+    maxCount: 1,
+  });
 const InputGroup = Input.Group;
 
 class OrderForm extends React.Component {
 
     state = {
-        visible: false
+        visible: false,
+         urlMapping: {}
     };
 
     onCreate = () => {
@@ -27,11 +32,23 @@ class OrderForm extends React.Component {
             for (var i = 0; i < arrayLength; i++) {
                 const item = fields[i];
                 const key = item.key;
-                const value = values[key] || null;
+                let value = values[key] || null;
+                if (item["type"] == "fileUpload") { 
+                    let split_list_file_names = value.split(",")
+                    split_list_file_names = split_list_file_names.map( x => x.trim())
+                    split_list_file_names = split_list_file_names.filter( x => x !== "")
+                    
+                    const newAttachments = split_list_file_names.map( x => { 
+                        return { 
+                            "url": this.state.urlMapping[x].toString(), 
+                            "filename": x
+                        }
+                    })
+                    value = newAttachments
+                }
                 item["response"] = value;
             }
 
-            // dispatch backend saga call 
             const payload = {
                 serviceType: this.props.serviceTitle,
                 serviceDescription: fields,
@@ -228,9 +245,9 @@ class OrderForm extends React.Component {
                                                 mode="multiple"
                                                 placeholder={"Select all that apply..."}
                                                 optionFilterProp="children"
-                                            filterOption={(input, option) =>
-                                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                            }
+                                                filterOption={(input, option) =>
+                                                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                                }
                                             >
                                                 {groups.map(x => (
                                                     <OptGroup label={x.title}>
@@ -264,6 +281,76 @@ class OrderForm extends React.Component {
                                         )}
                                     </Form.Item>
                                 );
+                            } else if (type === formConfig.FIELD_TYPES["FILE_UPLOAD"]) {
+                                // Uploads file into Google Bucket and stores url in a mapping in state
+                                let uploadRequestServiceFile = ({onSuccess, onError, file}) => {
+                                    const firebase = this.props.firebase;
+                                    const storageRef = firebase.storage.ref();                    
+                                    const fileRef = storageRef.child('requestServiceFiles/' + this.props.currentAdminOfficeUID + "/" + file.name);
+
+                                    return fileRef.put(file)
+                                        .then((snapshot) => {
+                                            return snapshot.ref.getDownloadURL()
+                                        })
+                                        .then((downloadURL) => {
+                                            const currMapping = this.state.urlMapping;
+                                            let newMapping = { 
+                                                ...currMapping, 
+                                            } 
+                                            newMapping[file.name] = downloadURL.toString()
+                                            this.setState({urlMapping: newMapping})
+                                            onSuccess(null, file)
+                                            return
+                                        })
+                                        .catch( e => { 
+                                            onError(e, null)
+                                            return 
+                                        })
+                                }
+                                uploadRequestServiceFile = uploadRequestServiceFile.bind(this)
+                                
+                                // Recieves Callbacks Triggered in uploadRequestServiceFile and shows alerts 
+                                let onUploadStatusChange = (info) => {
+                                    const { status } = info.file
+                                    if (status === 'done') {
+                                        Message.success(`${info.file.name} file uploaded successfully.`);
+                                    } else if (status === 'error') {
+                                        Message.error(`${info.file.name} file upload failed.`);
+                                    } else if (status === 'uploading') { 
+                                        Message.loading(`Uploading ${info.file.name}...`)
+                                    }
+                                }
+                                onUploadStatusChange = onUploadStatusChange.bind(this)
+                                
+                                // Creates the csv string of download URLS that is stored in the field's value
+                                // Passed as callback function into form below
+                                const getFileNameListStringFromEvent = (info) => { 
+                                    const fileList = info.fileList; 
+                                    let value = ""
+                                    fileList.forEach(f => { 
+                                        const filename = f.name
+                                        value += filename
+                                        value += ", "
+                                    })
+                                    return value
+                                }
+
+                                return (
+                                    <Form.Item label={question}>
+                                        {getFieldDecorator(key, {
+                                            getValueFromEvent: getFileNameListStringFromEvent,
+                                            rules: [{ required: required, whitespace: true, message: message }]
+                                        })(
+                                            <Upload.Dragger name="files" disabled={confirmLoading} onChange={onUploadStatusChange} multiple={true} customRequest={uploadRequestServiceFile}>  
+                                                <p className="ant-upload-drag-icon">
+                                                    <Icon type="inbox" />
+                                                </p>
+                                                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                                                <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+                                            </Upload.Dragger>,
+                                        )}
+                                    </Form.Item>
+                                )
                             }
                             return null;
                         }
@@ -278,7 +365,8 @@ class OrderForm extends React.Component {
 const mapStateToProps = state => {
     return {
         confirmLoading: state.officeAdmin.isAddingRequestForService,
-        currentAdminOfficeUID: state.general.currentOfficeAdminUID
+        currentAdminOfficeUID: state.general.currentOfficeAdminUID, 
+        firebase: state.firebase.firebase
     }
 };
 

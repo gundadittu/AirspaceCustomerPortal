@@ -13,7 +13,8 @@ export const FIELD_TYPES = {
     "SELECT_MULTIPLE": "selectMultiple",
     "SELECT_MULTIPLE_GROUPED": "selectMultipleGrouped", 
     "CASCADER": "cascader", 
-    "TEXT_AREA": "textArea"
+    "TEXT_AREA": "textArea", 
+    "FILE_UPLOAD": "fileUpload"
 }
 
 export const getFieldsForService = (serviceTitle) => {
@@ -63,6 +64,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: anythingElseQuestionText,
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where your coffee and/or tea will be served (including plumbing and electrical):",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.SNACKS_BEVS) {
         return [
@@ -99,6 +106,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: anythingElseQuestionText,
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where the snacks and/or drinks will be stocked:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.KEG_DRINKS) { 
         return [ 
@@ -144,6 +157,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: anythingElseQuestionText,
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where you would like the kegerator placed:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.BEER_SPIRITS_WINE) {
         return [
@@ -213,6 +232,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: anythingElseQuestionText,
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where the alcohol will be stocked:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.WATER) {
         return [ 
@@ -249,6 +274,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: anythingElseQuestionText,
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where the machine will be located (including plumbing and electric):",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.CATERING) {
         return [
@@ -309,6 +340,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: anythingElseQuestionText,
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where the catering will be served:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.INTERNET) {
         return [
@@ -357,6 +394,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: anythingElseQuestionText,
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of any existing network configurations:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.CONFERENCE_ROOMS) {
         return [
@@ -389,6 +432,12 @@ export const getFieldsForService = (serviceTitle) => {
                 key: "Notes",
                 question: anythingElseQuestionText,
                 required: false,
+            }, 
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of your conference rooms, including existing configurations:",
+                required: false
             }
         ];
     } else if (serviceTitle === serviceTitles.AV_EQUIPMENT) {
@@ -416,7 +465,19 @@ export const getFieldsForService = (serviceTitle) => {
                 key: "Notes",
                 question: anythingElseQuestionText,
                 required: false,
+            },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of your conference rooms, including existing configurations:",
+                required: false
             }, 
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where you would like the system set up and any existing configurations:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.IT_SERVICES) {
         return [
@@ -450,6 +511,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: "Please describe your office's needs in a bit more detail:",
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload any relevant images here:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.OFFICE_PRINTING) {
         return [
@@ -491,7 +558,13 @@ export const getFieldsForService = (serviceTitle) => {
                 key: "Notes",
                 question: anythingElseQuestionText,
                 required: false,
-            }, 
+            },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where the printer will be located, including existing configurations:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.SUPPLIES) {
         return [
@@ -534,6 +607,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: anythingElseQuestionText,
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where the supplies will be stocked:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.BRANDED_PRODUCTS) {
         return [
@@ -615,6 +694,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: "Please describe your request in a little more detail:",
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where you would like your writable surface(s):",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.SOUNDPROOFING) {
         return [
@@ -633,6 +718,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: "Please describe the issue in a little more detail:",
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of the affected area(s):",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.PLANTS) {
         return [
@@ -651,6 +742,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: "Please describe your request in a bit more detail:",
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where you would like the plants to go:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.FURNITURE) {
         return [
@@ -686,6 +783,12 @@ export const getFieldsForService = (serviceTitle) => {
                 key: "Details",
                 question: "Please describe your request in a bit more detail:",
                 required: false,
+            }, 
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of where the furniture will be located:",
+                required: false
             }
         ];
     } else if (serviceTitle === serviceTitles.HEALTH_WELLNESS) {
@@ -731,6 +834,12 @@ export const getFieldsForService = (serviceTitle) => {
                 data: {
                     options: ["Yes", "No", "Not sure, need help"]
                 }
+            }, 
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"], 
+                key: "Attachments", 
+                question: "Please upload photos of the affected area(s):",
+                required: false
             }
         ];
     } else if (serviceTitle === serviceTitles.OFFICE_MOVE) {
@@ -787,10 +896,10 @@ export const getFieldsForService = (serviceTitle) => {
                 }
             },
             {
-                type: FIELD_TYPES["TEXT_AREA"],
-                key: "Moving List",
-                question: "Please provide a brief list of items to be packed and moved:",
-                required: true
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please provide photo(s) of items to be moved:",
+                required: false
             },
         ];
     } else if (serviceTitle === serviceTitles.SPACE_MANAGEMENT) {
@@ -827,7 +936,13 @@ export const getFieldsForService = (serviceTitle) => {
                 data: {
                     options: ["Yes", "No", "Not sure, need help"]
                 }
-            }
+            }, 
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please provide photo(s) of the affected area(s):",
+                required: false
+            },
         ];
     } else if (serviceTitle === serviceTitles.SECURITY) {
         return [
@@ -858,6 +973,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: "Please describe your request in a bit more detail:",
                 required: false,
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please provide photo(s) of any relevant area(s):",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.ONGOING_CLEANING) {
         return [
@@ -918,6 +1039,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: anythingElseQuestionText,
                 required: false
             },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please upload photo(s) of area(s) to be cleaned:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.DEEP_CLEANING) {
         return [
@@ -965,7 +1092,13 @@ export const getFieldsForService = (serviceTitle) => {
                 key: "Details",
                 question: anythingElseQuestionText,
                 required: false
-            },  
+            },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please upload photo(s) of area(s) to be cleaned:",
+                required: false
+            }  
         ];
     } else if (serviceTitle === serviceTitles.SPECIALIZED_CLEANING) {
         return [
@@ -1017,6 +1150,12 @@ export const getFieldsForService = (serviceTitle) => {
                 data: {
                     options: ["Yes", "No", "Not sure, need help"]
                 }
+            }, 
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please upload photo(s) of area(s) to be cleaned:",
+                required: false
             }
         ];
     } else if (serviceTitle === serviceTitles.WASTE_REMOVAL) {
@@ -1056,6 +1195,12 @@ export const getFieldsForService = (serviceTitle) => {
                 data: {
                     options: ["Yes", "No", "Not sure, need help"]
                 }
+            }, 
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please upload photo(s) of waste to be removed:",
+                required: false
             }
         ];
     } else if (serviceTitle === serviceTitles.HAPPY_HOUR) {
@@ -1135,6 +1280,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: anythingElseQuestionText,
                 required: false
             }, 
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please upload photo(s) of the event location:",
+                required: false
+            }
         ];
     } else if (serviceTitle === serviceTitles.GAME_NIGHT) {
         return [
@@ -1173,7 +1324,13 @@ export const getFieldsForService = (serviceTitle) => {
                 key: "Details",
                 question: anythingElseQuestionText,
                 required: false
-            }, 
+            },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please upload photo(s) of the event location:",
+                required: false
+            } 
         ];
     } else if (serviceTitle === serviceTitles.HEALTH_FITNESS_PROGRAMMING) {
         return [
@@ -1229,7 +1386,13 @@ export const getFieldsForService = (serviceTitle) => {
                 key: "Details",
                 question: anythingElseQuestionText,
                 required: false
-            }, 
+            },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please upload photo(s) of the event location(s):",
+                required: false
+            }  
         ]
     } else if (serviceTitle === serviceTitles.EVENT_PLANNING) {
         return [
@@ -1275,6 +1438,12 @@ export const getFieldsForService = (serviceTitle) => {
                 question: anythingElseQuestionText,
                 required: false
             }, 
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please upload photo(s) of the event location(s):",
+                required: false
+            } 
         ];
     } else {
         return [];

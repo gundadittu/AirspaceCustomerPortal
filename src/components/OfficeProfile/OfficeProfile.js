@@ -1,16 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
-// import * as actionCreator from '../../store/actions/officeAdmin';
 import * as generalActionCreator from '../../store/actions/general';
-
-import RefreshIcon from '@material-ui/icons/Refresh';
-import { Row, Col, Menu, Empty, Button, Spin, Card, Upload, Icon, Tooltip, Input } from 'antd';
-
+import { Row, Col, Button, Spin, Card, Upload, Icon, Tooltip, Input } from 'antd';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
-
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 
@@ -110,7 +104,6 @@ class OfficeProfilePage extends React.Component {
         });
 
         const uploadSectionProps = {
-            // action: '//jsonplaceholder.typicode.com/posts/',
             defaultFileList: [...mappedAttachments],
             className: 'upload-list-inline',
             onRemove: (file) => false,
@@ -140,7 +133,6 @@ class OfficeProfilePage extends React.Component {
             <div>
                 <Card
                     title={"General"}
-                    // extra={<a>Save Changes</a>}
                     style={{ width: "100%", marginTop: 20 }}
                 >
                     <Row>
@@ -158,20 +150,10 @@ class OfficeProfilePage extends React.Component {
                         </Col>
                     </Row>
                     <Button className='inlineDisplay rightAlign' type="primary" onClick={this.saveChanges.bind(this)}>Save Changes</Button>
-                    {/* <br /> */}
-                    {/* <Row >
-                        <Col span={8}>
-                        </Col>
-                        <Col span={8}>
-                        </Col>
-                        <Col span={8}>
-                        </Col>
-                    </Row> */}
                 </Card>
 
                 <Card
                     title={"Address"}
-                    // extra={<p style={{ textAlign: "right" }}>ID: {identifier}</p>}
                     style={{ width: "100%", marginTop: 50 }}
                 >
                     <Row>
@@ -213,7 +195,6 @@ class OfficeProfilePage extends React.Component {
                 </Card>
                 <Card
                     title={"Files"}
-                    // extra={<p style={{ textAlign: "right" }}>ID: {identifier}</p>}
                     style={{ width: "100%", marginTop: 50 }}
                 >
                     <Upload {...uploadSectionProps}>

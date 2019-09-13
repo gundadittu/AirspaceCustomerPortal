@@ -7,7 +7,7 @@ import * as actionCreators from '../../store/actions/general';
 import '../../App.css';
 import './sideNavBar.css';
 import getPagePayload from '../../pages/pageRoutingFunctions';
-import * as config from "./sideNavBarConfig"; 
+import * as config from "./sideNavBarConfig";
 import { withRouter } from 'react-router-dom';
 const SubMenu = Menu.SubMenu;
 
@@ -23,13 +23,16 @@ class SideNavBar extends React.Component {
       return null;
     }
 
+    const pushOfficeHomeRoute = (uid) => {
+      this.props.history.push("/officeAdmin/" + uid + "/home")
+      document.location.reload()
+    }
+
     return (
       <SubMenu key={"sub1"} title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
         {this.props.adminOfficeList.map((office) => (
-          <Menu.Item key={office.uid} >
-            <Link to={'/officeAdmin/' + office.uid}>
-              {office.name}
-            </Link>
+          <Menu.Item key={office.uid} onClick={() => pushOfficeHomeRoute(office.uid)}>
+            {office.name}
           </Menu.Item>
         ))}
       </SubMenu>
@@ -43,7 +46,7 @@ class SideNavBar extends React.Component {
       fontSize = 35;
       iconSize = 25
     }
-    const officeAppSubMenuLinks = config.officeAppSubMenuLinks; 
+    const officeAppSubMenuLinks = config.officeAppSubMenuLinks;
 
     return (
       <SubMenu key={"sub2"} title={<span><Icon type="mobile" /><span>Office App</span></span>} style={{ fontSize: iconSize }}>
@@ -61,7 +64,7 @@ class SideNavBar extends React.Component {
 
   renderSideNavBarOfficeAdminMainContent(currentPages) {
     const currentOfficeAdminUID = this.props.currentOfficeAdminUID
-    const menuLinks = config.officeAdminMainLinks; 
+    const menuLinks = config.officeAdminMainLinks;
 
     let fontSize = 14;
     let iconSize = 14;
@@ -143,14 +146,18 @@ class SideNavBar extends React.Component {
       }
     }
 
+
+    const pushOfficeHomeRoute = (uid) => {
+      this.props.history.push("/officeAdmin/" + uid + "/home")
+      document.location.reload()
+    }
+
     return (
       <SubMenu className='sideBarPortalSwitcher' key="sub1" title={<Tag>{this.getSwitchPortalSubMenuTitle()}</Tag>}>
         {this.props.adminOfficeList.map((office) => (
           <a onClick={() => switchOffice(office.uid)}>
-            <Menu.Item key={office.uid} >
-              <Link to={'/officeAdmin/' + office.uid}>
-                {office.name}
-              </Link>
+            <Menu.Item key={office.uid} onClick={() => pushOfficeHomeRoute(office.uid)}>
+              {office.name}
             </Menu.Item>
           </a>
         ))}

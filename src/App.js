@@ -158,6 +158,7 @@ const officeAdminRoutingComp = () => (
   <Switch>
     {/* Service Portal */}
     <Route exact path='/officeAdmin/:officeUID' component={HomeAdminPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/find-services' component={FindServicesPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/billing' component={BillingPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/service-plan' component={ServicePlanPage}></Route>
@@ -166,7 +167,6 @@ const officeAdminRoutingComp = () => (
     <Route exact path='/officeAdmin/:officeUID/office-profile' component={OfficeProfilePage}></Route>
     
     {/* Office App Admin */}
-    <Route exact path='/officeAdmin/:officeUID/home' component={HomeAdminPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/announcements' component={AnnouncementsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/conferenceRooms' component={ConferenceRoomsPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/hotDesks' component={HotDesksPage}></Route>

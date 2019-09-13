@@ -1,7 +1,5 @@
 import React from 'react';
-import MediaQuery from 'react-responsive';
-import { Avatar, Menu, Dropdown, Icon, Row, Col, List, Affix, Card, Button } from 'antd';
-import SideNavBar from '../SideNavBar/sidenavbar';
+import { Avatar, Menu, Dropdown, Icon, List, Affix, Card } from 'antd';
 import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
 import * as genActionCreators from '../../store/actions/general';
@@ -10,7 +8,6 @@ import './navbar.css'
 import { AirNotificationType } from '../../models/AirNotificationType';
 import Grid from '@material-ui/core/Grid';
 import { withRouter } from 'react-router-dom';
-import * as pageTitles from '../../pages/pageTitles';
 
 class NavBar extends React.Component {
   state = {

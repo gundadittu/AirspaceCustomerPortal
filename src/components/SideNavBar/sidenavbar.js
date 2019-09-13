@@ -1,24 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Menu, Icon, Affix, Tag, Drawer, Badge } from 'antd';
-//import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import UnfoldMore from '@material-ui/icons/UnfoldMore'
 import { Link } from 'react-router-dom';
 import * as pageTitles from '../../pages/pageTitles';
 import * as actionCreators from '../../store/actions/general';
 import '../../App.css';
 import './sideNavBar.css';
-import { grey } from '@material-ui/core/colors';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import * as config from "./sideNavBarConfig"; 
-
-
+import { withRouter } from 'react-router-dom';
 const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
 
 class SideNavBar extends React.Component {
 
@@ -27,7 +18,6 @@ class SideNavBar extends React.Component {
   }
 
   // Office Admin Content
-
   renderOfficeSwitcherForAdminUser() {
     if (this.props.adminOfficeList == null) {
       return null;
@@ -289,4 +279,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SideNavBar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SideNavBar));

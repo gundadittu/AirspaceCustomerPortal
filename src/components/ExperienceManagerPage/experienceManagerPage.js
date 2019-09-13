@@ -60,7 +60,7 @@ class ExperienceManagerPage extends React.Component {
   }
 
   getBody() {
-    if (this.props.isLoadingEMInfo) {
+    if (this.props.isLoadingEMInfo && this.props.emInfo === null) {
       return (
         <div style={{ textAlign: "center" }} className="example">
           <Spin />

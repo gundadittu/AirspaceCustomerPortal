@@ -66,7 +66,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOAD_OFFICE_REPORT:
             return updateObject(state, { isLoadingOfficeReport: true });
         case actionTypes.LOAD_OFFICE_REPORT_FINISHED:
-            const report = action.payload.report || null; 
+            const report = action.payload.report || null;
             return updateObject(state, { isLoadingOfficeReport: false, officeReport: report });
         case actionTypes.SUBMIT_SERVICE_TICKET:
             return updateObject(state, { isSubmittingSupportTicket: true });
@@ -97,6 +97,9 @@ const reducer = (state = initialState, action) => {
             const info = action.payload.info;
             return updateObject(state, { isLoadingEMInfo: false, emInfo: info });
         case actionTypes.GET_SERVICE_PLAN_FOR_OFFICE:
+            if (action.payload.updateLoadingStatus === false) {
+                return state
+            }
             return updateObject(state, { isLoadingServicePlan: true });
         case actionTypes.GET_SERVICE_PLAN_FOR_OFFICE_FINISHED:
             if (action.payload !== null) {
@@ -108,6 +111,9 @@ const reducer = (state = initialState, action) => {
             }
             return updateObject(state, { isLoadingServicePlan: false });
         case actionTypes.GET_ALL_INVOICES_FOR_OFFICE:
+            if (action.payload.updateLoadingStatus === false) {
+                return state
+            }
             return updateObject(state, { isLoadingInvoices: true });
         case actionTypes.GET_ALL_INVOICES_FOR_OFFICE_FINISHED:
             const invoices = action.payload.invoices;

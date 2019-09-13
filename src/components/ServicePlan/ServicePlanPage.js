@@ -24,7 +24,7 @@ class ServicePlanPage extends React.Component {
     state = {
         dataSource: "active", // or "inactive" or "pending"
         visible: false,
-        showSteps: false
+        showSteps: false, 
     }
 
     handleClick(e) {
@@ -58,12 +58,12 @@ class ServicePlanPage extends React.Component {
                 this.props.changePage(secondPagePayload);
             }
 
-            this.props.getServicePlan(selectedOfficeUID);
+            const updateLoadingStatus = !(this.props.activeList !== null || this.props.inactiveList !== null || this.props.pendingList !== null); 
+            this.props.getServicePlan(selectedOfficeUID, updateLoadingStatus);
         }
     }
 
     getBody(dataSource) {
-
         if (this.props.isLoadingServicePlan) {
             return (
                 <div style={{ textAlign: "center" }} className="example">
@@ -167,7 +167,7 @@ class ServicePlanPage extends React.Component {
                         <Row type="flex" style={{ paddingLeft: "1%", paddingRight: "15%" }}>
                             <Col span={12}>
                                 <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
-                                    <IconButton className="inlineDisplay" onClick={() => this.props.getServicePlan(this.props.currentOfficeAdminUID)}>
+                                    <IconButton className="inlineDisplay" onClick={() => this.props.getServicePlan(this.props.currentOfficeAdminUID, true)}>
                                         <RefreshIcon />
                                     </IconButton>
                                     <Menu
@@ -218,7 +218,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getServicePlan: (officeUID) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID })),
+        getServicePlan: (officeUID, updateLoadingStatus) => dispatch(generalActionCreator.getServicePlan({ selectedOfficeUID: officeUID, updateLoadingStatus: updateLoadingStatus })),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
     }
 };

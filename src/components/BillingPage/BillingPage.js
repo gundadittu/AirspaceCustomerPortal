@@ -44,7 +44,9 @@ class BillingPage extends React.Component {
             if (secondPagePayload) {
                 this.props.changePage(secondPagePayload);
             }
-            this.props.loadInvoices(selectedOfficeUID);
+
+            const updateLoadingStatus = !(this.props.outstandingInvoiceData !== null || this.props.paidInvoiceData !== null || this.props.invoiceData !== null); 
+            this.props.loadInvoices(selectedOfficeUID, updateLoadingStatus);
         }
     }
 
@@ -120,7 +122,7 @@ class BillingPage extends React.Component {
                     <Row type="flex">
                         <Col span={12}>
                             <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
-                                <IconButton className="inlineDisplay" onClick={() => this.props.loadInvoices(this.props.currentOfficeAdminUID)}>
+                                <IconButton className="inlineDisplay" onClick={() => this.props.loadInvoices(this.props.currentOfficeAdminUID, true)}>
                                     <RefreshIcon />
                                 </IconButton>
                                 <Menu
@@ -160,7 +162,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        loadInvoices: (officeUID) => dispatch(generalActionCreator.getAllInvoices({ selectedOfficeUID: officeUID })),
+        loadInvoices: (officeUID, updateLoadingStatus) => dispatch(generalActionCreator.getAllInvoices({ selectedOfficeUID: officeUID, updateLoadingStatus: updateLoadingStatus })),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
     }
 };

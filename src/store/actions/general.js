@@ -168,10 +168,12 @@ export const getEMInfo = (payload) => {
 }
 
 export const getServicePlan = (payload) => {
+  console.log(payload)
   return {
     type: actionTypes.GET_SERVICE_PLAN_FOR_OFFICE,
     payload: {
-      selectedOfficeUID: payload.selectedOfficeUID
+      selectedOfficeUID: payload.selectedOfficeUID, 
+      updateLoadingStatus: payload.updateLoadingStatus
     }
   }
 }
@@ -180,7 +182,8 @@ export const getAllInvoices = (payload) => {
   return {
     type: actionTypes.GET_ALL_INVOICES_FOR_OFFICE,
     payload: {
-      selectedOfficeUID: payload.selectedOfficeUID
+      selectedOfficeUID: payload.selectedOfficeUID, 
+      updateLoadingStatus: payload.updateLoadingStatus
     }
   }
 }

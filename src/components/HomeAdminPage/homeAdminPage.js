@@ -56,7 +56,7 @@ class HomeAdminPage extends React.Component {
                 <Row style={{ paddingTop: "2%" }}>
                     <Col span={24}>
                         <h1>Welcome, {this.props.user.firstName}</h1>
-                        <h4>Currently viewing data for {this.props.currentOfficeAdmin.name}</h4>
+                        <h4>Currently managing {this.props.currentOfficeAdmin.name}</h4>
                     </Col>
                 </Row>
                 <Row style={{ paddingTop: "2%" }}>

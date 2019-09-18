@@ -863,7 +863,7 @@ export const getFieldsForService = (serviceTitle) => {
                 question: "Does your building require union movers?",
                 required: true,
                 data: {
-                    option: ["Yes", "No", "Not sure, need help"]
+                    options: ["Yes", "No", "Not sure, need help"]
                 }
             },
             {
@@ -884,7 +884,7 @@ export const getFieldsForService = (serviceTitle) => {
                 question: "Please indicate the accessibility of your current office:",
                 required: true,
                 data: {
-                    option: ["Freight Elevator", "Passenger Elevator", "Stairs", "Office on ground floor", "Not Sure, need help"]
+                    options: ["Freight Elevator", "Passenger Elevator", "Stairs", "Office on ground floor", "Not Sure, need help"]
                 }
             },
             {
@@ -893,7 +893,7 @@ export const getFieldsForService = (serviceTitle) => {
                 question: "Please indicate the accessibility of your new office:",
                 required: true,
                 data: {
-                    option: ["Freight Elevator", "Passenger Elevator", "Stairs", "Office on ground floor", "Not Sure, need help"]
+                    options: ["Freight Elevator", "Passenger Elevator", "Stairs", "Office on ground floor", "Not Sure, need help"]
                 }
             },
             {

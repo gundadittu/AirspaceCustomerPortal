@@ -3,7 +3,7 @@ export const COFFEE_TEA = "Coffee + Tea";
 export const SNACKS_BEVS = "Snacks + Beverages";
 export const KEG_DRINKS = "Kegged Drinks";
 export const BEER_SPIRITS_WINE = "Beer + Spirits + Wine"; 
-export const WATER = "Water"; 
+export const WATER = "Water + Ice"; 
 export const CATERING = "Catering"; 
 
 // OFFICE_TECH
@@ -22,7 +22,7 @@ export const WRITABLE_SURFACES = "Writable Surfaces";
 export const SOUNDPROOFING = "Soundproofing"; 
 export const PLANTS = "Plants"; 
 export const FURNITURE = "Furniture"; 
-export const HEALTH_WELLNESS = "Health + Wellness"; 
+export const HEALTH_WELLNESS = "Daily Health + Wellness"; 
 export const OFFICE_MOVE = "Office Move"; 
 export const SPACE_MANAGEMENT = "Space Management"; 
 export const SECURITY = "Security"; 

@@ -1,6 +1,5 @@
 import * as serviceTitles from "../constants/ServiceTitles";
 import CoffeeImage from "../assets/images/services/coffee.jpeg";
-import ColdBrewImage from "../assets/images/services/cold-brew.jpeg";
 import SnacksImage from "../assets/images/services/snacks.jpeg";
 import AlcoholImage from "../assets/images/services/alcohol.jpeg";
 import FurnitureImage from "../assets/images/services/furniture.jpg";
@@ -22,13 +21,15 @@ import Printing from "../assets/images/services/printing.jpg";
 import IT from "../assets/images/services/it-services.jpeg";
 import WasteRemoval from "../assets/images/services/waste-removal.jpeg";
 import PestControl from "../assets/images/services/pest-control.jpg";
-import FitnessClass from "../assets/images/services/fitness-class.jpeg";
-import WellnessEvent from "../assets/images/services/wellness-event.jpeg";
 import Postal from "../assets/images/services/postal.jpeg";
 import AVImg from "../assets/images/services/av-equipment.jpg";
 import GameNightImg from "../assets/images/services/game-night.jpg";
 import WaterImg from "../assets/images/services/water.jpeg";
 import HandyWorkImg from "../assets/images/services/handy-work.jpeg";
+import DailyHealthWellnessImg from "../assets/images/services/daily-health-wellness.jpg";
+import HappyHourImg from "../assets/images/services/happy-hour.jpg";
+import HealthWellnessProgrammingImg from "../assets/images/services/health-wellness-programming.jpeg";
+import KeggedDrinksImg from "../assets/images/services/kegged-drinks.jpeg";
 
 export const CATEGORIES = {
     "FOOD_DRINK": "food-drink",
@@ -136,7 +137,7 @@ export const getImageForServiceTitle = (title) => {
         case serviceTitles.SNACKS_BEVS:
             return SnacksImage
         case serviceTitles.KEG_DRINKS:
-            return ColdBrewImage
+            return KeggedDrinksImg
         case serviceTitles.BEER_SPIRITS_WINE:
             return AlcoholImage
         case serviceTitles.WATER:
@@ -172,7 +173,7 @@ export const getImageForServiceTitle = (title) => {
         case serviceTitles.FURNITURE:
             return FurnitureImage
         case serviceTitles.HEALTH_WELLNESS:
-            return WellnessEvent
+            return DailyHealthWellnessImg
         case serviceTitles.SPACE_MANAGEMENT:
             return SpacePlanning
         case serviceTitles.SECURITY:
@@ -186,11 +187,11 @@ export const getImageForServiceTitle = (title) => {
         case serviceTitles.WASTE_REMOVAL:
             return WasteRemoval
         case serviceTitles.HAPPY_HOUR:
-            return Catering
+            return HappyHourImg
         case serviceTitles.GAME_NIGHT:
             return GameNightImg
         case serviceTitles.HEALTH_FITNESS_PROGRAMMING:
-            return FitnessClass
+            return HealthWellnessProgrammingImg
         case serviceTitles.EVENT_PLANNING:
             return Events
         default:

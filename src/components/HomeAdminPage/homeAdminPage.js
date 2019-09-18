@@ -51,6 +51,10 @@ class HomeAdminPage extends React.Component {
     }
 
     render() {
+        if (this.props.currentOfficeAdmin === null) { 
+            return null 
+        }
+
         return (
             <div className="wide-table">
                 <Row style={{ paddingTop: "2%" }}>
@@ -64,9 +68,9 @@ class HomeAdminPage extends React.Component {
                         <Card>
                             <Statistic
                                 title="Pending Packages"
-                                value={this.props.pendingServiceList.length}
+                                value={this.props.pendingServiceList !== null ? this.props.pendingServiceList.length : 0}
                                 precision={0}
-                                valueStyle={this.props.pendingServiceList.length === 0 ? { color: '#3f8600' } : { color: '#cf1322' }}
+                                valueStyle={this.props.pendingServiceList !== null && this.props.pendingServiceList.length === 0 ? { color: '#3f8600' } : { color: '#cf1322' }}
                             />
                         </Card>
                     </Col>
@@ -74,9 +78,9 @@ class HomeAdminPage extends React.Component {
                         <Card>
                             <Statistic
                                 title="Outstanding Bills"
-                                value={this.props.outstandingInvoiceList.length}
+                                value={this.props.outstandingInvoiceList !== null ? this.props.outstandingInvoiceList.length : 0}
                                 precision={0}
-                                valueStyle={this.props.pendingServiceList.length === 0 ? { color: '#3f8600' } : { color: '#cf1322' }}
+                                valueStyle={this.props.outstandingInvoiceList !== null && this.props.outstandingInvoiceList.length === 0 ? { color: '#3f8600' } : { color: '#cf1322' }}
                             />
                         </Card>
                     </Col>
@@ -84,9 +88,9 @@ class HomeAdminPage extends React.Component {
                         <Card>
                             <Statistic
                                 title="Active Services"
-                                value={this.props.activeServiceList.length}
+                                value={this.props.activeServiceList !== null ? this.props.activeServiceList.length : 0}
                                 precision={0}
-                                valueStyle={this.props.activeServiceList.length > 0 ? { color: '#3f8600' } : { color: '#cf1322' }}
+                                valueStyle={this.props.activeServiceList !== null && this.props.activeServiceList.length > 0 ? { color: '#3f8600' } : { color: '#cf1322' }}
                             />
                         </Card>
                     </Col>

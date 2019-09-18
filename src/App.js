@@ -79,7 +79,7 @@ class App extends Component {
       return (
         <div style={{ background: '#FFFFFF' }}>
           <Row>
-            <MediaQuery minDeviceWidth={1224}>
+            <MediaQuery minDeviceWidth={1000}>
               <Col span={4}>
                 <SideNavbar device={"desktop"} />
               </Col>
@@ -93,7 +93,7 @@ class App extends Component {
                 </Switch>
               </Col>
             </MediaQuery>
-            <MediaQuery maxDeviceWidth={1224}>
+            <MediaQuery maxDeviceWidth={1000}>
               <Col span={24}>
                 <Switch>
                   <Route exact path="/login" component={InitialRoutingComp} />

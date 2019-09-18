@@ -62,7 +62,7 @@ class FeaturedAdminFeed extends React.Component {
                                 <img
                                     width={272}
                                     height={200}
-                                    alt="logo"
+                                    alt="service-image"
                                     src={item.photoURL}
                                 />
                             }

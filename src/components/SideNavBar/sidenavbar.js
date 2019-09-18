@@ -82,6 +82,7 @@ class SideNavBar extends React.Component {
           mode="inline"
           className="airspace-side-nav-bar menu-tab"
           forceSubMenuRender={true}
+          mode="vertical"
         >
           {Object.keys(menuLinks).map((key) => {
 

@@ -162,8 +162,8 @@ const officeAdminRoutingComp = () => (
     <Route exact path='/officeAdmin/:officeUID/find-services' component={FindServicesPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/billing' component={BillingPage}></Route>
     <Route exact path='/officeAdmin/:officeUID/service-plan' component={ServicePlanPage}></Route>
-    <Route exact path='/officeAdmin/:officeUID/help-center' component={SupportPage}></Route>
-    <Route exact path='/officeAdmin/:officeUID/experience-manager' component={ExperienceManagerPage}></Route>
+    <Route exact path='/officeAdmin/:officeUID/support' component={SupportPage}></Route>
+    {/* <Route exact path='/officeAdmin/:officeUID/experience-manager' component={ExperienceManagerPage}></Route> */}
     <Route exact path='/officeAdmin/:officeUID/office-profile' component={OfficeProfilePage}></Route>
     
     {/* Office App Admin */}

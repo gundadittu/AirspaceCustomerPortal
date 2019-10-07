@@ -42,8 +42,8 @@ class NavBar extends React.Component {
       this.props.loadNotifications()
     } else if (e.key === "users") {
       this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/users');
-    } else if (e.key === "support") {
-      this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/help-center');
+    // } else if (e.key === "support") {
+    //   this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/support');
     } else if (e.key === "office-profile") {
       this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/office-profile');
     }
@@ -174,12 +174,12 @@ class NavBar extends React.Component {
                 Live Chat
         </a>
             </Menu.Item>
-            <Menu.Item key="support">
+            {/* <Menu.Item key="support">
               <a className="ant-dropdown-link" onClick={this.goToHelpCenter.bind(this)}>
                 <Icon type="solution" style={{ fontSize: 20 }} />
                 Help Center
        </a>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item key="profile">
               <Dropdown overlay={this.renderProfileMenu()} trigger={['click']}>
                 <a className="ant-dropdown-link" href="#">

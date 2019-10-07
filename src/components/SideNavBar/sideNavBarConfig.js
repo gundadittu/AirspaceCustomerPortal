@@ -13,12 +13,12 @@ export const officeAdminMainLinks = {
         pageSubtitle: "find-services",
         linkTitle: "Find Services"
     },
-    experienceManager: {
-        keyVal: pageTitles.experienceManagerPageOfficeAdmin,
-        iconType: "user",
-        pageSubtitle: "experience-manager",
-        linkTitle: "Experience Manager"
-    },
+    // experienceManager: {
+    //     keyVal: pageTitles.experienceManagerPageOfficeAdmin,
+    //     iconType: "user",
+    //     pageSubtitle: "experience-manager",
+    //     linkTitle: "Experience Manager"
+    // },
     servicePlan: {
         keyVal: pageTitles.servicePlanPageOfficeAdmin,
         iconType: "bars",
@@ -43,12 +43,12 @@ export const officeAdminMainLinks = {
         pageSubtitle: "billing",
         linkTitle: "Billing"
     },
-    // support: {
-    //   keyVal: pageTitles.supportPageOfficeAdmin,
-    //   iconType: "solution",
-    //   pageSubtitle: "support",
-    //   linkTitle: "Support"
-    // }
+    support: {
+      keyVal: pageTitles.supportPageOfficeAdmin,
+      iconType: "solution",
+      pageSubtitle: "support",
+      linkTitle: "Support"
+    }
 };
 
 export const officeAppSubMenuLinks = {

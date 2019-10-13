@@ -9,7 +9,7 @@ export const officeAdminMainLinks = {
     },
     findServices: {
         keyVal: pageTitles.findServicesPageOfficeAdmin,
-        iconType: "search",
+        iconType: "project",
         pageSubtitle: "find-services",
         linkTitle: "Find Services"
     },

@@ -5,7 +5,6 @@ import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import * as generalActionCreator from '../../store/actions/general';
 import ExpMgrSection from './ExpMgrSection';
-import SupportArticles from './SupportArticles';
 import { Col } from 'antd';
 
 class SupportPage extends React.Component {
@@ -50,7 +49,6 @@ class SupportPage extends React.Component {
                     <h1>Support</h1>
                     <div>
                         <ExpMgrSection />
-                        <SupportArticles />
                     </div>
                 </Col>
             </div>

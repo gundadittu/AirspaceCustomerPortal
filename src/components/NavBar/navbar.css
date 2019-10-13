@@ -11,6 +11,10 @@
 .navBarProfileMenu { 
     background-color: rgb(247, 249, 250);
     width: 180px;
+    /* margin-right: 2px;  */
+    font-size: 20; 
+    text-align: center; 
+    margin-top: auto; 
 }
 
 .notificationIcon { 

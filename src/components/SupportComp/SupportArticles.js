@@ -56,9 +56,8 @@ class SupportArticles extends React.Component {
     render() {
         return (
             <div>
-                <GetHelpForm visible={this.state.getHelpVisible} onCancel={this.hideHelp.bind(this)} />
-                <h3>FAQs</h3>
-                <Row type="flex">
+                {/* <GetHelpForm visible={this.state.getHelpVisible} onCancel={this.hideHelp.bind(this)} /> */}
+                <Row >
                     <Col span={12}>
                         <Row type="flex" style={{ height: 87 }} align="middle" justify="start">
                             <Menu
@@ -84,9 +83,6 @@ class SupportArticles extends React.Component {
                         </Row>
                     </Col>
                     <Col span={12}>
-                        <Row type="flex" align="middle" justify="end">
-                            <Button className='inlineDisplay rightAlign' type="primary" onClick={this.showHelp.bind(this)}>Submit Ticket</Button>
-                        </Row>
                     </Col>
                 </Row>
                 {this.body()}

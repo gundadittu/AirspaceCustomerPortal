@@ -1446,6 +1446,21 @@ export const getFieldsForService = (serviceTitle) => {
                 required: false
             } 
         ];
+    } else if (serviceTitle === serviceTitles.OTHER_SERVICES){
+        return [ 
+            {
+                type: FIELD_TYPES["TEXT_AREA"],
+                key: "Details",
+                question: "Please provide some details on what you're looking for.",
+                required: true
+            },
+            {
+                type: FIELD_TYPES["FILE_UPLOAD"],
+                key: "Attachments",
+                question: "Please upload any relevant photos or files.",
+                required: false
+            }
+        ];
     } else {
         return [];
     }

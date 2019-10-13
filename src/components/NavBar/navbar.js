@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Menu, Dropdown, Icon, List, Affix, Card } from 'antd';
+import { Avatar, Menu, Dropdown, Icon, List, Affix, Card, Button } from 'antd';
 import { connect } from 'react-redux';
 import * as authActionCreators from '../../store/actions/auth';
 import * as genActionCreators from '../../store/actions/general';
@@ -8,6 +8,7 @@ import './navbar.css'
 import { AirNotificationType } from '../../models/AirNotificationType';
 import Grid from '@material-ui/core/Grid';
 import { withRouter } from 'react-router-dom';
+import { grey, blue, red } from '@material-ui/core/colors';
 
 class NavBar extends React.Component {
   state = {
@@ -42,8 +43,8 @@ class NavBar extends React.Component {
       this.props.loadNotifications()
     } else if (e.key === "users") {
       this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/users');
-    // } else if (e.key === "support") {
-    //   this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/support');
+      // } else if (e.key === "support") {
+      //   this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/support');
     } else if (e.key === "office-profile") {
       this.props.history.push('/officeAdmin/' + this.props.currentOfficeAdminUID + '/office-profile');
     }
@@ -77,27 +78,21 @@ class NavBar extends React.Component {
   }
 
   renderProfileMenu() {
+    const menuItemStyle = { height: 40 }
     if (this.props.currentOfficeAdminUID !== null) {
       return (
         <Menu
-          className="navBarProfileMenu menu-tab"
+          className="navBarProfileMenu"
           onClick={this.handleClick}
-          style={{ textAlign: 'right', border: "0", borderColor: "white", borderWidth: 0 }}
         >
-          <Menu.Item key="users">
-            <Grid container justify="center" alignItems="center">
-              Manage Users
-          </Grid>
+          <Menu.Item key="users" style={menuItemStyle}>
+            Manage Users
           </Menu.Item>
-          <Menu.Item key="office-profile">
-            <Grid container justify="center" alignItems="center">
-              Office Profile
-          </Grid>
+          <Menu.Item key="office-profile" style={menuItemStyle}>
+            Office Profile
           </Menu.Item>
-          <Menu.Item key="signOut">
-            <Grid container justify="center" alignItems="center">
-              Sign Out
-          </Grid>
+          <Menu.Item key="signOut" style={menuItemStyle}>
+            <Button type="primary" style={{width: "98%"}}>Sign Out</Button>
           </Menu.Item>
         </Menu >
       );
@@ -133,7 +128,7 @@ class NavBar extends React.Component {
         return null;
     }
   }
-  
+
   renderNotificationMenu() {
     return (
       <List
@@ -181,7 +176,7 @@ class NavBar extends React.Component {
        </a>
             </Menu.Item> */}
             <Menu.Item key="profile">
-              <Dropdown overlay={this.renderProfileMenu()} trigger={['click']}>
+              <Dropdown overlay={this.renderProfileMenu()} placement="bottomCenter">
                 <a className="ant-dropdown-link" href="#">
                   {this.props.user.profileImageURL ?
                     <Avatar src={this.props.user.profileImageURL}></Avatar> :
@@ -238,48 +233,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));
-
-    // if (this.props.device == "mobile") {
-    //   return (
-    //     <Affix>
-    //       <div>
-    //         <Row type="flex" align="middle">
-    //           <Col span={2}>
-    //             <SideNavBar device={"mobile"} />
-    //           </Col>
-    //           <Col span={16}>
-    //             {this.oldLogo}
-    //           </Col>
-    //           <Col span={6} >
-    //             <Menu
-    //               className="menu-tab"
-    //               onClick={this.handleClick}
-    //               style={{ textAlign: 'right', border: 0 }}
-    //               mode="horizontal"
-    //             >
-    //               <Menu.Item key="notifications">
-    //                 <Dropdown overlay={this.renderNotificationMenu()} trigger={['click']}>
-    //                   <a className="ant-dropdown-link" href="#">
-    //                     <Icon type="bell" style={{ fontSize: 45 }} />
-    //                   </a>
-    //                 </Dropdown>
-    //               </Menu.Item>
-
-    //               <Menu.Item key="profile">
-    //                 <Dropdown overlay={this.renderProfileMenu()} trigger={['click']}>
-    //                   <a className="ant-dropdown-link" href="#">
-    //                     {this.props.user.profileImageURL ?
-    //                       <Avatar src={this.props.user.profileImageURL}></Avatar> :
-    //                       <Avatar style={{ color: '#ffffff', backgroundColor: '#f07c94' }}>{this.props.user.firstName[0]}</Avatar>
-    //                     }
-    //                   </a>
-    //                 </Dropdown>
-    //               </Menu.Item>
-    //             </Menu>
-    //           </Col>
-    //         </Row>
-    //         <br />
-    //       </div>
-    //     </ Affix>
-    //   );
-    // } else {

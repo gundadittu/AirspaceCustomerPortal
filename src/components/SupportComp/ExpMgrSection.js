@@ -3,6 +3,7 @@ import { Row, Col, Icon, Spin, Avatar } from 'antd';
 import * as generalActionCreator from '../../store/actions/general';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import SupportArticles from './SupportArticles';
 
 class ExpManagerSection extends React.Component {
 
@@ -17,7 +18,7 @@ class ExpManagerSection extends React.Component {
                     <Spin />
                 </div>
             )
-        } else if (this.props.emInfo === null) {   
+        } else if (this.props.emInfo === null) {
             return null
         } else {
 
@@ -37,33 +38,29 @@ class ExpManagerSection extends React.Component {
             return (
                 <div>
                     <Row>
-                        <Col span={6}>
-                            <Row>
-                                <Col span={24}>
-                                    <Avatar style={{ width: "60%", height: "10%" }} shape="circle" src={imageURL} />
-                                </Col>
-                            </Row>
-                            <br />
+                        <Col span={4}>
+                            <Avatar style={{ width: "80%", height: "5%", marginLeft: "10%" }} shape="circle" src={imageURL} />
                         </Col>
                         <Col span={18}>
                             <div style={{ paddingTop: 20 }}>
                                 <h1>{name}</h1>
                                 <h3 style={{ fontSize: 20, fontWeight: 300 }} >{bio}</h3>
                             </div>
-                            <Row style={{ paddingTop: 15, paddingBottom: 15 }}>
-                                <Col span={6}>
+                            <Row style={{ paddingTop: 15 }}>
+                                <Col span={3}>
                                     <a target="_blank" href={chatURL}><h2 style={{ fontSize: 20 }}
                                     > <Icon type="message" /> Live Chat</h2></a>
                                 </Col>
-                                <Col span={4}>
+                                <Col span={2}>
                                     <a href={phoneHref}><h2 style={{ fontSize: 20 }}> <Icon type="phone" /> Call</h2></a>
                                 </Col>
-                                <Col span={6}>
+                                <Col span={3}>
                                     <a href={emailHref}><h2 style={{ fontSize: 20 }}> <Icon type="inbox" /> Email</h2></a>
                                 </Col>
-                                <Col span={8}>
+                                <Col span={16}>
                                 </Col>
                             </Row>
+                            <SupportArticles />
                         </Col>
                     </Row>
                 </div >

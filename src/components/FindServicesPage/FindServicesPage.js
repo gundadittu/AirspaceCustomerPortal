@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as generalActionCreator from '../../store/actions/general';
 import { withRouter } from 'react-router-dom';
-import { Row, Col, Menu, List, Card, Button, Modal, message, Steps } from 'antd';
+import { Row, Col, Menu, List, Card, Button, Modal, message, Steps, Avatar } from 'antd';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import IconButton from '@material-ui/core/IconButton';
@@ -136,18 +136,19 @@ class FindServicesPage extends React.Component {
                                 (
                                     <List
                                         grid={{
-                                            gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 3, xxl: 3,
+                                            gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4,
                                         }}
                                         dataSource={data}
                                         renderItem={item => (
                                             <List.Item style={{ paddingTop: 0 }}>
                                                 <Card
-                                                    style={{ width: "85%" }}
-                                                    cover={<img style={{ cursor: "pointer" }} onClick={() => this.showDetails(item)} alt="example" src={item.image} />}
+                                                    style={{ width: "85%", overflow: "hidden" }}
+                                                    cover={<img style={{ cursor: "pointer", height: "170px" }} onClick={() => this.showDetails(item)} alt="example" src={item.image} />}
                                                 >
                                                     <a onClick={() => this.showDetails(item)}>
                                                         <Meta
                                                             title={item.title}
+                                                            // description={item.shortDescription}
                                                         />
                                                     </a>
                                                 </Card>
@@ -159,12 +160,7 @@ class FindServicesPage extends React.Component {
                         </div>
                     </Col>
                 </Row>
-                <Row style={{ paddingTop: 50, paddingBottom: 50 }}>
-                    <Col style={{ textAlign: "center" }} span={24}>
-                        <h3 style={{ fontWeight: 4 }}>Don’t see a service you want? <a onClick={() => this.requestService("other", "", false)}>Let your experience manager help you find it.</a></h3>
-                    </Col>
-                </Row>
-            </div>
+            </div >
         );
     }
 }

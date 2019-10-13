@@ -72,16 +72,22 @@ class OrderForm extends React.Component {
         const image = dataSource.getImageForServiceTitle(serviceTitle);
         if (image === null) {
             return (
-                <h2>{serviceDescription}</h2>
+                <Row>
+                    <Col span={24}>
+                        <h1 >{serviceTitle}</h1>
+                        <p style={{ marginTop: "1%", fontSize: 22 }}>{serviceDescription}</p>
+                    </Col>
+                </Row>
             )
         }
         return (
             <Row>
-                <Col span={6}>
-                    <img style={{ width: "100%" }} src={image}></img>
+                <Col span={4}>
+                    <img style={{ width: "95%" }} src={image}></img>
                 </Col>
-                <Col span={18}>
-                    <p style={{marginTop: "3%", paddingLeft: "2%", fontSize: 22}}>{serviceDescription}</p>
+                <Col span={20} style={{ paddingLeft: "2%" }}>
+                    <h1 >{serviceTitle}</h1>
+                    <p style={{ fontSize: 20 }}>{serviceDescription}</p>
                 </Col>
             </Row>
         )
@@ -93,17 +99,16 @@ class OrderForm extends React.Component {
         const fields = this.getFields(serviceTitle);
         const confirmLoading = this.props.confirmLoading;
         const onCreate = this.onCreate;
-        const formTitle = "Request " + serviceTitle;
+        // const formTitle = "Request " + serviceTitle;
 
         const inputSize = "large"
-        const formLabel = (label) => ( 
-            <span style={{ fontSize: 18}}>{label}</span>
+        const formLabel = (label) => (
+            <span style={{ fontSize: 18 }}>{label}</span>
         )
         return (
             <div>
                 <Modal
                     visible={visible}
-                    title={formTitle}
                     okText="Request"
                     onCancel={onCancel}
                     onOk={onCreate.bind(this)}

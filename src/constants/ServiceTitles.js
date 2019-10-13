@@ -1,3 +1,5 @@
+export const OTHER_SERVICES = "Other Services"
+
 // FOOD_DRINK
 export const COFFEE_TEA = "Coffee + Tea";
 export const SNACKS_BEVS = "Snacks + Beverages";

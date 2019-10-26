@@ -14,12 +14,14 @@ class OfficeProfilePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fileUploadVisible: false, 
-            fileUploads: null 
+            fileUploadVisible: false,
+            fileUploads: null
         };
         this.saveChanges = this.saveChanges.bind(this);
         this.changeVisibilityForModal = this.changeVisibilityForModal.bind(this)
         this.onRemoveFile = this.onRemoveFile.bind(this)
+        this.getAttachmentDownloadURL = this.getAttachmentDownloadURL.bind(this)
+        this.getAttachments = this.getAttachments.bind(this)
     }
 
     changes = {};
@@ -86,7 +88,36 @@ class OfficeProfilePage extends React.Component {
             this.props.loadOfficeProfile(this.props.currentOfficeAdminUID)
         }
         this.setState({ fileUploadVisible: status })
-    }  
+    }
+
+    getAttachmentDownloadURL(fileName, firebase) {
+        const storageRef = firebase.storage.ref();
+        const fileRef = storageRef.child(fileName)
+
+        return fileRef.getDownloadURL()
+            .then((url) => {
+                return url.toString()
+            })
+    }
+
+    getAttachments() {
+        const profile = this.props.officeProfile || null;
+        if (profile === null) {
+            return null
+        }
+        const attachments = profile["Attachments"] || [];
+        return attachments.map(x => {
+            return this.getAttachmentDownloadURL(x.filename, this.props.firebase)
+                .then(downloadURL => {
+                    return {
+                        uid: x.id,
+                        name: x.filename,
+                        status: 'done',
+                        url: downloadURL,
+                    }
+                })
+        });
+    }
 
     getBody() {
         if (this.props.isLoadingOfficeProfile) {
@@ -113,15 +144,7 @@ class OfficeProfilePage extends React.Component {
         const floorNo = profile["Floor No."] || "";
         const suiteNo = profile["Suite No."] || "";
 
-        const attachments = profile["Attachments"] || [];
-        const mappedAttachments = attachments.map(x => {
-            return {
-                uid: x.id,
-                name: x.filename,
-                status: 'done',
-                url: x.url,
-            }
-        });
+        const mappedAttachments = [] // this.getAttachments()
 
         return (
             <div>

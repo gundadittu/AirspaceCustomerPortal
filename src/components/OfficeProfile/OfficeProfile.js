@@ -2,23 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as generalActionCreator from '../../store/actions/general';
-import { Row, Col, Button, Spin, Card, Upload, Icon, Tooltip, Input } from 'antd';
+import { Row, Col, Button, Spin, Card, Upload, message, Tooltip, Input } from 'antd';
 import * as pageTitles from '../../pages/pageTitles';
 import getPagePayload from '../../pages/pageRoutingFunctions';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+import OfficeProfileFileUpload from './OfficeProfileFileUpload';
 
 class OfficeProfilePage extends React.Component {
 
-    changes = {};
-
-    addChange = (dict) => {
-        const updated = {
-            ...this.changes,
-            ...dict
-        }
-        this.changes = updated;
+    constructor(props) {
+        super(props);
+        this.state = {
+            fileUploadVisible: false, 
+            fileUploads: null 
+        };
+        this.saveChanges = this.saveChanges.bind(this);
+        this.changeVisibilityForModal = this.changeVisibilityForModal.bind(this)
+        this.onRemoveFile = this.onRemoveFile.bind(this)
     }
+
+    changes = {};
 
     componentDidMount() {
         if (this.props.match.isExact) {
@@ -28,7 +32,6 @@ class OfficeProfilePage extends React.Component {
             let officeObj = null;
             for (let key in list) {
                 const value = list[key];
-
                 if (value.uid === selectedOfficeUID) {
                     officeObj = value;
                 }
@@ -50,9 +53,40 @@ class OfficeProfilePage extends React.Component {
         this.props.updateOfficeProfile(this.props.currentOfficeAdminUID, this.changes);
     }
 
-    uploadAttachments(attachment) {
-        this.props.uploadAttachmentOfficeProfile(this.props.currentOfficeAdminUID, attachment);
+    addChange = (dict) => {
+        const updated = {
+            ...this.changes,
+            ...dict
+        }
+        this.changes = updated;
     }
+
+    onRemoveFile(file) {
+        const fileName = file.name;
+        const firebase = this.props.firebase;
+        const storageRef = firebase.storage.ref();
+        const fileRef = storageRef.child("officeProfileUploads/" + this.props.currentOfficeAdminUID + fileName)
+        fileRef.delete()
+            .then(() => {
+                message.success(`${file.name} file removed successfully.`);
+                return
+            })
+            .catch(e => {
+                message.error(`${file.name} file remove failed.`);
+                console.error(e);
+                return
+            })
+    }
+
+    changeVisibilityForModal(status) {
+        if (status !== true && status !== false) {
+            return
+        }
+        if (status == false) {
+            this.props.loadOfficeProfile(this.props.currentOfficeAdminUID)
+        }
+        this.setState({ fileUploadVisible: status })
+    }  
 
     getBody() {
         if (this.props.isLoadingOfficeProfile) {
@@ -64,23 +98,9 @@ class OfficeProfilePage extends React.Component {
         }
 
         const profile = this.props.officeProfile || null;
-
         if (profile === null) {
             return null
         }
-
-        // const companyName = profile["Company Name"] || "";
-        // const employeeNo = profile["No. of Employees"] || "";
-        // const sqFT = profile["Square Feet"] || "";
-
-        // const street = "Street Address: " + (profile["Street Address - 1"] || "");
-        // const street2 = "Street Address 2: " + (profile["Street Address - 2"] || "");
-        // const city = "City: " + profile["City"] || "";
-        // const state = "State: " + profile["State"] || "";
-        // const zip = "Zip Code: " + profile["Zip Code"] || "";
-        // const floorNo = "Floor No.: " + profile["Floor No."] || "";
-        // const suiteNo = "Suite No.: " + profile["Suite No."] || "";
-
         const companyName = profile["Company Name"] || "";
         const employeeNo = profile["No. of Employees"] || "";
         const sqFT = profile["Square Feet"] || "";
@@ -103,59 +123,30 @@ class OfficeProfilePage extends React.Component {
             }
         });
 
-        const uploadSectionProps = {
-            defaultFileList: [...mappedAttachments],
-            className: 'upload-list-inline',
-            onRemove: (file) => false,
-            action: (file) => {
-                const firebase = this.props.firebase;
-                const storageRef = firebase.storage.ref();
-
-                const fileName = file.name;
-
-                // bug with removing files 
-                // bug with showing red file name when uploading 
-
-                const fileRef = storageRef.child('officeProfileUploads/' + this.props.currentOfficeAdminUID + "/" + fileName);
-                return fileRef.put(file)
-                    .then((snapshot) => {
-                        return snapshot.ref.getDownloadURL()
-                    })
-                    .then((downloadURL) => {
-                        const newAttachment = { "filename": fileName, "url": downloadURL }
-                        this.uploadAttachments(newAttachment);
-                        return true
-                    })
-            }
-        };
-
         return (
             <div>
+                <OfficeProfileFileUpload initialFilePath={"officeProfileUploads/" + this.props.currentOfficeAdminUID} onCancel={this.changeVisibilityForModal} visible={this.state.fileUploadVisible} />
                 <Card
                     title={"General"}
                     style={{ width: "100%", marginTop: 20 }}
+                    extra={<Button type="primary" onClick={this.saveChanges}>Save Changes</Button>}
                 >
                     <Row>
-                        <Col span={8}>
+                        <Col span={6}>
                             <h3>Company Name:</h3>
                             <Input style={{ width: "60%" }} defaultValue={companyName} onChange={(e) => this.addChange({ "Company Name": e.target.value })} />
                         </Col>
-                        <Col span={8}>
+                        <Col span={6}>
                             <h3>Employee Count:</h3>
                             <Input style={{ width: "60%" }} defaultValue={employeeNo} onChange={(e) => this.addChange({ "No. of Employees": e.target.value })} />
                         </Col>
-                        <Col span={8}>
+                        <Col span={6}>
                             <h3>Square Feet:</h3>
                             <Input style={{ width: "60%" }} defaultValue={sqFT} onChange={(e) => this.addChange({ "Square Feet": e.target.value })} />
                         </Col>
+                        <Col span={6} />
                     </Row>
-                    <Button className='inlineDisplay rightAlign' type="primary" onClick={this.saveChanges.bind(this)}>Save Changes</Button>
-                </Card>
-
-                <Card
-                    title={"Address"}
-                    style={{ width: "100%", marginTop: 50 }}
-                >
+                    <br />
                     <Row>
                         <Col span={6}>
                             <h3>Street Address 1:</h3>
@@ -190,23 +181,17 @@ class OfficeProfilePage extends React.Component {
                             <h3>Suite No:</h3>
                             <Input style={{ width: "60%" }} defaultValue={suiteNo} onChange={(e) => this.addChange({ "Suite No.": e.target.value })} />
                         </Col>
-                        <Button className='inlineDisplay rightAlign' type="primary" onClick={this.saveChanges.bind(this)}>Save Changes</Button>
                     </Row>
                 </Card>
+                <br />
+                <br />
                 <Card
-                    title={"Files"}
-                    style={{ width: "100%", marginTop: 50 }}
+                    title={"File Uploads"}
+                    style={{ width: "100%", marginTop: 20 }}
+                    extra={<Button type="primary" onClick={() => this.changeVisibilityForModal(true)}>Upload</Button>}
                 >
-                    <Upload {...uploadSectionProps}>
-                        <Button>
-                            <Icon type="upload" /> Upload
-                        </Button>
-                    </Upload>
+                    <Upload defaultFileList={mappedAttachments} onRemove={this.onRemoveFile} />
                 </Card>
-                <br></br>
-                <br></br>
-                <br></br>
-
             </div>
         );
     }
@@ -244,7 +229,7 @@ const mapDispatchToProps = dispatch => {
     return {
         loadOfficeProfile: (officeUID) => dispatch(generalActionCreator.loadOfficeProfile({ selectedOfficeUID: officeUID })),
         updateOfficeProfile: (officeUID, changes) => dispatch(generalActionCreator.updateOfficeProfile({ selectedOfficeUID: officeUID, changes: changes })),
-        uploadAttachmentOfficeProfile: (officeUID, attachment) => dispatch(generalActionCreator.uploadAttachmentOfficeProfile({ selectedOfficeUID: officeUID, newAttachment: attachment})), 
+        uploadAttachmentOfficeProfile: (officeUID, attachment) => dispatch(generalActionCreator.uploadAttachmentOfficeProfile({ selectedOfficeUID: officeUID, newAttachment: attachment })),
         changePage: (payload) => dispatch(generalActionCreator.changePage(payload)),
     }
 };

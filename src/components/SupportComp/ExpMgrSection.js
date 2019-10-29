@@ -47,17 +47,17 @@ class ExpManagerSection extends React.Component {
                                 <h3 style={{ fontSize: 20, fontWeight: 300 }} >{bio}</h3>
                             </div>
                             <Row style={{ paddingTop: 15 }}>
-                                <Col span={3}>
+                                <Col span={4}>
                                     <a target="_blank" href={chatURL}><h2 style={{ fontSize: 20 }}
                                     > <Icon type="message" /> Live Chat</h2></a>
                                 </Col>
-                                <Col span={2}>
+                                <Col span={3}>
                                     <a href={phoneHref}><h2 style={{ fontSize: 20 }}> <Icon type="phone" /> Call</h2></a>
                                 </Col>
                                 <Col span={3}>
                                     <a href={emailHref}><h2 style={{ fontSize: 20 }}> <Icon type="inbox" /> Email</h2></a>
                                 </Col>
-                                <Col span={16}>
+                                <Col span={14}>
                                 </Col>
                             </Row>
                             <SupportArticles />

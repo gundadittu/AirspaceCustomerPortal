@@ -30,6 +30,7 @@ import DailyHealthWellnessImg from "../assets/images/services/daily-health-welln
 import HappyHourImg from "../assets/images/services/happy-hour.jpg";
 import HealthWellnessProgrammingImg from "../assets/images/services/health-wellness-programming.jpeg";
 import KeggedDrinksImg from "../assets/images/services/kegged-drinks.jpeg";
+import OtherImg from "../assets/images/services/other.jpeg";
 
 export const CATEGORIES = {
     "FOOD_DRINK": "food-drink",
@@ -174,7 +175,7 @@ export const getImageForServiceTitle = (title) => {
         case serviceTitles.EVENT_PLANNING:
             return Events
         case serviceTitles.OTHER_SERVICES:
-            return Events
+            return OtherImg
         default:
             return null
     }

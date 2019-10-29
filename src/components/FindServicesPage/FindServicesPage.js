@@ -136,14 +136,14 @@ class FindServicesPage extends React.Component {
                                 (
                                     <List
                                         grid={{
-                                            gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4,
+                                            gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 3, xxl: 4,
                                         }}
                                         dataSource={data}
                                         renderItem={item => (
                                             <List.Item style={{ paddingTop: 0 }}>
                                                 <Card
                                                     style={{ width: "85%", overflow: "hidden" }}
-                                                    cover={<img style={{ cursor: "pointer", height: "170px" }} onClick={() => this.showDetails(item)} alt="example" src={item.image} />}
+                                                    cover={<img style={{ cursor: "pointer", height: "180px" }} onClick={() => this.showDetails(item)} alt="example" src={item.image} />}
                                                 >
                                                     <a onClick={() => this.showDetails(item)}>
                                                         <Meta
